@@ -173,6 +173,16 @@ print(f"{'(dict->proto build)':<26}{bench(lambda: to_proto(ProtoV1, ORDER)):>19.
 json_bytes = codecs["JSON"][0]()
 json_gz = gzip.compress(json_bytes)
 print(f"{'(gzip JSON)':<26}{bench(lambda: gzip.compress(json_bytes)):>19.1f}{bench(lambda: gzip.decompress(json_gz)):>11.1f}")
+def keys(o):
+    if isinstance(o, dict):
+        for k, v in o.items():
+            yield k
+            yield from keys(v)
+    elif isinstance(o, list):
+        for v in o:
+            yield from keys(v)
+names = sum(len(json.dumps(k)) + 2 for k in keys(ORDER))  # "key" plus ': '
+print(f"JSON field names: {names} of {json_size} bytes ({names / json_size:.0%})")
 print("Note: field names inside the bytes ->", {n: b'order_uuid' in c[0]() for n, c in codecs.items()})
 
 # ---------- 4: schema change (v1 -> v2: remove notes, add tip) ----------

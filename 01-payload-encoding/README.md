@@ -23,6 +23,7 @@ Python 3.12.10, Apple M4 Pro, macOS 26.6; protobuf 7.36.2 (upb), fastavro 1.13.0
 
 Protobuf encode excludes building the message from a dict (12.9 µs). Avro speed is fastavro in Python, not the format in general.
 Gzip on JSON: 16.8 µs to compress, 3.2 µs to decompress.
+Field names are 1,376 of JSON's 3,046 bytes (45%).
 
 ## At scale (`python3 scale.py`)
 
