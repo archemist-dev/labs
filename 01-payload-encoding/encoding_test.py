@@ -170,6 +170,9 @@ for name, (enc, dec) in codecs.items():
     print(f"{name:<10}{len(data):>8}{len(gzip.compress(data)):>8}{len(data)/json_size:>8.0%}"
           f"{bench(enc):>11.1f}{bench(lambda: dec(data)):>11.1f}")
 print(f"{'(dict->proto build)':<26}{bench(lambda: to_proto(ProtoV1, ORDER)):>19.1f}")
+json_bytes = codecs["JSON"][0]()
+json_gz = gzip.compress(json_bytes)
+print(f"{'(gzip JSON)':<26}{bench(lambda: gzip.compress(json_bytes)):>19.1f}{bench(lambda: gzip.decompress(json_gz)):>11.1f}")
 print("Note: field names inside the bytes ->", {n: b'order_uuid' in c[0]() for n, c in codecs.items()})
 
 # ---------- 4: schema change (v1 -> v2: remove notes, add tip) ----------
