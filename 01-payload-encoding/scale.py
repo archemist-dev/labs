@@ -21,11 +21,11 @@ def egress_cost(gb):
     return cost
 
 
-print(f"{'RPS':>8}{'saved/req':>11}{'GB/day':>10}{'TB/month':>10}{'egress $/mo':>13}{'cross-AZ $/mo':>15}{'CPU cores':>11}")
-for rps in (1_000, 10_000, 100_000):
-    for saved in (100, JSON_BYTES - PROTO_BYTES):
-        gb_day = saved * rps * SECONDS_PER_DAY / 1e9
-        gb_month = gb_day * DAYS_PER_MONTH
-        cores = f"{rps * (JSON_CPU_US - PROTO_CPU_US) / 1e6:.2f}" if saved != 100 else "-"
-        print(f"{rps:>8,}{saved:>11,}{gb_day:>10,.1f}{gb_month / 1000:>10,.2f}"
-              f"{egress_cost(gb_month):>13,.0f}{gb_month * CROSS_AZ_PER_GB:>15,.0f}{cores:>11}")
+print(f"{'RPS':>8}{'saved/req':>11}{'GB/day':>9}{'TB/month':>10}{'cross-AZ $/mo':>15}{'$/yr':>9}{'egress $/mo':>13}{'$/yr':>9}{'CPU cores':>11}")
+for rps, saved in ((1_000, 100), (100, JSON_BYTES - PROTO_BYTES), (1_000, JSON_BYTES - PROTO_BYTES), (10_000, JSON_BYTES - PROTO_BYTES)):
+    gb_day = saved * rps * SECONDS_PER_DAY / 1e9
+    gb_month = gb_day * DAYS_PER_MONTH
+    az, eg = gb_month * CROSS_AZ_PER_GB, egress_cost(gb_month)
+    cores = f"{rps * (JSON_CPU_US - PROTO_CPU_US) / 1e6:.3f}" if saved != 100 else "-"
+    print(f"{rps:>8,}{saved:>11,}{gb_day:>9,.1f}{gb_month / 1000:>10,.2f}"
+          f"{az:>15,.0f}{az * 12:>9,.0f}{eg:>13,.0f}{eg * 12:>9,.0f}{cores:>11}")

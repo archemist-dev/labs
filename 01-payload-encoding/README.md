@@ -29,14 +29,12 @@ Field names are 1,376 of JSON's 3,046 bytes (45%).
 
 JSON to Protobuf saves 1,757 bytes per order. Prices: AWS on-demand, US/EU, checked 2026-10-06; egress tiered, cross-AZ $0.01/GB each side. CPU is JSON vs Protobuf encode plus decode, one hop, on the M4 Pro.
 
-| RPS | Saved/req | GB/day | TB/month | Egress $/mo | Cross-AZ $/mo | CPU cores |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1,000 | 100 | 8.6 | 0.26 | 23 | 5 | - |
-| 1,000 | 1,757 | 151.8 | 4.55 | 410 | 91 | 0.02 |
-| 10,000 | 100 | 86.4 | 2.59 | 233 | 52 | - |
-| 10,000 | 1,757 | 1,518.0 | 45.54 | 3,922 | 911 | 0.21 |
-| 100,000 | 100 | 864.0 | 25.92 | 2,254 | 518 | - |
-| 100,000 | 1,757 | 15,180.5 | 455.41 | 26,662 | 9,108 | 2.08 |
+| RPS | Saved/req | GB/day | TB/month | Cross-AZ $/mo | $/yr | Egress $/mo | $/yr | CPU cores |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1,000 | 100 | 8.6 | 0.26 | 5 | 62 | 23 | 280 | - |
+| 100 | 1,757 | 15.2 | 0.46 | 9 | 109 | 41 | 492 | 0.002 |
+| 1,000 | 1,757 | 151.8 | 4.55 | 91 | 1,093 | 410 | 4,918 | 0.021 |
+| 10,000 | 1,757 | 1,518.0 | 45.54 | 911 | 10,930 | 3,922 | 47,067 | 0.208 |
 
 Schema change, v1 to v2:
 
