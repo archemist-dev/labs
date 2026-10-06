@@ -15,7 +15,7 @@ from google.protobuf import descriptor_pb2, message_factory
 from google.protobuf.internal import api_implementation
 
 # ---------- synthetic payload ----------
-def make_order():
+def make_order(n_items):
     return {
         "order_id": 48213377,
         "order_uuid": "3f6c1a2e-8b4d-4c1e-9a77-0d2f5b8e91c4",
@@ -40,7 +40,7 @@ def make_order():
                 "unit_price": 89000 + i * 1000,
                 "modifiers": ["extra cheese", "thin crust"] if i % 2 else ["no onion"],
             }
-            for i in range(20)
+            for i in range(n_items)
         ],
         "status_history": [
             {"status": s, "at": 1759737600123 + n * 60000}
@@ -48,7 +48,8 @@ def make_order():
         ],
     }
 
-ORDER = make_order()
+ITEMS = int(sys.argv[1]) if len(sys.argv) > 1 else 20   # 20 = big order, 3 = typical
+ORDER = make_order(ITEMS)
 ORDER["total"] = sum(i["qty"] * i["unit_price"] for i in ORDER["items"])
 
 # ---------- protobuf schema, built in code (no protoc) ----------
