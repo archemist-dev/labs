@@ -1,0 +1,156 @@
+{
+  "order_id": 48213377,
+  "order_uuid": "3f6c1a2e-8b4d-4c1e-9a77-0d2f5b8e91c4",
+  "customer_id": 90031,
+  "customer": {
+    "id": 90031,
+    "display_name": "guest_1",
+    "email_verified": true,
+    "loyalty_tier": "SILVER",
+    "marketing_opt_in": false,
+    "created_at": "2024-02-11T09:15:00Z"
+  },
+  "restaurant": {
+    "id": 12,
+    "name": "Restaurant 12",
+    "rating": 4.6,
+    "opening_hours": "10:00-23:00",
+    "logo_url": "https://cdn.example.com/restaurants/12/logo.png",
+    "is_open": true
+  },
+  "created_at": 1759737600123,
+  "updated_at": 1759737900123,
+  "estimated_delivery_at": 1759739400123,
+  "status": "DELIVERED",
+  "currency": "GBP",
+  "subtotal": 7994,
+  "delivery_fee": 0,
+  "service_fee": 0,
+  "discount": 0,
+  "promo_code": null,
+  "total": 7994,
+  "notes": "Please call on arrival, the intercom is broken",
+  "address": {
+    "street": "East Rd",
+    "postcode": "CB1 1PT",
+    "house": "Anglia Ruskin University",
+    "city": "Cambridge",
+    "lat": 52.203889,
+    "lon": 0.132917,
+    "comment": "Third entrance, fourth floor"
+  },
+  "items": [
+    {
+      "product_id": 1000,
+      "name": "Pizza Margherita 0",
+      "qty": 1,
+      "unit_price": 1199,
+      "modifiers": [
+        "no onion"
+      ],
+      "product": {
+        "id": 1000,
+        "name": "Pizza Margherita 0",
+        "description": "Tomato sauce, mozzarella, fresh basil",
+        "category": "Pizza",
+        "image_url": "https://cdn.example.com/products/1000/main.jpg",
+        "allergens": [
+          "gluten",
+          "milk"
+        ],
+        "calories": 850,
+        "is_available": true
+      }
+    },
+    {
+      "product_id": 1001,
+      "name": "Pizza Margherita 1",
+      "qty": 2,
+      "unit_price": 1299,
+      "modifiers": [
+        "extra cheese",
+        "thin crust"
+      ],
+      "product": {
+        "id": 1001,
+        "name": "Pizza Margherita 1",
+        "description": "Tomato sauce, mozzarella, fresh basil",
+        "category": "Pizza",
+        "image_url": "https://cdn.example.com/products/1001/main.jpg",
+        "allergens": [
+          "gluten",
+          "milk"
+        ],
+        "calories": 850,
+        "is_available": true
+      }
+    },
+    {
+      "product_id": 1002,
+      "name": "Pizza Margherita 2",
+      "qty": 3,
+      "unit_price": 1399,
+      "modifiers": [
+        "no onion"
+      ],
+      "product": {
+        "id": 1002,
+        "name": "Pizza Margherita 2",
+        "description": "Tomato sauce, mozzarella, fresh basil",
+        "category": "Pizza",
+        "image_url": "https://cdn.example.com/products/1002/main.jpg",
+        "allergens": [
+          "gluten",
+          "milk"
+        ],
+        "calories": 850,
+        "is_available": true
+      }
+    }
+  ],
+  "status_history": [
+    {
+      "status": "CREATED",
+      "at": 1759737600123
+    },
+    {
+      "status": "PAID",
+      "at": 1759737660123
+    },
+    {
+      "status": "COOKING",
+      "at": 1759737720123
+    },
+    {
+      "status": "READY",
+      "at": 1759737780123
+    },
+    {
+      "status": "DELIVERING",
+      "at": 1759737840123
+    },
+    {
+      "status": "DELIVERED",
+      "at": 1759737900123
+    }
+  ],
+  "payment": {
+    "method": "CARD",
+    "status": "CAPTURED",
+    "provider": "example-psp",
+    "transaction_id": "txn_000000000001"
+  },
+  "courier": {
+    "id": 7,
+    "display_name": "courier_7",
+    "vehicle": "BIKE"
+  },
+  "metadata": {
+    "app_version": "5.12.0",
+    "platform": "ios",
+    "ab_flags": [
+      "new_checkout",
+      "dark_mode"
+    ]
+  }
+}

@@ -8,7 +8,9 @@
   "total": 7994,
   "notes": "Please call on arrival, the intercom is broken",
   "address": {
-    "street": "Anglia Ruskin University, East Rd, CB1 1PT",
+    "street": "East Rd",
+    "postcode": "CB1 1PT",
+    "house": "Anglia Ruskin University",
     "city": "Cambridge",
     "lat": 52.203889,
     "lon": 0.132917,

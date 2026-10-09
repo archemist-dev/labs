@@ -35,7 +35,8 @@ def build_proto(variant):
     O, R = F.LABEL_OPTIONAL, F.LABEL_REPEATED
     msg("Address", [("street", 1, F.TYPE_STRING, O, None), ("city", 2, F.TYPE_STRING, O, None),
                     ("lat", 3, F.TYPE_DOUBLE, O, None), ("lon", 4, F.TYPE_DOUBLE, O, None),
-                    ("comment", 5, F.TYPE_STRING, O, None)])
+                    ("comment", 5, F.TYPE_STRING, O, None), ("postcode", 6, F.TYPE_STRING, O, None),
+                    ("house", 7, F.TYPE_STRING, O, None)])
     msg("Item", [("product_id", 1, F.TYPE_INT64, O, None), ("name", 2, F.TYPE_STRING, O, None),
                  ("qty", 3, F.TYPE_INT32, O, None), ("unit_price", 4, F.TYPE_INT64, O, None),
                  ("modifiers", 5, F.TYPE_STRING, R, None)])
@@ -80,7 +81,8 @@ def avro_schema(variant, tip_default=True):
         {"name": "status", "type": "string"}, {"name": "currency", "type": "string"},
         {"name": "total", "type": "long"},
         {"name": "address", "type": {"type": "record", "name": "Address", "fields": [
-            {"name": "street", "type": "string"}, {"name": "city", "type": "string"},
+            {"name": "street", "type": "string"}, {"name": "postcode", "type": "string"},
+            {"name": "house", "type": "string"}, {"name": "city", "type": "string"},
             {"name": "lat", "type": "double"}, {"name": "lon", "type": "double"},
             {"name": "comment", "type": "string"}]}},
         {"name": "items", "type": {"type": "array", "items": {"type": "record", "name": "Item", "fields": [
@@ -151,6 +153,25 @@ def keys(o):
 names = sum(len(json.dumps(k)) + 2 for k in keys(ORDER))  # "key" plus ': '
 print(f"JSON field names: {names} of {json_size} bytes ({names / json_size:.0%})")
 print("Note: field names inside the bytes ->", {n: b'order_uuid' in c[0]() for n, c in codecs.items()})
+
+# ---------- levels: cheapest fix first (typical order only) ----------
+if SIZE == "typical":
+    with open(Path(__file__).with_name("order_untrimmed.json")) as f:
+        UNTRIMMED = json.load(f)
+    compact = lambda o: json.dumps(o, separators=(",", ":")).encode()
+    levels = [
+        ("0 untrimmed JSON", lambda: json.dumps(UNTRIMMED).encode()),
+        ("1 trimmed JSON", lambda: json.dumps(ORDER).encode()),
+        ("2 + compact", lambda: compact(ORDER)),
+        ("3 + gzip", lambda: gzip.compress(compact(ORDER))),
+        ("4 Protobuf", lambda: proto_msg.SerializeToString()),
+        ("4 Protobuf + gzip", lambda: gzip.compress(proto_msg.SerializeToString())),
+    ]
+    base = len(levels[0][1]())
+    print(f"\n{'level':<20}{'bytes':>8}{'vs L0':>8}{'encode µs':>11}")
+    for name, enc in levels:
+        n = len(enc())
+        print(f"{name:<20}{n:>8}{n / base:>8.0%}{bench(enc):>11.1f}")
 
 # ---------- 4: schema change (v1 -> v2: remove notes, add tip) ----------
 def attempt(label, fn):
