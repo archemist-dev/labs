@@ -11,7 +11,7 @@ python3 scale.py
 
 Protobuf schemas are built in code, so no `protoc` is needed. Data is synthetic.
 
-## Results (2026-10-06)
+## Results (2026-10-09)
 
 Python 3.12.10, Apple M4 Pro, macOS 26.6; protobuf 7.36.2 (upb), fastavro 1.13.0. Median of 7 x 5,000 runs; two runs matched within 5%.
 
@@ -19,10 +19,10 @@ Typical order, 3 items (`python encoding_test.py 3`):
 
 | Format | Bytes | Gzip | vs JSON | Encode µs | Decode µs |
 | --- | --- | --- | --- | --- | --- |
-| JSON | 994 | 485 | 100% | 4.6 | 3.8 |
-| pickle | 753 | 581 | 76% | 1.5 | 1.8 |
-| Protobuf | 437 | 389 | 44% | 0.4 | 0.5 |
-| Avro | 390 | 347 | 39% | 9.4 | 7.2 |
+| JSON | 994 | 484 | 100% | 4.7 | 3.8 |
+| pickle | 754 | 585 | 76% | 1.5 | 1.9 |
+| Protobuf | 438 | 392 | 44% | 0.4 | 0.5 |
+| Avro | 391 | 350 | 39% | 9.8 | 7.6 |
 
 Dict to Protobuf build 4.2 µs. Gzip JSON 9.2 µs compress, 2.8 µs decompress. Field names 424 of 994 bytes (43%).
 
@@ -30,12 +30,12 @@ Big order, 20 items (`python encoding_test.py`):
 
 | Format | Bytes | Gzip | vs JSON | Encode µs | Decode µs |
 | --- | --- | --- | --- | --- | --- |
-| JSON | 3,046 | 649 | 100% | 12.9 | 9.9 |
-| pickle | 1,640 | 781 | 54% | 3.9 | 4.5 |
-| Protobuf | 1,289 | 584 | 42% | 0.8 | 1.2 |
-| Avro | 1,148 | 524 | 38% | 28.3 | 22.3 |
+| JSON | 3,046 | 648 | 100% | 12.5 | 10.3 |
+| pickle | 1,641 | 785 | 54% | 4.2 | 4.7 |
+| Protobuf | 1,290 | 588 | 42% | 0.9 | 1.3 |
+| Avro | 1,149 | 527 | 38% | 29.3 | 23.3 |
 
-Dict to Protobuf build 12.9 µs. Gzip JSON 16.8 µs compress, 3.2 µs decompress. Field names 1,376 of 3,046 bytes (45%).
+Dict to Protobuf build 14.0 µs. Gzip JSON 17.0 µs compress, 3.6 µs decompress. Field names 1,376 of 3,046 bytes (45%).
 
 Avro speed is fastavro in Python, not the format in general. All timings are Python on one machine: compare ratios, not microseconds.
 
@@ -45,12 +45,12 @@ JSON to Protobuf savings per request, priced as AWS cross-AZ traffic ($0.01/GB e
 
 | Order | RPS | Saved/req | GB/day | Cross-AZ $/mo | $/yr | CPU cores |
 | --- | --- | --- | --- | --- | --- | --- |
-| typical | 100 | 557 | 4.8 | 3 | 35 | 0.001 |
-| typical | 1,000 | 557 | 48.1 | 29 | 346 | 0.007 |
-| typical | 10,000 | 557 | 481.2 | 289 | 3,465 | 0.075 |
-| big | 100 | 1,757 | 15.2 | 9 | 109 | 0.002 |
-| big | 1,000 | 1,757 | 151.8 | 91 | 1,093 | 0.021 |
-| big | 10,000 | 1,757 | 1,518.0 | 911 | 10,930 | 0.208 |
+| typical | 100 | 556 | 4.8 | 3 | 35 | 0.001 |
+| typical | 1,000 | 556 | 48.0 | 29 | 346 | 0.008 |
+| typical | 10,000 | 556 | 480.4 | 288 | 3,459 | 0.076 |
+| big | 100 | 1,756 | 15.2 | 9 | 109 | 0.002 |
+| big | 1,000 | 1,756 | 151.7 | 91 | 1,092 | 0.021 |
+| big | 10,000 | 1,756 | 1,517.2 | 910 | 10,924 | 0.206 |
 
 Schema change, v1 to v2:
 

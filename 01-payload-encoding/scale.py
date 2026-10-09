@@ -6,8 +6,8 @@ Internet egress is tiered per month; only used for the 100-byte intro example.
 """
 # (JSON bytes, Protobuf bytes, JSON encode+decode µs, Protobuf encode+decode µs), from encoding_test.py
 ORDERS = {
-    "typical (3 items)": (994, 437, 4.6 + 3.8, 0.4 + 0.5),
-    "big (20 items)": (3046, 1289, 12.9 + 9.9, 0.8 + 1.2),
+    "typical (3 items)": (994, 438, 4.7 + 3.8, 0.4 + 0.5),
+    "big (20 items)": (3046, 1290, 12.5 + 10.3, 0.9 + 1.3),
 }
 EGRESS_TIERS_GB = [(10_240, 0.09), (40_960, 0.085), (102_400, 0.07), (float("inf"), 0.05)]
 CROSS_AZ_PER_GB = 0.01 * 2

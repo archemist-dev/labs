@@ -22,14 +22,14 @@ def make_order(n_items):
         "customer_id": 90031,
         "created_at": 1759737600123,
         "status": "DELIVERING",
-        "currency": "UZS",
+        "currency": "GBP",
         "total": 0,
         "notes": "Please call on arrival, the intercom is broken",
         "address": {
             "street": "Example street 12, apt 34",
-            "city": "Tashkent",
-            "lat": 41.311081,
-            "lon": 69.240562,
+            "city": "Cambridge",
+            "lat": 52.205337,
+            "lon": 0.121817,
             "comment": "Third entrance, fourth floor",
         },
         "items": [
