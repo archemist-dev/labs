@@ -6,6 +6,7 @@ import platform
 import statistics
 import sys
 import time
+from pathlib import Path
 
 import fastavro
 import google.protobuf
@@ -13,42 +14,10 @@ from google.protobuf import descriptor_pb2, message_factory
 from google.protobuf.internal import api_implementation
 
 # ---------- synthetic payload ----------
-def make_order(n_items):
-    items = [
-        {
-            "product_id": 1000 + i,
-            "name": f"Pizza Margherita {i}",
-            "qty": 1 + i % 3,
-            "unit_price": 1199 + i * 100,   # minor units: 1199 = £11.99
-            "modifiers": ["extra cheese", "thin crust"] if i % 2 else ["no onion"],
-        }
-        for i in range(n_items)
-    ]
-    return {
-        "order_id": 48213377,
-        "order_uuid": "3f6c1a2e-8b4d-4c1e-9a77-0d2f5b8e91c4",
-        "customer_id": 90031,
-        "created_at": 1759737600123,
-        "status": "DELIVERED",
-        "currency": "GBP",
-        "total": sum(i["qty"] * i["unit_price"] for i in items),
-        "notes": "Please call on arrival, the intercom is broken",
-        "address": {
-            "street": "Anglia Ruskin University, East Rd, CB1 1PT",
-            "city": "Cambridge",
-            "lat": 52.203889,
-            "lon": 0.132917,
-            "comment": "Third entrance, fourth floor",
-        },
-        "items": items,
-        "status_history": [
-            {"status": s, "at": 1759737600123 + n * 60000}
-            for n, s in enumerate(["CREATED", "PAID", "COOKING", "READY", "DELIVERING", "DELIVERED"])
-        ],
-    }
-
-ITEMS = int(sys.argv[1]) if len(sys.argv) > 1 else 20   # 20 = big order, 3 = typical
-ORDER = make_order(ITEMS)
+# typical = 3 items, big = 20 items; prices in pence (1199 = £11.99)
+SIZE = sys.argv[1] if len(sys.argv) > 1 else "big"
+with open(Path(__file__).with_name(f"order_{SIZE}.json")) as f:
+    ORDER = json.load(f)
 
 # ---------- protobuf schema, built in code (no protoc) ----------
 F = descriptor_pb2.FieldDescriptorProto

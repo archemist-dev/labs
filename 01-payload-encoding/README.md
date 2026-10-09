@@ -4,8 +4,8 @@ Same synthetic order (20 items with modifiers, nested address, 6 status changes)
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/python encoding_test.py 3   # typical order
-.venv/bin/python encoding_test.py     # big order, 20 items
+.venv/bin/python encoding_test.py typical   # order_typical.json, 3 items
+.venv/bin/python encoding_test.py big       # order_big.json, 20 items
 python3 scale.py
 ```
 
@@ -15,7 +15,7 @@ Protobuf schemas are built in code, so no `protoc` is needed. Data is synthetic.
 
 Python 3.12.10, Apple M4 Pro, macOS 26.6; protobuf 7.36.2 (upb), fastavro 1.13.0. Median of 7 x 5,000 runs; two runs matched within 5%. Order: prices in pence (1199 = £11.99), delivery address Anglia Ruskin University, Cambridge, 6 status changes ending in DELIVERED.
 
-Typical order, 3 items (`python encoding_test.py 3`):
+Typical order, 3 items (`python encoding_test.py typical`, [order_typical.json](order_typical.json)):
 
 | Format | Bytes | Gzip | vs JSON | Encode µs | Decode µs |
 | --- | --- | --- | --- | --- | --- |
@@ -25,7 +25,7 @@ Typical order, 3 items (`python encoding_test.py 3`):
 
 Dict to Protobuf build 4.4 µs. Gzip JSON 9.2 µs compress, 2.9 µs decompress. Field names 440 of 1,051 bytes (42%).
 
-Big order, 20 items (`python encoding_test.py`):
+Big order, 20 items (`python encoding_test.py big`, [order_big.json](order_big.json)):
 
 | Format | Bytes | Gzip | vs JSON | Encode µs | Decode µs |
 | --- | --- | --- | --- | --- | --- |
