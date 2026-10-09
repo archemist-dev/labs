@@ -15,21 +15,21 @@ from google.protobuf import descriptor_pb2, message_factory
 from google.protobuf.internal import api_implementation
 
 # ---------- synthetic payload ----------
-def make_order():
+def make_order(n_items):
     return {
         "order_id": 48213377,
         "order_uuid": "3f6c1a2e-8b4d-4c1e-9a77-0d2f5b8e91c4",
         "customer_id": 90031,
         "created_at": 1759737600123,
         "status": "DELIVERING",
-        "currency": "UZS",
+        "currency": "GBP",
         "total": 0,
         "notes": "Please call on arrival, the intercom is broken",
         "address": {
             "street": "Example street 12, apt 34",
-            "city": "Tashkent",
-            "lat": 41.311081,
-            "lon": 69.240562,
+            "city": "Cambridge",
+            "lat": 52.205337,
+            "lon": 0.121817,
             "comment": "Third entrance, fourth floor",
         },
         "items": [
@@ -40,7 +40,7 @@ def make_order():
                 "unit_price": 89000 + i * 1000,
                 "modifiers": ["extra cheese", "thin crust"] if i % 2 else ["no onion"],
             }
-            for i in range(20)
+            for i in range(n_items)
         ],
         "status_history": [
             {"status": s, "at": 1759737600123 + n * 60000}
@@ -48,7 +48,8 @@ def make_order():
         ],
     }
 
-ORDER = make_order()
+ITEMS = int(sys.argv[1]) if len(sys.argv) > 1 else 20   # 20 = big order, 3 = typical
+ORDER = make_order(ITEMS)
 ORDER["total"] = sum(i["qty"] * i["unit_price"] for i in ORDER["items"])
 
 # ---------- protobuf schema, built in code (no protoc) ----------
@@ -170,6 +171,19 @@ for name, (enc, dec) in codecs.items():
     print(f"{name:<10}{len(data):>8}{len(gzip.compress(data)):>8}{len(data)/json_size:>8.0%}"
           f"{bench(enc):>11.1f}{bench(lambda: dec(data)):>11.1f}")
 print(f"{'(dict->proto build)':<26}{bench(lambda: to_proto(ProtoV1, ORDER)):>19.1f}")
+json_bytes = codecs["JSON"][0]()
+json_gz = gzip.compress(json_bytes)
+print(f"{'(gzip JSON)':<26}{bench(lambda: gzip.compress(json_bytes)):>19.1f}{bench(lambda: gzip.decompress(json_gz)):>11.1f}")
+def keys(o):
+    if isinstance(o, dict):
+        for k, v in o.items():
+            yield k
+            yield from keys(v)
+    elif isinstance(o, list):
+        for v in o:
+            yield from keys(v)
+names = sum(len(json.dumps(k)) + 2 for k in keys(ORDER))  # "key" plus ': '
+print(f"JSON field names: {names} of {json_size} bytes ({names / json_size:.0%})")
 print("Note: field names inside the bytes ->", {n: b'order_uuid' in c[0]() for n, c in codecs.items()})
 
 # ---------- 4: schema change (v1 -> v2: remove notes, add tip) ----------
