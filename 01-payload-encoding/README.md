@@ -37,6 +37,19 @@ Dict to Protobuf build 13.9 µs. Gzip JSON 16.6 µs compress, 3.2 µs decompress
 
 Avro speed is fastavro in Python, not the format in general. All timings are Python on one machine: compare ratios, not microseconds.
 
+## Levels: cheapest fix first (`python encoding_test.py typical`)
+
+Starts from [order_untrimmed.json](order_untrimmed.json): the same order the way many APIs send it, with full customer, restaurant, product, payment, courier and metadata objects. Level 1 is [order_typical.json](order_typical.json).
+
+| Level | Change | Bytes | vs L0 | Encode µs |
+| --- | --- | --- | --- | --- |
+| 0 | Untrimmed JSON | 2,672 | 100% | 9.9 |
+| 1 | Trim fields the client doesn't use | 1,076 | 40% | 4.8 |
+| 2 | + compact JSON (no spaces) | 989 | 37% | 5.1 |
+| 3 | + gzip | 510 | 19% | 15.1 |
+| 4 | Protobuf (from the trimmed order) | 470 | 18% | 0.4 |
+| 4 | Protobuf + gzip | 416 | 16% | 8.7 |
+
 ## At scale (`python3 scale.py`)
 
 JSON to Protobuf savings per request, priced as AWS cross-AZ traffic ($0.01/GB each side, checked 2026-10-06), assuming every call crosses a zone. CPU is JSON vs Protobuf encode plus decode, one hop.

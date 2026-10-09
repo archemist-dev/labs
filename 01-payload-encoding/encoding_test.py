@@ -154,6 +154,25 @@ names = sum(len(json.dumps(k)) + 2 for k in keys(ORDER))  # "key" plus ': '
 print(f"JSON field names: {names} of {json_size} bytes ({names / json_size:.0%})")
 print("Note: field names inside the bytes ->", {n: b'order_uuid' in c[0]() for n, c in codecs.items()})
 
+# ---------- levels: cheapest fix first (typical order only) ----------
+if SIZE == "typical":
+    with open(Path(__file__).with_name("order_untrimmed.json")) as f:
+        UNTRIMMED = json.load(f)
+    compact = lambda o: json.dumps(o, separators=(",", ":")).encode()
+    levels = [
+        ("0 untrimmed JSON", lambda: json.dumps(UNTRIMMED).encode()),
+        ("1 trimmed JSON", lambda: json.dumps(ORDER).encode()),
+        ("2 + compact", lambda: compact(ORDER)),
+        ("3 + gzip", lambda: gzip.compress(compact(ORDER))),
+        ("4 Protobuf", lambda: proto_msg.SerializeToString()),
+        ("4 Protobuf + gzip", lambda: gzip.compress(proto_msg.SerializeToString())),
+    ]
+    base = len(levels[0][1]())
+    print(f"\n{'level':<20}{'bytes':>8}{'vs L0':>8}{'encode µs':>11}")
+    for name, enc in levels:
+        n = len(enc())
+        print(f"{name:<20}{n:>8}{n / base:>8.0%}{bench(enc):>11.1f}")
+
 # ---------- 4: schema change (v1 -> v2: remove notes, add tip) ----------
 def attempt(label, fn):
     try:
