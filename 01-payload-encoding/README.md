@@ -1,11 +1,11 @@
 # 01 - Your payload is too big
 
-Same synthetic order (20 items with modifiers, nested address, 6 status changes) encoded as JSON, pickle, Protobuf and Avro. Measures size, encode and decode time, then changes the schema (remove `notes`, add `tip`) and checks old and new readers.
+Same synthetic order (20 items with modifiers, nested address, 6 status changes) encoded as JSON, Protobuf and Avro. Measures size, encode and decode time, then changes the schema (remove `notes`, add `tip`) and checks old and new readers.
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/python encoding_test.py 3   # typical order
-.venv/bin/python encoding_test.py     # big order, 20 items
+.venv/bin/python encoding_test.py typical   # order_typical.json, 3 items
+.venv/bin/python encoding_test.py big       # order_big.json, 20 items
 python3 scale.py
 ```
 
@@ -15,23 +15,21 @@ Protobuf schemas are built in code, so no `protoc` is needed. Data is synthetic.
 
 Python 3.12.10, Apple M4 Pro, macOS 26.6; protobuf 7.36.2 (upb), fastavro 1.13.0. Median of 7 x 5,000 runs; two runs matched within 5%. Order: prices in pence (1199 = £11.99), delivery address Anglia Ruskin University, Cambridge, 6 status changes ending in DELIVERED.
 
-Typical order, 3 items (`python encoding_test.py 3`):
+Typical order, 3 items (`python encoding_test.py typical`, [order_typical.json](order_typical.json)):
 
 | Format | Bytes | Gzip | vs JSON | Encode µs | Decode µs |
 | --- | --- | --- | --- | --- | --- |
 | JSON | 1,051 | 504 | 100% | 4.8 | 4.0 |
-| pickle | 791 | 603 | 75% | 1.6 | 2.0 |
 | Protobuf | 470 | 416 | 45% | 0.4 | 0.5 |
 | Avro | 419 | 371 | 40% | 10.1 | 7.9 |
 
 Dict to Protobuf build 4.4 µs. Gzip JSON 9.2 µs compress, 2.9 µs decompress. Field names 440 of 1,051 bytes (42%).
 
-Big order, 20 items (`python encoding_test.py`):
+Big order, 20 items (`python encoding_test.py big`, [order_big.json](order_big.json)):
 
 | Format | Bytes | Gzip | vs JSON | Encode µs | Decode µs |
 | --- | --- | --- | --- | --- | --- |
 | JSON | 3,077 | 666 | 100% | 12.8 | 10.2 |
-| pickle | 1,646 | 794 | 53% | 4.1 | 4.7 |
 | Protobuf | 1,305 | 602 | 42% | 1.0 | 1.3 |
 | Avro | 1,160 | 537 | 38% | 30.2 | 23.8 |
 
@@ -57,6 +55,5 @@ Schema change, v1 to v2:
 | Format | Old reader, new data | New reader, old data | Trap |
 | --- | --- | --- | --- |
 | JSON | KeyError | KeyError; works with `.get()` | Nothing enforces safe readers |
-| pickle | - | `tip` from class default; removed `notes` silently kept | Renamed or moved class: AttributeError. Python only |
 | Protobuf | Works | Works | Reused field number: wrong value, no error |
 | Avro | Fails: `notes` has no default | Works with a default; fails without | Wrong writer schema: garbage, no error |

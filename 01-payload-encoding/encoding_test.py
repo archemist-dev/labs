@@ -1,13 +1,12 @@
 """Encoding test for 'Your Payload Is Too Big'. Synthetic order payload only."""
-import dataclasses
 import gzip
 import io
 import json
-import pickle
 import platform
 import statistics
 import sys
 import time
+from pathlib import Path
 
 import fastavro
 import google.protobuf
@@ -15,42 +14,10 @@ from google.protobuf import descriptor_pb2, message_factory
 from google.protobuf.internal import api_implementation
 
 # ---------- synthetic payload ----------
-def make_order(n_items):
-    items = [
-        {
-            "product_id": 1000 + i,
-            "name": f"Pizza Margherita {i}",
-            "qty": 1 + i % 3,
-            "unit_price": 1199 + i * 100,   # minor units: 1199 = £11.99
-            "modifiers": ["extra cheese", "thin crust"] if i % 2 else ["no onion"],
-        }
-        for i in range(n_items)
-    ]
-    return {
-        "order_id": 48213377,
-        "order_uuid": "3f6c1a2e-8b4d-4c1e-9a77-0d2f5b8e91c4",
-        "customer_id": 90031,
-        "created_at": 1759737600123,
-        "status": "DELIVERED",
-        "currency": "GBP",
-        "total": sum(i["qty"] * i["unit_price"] for i in items),
-        "notes": "Please call on arrival, the intercom is broken",
-        "address": {
-            "street": "Anglia Ruskin University, East Rd, CB1 1PT",
-            "city": "Cambridge",
-            "lat": 52.203889,
-            "lon": 0.132917,
-            "comment": "Third entrance, fourth floor",
-        },
-        "items": items,
-        "status_history": [
-            {"status": s, "at": 1759737600123 + n * 60000}
-            for n, s in enumerate(["CREATED", "PAID", "COOKING", "READY", "DELIVERING", "DELIVERED"])
-        ],
-    }
-
-ITEMS = int(sys.argv[1]) if len(sys.argv) > 1 else 20   # 20 = big order, 3 = typical
-ORDER = make_order(ITEMS)
+# typical = 3 items, big = 20 items; prices in pence (1199 = £11.99)
+SIZE = sys.argv[1] if len(sys.argv) > 1 else "big"
+with open(Path(__file__).with_name(f"order_{SIZE}.json")) as f:
+    ORDER = json.load(f)
 
 # ---------- protobuf schema, built in code (no protoc) ----------
 F = descriptor_pb2.FieldDescriptorProto
@@ -155,7 +122,6 @@ def bench(fn, n=5000, repeat=7):
 proto_msg = to_proto(ProtoV1, ORDER)
 codecs = {
     "JSON": (lambda: json.dumps(ORDER).encode(), lambda b: json.loads(b)),
-    "pickle": (lambda: pickle.dumps(ORDER, protocol=pickle.HIGHEST_PROTOCOL), lambda b: pickle.loads(b)),
     "Protobuf": (lambda: proto_msg.SerializeToString(), lambda b: ProtoV1.FromString(b)),
     "Avro": (lambda: avro_enc(AV1, ORDER), lambda b: avro_dec(AV1, None, b)),
 }
@@ -202,22 +168,6 @@ new_reader = lambda d: (d["order_id"], d["tip"])           # code written for v2
 attempt("old reader, new data (strict d['notes'])", lambda: old_reader(json.loads(json.dumps(v2_order))))
 attempt("new reader, old data (strict d['tip'])", lambda: new_reader(json.loads(json.dumps(ORDER))))
 attempt("new reader, old data (d.get('tip', 0))", lambda: json.loads(json.dumps(ORDER)).get("tip", 0))
-
-print("pickle (dataclass, as pickle is normally used)")
-@dataclasses.dataclass
-class Order:
-    order_id: int
-    notes: str
-old_blob = pickle.dumps(Order(48213377, "call on arrival"))
-@dataclasses.dataclass
-class Order:  # noqa: F811  v2 of the same class
-    order_id: int
-    tip: int = 0
-o = pickle.loads(old_blob)
-attempt("new class, old data: tip", lambda: o.tip)
-attempt("new class, old data: removed field still there?", lambda: f"notes={o.__dict__.get('notes')!r} (silently kept)")
-del Order
-attempt("class renamed or moved, old data", lambda: pickle.loads(old_blob))
 
 print("Protobuf")
 v1_bytes = to_proto(ProtoV1, ORDER).SerializeToString()
