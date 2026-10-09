@@ -1,6 +1,6 @@
 # 01 - Your payload is too big
 
-Same synthetic order (20 items with modifiers, nested address, 5 status changes) encoded as JSON, pickle, Protobuf and Avro. Measures size, encode and decode time, then changes the schema (remove `notes`, add `tip`) and checks old and new readers.
+Same synthetic order (20 items with modifiers, nested address, 6 status changes) encoded as JSON, pickle, Protobuf and Avro. Measures size, encode and decode time, then changes the schema (remove `notes`, add `tip`) and checks old and new readers.
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
@@ -13,29 +13,29 @@ Protobuf schemas are built in code, so no `protoc` is needed. Data is synthetic.
 
 ## Results (2026-10-09)
 
-Python 3.12.10, Apple M4 Pro, macOS 26.6; protobuf 7.36.2 (upb), fastavro 1.13.0. Median of 7 x 5,000 runs; two runs matched within 5%.
+Python 3.12.10, Apple M4 Pro, macOS 26.6; protobuf 7.36.2 (upb), fastavro 1.13.0. Median of 7 x 5,000 runs; two runs matched within 5%. Order: prices in pence (1199 = £11.99), delivery address Anglia Ruskin University, Cambridge, 6 status changes ending in DELIVERED.
 
 Typical order, 3 items (`python encoding_test.py 3`):
 
 | Format | Bytes | Gzip | vs JSON | Encode µs | Decode µs |
 | --- | --- | --- | --- | --- | --- |
-| JSON | 994 | 484 | 100% | 4.7 | 3.8 |
-| pickle | 754 | 585 | 76% | 1.5 | 1.9 |
-| Protobuf | 438 | 392 | 44% | 0.4 | 0.5 |
-| Avro | 391 | 350 | 39% | 9.8 | 7.6 |
+| JSON | 1,051 | 504 | 100% | 4.8 | 4.0 |
+| pickle | 791 | 603 | 75% | 1.6 | 2.0 |
+| Protobuf | 470 | 416 | 45% | 0.4 | 0.5 |
+| Avro | 419 | 371 | 40% | 10.1 | 7.9 |
 
-Dict to Protobuf build 4.2 µs. Gzip JSON 9.2 µs compress, 2.8 µs decompress. Field names 424 of 994 bytes (43%).
+Dict to Protobuf build 4.4 µs. Gzip JSON 9.2 µs compress, 2.9 µs decompress. Field names 440 of 1,051 bytes (42%).
 
 Big order, 20 items (`python encoding_test.py`):
 
 | Format | Bytes | Gzip | vs JSON | Encode µs | Decode µs |
 | --- | --- | --- | --- | --- | --- |
-| JSON | 3,046 | 648 | 100% | 12.5 | 10.3 |
-| pickle | 1,641 | 785 | 54% | 4.2 | 4.7 |
-| Protobuf | 1,290 | 588 | 42% | 0.9 | 1.3 |
-| Avro | 1,149 | 527 | 38% | 29.3 | 23.3 |
+| JSON | 3,077 | 666 | 100% | 12.8 | 10.2 |
+| pickle | 1,646 | 794 | 53% | 4.1 | 4.7 |
+| Protobuf | 1,305 | 602 | 42% | 1.0 | 1.3 |
+| Avro | 1,160 | 537 | 38% | 30.2 | 23.8 |
 
-Dict to Protobuf build 14.0 µs. Gzip JSON 17.0 µs compress, 3.6 µs decompress. Field names 1,376 of 3,046 bytes (45%).
+Dict to Protobuf build 13.5 µs. Gzip JSON 16.4 µs compress, 3.3 µs decompress. Field names 1,392 of 3,077 bytes (45%).
 
 Avro speed is fastavro in Python, not the format in general. All timings are Python on one machine: compare ratios, not microseconds.
 
@@ -45,12 +45,12 @@ JSON to Protobuf savings per request, priced as AWS cross-AZ traffic ($0.01/GB e
 
 | Order | RPS | Saved/req | GB/day | Cross-AZ $/mo | $/yr | CPU cores |
 | --- | --- | --- | --- | --- | --- | --- |
-| typical | 100 | 556 | 4.8 | 3 | 35 | 0.001 |
-| typical | 1,000 | 556 | 48.0 | 29 | 346 | 0.008 |
-| typical | 10,000 | 556 | 480.4 | 288 | 3,459 | 0.076 |
-| big | 100 | 1,756 | 15.2 | 9 | 109 | 0.002 |
-| big | 1,000 | 1,756 | 151.7 | 91 | 1,092 | 0.021 |
-| big | 10,000 | 1,756 | 1,517.2 | 910 | 10,924 | 0.206 |
+| typical | 100 | 581 | 5.0 | 3 | 36 | 0.001 |
+| typical | 1,000 | 581 | 50.2 | 30 | 361 | 0.008 |
+| typical | 10,000 | 581 | 502.0 | 301 | 3,614 | 0.079 |
+| big | 100 | 1,772 | 15.3 | 9 | 110 | 0.002 |
+| big | 1,000 | 1,772 | 153.1 | 92 | 1,102 | 0.021 |
+| big | 10,000 | 1,772 | 1,531.0 | 919 | 11,023 | 0.207 |
 
 Schema change, v1 to v2:
 
