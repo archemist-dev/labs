@@ -35,7 +35,8 @@ def build_proto(variant):
     O, R = F.LABEL_OPTIONAL, F.LABEL_REPEATED
     msg("Address", [("street", 1, F.TYPE_STRING, O, None), ("city", 2, F.TYPE_STRING, O, None),
                     ("lat", 3, F.TYPE_DOUBLE, O, None), ("lon", 4, F.TYPE_DOUBLE, O, None),
-                    ("comment", 5, F.TYPE_STRING, O, None)])
+                    ("comment", 5, F.TYPE_STRING, O, None), ("postcode", 6, F.TYPE_STRING, O, None),
+                    ("house", 7, F.TYPE_STRING, O, None)])
     msg("Item", [("product_id", 1, F.TYPE_INT64, O, None), ("name", 2, F.TYPE_STRING, O, None),
                  ("qty", 3, F.TYPE_INT32, O, None), ("unit_price", 4, F.TYPE_INT64, O, None),
                  ("modifiers", 5, F.TYPE_STRING, R, None)])
@@ -80,7 +81,8 @@ def avro_schema(variant, tip_default=True):
         {"name": "status", "type": "string"}, {"name": "currency", "type": "string"},
         {"name": "total", "type": "long"},
         {"name": "address", "type": {"type": "record", "name": "Address", "fields": [
-            {"name": "street", "type": "string"}, {"name": "city", "type": "string"},
+            {"name": "street", "type": "string"}, {"name": "postcode", "type": "string"},
+            {"name": "house", "type": "string"}, {"name": "city", "type": "string"},
             {"name": "lat", "type": "double"}, {"name": "lon", "type": "double"},
             {"name": "comment", "type": "string"}]}},
         {"name": "items", "type": {"type": "array", "items": {"type": "record", "name": "Item", "fields": [
