@@ -1,9 +1,7 @@
 """Encoding test for 'Your Payload Is Too Big'. Synthetic order payload only."""
-import dataclasses
 import gzip
 import io
 import json
-import pickle
 import platform
 import statistics
 import sys
@@ -155,7 +153,6 @@ def bench(fn, n=5000, repeat=7):
 proto_msg = to_proto(ProtoV1, ORDER)
 codecs = {
     "JSON": (lambda: json.dumps(ORDER).encode(), lambda b: json.loads(b)),
-    "pickle": (lambda: pickle.dumps(ORDER, protocol=pickle.HIGHEST_PROTOCOL), lambda b: pickle.loads(b)),
     "Protobuf": (lambda: proto_msg.SerializeToString(), lambda b: ProtoV1.FromString(b)),
     "Avro": (lambda: avro_enc(AV1, ORDER), lambda b: avro_dec(AV1, None, b)),
 }
@@ -202,22 +199,6 @@ new_reader = lambda d: (d["order_id"], d["tip"])           # code written for v2
 attempt("old reader, new data (strict d['notes'])", lambda: old_reader(json.loads(json.dumps(v2_order))))
 attempt("new reader, old data (strict d['tip'])", lambda: new_reader(json.loads(json.dumps(ORDER))))
 attempt("new reader, old data (d.get('tip', 0))", lambda: json.loads(json.dumps(ORDER)).get("tip", 0))
-
-print("pickle (dataclass, as pickle is normally used)")
-@dataclasses.dataclass
-class Order:
-    order_id: int
-    notes: str
-old_blob = pickle.dumps(Order(48213377, "call on arrival"))
-@dataclasses.dataclass
-class Order:  # noqa: F811  v2 of the same class
-    order_id: int
-    tip: int = 0
-o = pickle.loads(old_blob)
-attempt("new class, old data: tip", lambda: o.tip)
-attempt("new class, old data: removed field still there?", lambda: f"notes={o.__dict__.get('notes')!r} (silently kept)")
-del Order
-attempt("class renamed or moved, old data", lambda: pickle.loads(old_blob))
 
 print("Protobuf")
 v1_bytes = to_proto(ProtoV1, ORDER).SerializeToString()
