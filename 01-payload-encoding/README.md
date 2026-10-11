@@ -11,29 +11,29 @@ python3 scale.py
 
 Protobuf schemas are built in code, so no `protoc` is needed. Data is synthetic.
 
-## Results (2026-10-09, address split into street, postcode, house)
+## Results (2026-10-11, GitHub Actions)
 
-Python 3.12.10, Apple M4 Pro, macOS 26.6; protobuf 7.36.2 (upb), fastavro 1.13.0. Median of 7 x 5,000 runs; two runs matched within 5%. Order: prices in pence (1199 = £11.99), delivery address Anglia Ruskin University, Cambridge, 6 status changes ending in DELIVERED.
+GitHub Actions `ubuntu-24.04` runner (AMD EPYC, 4 vCPU), Python 3.12.15; protobuf 7.36.2 (upb), fastavro 1.13.0. Median of 7 x 5,000 runs; two runs in the same job matched within 5%. Re-run it yourself: Actions → payload-encoding → Run workflow. Order: prices in pence (1199 = £11.99), delivery address Anglia Ruskin University, Cambridge, 6 status changes ending in DELIVERED.
 
 Typical order, 3 items (`python encoding_test.py typical`, [order_typical.json](order_typical.json)):
 
 | Format | Bytes | Gzip | vs JSON | Encode µs | Decode µs |
 | --- | --- | --- | --- | --- | --- |
-| JSON | 1,076 | 516 | 100% | 4.7 | 4.1 |
-| Protobuf | 470 | 416 | 44% | 0.4 | 0.6 |
-| Avro | 417 | 369 | 39% | 10.8 | 8.2 |
+| JSON | 1,076 | 516 | 100% | 6.0 | 6.1 |
+| Protobuf | 470 | 416 | 44% | 0.5 | 0.7 |
+| Avro | 417 | 369 | 39% | 13.7 | 10.6 |
 
-Dict to Protobuf build 4.6 µs. Gzip JSON 9.3 µs compress, 2.9 µs decompress. Field names 461 of 1,076 bytes (43%).
+Dict to Protobuf build 6.9 µs. Gzip JSON 8.9 µs compress, 4.4 µs decompress. Field names 461 of 1,076 bytes (43%).
 
 Big order, 20 items (`python encoding_test.py big`, [order_big.json](order_big.json)):
 
 | Format | Bytes | Gzip | vs JSON | Encode µs | Decode µs |
 | --- | --- | --- | --- | --- | --- |
-| JSON | 3,102 | 678 | 100% | 12.4 | 10.4 |
-| Protobuf | 1,305 | 603 | 42% | 0.9 | 1.3 |
-| Avro | 1,158 | 536 | 37% | 31.1 | 23.5 |
+| JSON | 3,102 | 678 | 100% | 14.3 | 13.8 |
+| Protobuf | 1,305 | 603 | 42% | 1.0 | 1.4 |
+| Avro | 1,158 | 536 | 37% | 36.2 | 28.6 |
 
-Dict to Protobuf build 13.9 µs. Gzip JSON 16.6 µs compress, 3.2 µs decompress. Field names 1,413 of 3,102 bytes (46%).
+Dict to Protobuf build 19.8 µs. Gzip JSON 16.6 µs compress, 5.1 µs decompress. Field names 1,413 of 3,102 bytes (46%).
 
 Avro speed is fastavro in Python, not the format in general. All timings are Python on one machine: compare ratios, not microseconds.
 
@@ -43,12 +43,12 @@ Starts from [order_untrimmed.json](order_untrimmed.json): the same order the way
 
 | Level | Change | Bytes | vs L0 | Encode µs |
 | --- | --- | --- | --- | --- |
-| 0 | Untrimmed JSON | 2,672 | 100% | 9.9 |
-| 1 | Trim fields the client doesn't use | 1,076 | 40% | 4.8 |
-| 2 | + compact JSON (no spaces) | 989 | 37% | 5.1 |
-| 3 | + gzip | 510 | 19% | 15.1 |
-| 4 | Protobuf (from the trimmed order) | 470 | 18% | 0.4 |
-| 4 | Protobuf + gzip | 416 | 16% | 8.7 |
+| 0 | Untrimmed JSON | 2,672 | 100% | 10.8 |
+| 1 | Trim fields the client doesn't use | 1,076 | 40% | 5.8 |
+| 2 | + compact JSON (no spaces) | 989 | 37% | 6.2 |
+| 3 | + gzip | 510 | 19% | 14.4 |
+| 4 | Protobuf (from the trimmed order) | 470 | 18% | 0.5 |
+| 4 | Protobuf + gzip | 416 | 16% | 8.5 |
 
 ## At scale (`python3 scale.py`)
 
@@ -57,11 +57,11 @@ JSON to Protobuf savings per request, priced as AWS cross-AZ traffic ($0.01/GB e
 | Order | RPS | Saved/req | GB/day | Cross-AZ $/mo | $/yr | CPU cores |
 | --- | --- | --- | --- | --- | --- | --- |
 | typical | 100 | 606 | 5.2 | 3 | 38 | 0.001 |
-| typical | 1,000 | 606 | 52.4 | 31 | 377 | 0.008 |
-| typical | 10,000 | 606 | 523.6 | 314 | 3,770 | 0.078 |
-| big | 100 | 1,797 | 15.5 | 9 | 112 | 0.002 |
-| big | 1,000 | 1,797 | 155.3 | 93 | 1,118 | 0.021 |
-| big | 10,000 | 1,797 | 1,552.6 | 932 | 11,179 | 0.206 |
+| typical | 1,000 | 606 | 52.4 | 31 | 377 | 0.011 |
+| typical | 10,000 | 606 | 523.6 | 314 | 3,770 | 0.109 |
+| big | 100 | 1,797 | 15.5 | 9 | 112 | 0.003 |
+| big | 1,000 | 1,797 | 155.3 | 93 | 1,118 | 0.026 |
+| big | 10,000 | 1,797 | 1,552.6 | 932 | 11,179 | 0.257 |
 
 Schema change, v1 to v2:
 
