@@ -1,0 +1,33 @@
+name: payload-encoding
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "01-payload-encoding/**"
+      - ".github/workflows/payload-encoding.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: 01-payload-encoding
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Machine
+        run: |
+          lscpu | grep -E "Model name|^CPU\(s\)"
+          free -h | head -2
+      - name: Typical order, run 1
+        run: python encoding_test.py typical
+      - name: Typical order, run 2
+        run: python encoding_test.py typical
+      - name: Big order, run 1
+        run: python encoding_test.py big
+      - name: Big order, run 2
+        run: python encoding_test.py big
