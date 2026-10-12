@@ -4,10 +4,10 @@ Prices: AWS on-demand, US/EU regions, checked 2026-10-06.
 Cross-AZ is $0.01/GB charged on each side; calls inside one AZ are free.
 Internet egress is tiered per month; only used for the 100-byte intro example.
 """
-# (JSON bytes, Protobuf bytes, JSON encode+decode µs, Protobuf encode+decode µs), from the GitHub Actions run
+# (JSON bytes, Protobuf bytes, JSON encode+decode µs, Protobuf encode+decode µs), from the AWS t3.micro run
 ORDERS = {
-    "typical (3 items)": (1076, 470, 6.0 + 6.1, 0.5 + 0.7),
-    "big (20 items)": (3102, 1305, 14.3 + 13.8, 1.0 + 1.4),
+    "typical (3 items)": (1076, 470, 12.7 + 12.2, 0.9 + 1.4),
+    "big (20 items)": (3102, 1305, 33.8 + 31.8, 2.1 + 3.6),
 }
 EGRESS_TIERS_GB = [(10_240, 0.09), (40_960, 0.085), (102_400, 0.07), (float("inf"), 0.05)]
 CROSS_AZ_PER_GB = 0.01 * 2
