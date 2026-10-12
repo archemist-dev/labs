@@ -11,7 +11,7 @@ from pathlib import Path
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 W, H = 1600, 900
 BG, FG, MUTED, GRAY, LIGHT = "#1b1d21", "#f2efe9", "#8a8f98", "#5c6370", "#9aa1ab"
-GREEN, RED, AMBER = "#34c77b", "#e5484d", "#f5a623"
+GREEN, RED, AMBER = "#34c77b", "#e5484d", "#d4a017"
 SANS, MONO = "Inter", "JetBrains Mono"
 
 
