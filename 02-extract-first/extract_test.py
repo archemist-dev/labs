@@ -2,7 +2,10 @@
 monolith and measure, per module: the load on its tables, how tangled it is with the others
 (tables shared, calls across modules) and whether it sits on the order-creation path.
 
-Usage: python3 extract_test.py
+Usage: python3 extract_test.py [copy|calls|joins]
+  copy (default): the courier module copies the delivery point at assignment
+  calls: it asks the orders module on every ETA refresh
+  joins: it reads the orders table directly on every ETA refresh
 Deterministic: simulated clock, in-memory SQLite, no timings. Two runs print the same numbers.
 """
 import re
@@ -157,7 +160,8 @@ def report(rec):
     return rows
 
 
-def main():
+def run():
+    """Deliver one order with recording on; returns the Recorder."""
     lines, _ = setup()
     rec = Recorder()
     db.conn.set_trace_callback(rec.on_sql)
@@ -167,6 +171,15 @@ def main():
     finally:
         sys.setprofile(None)
         db.conn.set_trace_callback(None)
+    return rec
+
+
+def main():
+    couriers.ORDER_DATA = sys.argv[1] if len(sys.argv) > 1 else "copy"
+    if couriers.ORDER_DATA not in ("copy", "calls", "joins"):
+        sys.exit("usage: python3 extract_test.py [copy|calls|joins]")
+    rec = run()
+    print(f"Courier module gets the delivery point by: {couriers.ORDER_DATA}")
     (status,) = db.one("SELECT status FROM orders")
     history = [s for (s,) in db.conn.execute("SELECT status FROM order_status_history ORDER BY rowid")]
     print(f"Order status: {status}; history: {' > '.join(history)}\n")

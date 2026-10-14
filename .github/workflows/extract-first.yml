@@ -18,7 +18,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Run 1
-        run: python extract_test.py | tee run1.txt
-      - name: Run 2, must match run 1
-        run: python extract_test.py | diff run1.txt -
+      - name: Each variant twice, runs must match
+        run: |
+          for v in copy calls joins; do
+            python extract_test.py $v | tee run1.txt
+            python extract_test.py $v | diff run1.txt -
+          done
+      - name: Scale, twice
+        run: |
+          python scale.py | tee scale1.txt
+          python scale.py | diff scale1.txt -

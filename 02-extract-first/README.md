@@ -3,10 +3,13 @@
 A small food-delivery monolith (menu, orders, payments, couriers, notifications; one shared database) with the shortcuts most monoliths grow: orders reads the menu's tables, payments and notifications read and write the orders tables. One typical order runs end to end (3 items, payment, kitchen, courier, 25-minute delivery, DELIVERED) while the test records every SQL statement and every call between modules.
 
 ```bash
-python3 extract_test.py
+python3 extract_test.py          # copy (default): couriers copies the delivery point at assignment
+python3 extract_test.py calls    # couriers asks orders on every ETA refresh
+python3 extract_test.py joins    # couriers reads the orders table on every ETA refresh
+python3 scale.py                 # per-order rows scaled to a day and a year
 ```
 
-Standard library only (Python 3.12+). Simulated clock, in-memory SQLite, no timings: the output is deterministic, so the machine doesn't matter and two runs must match exactly. GitHub Actions re-runs it and fails if they don't (Actions → extract-first → Run workflow). Data is synthetic: guest_1, courier_7, delivery to Anglia Ruskin University, Cambridge, prices in pence.
+Standard library only (Python 3.12+). Simulated clock, in-memory SQLite, no timings: the output is deterministic, so the machine doesn't matter and two runs must match exactly. GitHub Actions re-runs every variant and fails if two runs differ (Actions → extract-first → Run workflow). Data is synthetic: guest_1, courier_7, delivery to Anglia Ruskin University, Cambridge, prices in pence.
 
 The monolith in [monolith/](monolith/) was written for this test. Change a shortcut (for example, make payments call orders instead of writing its table) and re-run to see the numbers move.
 
@@ -20,31 +23,42 @@ The monolith in [monolith/](monolith/) was written for this test. Change a short
 
 ## Results (2026-10-14)
 
-Two runs, identical output ([results-mac-2026-10-14.txt](results-mac-2026-10-14.txt)). Assumptions: GPS point every 10 s, ETA refresh every 30 s, 10 minutes to the restaurant, 15 to the guest.
+Every variant twice, identical output ([results-mac-2026-10-14.txt](results-mac-2026-10-14.txt)). Assumptions: GPS point every 10 s, ETA refresh every 30 s, 10 minutes to the restaurant, 15 to the guest.
+
+Default (`copy`, the courier module keeps its own copy of the delivery point):
 
 | Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Seams to cut | On order creation |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | menu | 2 | 0 | 5 | 0 (0 tables) | 5 (2 links) | 0 | 0 | 2 | yes |
-| orders | 3 | 16 | 56 | 5 (2 tables) | 8 (3 links) | 6 | 53 | 10 | yes |
+| orders | 3 | 16 | 7 | 5 (2 tables) | 8 (3 links) | 6 | 4 | 10 | yes |
 | payments | 1 | 1 | 0 | 3 (2 tables) | 0 (0 links) | 0 | 1 | 3 | yes |
-| couriers | 3 | 150 | 52 | 0 (0 tables) | 0 (0 links) | 53 | 0 | 3 | no |
+| couriers | 4 | 151 | 102 | 0 (0 tables) | 0 (0 links) | 4 | 0 | 3 | no |
 | notifications | 1 | 5 | 0 | 5 (1 table) | 0 (0 links) | 0 | 5 | 2 | yes |
 
-Per table: `courier_positions` takes 150 of the order's 172 writes (87%); `orders` is read 56 times, by three modules.
+Per table: `courier_positions` takes 150 of the order's 173 writes (87%); the other courier tables take 1.
 
-Calls across modules:
+How couriers gets the delivery point changes the traffic, not the pick:
 
-| From | To | Function | Calls |
+| Variant | Couriers: seams | Couriers → orders per order | On order creation |
 | --- | --- | --- | --- |
-| couriers | orders | assign_courier | 1 |
-| couriers | orders | delivery_point | 50 |
-| couriers | orders | set_status | 2 |
-| orders | notifications | send | 5 |
-| orders | payments | charge | 1 |
+| copy | 3 | 4 calls | no |
+| calls | 3 | 53 calls | no |
+| joins | 3 | 3 calls + 50 reads of the orders table | no |
+
+## At scale (`python3 scale.py`)
+
+One order writes 150 position rows and 10 rows to the orders tables (orders, order_items, order_status_history).
+
+| Orders/day | Position rows/day | Writes/s avg | Writes/s peak | Position rows/yr | GB/yr | Order rows/yr |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1,000 | 150,000 | 1.7 | 6 | 55M | 5.5 | 3.6M |
+| 10,000 | 1,500,000 | 17.4 | 62 | 548M | 54.8 | 36.5M |
+
+Assumptions: peak hour = 15% of the day's orders, a courier holds an order 25 minutes, one GPS point every 10 s, about 100 bytes per position row with its index, positions kept for a year. The write rate is easy for one Postgres; the size is the problem: position rows grow 15x faster than order rows, and they slow backups, vacuum and every query on the shared database.
 
 ## Reading it
 
-- **orders** is the most important module and the worst first pick: 10 seams, 53 calls in, and on the order-creation path.
-- **menu**, **payments** and **notifications** have few seams, but all three sit on the order-creation path: a bug or an outage there blocks orders. Notifications is the textbook "boring edge" pick, yet here it's called synchronously inside order creation; it becomes a safe first pick only once that call is an event.
-- **couriers** has few seams, touches no other module's tables, is off the order-creation path and carries 87% of the writes: its own reason to scale. The hot table (`courier_positions`) can go to its own database from day one.
-- The catch: `eta_minutes` asks orders for the delivery point on every refresh, 50 calls per order. Copy the delivery point when the courier is assigned, and that seam drops to one call.
+- **orders** is the most important module and the worst first pick: 10 seams and on the order-creation path.
+- **menu**, **payments** and **notifications** have the fewest seams, but all three sit on the order-creation path: a bug or an outage there blocks orders. Notifications is the textbook "boring edge" pick, yet here it's called synchronously inside order creation; it becomes a safe first pick only once that call is an event.
+- **couriers** has few seams, touches no other module's tables, is off the order-creation path and carries 87% of the writes: its own reason to move. The hot table (`courier_positions`) can go to its own database from day one.
+- Copy the order data couriers needs when the courier is assigned. Asking orders on every ETA refresh costs 50 extra calls per order, and reading its table directly ties the two databases together.

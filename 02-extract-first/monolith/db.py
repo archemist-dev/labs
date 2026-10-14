@@ -12,6 +12,7 @@ CREATE TABLE order_status_history (order_id INTEGER, status TEXT, at INTEGER);
 CREATE TABLE payments (id INTEGER PRIMARY KEY, order_id INTEGER, amount_pence INTEGER, status TEXT);
 CREATE TABLE couriers (id INTEGER PRIMARY KEY, ref TEXT, vehicle TEXT);
 CREATE TABLE courier_shifts (id INTEGER PRIMARY KEY, courier_id INTEGER, started_at INTEGER, ended_at INTEGER);
+CREATE TABLE courier_jobs (order_id INTEGER PRIMARY KEY, courier_id INTEGER, dest_lat REAL, dest_lon REAL);
 CREATE TABLE courier_positions (courier_id INTEGER, order_id INTEGER, lat REAL, lon REAL, at INTEGER);
 CREATE TABLE notifications (id INTEGER PRIMARY KEY, order_id INTEGER, event TEXT, body TEXT, at INTEGER);
 """
@@ -21,7 +22,7 @@ OWNERS = {
     "menu_items": "menu", "modifiers": "menu",
     "orders": "orders", "order_items": "orders", "order_status_history": "orders",
     "payments": "payments",
-    "couriers": "couriers", "courier_shifts": "couriers", "courier_positions": "couriers",
+    "couriers": "couriers", "courier_shifts": "couriers", "courier_jobs": "couriers", "courier_positions": "couriers",
     "notifications": "notifications",
 }
 
