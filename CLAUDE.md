@@ -11,7 +11,7 @@ Runnable tests behind Archemist articles and videos (archemist.dev). Every publi
 
 ## Rules
 
-- Reference numbers come from an AWS EC2 t3.micro (x86) in Javlon's personal account, launched per test and terminated after. Name the instance, region and CPU in every README. Actions and laptop numbers are never the published reference.
+- Reference numbers come from an AWS EC2 t3.micro (x86) in Javlon's personal account, launched per test and terminated after. Name the instance, region and CPU in every README. Actions and laptop numbers are never the published reference. Exception: a lab with no timings (deterministic counts, e.g. `02-extract-first/`) needs no VM; two identical runs anywhere are the reference, and Actions checks they match.
 - Run every test twice; publish only when the runs agree (within about 5%).
 - Sizes, costs and ratios go into the article; microseconds come with the server they were measured on.
 - Inputs are realistic: a typical case first (e.g. a 3-item order), the big case as a side note, an untrimmed version when the topic compares levels.
