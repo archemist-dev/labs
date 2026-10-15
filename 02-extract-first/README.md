@@ -7,6 +7,7 @@ python3 extract_test.py          # copy (default): couriers copies the delivery 
 python3 extract_test.py calls    # couriers asks orders on every ETA refresh
 python3 extract_test.py joins    # couriers reads the orders table on every ETA refresh
 python3 scale.py                 # per-order rows scaled to a day and a year
+python3 diagrams.py OUT_DIR      # article PNGs (needs Google Chrome)
 ```
 
 Standard library only (Python 3.12+). Simulated clock, in-memory SQLite, no timings: the output is deterministic, so the machine doesn't matter and two runs must match exactly. GitHub Actions re-runs every variant and fails if two runs differ (Actions → extract-first → Run workflow). Data is synthetic: guest_1, courier_7, delivery to Anglia Ruskin University, Cambridge, prices in pence.
