@@ -147,7 +147,7 @@ def copy_once():
     for y in (350, 375, 400, 425):
         b.append(harrow(400, 880, y, RED, 4))
     b += [text(640, 320, "ETA refresh × 50", 30, MUTED, MONO, 700, "middle"),
-          text(1300, 420, "53", 110, RED, MONO, 800), text(1300, 465, "calls", 30, MUTED, MONO, 700),
+          text(1300, 420, "50", 110, RED, MONO, 800), text(1300, 465, "lookups", 30, MUTED, MONO, 700),
           f'<line x1="80" y1="525" x2="1520" y2="525" stroke="{GRID}" stroke-width="3"/>',
           text(80, 590, "copy once", 34, GREEN, MONO, 800),
           rect(80, 620, 300, 150, stroke=FG), text(230, 675, "couriers", 42, FG, SANS, 700, "middle"),
@@ -156,8 +156,8 @@ def copy_once():
           harrow(880, 400, 695, GREEN),
           text(640, 672, "at assignment × 1", 30, MUTED, MONO, 700, "middle"),
           text(80, 820, "ETA reads its own copy", 30, MUTED, MONO, 700),
-          text(1300, 725, "4", 110, GREEN, MONO, 800), text(1300, 770, "calls", 30, MUTED, MONO, 700)]
-    return frame("Copy the address once", "couriers → orders, per order", "".join(b))
+          text(1300, 725, "1", 110, GREEN, MONO, 800), text(1300, 770, "lookup", 30, MUTED, MONO, 700)]
+    return frame("Copy the address once", "address lookups in orders, per order", "".join(b))
 
 
 DIAGRAMS = {"Extract - 1 Seams": seams, "Extract - 2 Growth": growth,
