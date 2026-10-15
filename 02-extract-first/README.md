@@ -60,6 +60,6 @@ Assumptions: peak hour = 15% of the day's orders, a courier holds an order 25 mi
 ## Reading it
 
 - **orders** is the most important module and the worst first pick: 10 seams and on the order-creation path.
-- **menu**, **payments** and **notifications** have the fewest seams, but all three sit on the order-creation path: a bug or an outage there blocks orders. Notifications is the textbook "boring edge" pick, yet here it's called synchronously inside order creation; it becomes a safe first pick only once that call is an event.
+- **menu**, **payments** and **notifications** have the fewest seams, but all three sit on the order-creation path: a bug or an outage there blocks orders. Notifications is the textbook "boring edge" pick, yet here it's called synchronously inside order creation; sent as an event, it can't block orders and passes two of the three questions; it has no load of its own (5 writes per order).
 - **couriers** has few seams, touches no other module's tables, is off the order-creation path and carries 87% of the writes: its own reason to move. The hot table (`courier_positions`) can go to its own database from day one.
 - Copy the order data couriers needs when the courier is assigned. Asking orders on every ETA refresh costs 50 extra calls per order, and reading its table directly ties the two databases together.
