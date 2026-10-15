@@ -12,7 +12,7 @@ import re
 import sys
 from collections import Counter, defaultdict
 
-from monolith import couriers, db, menu, orders
+from monolith import couriers, db, events, menu, notifications, orders  # noqa: F401  (notifications subscribes on import)
 
 MODULES = ("menu", "orders", "payments", "couriers", "notifications")
 
@@ -32,7 +32,7 @@ TABLE_RE = re.compile(r"\b(?:FROM|JOIN|INTO|UPDATE)\s+(\w+)", re.IGNORECASE)
 
 def module_of(frame):
     name = frame.f_globals.get("__name__", "")
-    if name.startswith("monolith.") and name != "monolith.db":
+    if name.startswith("monolith.") and name not in ("monolith.db", "monolith.events"):
         return name.split(".", 1)[1]
     return None
 
@@ -54,6 +54,13 @@ class Recorder:
         kind = "read" if statement.lstrip().upper().startswith("SELECT") else "write"
         for table in TABLE_RE.findall(statement):
             self.sql[(self.phase, caller, table, kind)] += 1
+
+    def on_publish(self, name, subscribers):
+        if self.phase is None:
+            return
+        publisher = module_of(sys._getframe(2))
+        for fn in subscribers:
+            self.calls[(self.phase, publisher, fn.__module__.split(".", 1)[1], f"event:{name}")] += 1
 
     def on_call(self, frame, event, arg):
         if event != "call" or self.phase is None:
@@ -85,6 +92,7 @@ def deliver_one(rec, lines):
     order_id = orders.create_order("guest_1", lines, ADDRESS)
 
     rec.phase = "fulfil"
+    events.drain()  # worker sends the queued notifications after the request
     db.clock += 60
     orders.set_status(order_id, "COOKING")  # kitchen screen
     db.clock += 60
@@ -100,6 +108,7 @@ def deliver_one(rec, lines):
         if leg == 0:
             couriers.pick_up(order_id)
     couriers.deliver(order_id)
+    events.drain()
     rec.phase = None
     return order_id
 
@@ -148,13 +157,13 @@ def report(rec):
         who = sorted({c for (c, t, k) in sql if t == table})
         print(f"| {table} | {owner} | {w} | {r} | {', '.join(who)} |")
 
-    print("\n## Calls across modules (each becomes a network call after extraction)\n")
+    print("\n## Calls and events across modules (each becomes a network call or a message after extraction)\n")
     print("| From | To | Function | Calls |")
     print("| --- | --- | --- | --- |")
     for (c, e, fn), n in sorted(calls.items()):
         print(f"| {c} | {e} | {fn} | {n} |")
 
-    print("\nSeams to cut = distinct cross-module table links (either direction) + distinct cross-module functions called.")
+    print("\nSeams to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.")
     print(f"Assumptions: GPS point every {POSITION_EVERY_S} s, ETA refresh every {ETA_POLL_EVERY_S} s, "
           f"{TO_RESTAURANT_MIN} min to the restaurant, {TO_GUEST_MIN} min to the guest.")
     return rows
@@ -164,6 +173,7 @@ def run():
     """Deliver one order with recording on; returns the Recorder."""
     lines, _ = setup()
     rec = Recorder()
+    events.on_publish = rec.on_publish
     db.conn.set_trace_callback(rec.on_sql)
     sys.setprofile(rec.on_call)
     try:
@@ -171,6 +181,7 @@ def run():
     finally:
         sys.setprofile(None)
         db.conn.set_trace_callback(None)
+        events.on_publish = None
     return rec
 
 
