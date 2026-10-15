@@ -48,14 +48,14 @@ How couriers gets the delivery point changes the traffic, not the pick:
 
 ## At scale (`python3 scale.py`)
 
-One order writes 150 position rows and 10 rows to the orders tables (orders, order_items, order_status_history).
+One order writes 150 location logs and 10 rows to the orders tables (orders, order_items, order_status_history).
 
-| Orders/day | Position rows/day | Writes/s avg | Writes/s peak | Position rows/yr | GB/yr | Order rows/yr |
+| Orders/day | Location logs/day | Writes/s avg | Writes/s peak | Location logs/yr | GB/yr | Order rows/yr |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1,000 | 150,000 | 1.7 | 6 | 55M | 5.5 | 3.6M |
 | 10,000 | 1,500,000 | 17.4 | 62 | 548M | 54.8 | 36.5M |
 
-Assumptions: peak hour = 15% of the day's orders, a courier holds an order 25 minutes, one GPS point every 10 s, about 100 bytes per position row with its index, positions kept for a year. The write rate is easy for one Postgres; the size is the problem: position rows grow 15x faster than order rows, and they slow backups, vacuum and every query on the shared database.
+Assumptions: peak hour = 15% of the day's orders, a courier holds an order 25 minutes, one GPS point every 10 s, about 100 bytes per location log row with its index, kept for a year. The write rate is easy for one Postgres; the size is the problem: location logs grow 15x faster than order rows, and they slow backups, vacuum and every query on the shared database.
 
 ## Reading it
 

@@ -21,9 +21,9 @@ def main():
     order_rows = rows("orders") + rows("order_items") + rows("order_status_history")
     with_courier_min = TO_RESTAURANT_MIN + TO_GUEST_MIN
 
-    print(f"Rows per order: courier_positions {positions}, orders tables {order_rows} "
+    print(f"Rows per order: location logs (courier_positions) {positions}, orders tables {order_rows} "
           f"(orders + order_items + order_status_history)\n")
-    print("| Orders/day | Position rows/day | Writes/s avg | Writes/s peak | Position rows/yr | GB/yr | Order rows/yr |")
+    print("| Orders/day | Location logs/day | Writes/s avg | Writes/s peak | Location logs/yr | GB/yr | Order rows/yr |")
     print("| --- | --- | --- | --- | --- | --- | --- |")
     for per_day in ORDERS_PER_DAY:
         per_year = positions * per_day * 365
@@ -32,8 +32,8 @@ def main():
               f"| {concurrent / POSITION_EVERY_S:.0f} | {per_year / 1e6:,.0f}M | {per_year * ROW_BYTES / 1e9:,.1f} "
               f"| {order_rows * per_day * 365 / 1e6:,.1f}M |")
     print(f"\nAssumptions: peak hour = {PEAK_HOUR_SHARE:.0%} of the day's orders, a courier holds an order "
-          f"{with_courier_min} min, one GPS point every {POSITION_EVERY_S} s, ~{ROW_BYTES} bytes per position row "
-          f"with its index, positions kept for a year.")
+          f"{with_courier_min} min, one GPS point every {POSITION_EVERY_S} s, ~{ROW_BYTES} bytes per location log row "
+          f"with its index, location logs kept for a year.")
 
 
 if __name__ == "__main__":
