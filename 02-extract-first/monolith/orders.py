@@ -1,6 +1,6 @@
 import json
 
-from . import db, notifications, payments
+from . import db, events, payments
 
 
 def create_order(guest_ref, lines, address):
@@ -22,14 +22,14 @@ def create_order(guest_ref, lines, address):
                (order_id, item_id, qty, price))
     db.run("INSERT INTO order_status_history (order_id, status, at) VALUES (?, 'CREATED', ?)", (order_id, db.clock))
     payments.charge(order_id)
-    notifications.send(order_id, "PAID")
+    events.publish("order_status", order_id=order_id, event="PAID")
     return order_id
 
 
 def set_status(order_id, status):
     db.run("UPDATE orders SET status = ? WHERE id = ?", (status, order_id))
     db.run("INSERT INTO order_status_history (order_id, status, at) VALUES (?, ?, ?)", (order_id, status, db.clock))
-    notifications.send(order_id, status)
+    events.publish("order_status", order_id=order_id, event=status)
 
 
 def assign_courier(order_id, courier_id):

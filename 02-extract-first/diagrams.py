@@ -72,11 +72,11 @@ def stamp(x, y, label, color, solid=False, w=240):
 
 def seams():
     rows = [("orders", 10, RED, True), ("payments", 3, GRAY, True), ("menu", 2, GRAY, True),
-            ("notifications", 2, GRAY, True), ("couriers", 3, GREEN, False)]
+            ("notifications", 2, GRAY, False), ("couriers", 3, GREEN, False)]
     b = [text(500, 262, "seams to cut", 30, MUTED, MONO, 700), text(1250, 262, "order path", 30, MUTED, MONO, 700)]
     y = 300
     for name, n, color, on_path in rows:
-        label, scolor = ("IF SYNC", LIGHT) if name == "notifications" else (("BLOCKS", RED) if on_path else ("SAFE", GREEN))
+        label, scolor = ("BLOCKS", RED) if on_path else ("SAFE", GREEN)
         b += [text(80, y + 58, name, 44), rect(500, y, n * 60, 84, color),
               text(500 + n * 60 + 24, y + 58, str(n), 44, FG, MONO, 800),
               stamp(1250, y + 9, label, scolor, solid=name == "orders")]
@@ -113,7 +113,7 @@ def matrix():
         b.append(f'<circle cx="{cx}" cy="{cy}" r="20" fill="{color}"/>')
         b.append(text(cx + dx, cy + dy + 14, name, 36, FG, SANS, 700, anchor))
     b.append(text(x0 + w, y0 + 40, "red = blocks orders", 28, RED, MONO, 700, "end"))
-    b.append(text(x0 + w, y0 + 84, "gray = only if sync", 28, LIGHT, MONO, 700, "end"))
+    b.append(text(x0 + w, y0 + 84, "gray = safe, no own load", 28, LIGHT, MONO, 700, "end"))
     return frame("Loose, safe, own load", "seams vs writes · one typical order", "".join(b))
 
 

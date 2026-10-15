@@ -1,4 +1,4 @@
-from . import db
+from . import db, events
 
 
 def send(order_id, event):
@@ -6,3 +6,6 @@ def send(order_id, event):
     guest_ref, status = db.one("SELECT guest_ref, status FROM orders WHERE id = ?", (order_id,))
     db.run("INSERT INTO notifications (order_id, event, body, at) VALUES (?, ?, ?, ?)",
            (order_id, event, f"{guest_ref}: order {order_id} is {status}", db.clock))
+
+
+events.subscribe("order_status", send)
