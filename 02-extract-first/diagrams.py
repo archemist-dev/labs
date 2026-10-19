@@ -87,7 +87,7 @@ def box(x, y, w, h, label, color=FG):
 def seams():
     rows = [("orders", 10, RED, True), ("payments", 3, GRAY, True), ("menu", 2, GRAY, True),
             ("notifications", 2, GRAY, False), ("couriers", 3, GREEN, False)]
-    b = [text(500, 268, "seams to cut · fewer = easier", 30, MUTED, MONO, 700),
+    b = [text(500, 268, "dependencies to cut · fewer = easier", 30, MUTED, MONO, 700),
          text(1300, 268, "blocks orders?", 30, MUTED, MONO, 700)]
     y = 300
     for name, n, color, on_path in rows:
@@ -124,7 +124,7 @@ def matrix():
               text(x0 - 20, py(wr) + 10, str(wr), 30, MUTED, MONO, 700, "end")]
     b += [f'<line x1="{x0}" y1="{y0 + h}" x2="{x0 + w}" y2="{y0 + h}" stroke="{MUTED}" stroke-width="4"/>',
           f'<line x1="{x0}" y1="{y0}" x2="{x0}" y2="{y0 + h}" stroke="{MUTED}" stroke-width="4"/>',
-          text(x0 + w / 2, y0 + h + 96, "seams to cut →  fewer = easier", 30, MUTED, MONO, 700, "middle"),
+          text(x0 + w / 2, y0 + h + 96, "dependencies to cut →  fewer = easier", 30, MUTED, MONO, 700, "middle"),
           text(80, y0 - 30, "writes per order ↑  own load", 30, MUTED, MONO, 700)]
     # (name, seams, writes, color, label dx, label dy, anchor)
     for name, s, wr, color, dx, dy, anchor in (("couriers · 151", 3, 151, GREEN, 30, 12, "start"),
@@ -160,8 +160,39 @@ def copy_once():
     return frame("Copy the address once", "address lookups in orders, per order", "".join(b))
 
 
-DIAGRAMS = {"Extract - 1 Seams": seams, "Extract - 2 Growth": growth,
+LOGO = """<g transform="translate(0 -13)"><defs><clipPath id="liquid"><rect x="0" y="232" width="512" height="280"/></clipPath></defs>
+<circle cx="256" cy="320" r="108" fill="#d4a017" clip-path="url(#liquid)"/>
+<path d="M210 104 V194 A134 134 0 1 0 302 194 V104" fill="none" stroke="#f2efe9" stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="184" y="72" width="144" height="36" rx="14" fill="#f2efe9"/>
+<circle cx="264" cy="208" r="11" fill="#d4a017"/><circle cx="242" cy="174" r="8" fill="#d4a017"/><circle cx="266" cy="142" r="6" fill="#d4a017"/>
+<path d="M209 293 V320 H236 M276 320 H303 V347" fill="none" stroke="#1b1d21" stroke-width="14" stroke-linejoin="round"/>
+<circle cx="209" cy="274" r="19" fill="#d4a017" stroke="#1b1d21" stroke-width="14"/>
+<rect x="236" y="300" width="40" height="40" rx="6" fill="#d4a017" stroke="#1b1d21" stroke-width="14"/>
+<circle cx="303" cy="366" r="19" fill="#d4a017" stroke="#1b1d21" stroke-width="14"/>
+</g>"""
+
+
+def cover():
+    """1920x1080 newsletter cover: logo, title, gold line, subtitle, footer."""
+    cw, ch = 1920, 1080
+    title = ["Want orders out", "of the monolith?", "Don't start with orders.", "Free them."]
+    y = 330
+    lines = []
+    for line in title:
+        lines.append(text(650, y, line, 84, FG, SANS, 800))
+        y += 100
+    return (f'<svg viewBox="0 0 {cw} {ch}" width="{cw}" height="{ch}" xmlns="http://www.w3.org/2000/svg">'
+            f'{rect(0, 0, cw, ch, BG, rx=0)}'
+            f'<svg x="150" y="330" width="420" height="420" viewBox="0 0 512 512">{LOGO}</svg>'
+            f'{"".join(lines)}{rect(652, y - 40, 160, 10, AMBER, rx=5)}'
+            f'{text(652, y + 50, "which service to extract first · tested on a model", 34, MUTED, MONO, 400)}'
+            f'{text(140, 980, "ARCHEMIST", 32, AMBER, MONO, 800).replace("<text ", '<text letter-spacing="7" ')}{text(1780, 980, "archemist.dev", 30, MUTED, MONO, 400, "end")}</svg>')
+
+
+DIAGRAMS = {"Extract - 1 Dependencies": seams, "Extract - 2 Growth": growth,
             "Extract - 3 Matrix": matrix, "Extract - 4 Copy once": copy_once}
+SIZES = {"Extract - Cover": (1920, 1080)}
+DIAGRAMS["Extract - Cover"] = cover
 if __name__ == "__main__":
     out = Path(sys.argv[1])
     out.mkdir(parents=True, exist_ok=True)
@@ -172,8 +203,9 @@ if __name__ == "__main__":
             page = Path(tmp) / "d.html"
             page.write_text(f'<!doctype html><html><head><meta charset="utf-8">{fonts}'
                             f'<style>html,body{{margin:0;background:{BG}}}</style></head><body>{fn()}</body></html>')
-            subprocess.run([CHROME, "--headless=new", "--hide-scrollbars", f"--window-size={W},{H}",
-                            "--force-device-scale-factor=2", "--virtual-time-budget=8000",
+            w, h = SIZES.get(name, (W, H))
+            subprocess.run([CHROME, "--headless=new", "--hide-scrollbars", f"--window-size={w},{h}",
+                            f"--force-device-scale-factor={1 if name in SIZES else 2}", "--virtual-time-budget=8000",
                             f"--screenshot={out / (name + '.png')}", page.as_uri()],
                            check=True, capture_output=True)
             print(out / f"{name}.png")
