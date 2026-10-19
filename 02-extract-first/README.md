@@ -19,16 +19,16 @@ The monolith in [monolith/](monolith/) was written for this test. Change a short
 - **Writes / reads of its tables:** load on the data the module owns, per order. A module with its own heavy load has its own reason to scale.
 - **Others' tables it touches / its tables others touch:** statements that cross the ownership line. Each one becomes an API call or a data contract after extraction.
 - **Calls out / calls in:** function calls and events between modules. Each becomes a network call or a message.
-- **Seams to cut:** distinct cross-module table links plus distinct cross-module functions or events. The work to get the module out.
+- **Dependencies to cut:** distinct cross-module table links plus distinct cross-module functions or events. The work to get the module out.
 - **On order creation:** the module's code or tables are used while the order is created. A bug there blocks orders.
 
-## Results (2026-10-15)
+## Results (2026-10-19)
 
-Every variant twice, identical output ([results-mac-2026-10-15.txt](results-mac-2026-10-15.txt)). Assumptions: GPS point every 10 s, ETA refresh every 30 s, 10 minutes to the restaurant, 15 to the guest.
+Every variant twice, identical output ([results-mac-2026-10-19.txt](results-mac-2026-10-19.txt)). Assumptions: GPS point every 10 s, ETA refresh every 30 s, 10 minutes to the restaurant, 15 to the guest.
 
 Default (`copy`, the courier module keeps its own copy of the delivery point):
 
-| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Seams to cut | On order creation |
+| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Dependencies to cut | On order creation |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | menu | 2 | 0 | 5 | 0 (0 tables) | 5 (2 links) | 0 | 0 | 2 | yes |
 | orders | 3 | 16 | 7 | 5 (2 tables) | 8 (3 links) | 6 | 4 | 10 | yes |
@@ -40,7 +40,7 @@ Per table: `courier_positions` takes 150 of the order's 173 writes (87%); the ot
 
 How couriers gets the delivery point changes the traffic, not the pick:
 
-| Variant | Couriers: seams | Couriers → orders per order | On order creation |
+| Variant | Couriers: dependencies | Couriers → orders per order | On order creation |
 | --- | --- | --- | --- |
 | copy | 3 | 4 calls | no |
 | calls | 3 | 53 calls | no |
@@ -59,8 +59,8 @@ Assumptions: peak hour = 15% of the day's orders, a courier holds an order 25 mi
 
 ## Reading it
 
-- **orders** is the most important module and the worst first pick: 10 seams and on the order-creation path.
-- **menu** and **payments** have few seams but sit on the order-creation path: prices are read and the charge is made while the order is created. A bug or an outage there blocks orders.
-- **notifications** has few seams and is off the path: it's an event, so a failed message can't fail an order. It passes two of three questions, but it has no load of its own (5 writes per order): a fine second pick.
-- **couriers** has few seams, touches no other module's tables, is off the order-creation path and carries 87% of the writes: its own reason to move. The hot table (`courier_positions`) can go to its own database from day one.
+- **orders** is the most important module and the worst first pick: 10 dependencies and on the order-creation path.
+- **menu** and **payments** have few dependencies but sit on the order-creation path: prices are read and the charge is made while the order is created. A bug or an outage there blocks orders.
+- **notifications** has few dependencies and is off the path: it's an event, so a failed message can't fail an order. It passes two of three questions, but it has no load of its own (5 writes per order): a fine second pick.
+- **couriers** has few dependencies, touches no other module's tables, is off the order-creation path and carries 87% of the writes: its own reason to move. The hot table (`courier_positions`) can go to its own database from day one.
 - Address lookups alone: 1 per order when copied at assignment, 50 when asked on every ETA refresh (the other 3 calls, assign and two status updates, happen either way). Copy the order data couriers needs when the courier is assigned. Asking orders on every ETA refresh costs 50 extra calls per order, and reading its table directly ties the two databases together.

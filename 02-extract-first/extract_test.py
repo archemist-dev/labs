@@ -128,7 +128,7 @@ def report(rec):
 
     print("## Per module, one typical order (3 items, 25-minute delivery)\n")
     print("| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches "
-          "| Its tables others touch | Calls out | Calls in | Seams to cut | On order creation |")
+          "| Its tables others touch | Calls out | Calls in | Dependencies to cut | On order creation |")
     print("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
     rows = []
     for m in MODULES:
@@ -163,7 +163,7 @@ def report(rec):
     for (c, e, fn), n in sorted(calls.items()):
         print(f"| {c} | {e} | {fn} | {n} |")
 
-    print("\nSeams to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.")
+    print("\nDependencies to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.")
     print(f"Assumptions: GPS point every {POSITION_EVERY_S} s, ETA refresh every {ETA_POLL_EVERY_S} s, "
           f"{TO_RESTAURANT_MIN} min to the restaurant, {TO_GUEST_MIN} min to the guest.")
     return rows

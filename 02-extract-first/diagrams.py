@@ -87,7 +87,7 @@ def box(x, y, w, h, label, color=FG):
 def seams():
     rows = [("orders", 10, RED, True), ("payments", 3, GRAY, True), ("menu", 2, GRAY, True),
             ("notifications", 2, GRAY, False), ("couriers", 3, GREEN, False)]
-    b = [text(500, 268, "seams to cut · fewer = easier", 30, MUTED, MONO, 700),
+    b = [text(500, 268, "dependencies to cut · fewer = easier", 30, MUTED, MONO, 700),
          text(1300, 268, "blocks orders?", 30, MUTED, MONO, 700)]
     y = 300
     for name, n, color, on_path in rows:
@@ -124,7 +124,7 @@ def matrix():
               text(x0 - 20, py(wr) + 10, str(wr), 30, MUTED, MONO, 700, "end")]
     b += [f'<line x1="{x0}" y1="{y0 + h}" x2="{x0 + w}" y2="{y0 + h}" stroke="{MUTED}" stroke-width="4"/>',
           f'<line x1="{x0}" y1="{y0}" x2="{x0}" y2="{y0 + h}" stroke="{MUTED}" stroke-width="4"/>',
-          text(x0 + w / 2, y0 + h + 96, "seams to cut →  fewer = easier", 30, MUTED, MONO, 700, "middle"),
+          text(x0 + w / 2, y0 + h + 96, "dependencies to cut →  fewer = easier", 30, MUTED, MONO, 700, "middle"),
           text(80, y0 - 30, "writes per order ↑  own load", 30, MUTED, MONO, 700)]
     # (name, seams, writes, color, label dx, label dy, anchor)
     for name, s, wr, color, dx, dy, anchor in (("couriers · 151", 3, 151, GREEN, 30, 12, "start"),
@@ -160,7 +160,7 @@ def copy_once():
     return frame("Copy the address once", "address lookups in orders, per order", "".join(b))
 
 
-DIAGRAMS = {"Extract - 1 Seams": seams, "Extract - 2 Growth": growth,
+DIAGRAMS = {"Extract - 1 Dependencies": seams, "Extract - 2 Growth": growth,
             "Extract - 3 Matrix": matrix, "Extract - 4 Copy once": copy_once}
 if __name__ == "__main__":
     out = Path(sys.argv[1])
