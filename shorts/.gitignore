@@ -1,0 +1,7 @@
+node_modules/
+out/
+# voice and sound effects stay on the PC, like all media
+public/audio/*
+public/sfx/*
+!public/audio/.gitkeep
+!public/sfx/.gitkeep

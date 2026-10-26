@@ -1,0 +1,782 @@
+{
+ "segments": [
+  {
+   "text": " Almost half of this JSON is just field names. I took a typical order, 3 items, an address,",
+   "start": 0.0,
+   "end": 7.08,
+   "words": [
+    {
+     "word": " Almost",
+     "start": 0.0,
+     "end": 0.72
+    },
+    {
+     "word": " half",
+     "start": 0.72,
+     "end": 1.06
+    },
+    {
+     "word": " of",
+     "start": 1.06,
+     "end": 1.3
+    },
+    {
+     "word": " this",
+     "start": 1.3,
+     "end": 1.48
+    },
+    {
+     "word": " JSON",
+     "start": 1.48,
+     "end": 1.82
+    },
+    {
+     "word": " is",
+     "start": 1.82,
+     "end": 2.32
+    },
+    {
+     "word": " just",
+     "start": 2.32,
+     "end": 2.54
+    },
+    {
+     "word": " field",
+     "start": 2.54,
+     "end": 2.86
+    },
+    {
+     "word": " names.",
+     "start": 2.86,
+     "end": 3.14
+    },
+    {
+     "word": " I",
+     "start": 4.24,
+     "end": 4.26
+    },
+    {
+     "word": " took",
+     "start": 4.26,
+     "end": 4.4
+    },
+    {
+     "word": " a",
+     "start": 4.4,
+     "end": 4.56
+    },
+    {
+     "word": " typical",
+     "start": 4.56,
+     "end": 4.8
+    },
+    {
+     "word": " order,",
+     "start": 4.8,
+     "end": 5.2
+    },
+    {
+     "word": " 3",
+     "start": 5.58,
+     "end": 5.78
+    },
+    {
+     "word": " items,",
+     "start": 5.78,
+     "end": 6.12
+    },
+    {
+     "word": " an",
+     "start": 6.66,
+     "end": 6.8
+    },
+    {
+     "word": " address,",
+     "start": 6.8,
+     "end": 7.08
+    }
+   ]
+  },
+  {
+   "text": " 6 status changes, 1076 bytes. 461 of them are names, the same names in every message.",
+   "start": 7.7,
+   "end": 15.12,
+   "words": [
+    {
+     "word": " 6",
+     "start": 7.7,
+     "end": 7.82
+    },
+    {
+     "word": " status",
+     "start": 7.82,
+     "end": 8.18
+    },
+    {
+     "word": " changes,",
+     "start": 8.18,
+     "end": 8.68
+    },
+    {
+     "word": " 1076",
+     "start": 9.5,
+     "end": 10.66
+    },
+    {
+     "word": " bytes.",
+     "start": 10.66,
+     "end": 10.98
+    },
+    {
+     "word": " 461",
+     "start": 11.54,
+     "end": 12.14
+    },
+    {
+     "word": " of",
+     "start": 12.14,
+     "end": 12.54
+    },
+    {
+     "word": " them",
+     "start": 12.54,
+     "end": 12.7
+    },
+    {
+     "word": " are",
+     "start": 12.7,
+     "end": 12.9
+    },
+    {
+     "word": " names,",
+     "start": 12.9,
+     "end": 13.18
+    },
+    {
+     "word": " the",
+     "start": 13.66,
+     "end": 13.74
+    },
+    {
+     "word": " same",
+     "start": 13.74,
+     "end": 13.92
+    },
+    {
+     "word": " names",
+     "start": 13.92,
+     "end": 14.18
+    },
+    {
+     "word": " in",
+     "start": 14.18,
+     "end": 14.48
+    },
+    {
+     "word": " every",
+     "start": 14.48,
+     "end": 14.74
+    },
+    {
+     "word": " message.",
+     "start": 14.74,
+     "end": 15.12
+    }
+   ]
+  },
+  {
+   "text": " So why send the names at all? Both sides already know them. That's the idea behind Protobuf.",
+   "start": 15.78,
+   "end": 21.74,
+   "words": [
+    {
+     "word": " So",
+     "start": 15.78,
+     "end": 15.98
+    },
+    {
+     "word": " why",
+     "start": 15.98,
+     "end": 16.24
+    },
+    {
+     "word": " send",
+     "start": 16.24,
+     "end": 16.54
+    },
+    {
+     "word": " the",
+     "start": 16.54,
+     "end": 16.7
+    },
+    {
+     "word": " names",
+     "start": 16.7,
+     "end": 16.86
+    },
+    {
+     "word": " at",
+     "start": 16.86,
+     "end": 17.02
+    },
+    {
+     "word": " all?",
+     "start": 17.02,
+     "end": 17.26
+    },
+    {
+     "word": " Both",
+     "start": 17.76,
+     "end": 17.9
+    },
+    {
+     "word": " sides",
+     "start": 17.9,
+     "end": 18.22
+    },
+    {
+     "word": " already",
+     "start": 18.22,
+     "end": 18.58
+    },
+    {
+     "word": " know",
+     "start": 18.58,
+     "end": 18.82
+    },
+    {
+     "word": " them.",
+     "start": 18.82,
+     "end": 19.18
+    },
+    {
+     "word": " That's",
+     "start": 19.6,
+     "end": 20.18
+    },
+    {
+     "word": " the",
+     "start": 20.18,
+     "end": 20.28
+    },
+    {
+     "word": " idea",
+     "start": 20.28,
+     "end": 20.62
+    },
+    {
+     "word": " behind",
+     "start": 20.62,
+     "end": 21.16
+    },
+    {
+     "word": " Protobuf.",
+     "start": 21.16,
+     "end": 21.74
+    }
+   ]
+  },
+  {
+   "text": " The names live in a schema, only the values travel. Same order, 470 bytes, less than half",
+   "start": 21.94,
+   "end": 28.06,
+   "words": [
+    {
+     "word": " The",
+     "start": 21.94,
+     "end": 22.02
+    },
+    {
+     "word": " names",
+     "start": 22.02,
+     "end": 22.28
+    },
+    {
+     "word": " live",
+     "start": 22.28,
+     "end": 22.6
+    },
+    {
+     "word": " in",
+     "start": 22.6,
+     "end": 22.74
+    },
+    {
+     "word": " a",
+     "start": 22.74,
+     "end": 22.92
+    },
+    {
+     "word": " schema,",
+     "start": 22.92,
+     "end": 23.14
+    },
+    {
+     "word": " only",
+     "start": 23.4,
+     "end": 23.56
+    },
+    {
+     "word": " the",
+     "start": 23.56,
+     "end": 23.8
+    },
+    {
+     "word": " values",
+     "start": 23.8,
+     "end": 24.12
+    },
+    {
+     "word": " travel.",
+     "start": 24.12,
+     "end": 24.54
+    },
+    {
+     "word": " Same",
+     "start": 24.9,
+     "end": 25.08
+    },
+    {
+     "word": " order,",
+     "start": 25.08,
+     "end": 25.38
+    },
+    {
+     "word": " 470",
+     "start": 25.84,
+     "end": 26.4
+    },
+    {
+     "word": " bytes,",
+     "start": 26.4,
+     "end": 26.92
+    },
+    {
+     "word": " less",
+     "start": 27.44,
+     "end": 27.54
+    },
+    {
+     "word": " than",
+     "start": 27.54,
+     "end": 27.8
+    },
+    {
+     "word": " half",
+     "start": 27.8,
+     "end": 28.06
+    }
+   ]
+  },
+  {
+   "text": " and about 10 times faster to encode. So, switch everything tomorrow. Let's count.",
+   "start": 28.06,
+   "end": 34.44,
+   "words": [
+    {
+     "word": " and",
+     "start": 28.06,
+     "end": 28.4
+    },
+    {
+     "word": " about",
+     "start": 28.4,
+     "end": 28.66
+    },
+    {
+     "word": " 10",
+     "start": 28.66,
+     "end": 29.0
+    },
+    {
+     "word": " times",
+     "start": 29.0,
+     "end": 29.34
+    },
+    {
+     "word": " faster",
+     "start": 29.34,
+     "end": 29.76
+    },
+    {
+     "word": " to",
+     "start": 29.76,
+     "end": 29.94
+    },
+    {
+     "word": " encode.",
+     "start": 29.94,
+     "end": 30.28
+    },
+    {
+     "word": " So,",
+     "start": 31.94,
+     "end": 32.04
+    },
+    {
+     "word": " switch",
+     "start": 32.3,
+     "end": 32.6
+    },
+    {
+     "word": " everything",
+     "start": 32.6,
+     "end": 33.14
+    },
+    {
+     "word": " tomorrow.",
+     "start": 33.14,
+     "end": 33.52
+    },
+    {
+     "word": " Let's",
+     "start": 33.96,
+     "end": 34.18
+    },
+    {
+     "word": " count.",
+     "start": 34.18,
+     "end": 34.44
+    }
+   ]
+  },
+  {
+   "text": " At 1000 requests per second, that's about 380 dollars a year.",
+   "start": 34.9,
+   "end": 39.04,
+   "words": [
+    {
+     "word": " At",
+     "start": 34.9,
+     "end": 35.0
+    },
+    {
+     "word": " 1000",
+     "start": 35.0,
+     "end": 35.62
+    },
+    {
+     "word": " requests",
+     "start": 35.62,
+     "end": 35.94
+    },
+    {
+     "word": " per",
+     "start": 35.94,
+     "end": 36.18
+    },
+    {
+     "word": " second,",
+     "start": 36.18,
+     "end": 36.56
+    },
+    {
+     "word": " that's",
+     "start": 36.96,
+     "end": 37.1
+    },
+    {
+     "word": " about",
+     "start": 37.1,
+     "end": 37.42
+    },
+    {
+     "word": " 380",
+     "start": 37.42,
+     "end": 38.24
+    },
+    {
+     "word": " dollars",
+     "start": 38.24,
+     "end": 38.64
+    },
+    {
+     "word": " a",
+     "start": 38.64,
+     "end": 38.86
+    },
+    {
+     "word": " year.",
+     "start": 38.86,
+     "end": 39.04
+    }
+   ]
+  },
+  {
+   "text": " So here's my take. Building a new service. Consider Protobuf from day one, an existing one.",
+   "start": 40.18,
+   "end": 45.46,
+   "words": [
+    {
+     "word": " So",
+     "start": 40.18,
+     "end": 40.36
+    },
+    {
+     "word": " here's",
+     "start": 40.36,
+     "end": 40.62
+    },
+    {
+     "word": " my",
+     "start": 40.62,
+     "end": 40.76
+    },
+    {
+     "word": " take.",
+     "start": 40.76,
+     "end": 41.02
+    },
+    {
+     "word": " Building",
+     "start": 41.54,
+     "end": 41.58
+    },
+    {
+     "word": " a",
+     "start": 41.58,
+     "end": 41.82
+    },
+    {
+     "word": " new",
+     "start": 41.82,
+     "end": 41.98
+    },
+    {
+     "word": " service.",
+     "start": 41.98,
+     "end": 42.34
+    },
+    {
+     "word": " Consider",
+     "start": 42.82,
+     "end": 43.2
+    },
+    {
+     "word": " Protobuf",
+     "start": 43.2,
+     "end": 43.64
+    },
+    {
+     "word": " from",
+     "start": 43.64,
+     "end": 43.9
+    },
+    {
+     "word": " day",
+     "start": 43.9,
+     "end": 44.08
+    },
+    {
+     "word": " one,",
+     "start": 44.08,
+     "end": 44.4
+    },
+    {
+     "word": " an",
+     "start": 44.7,
+     "end": 44.82
+    },
+    {
+     "word": " existing",
+     "start": 44.82,
+     "end": 45.12
+    },
+    {
+     "word": " one.",
+     "start": 45.12,
+     "end": 45.46
+    }
+   ]
+  },
+  {
+   "text": " If it's not a major bottleneck, don't rush. Go step by step, trim the fields first. That alone",
+   "start": 45.78,
+   "end": 52.34,
+   "words": [
+    {
+     "word": " If",
+     "start": 45.78,
+     "end": 45.88
+    },
+    {
+     "word": " it's",
+     "start": 45.88,
+     "end": 46.06
+    },
+    {
+     "word": " not",
+     "start": 46.06,
+     "end": 46.22
+    },
+    {
+     "word": " a",
+     "start": 46.22,
+     "end": 46.38
+    },
+    {
+     "word": " major",
+     "start": 46.38,
+     "end": 46.7
+    },
+    {
+     "word": " bottleneck,",
+     "start": 46.7,
+     "end": 47.12
+    },
+    {
+     "word": " don't",
+     "start": 47.72,
+     "end": 47.98
+    },
+    {
+     "word": " rush.",
+     "start": 47.98,
+     "end": 48.3
+    },
+    {
+     "word": " Go",
+     "start": 49.3,
+     "end": 49.52
+    },
+    {
+     "word": " step",
+     "start": 49.52,
+     "end": 49.7
+    },
+    {
+     "word": " by",
+     "start": 49.7,
+     "end": 49.88
+    },
+    {
+     "word": " step,",
+     "start": 49.88,
+     "end": 50.24
+    },
+    {
+     "word": " trim",
+     "start": 50.56,
+     "end": 50.72
+    },
+    {
+     "word": " the",
+     "start": 50.72,
+     "end": 50.9
+    },
+    {
+     "word": " fields",
+     "start": 50.9,
+     "end": 51.14
+    },
+    {
+     "word": " first.",
+     "start": 51.14,
+     "end": 51.54
+    },
+    {
+     "word": " That",
+     "start": 51.88,
+     "end": 52.06
+    },
+    {
+     "word": " alone",
+     "start": 52.06,
+     "end": 52.34
+    }
+   ]
+  },
+  {
+   "text": " cuts 60%. Then Gzip, Protobuf last. And size was never the real problem. That's the next video.",
+   "start": 52.34,
+   "end": 59.96,
+   "words": [
+    {
+     "word": " cuts",
+     "start": 52.34,
+     "end": 52.6
+    },
+    {
+     "word": " 60%.",
+     "start": 52.6,
+     "end": 53.66
+    },
+    {
+     "word": " Then",
+     "start": 53.66,
+     "end": 54.0
+    },
+    {
+     "word": " Gzip,",
+     "start": 54.0,
+     "end": 54.48
+    },
+    {
+     "word": " Protobuf",
+     "start": 55.02,
+     "end": 55.36
+    },
+    {
+     "word": " last.",
+     "start": 55.36,
+     "end": 55.76
+    },
+    {
+     "word": " And",
+     "start": 57.24,
+     "end": 57.3
+    },
+    {
+     "word": " size",
+     "start": 57.3,
+     "end": 57.6
+    },
+    {
+     "word": " was",
+     "start": 57.6,
+     "end": 57.82
+    },
+    {
+     "word": " never",
+     "start": 57.82,
+     "end": 58.06
+    },
+    {
+     "word": " the",
+     "start": 58.06,
+     "end": 58.26
+    },
+    {
+     "word": " real",
+     "start": 58.26,
+     "end": 58.4
+    },
+    {
+     "word": " problem.",
+     "start": 58.4,
+     "end": 58.74
+    },
+    {
+     "word": " That's",
+     "start": 59.1,
+     "end": 59.26
+    },
+    {
+     "word": " the",
+     "start": 59.26,
+     "end": 59.38
+    },
+    {
+     "word": " next",
+     "start": 59.38,
+     "end": 59.6
+    },
+    {
+     "word": " video.",
+     "start": 59.6,
+     "end": 59.96
+    }
+   ]
+  }
+ ]
+}

@@ -6,6 +6,7 @@ Runnable tests behind Archemist articles and videos (archemist.dev). Every publi
 
 - One folder per topic, numbered by week: `01-payload-encoding/`.
 - Each folder: the test script, pinned `requirements.txt`, input data as JSON files (`order_typical.json`, `order_big.json`, ...), `scale.py` for cost math, `diagrams.py` for the article PNGs, a README with the results and the server they came from, and the raw reference log `results-<instance>-<date>.txt`.
+- `shorts/`: Remotion project that renders each topic's vertical Shorts (EN/UZ/RU) from its script and the voice's Whisper transcript; see `shorts/README.md`. Audio and sound effects stay out of git.
 - `run-on-vm.sh <folder>`: runs a lab on a fresh Ubuntu VM, twice per input, and prints the CPU.
 - `.github/workflows/`: GitHub Actions re-runs each lab on push and on demand (the free "re-run it yourself" backup).
 
