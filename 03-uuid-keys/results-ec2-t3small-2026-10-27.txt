@@ -1,0 +1,252 @@
+== machine
+Ubuntu 26.04.1 LTS
+CPU(s):                                  2
+Model name:                              Intel(R) Xeon(R) Platinum 8259CL CPU @ 2.50GHz
+               total        used        free      shared  buff/cache   available
+Mem:           1.9Gi       598Mi       412Mi       2.8Mi       1.1Gi       1.3Gi
+Python 3.14.4
+image: postgres@sha256:edb0c08dc33befd0262ab3b5cf1c4f3f8cfd8b09e88c05b45adee29d6761ddb6
+== run 1
+sudo: preserving the entire environment is not supported, '-E' is ignored
+== machine
+docker 29.1.3
+PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+container limit 512m, shared_buffers 128MB, rows 10,000,000, batch 250,000
+== bigint
+rows,inserts_per_s
+1000000,260769
+2000000,201559
+3000000,152173
+4000000,186370
+5000000,171712
+6000000,173511
+7000000,165792
+8000000,146209
+9000000,132814
+10000000,204031
+load_s 58  first_window 260,769/s  last_window 204,031/s  last/first 0.78
+table_mb 1,116  pkey_mb 214  pkey_bytes_per_row 22.5  leaf_density 90.0%  leaf_fragmentation 0.0%
+wal_mb 2,040  wal_bytes_per_row 214  full_page_images 45  fpi_per_1k_rows 0.0
+child (1,000,000 orders x 3 statuses): load_s 8.3  table_mb 157  index_mb 47
+== v4
+rows,inserts_per_s
+1000000,126175
+2000000,64335
+3000000,66578
+4000000,58087
+5000000,41212
+6000000,30085
+7000000,30001
+8000000,25084
+9000000,18454
+10000000,6645
+load_s 391  first_window 126,175/s  last_window 6,645/s  last/first 0.05
+table_mb 1,202  pkey_mb 389  pkey_bytes_per_row 40.8  leaf_density 69.6%  leaf_fragmentation 49.7%
+wal_mb 2,568  wal_bytes_per_row 269  full_page_images 45,128  fpi_per_1k_rows 4.5
+child (1,000,000 orders x 3 statuses): load_s 12.6  table_mb 180  index_mb 72
+== v4_ff70
+rows,inserts_per_s
+1000000,107721
+2000000,64688
+3000000,99175
+4000000,70379
+5000000,37191
+6000000,31627
+7000000,30043
+8000000,24461
+9000000,12336
+10000000,3984
+load_s 514  first_window 107,721/s  last_window 3,984/s  last/first 0.04
+table_mb 1,202  pkey_mb 384  pkey_bytes_per_row 40.2  leaf_density 70.6%  leaf_fragmentation 49.9%
+wal_mb 2,565  wal_bytes_per_row 269  full_page_images 46,031  fpi_per_1k_rows 4.6
+child (1,000,000 orders x 3 statuses): load_s 12.5  table_mb 180  index_mb 73
+== v7
+rows,inserts_per_s
+1000000,183494
+2000000,138861
+3000000,106722
+4000000,92417
+5000000,86827
+6000000,110343
+7000000,108112
+8000000,134399
+9000000,107973
+10000000,93023
+load_s 90  first_window 183,494/s  last_window 93,023/s  last/first 0.51
+table_mb 1,202  pkey_mb 301  pkey_bytes_per_row 31.5  leaf_density 90.0%  leaf_fragmentation 0.0%
+wal_mb 2,174  wal_bytes_per_row 228  full_page_images 49  fpi_per_1k_rows 0.0
+child (1,000,000 orders x 3 statuses): load_s 12.1  table_mb 180  index_mb 56
+== bigint_public_v4
+rows,inserts_per_s
+1000000,101205
+2000000,89900
+3000000,62291
+4000000,45084
+5000000,36097
+6000000,25652
+7000000,25131
+8000000,22925
+9000000,16188
+10000000,7190
+load_s 410  first_window 101,205/s  last_window 7,190/s  last/first 0.07
+table_mb 1,281  pkey_mb 214  pkey_bytes_per_row 22.5  leaf_density 90.0%  leaf_fragmentation 0.0%
+public_id_index_mb 384  public_id_leaf_density 70.6%
+wal_mb 3,243  wal_bytes_per_row 340  full_page_images 35,732  fpi_per_1k_rows 3.6
+child (1,000,000 orders x 3 statuses): load_s 8.2  table_mb 157  index_mb 47
+== run 2
+sudo: preserving the entire environment is not supported, '-E' is ignored
+== machine
+docker 29.1.3
+PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+container limit 512m, shared_buffers 128MB, rows 10,000,000, batch 250,000
+== bigint
+rows,inserts_per_s
+1000000,247122
+2000000,190989
+3000000,189643
+4000000,169854
+5000000,152590
+6000000,153349
+7000000,159559
+8000000,196442
+9000000,149137
+10000000,216536
+load_s 56  first_window 247,122/s  last_window 216,536/s  last/first 0.88
+table_mb 1,116  pkey_mb 214  pkey_bytes_per_row 22.5  leaf_density 90.0%  leaf_fragmentation 0.0%
+wal_mb 2,040  wal_bytes_per_row 214  full_page_images 45  fpi_per_1k_rows 0.0
+child (1,000,000 orders x 3 statuses): load_s 7.4  table_mb 157  index_mb 47
+== v4
+rows,inserts_per_s
+1000000,128993
+2000000,104217
+3000000,93760
+4000000,70422
+5000000,40558
+6000000,31746
+7000000,27439
+8000000,26899
+9000000,17427
+10000000,5935
+load_s 398  first_window 128,993/s  last_window 5,935/s  last/first 0.05
+table_mb 1,202  pkey_mb 385  pkey_bytes_per_row 40.4  leaf_density 70.3%  leaf_fragmentation 49.7%
+wal_mb 2,566  wal_bytes_per_row 269  full_page_images 45,045  fpi_per_1k_rows 4.5
+child (1,000,000 orders x 3 statuses): load_s 13.4  table_mb 180  index_mb 73
+== v4_ff70
+rows,inserts_per_s
+1000000,97401
+2000000,70552
+3000000,81890
+4000000,54997
+5000000,37227
+6000000,34413
+7000000,27925
+8000000,26477
+9000000,15195
+10000000,6913
+load_s 395  first_window 97,401/s  last_window 6,913/s  last/first 0.07
+table_mb 1,202  pkey_mb 384  pkey_bytes_per_row 40.2  leaf_density 70.6%  leaf_fragmentation 49.9%
+wal_mb 2,565  wal_bytes_per_row 269  full_page_images 45,582  fpi_per_1k_rows 4.6
+child (1,000,000 orders x 3 statuses): load_s 12.1  table_mb 180  index_mb 73
+== v7
+rows,inserts_per_s
+1000000,193338
+2000000,159354
+3000000,169184
+4000000,169880
+5000000,164559
+6000000,165056
+7000000,170641
+8000000,163607
+9000000,169555
+10000000,164232
+load_s 59  first_window 193,338/s  last_window 164,232/s  last/first 0.85
+table_mb 1,202  pkey_mb 301  pkey_bytes_per_row 31.5  leaf_density 90.0%  leaf_fragmentation 0.0%
+wal_mb 2,174  wal_bytes_per_row 228  full_page_images 49  fpi_per_1k_rows 0.0
+child (1,000,000 orders x 3 statuses): load_s 11.0  table_mb 180  index_mb 56
+== bigint_public_v4
+rows,inserts_per_s
+1000000,78670
+2000000,86832
+3000000,93249
+4000000,48891
+5000000,35990
+6000000,24297
+7000000,24230
+8000000,21845
+9000000,14196
+10000000,5429
+load_s 466  first_window 78,670/s  last_window 5,429/s  last/first 0.07
+table_mb 1,281  pkey_mb 214  pkey_bytes_per_row 22.5  leaf_density 90.0%  leaf_fragmentation 0.0%
+public_id_index_mb 383  public_id_leaf_density 70.6%
+wal_mb 3,243  wal_bytes_per_row 340  full_page_images 35,600  fpi_per_1k_rows 3.6
+child (1,000,000 orders x 3 statuses): load_s 8.1  table_mb 157  index_mb 47
+== run 3
+== machine
+docker 29.1.3
+PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+container limit 512m, shared_buffers 128MB, rows 10,000,000, batch 250,000
+== v4
+rows,inserts_per_s
+1000000,129179
+2000000,83349
+3000000,61956
+4000000,55785
+5000000,42804
+6000000,31487
+7000000,30424
+8000000,26703
+9000000,18702
+10000000,6626
+load_s 384  first_window 129,179/s  last_window 6,626/s  last/first 0.05
+table_mb 1,202  pkey_mb 388  pkey_bytes_per_row 40.7  leaf_density 69.8%  leaf_fragmentation 49.8%
+wal_mb 2,568  wal_bytes_per_row 269  full_page_images 44,981  fpi_per_1k_rows 4.5
+== v7
+rows,inserts_per_s
+1000000,147724
+2000000,140598
+3000000,106282
+4000000,181222
+5000000,109865
+6000000,132588
+7000000,133554
+8000000,110904
+9000000,84532
+10000000,88798
+load_s 85  first_window 147,724/s  last_window 88,798/s  last/first 0.60
+table_mb 1,202  pkey_mb 301  pkey_bytes_per_row 31.5  leaf_density 90.0%  leaf_fragmentation 0.0%
+wal_mb 2,174  wal_bytes_per_row 228  full_page_images 49  fpi_per_1k_rows 0.0
+== run 4
+== machine
+docker 29.1.3
+PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+container limit 512m, shared_buffers 128MB, rows 10,000,000, batch 250,000
+== v4
+rows,inserts_per_s
+1000000,135510
+2000000,103706
+3000000,89377
+4000000,64919
+5000000,41846
+6000000,30793
+7000000,30144
+8000000,24910
+9000000,20037
+10000000,6573
+load_s 375  first_window 135,510/s  last_window 6,573/s  last/first 0.05
+table_mb 1,202  pkey_mb 388  pkey_bytes_per_row 40.7  leaf_density 69.8%  leaf_fragmentation 49.8%
+wal_mb 2,568  wal_bytes_per_row 269  full_page_images 44,874  fpi_per_1k_rows 4.5
+== v7
+rows,inserts_per_s
+1000000,153080
+2000000,135618
+3000000,108176
+4000000,89797
+5000000,110661
+6000000,133133
+7000000,106606
+8000000,113744
+9000000,92772
+10000000,108828
+load_s 89  first_window 153,080/s  last_window 108,828/s  last/first 0.71
+table_mb 1,202  pkey_mb 301  pkey_bytes_per_row 31.5  leaf_density 90.0%  leaf_fragmentation 0.0%
+wal_mb 2,174  wal_bytes_per_row 228  full_page_images 49  fpi_per_1k_rows 0.0
