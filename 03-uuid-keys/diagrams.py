@@ -74,22 +74,41 @@ def insert_pattern(_):
     return frame("Where the next insert lands", "primary key B-tree · 6 inserts", "".join(b))
 
 
+V7_EXAMPLE = "01a17e84-e100-71c4-9e2b-5f8a1d3c6e90"  # 2026-10-27 18:00:00 UTC
+V4_EXAMPLE = "b42410ee-132f-42ee-9e4f-09a6485c95b8"  # from the PostgreSQL docs
+
+
+def uuid_string(x, y, value, time_digits):
+    """The UUID as text: the time part green, the version digit muted, the rest light."""
+    spans, hex_seen = [], 0
+    for ch in value:
+        if ch == "-":
+            color = MUTED
+        else:
+            color = GREEN if hex_seen < time_digits else (FG if hex_seen == 12 else LIGHT)
+            hex_seen += 1
+        spans.append(f'<tspan fill="{color}">{ch}</tspan>')
+    return f'<text x="{x}" y="{y}" font-family="{MONO}" font-weight="700" font-size="50">{"".join(spans)}</text>'
+
+
 def bit_layout(_):
-    def bar(y, label, parts):
-        out, x = [text(80, y + 70, label, 52, FG, MONO, 800)], 300
+    def bar(y, parts):
+        out, x = [], 300
         for bits, color, name in parts:
             w = bits / 128 * 1220
-            out.append(rect(x, y, w - 4, 100, color, rx=6))
+            out.append(rect(x, y, w - 4, 76, color, rx=6))
             if w > 120:
-                out.append(text(x + w / 2, y + 64, str(bits), 44, BG if color != GRAY else FG, MONO, 800, "middle"))
-            out.append(text(x + w / 2, y + 150, name, 30, MUTED, MONO, 700, "middle") if name else "")
+                out.append(text(x + w / 2, y + 52, str(bits), 40, BG if color != GRAY else FG, MONO, 800, "middle"))
+            if name:
+                out.append(text(x + w / 2, y + 120, name, 28, MUTED, MONO, 700, "middle"))
             x += w
         return "".join(out)
     v7 = [(48, GREEN, "time (ms)"), (6, GRAY, ""), (74, LIGHT, "random")]
     v4 = [(122, LIGHT, "random"), (6, GRAY, "")]
-    b = bar(300, "v7", v7) + bar(560, "v4", v4)
-    b += text(1520, 830, "6 = version + variant", 30, MUTED, MONO, 700, "end")
-    return frame("Same 128 bits, different order", "UUID bit layout · RFC 9562", b)
+    b = (text(80, 330, "v7", 52, GREEN, MONO, 800) + uuid_string(300, 328, V7_EXAMPLE, 12) + bar(360, v7)
+         + text(80, 650, "v4", 52, FG, MONO, 800) + uuid_string(300, 648, V4_EXAMPLE, 0) + bar(680, v4)
+         + text(1520, 870, "6 bits = version + variant", 28, MUTED, MONO, 700, "end"))
+    return frame("Same 128 bits, different order", "UUID layout · RFC 9562", b)
 
 
 def insert_rate(d):
@@ -163,6 +182,9 @@ def cover(d):
         chart.append(f'<polyline points="{" ".join(f"{px(r):.0f},{py(v):.0f}" for r, v in pts)}" fill="none" '
                      f'stroke="{color}" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>')
     v7_end, v4_end = d["v7"]["curve"][-1][1], d["v4"]["curve"][-1][1]
+    bx = x0 + w + 28
+    chart += [f'<path d="M{bx - 8},{py(v7_end) + 34} H{bx + 8} V{py(v4_end) - 44} H{bx - 8}" fill="none" stroke="{FG}" stroke-width="4"/>',
+              text(bx + 26, (py(v7_end) + py(v4_end)) / 2 + 22, "14x", 64, FG, MONO, 800)]
     chart += [text(x0 + w + 28, py(v7_end) + 14, f"v7 {v7_end / 1000:.0f}k", 40, GREEN, MONO, 800),
               text(x0 + w + 28, py(v4_end) + 14, f"v4 {v4_end / 1000:.1f}k", 40, RED, MONO, 800)]
     return (f'<svg viewBox="0 0 {cw} {ch}" width="{cw}" height="{ch}" xmlns="http://www.w3.org/2000/svg">'
