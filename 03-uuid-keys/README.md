@@ -29,6 +29,6 @@ Not measured: reads, joins, update-heavy workloads, concurrent inserts.
 
 ## Results
 
-Not run yet. Reference run: AWS EC2 t3.medium (x86), Ubuntu 24.04, eu-central-1, launched by Javlon, `run-on-vm.sh`, twice; raw log as `results-ec2-t3medium-<date>.txt`.
+Not run yet. Reference run: AWS EC2 t3.small (x86, 2 vCPU, 2 GB, 20 GB gp3 at 3,000 IOPS), latest Ubuntu LTS, eu-central-1, launched by Javlon, `run-on-vm.sh`, twice; raw log as `results-ec2-t3small-<date>.txt`. t3.small, not micro: the 512 MB container plus Docker and the OS is too tight in 1 GB; the container limit, not the instance, sets the memory pressure.
 
 Smoke tests on a laptop (300,000 rows) check that the script works. They are not results.

@@ -52,7 +52,7 @@ def psql(sql):
 
 
 def start_container():
-    sh("docker", "rm", "-f", CONTAINER, check=False)
+    sh("docker", "rm", "-f", "-v", CONTAINER, check=False)
     sh("docker", "run", "-d", "--name", CONTAINER, "--memory", MEM, "--memory-swap", MEM,
        "-e", "POSTGRES_PASSWORD=lab", IMAGE,
        "-c", f"shared_buffers={SHARED_BUFFERS}", "-c", "max_wal_size=4GB", "-c", "checkpoint_timeout=15min",
@@ -129,7 +129,7 @@ def run_variant(name, children):
 
     if children:
         run_children(name)
-    sh("docker", "rm", "-f", CONTAINER, check=False)
+    sh("docker", "rm", "-f", "-v", CONTAINER, check=False)
 
 
 def run_children(name):
