@@ -141,22 +141,37 @@ LOGO = """<g transform="translate(0 -13)"><defs><clipPath id="liquid"><rect x="0
 </g>"""
 
 
-def cover(_):
-    """1920x1080 newsletter cover: logo, title with the lab number, gold line, the reader's pain, footer."""
+def cover(d):
+    """1920x1080 newsletter cover: title with the lab number, the insert-rate curve from the log, small logo, footer."""
     cw, ch = 1920, 1080
-    brand = text(140, 980, "ARCHEMIST", 32, AMBER, MONO, 800).replace("<text ", '<text letter-spacing="7" ')
-    title = (text(650, 390, "Same UUID,", 96, FG, SANS, 800)
-             + f'<text x="650" y="510" font-family="{SANS}" font-weight="800" font-size="96" fill="{FG}">'
+    brand = text(222, 990, "ARCHEMIST", 32, AMBER, MONO, 800).replace("<text ", '<text letter-spacing="7" ')
+    title = (text(120, 330, "Same UUID,", 104, FG, SANS, 800)
+             + f'<text x="120" y="456" font-family="{SANS}" font-weight="800" font-size="104" fill="{FG}">'
                f'<tspan font-family="{MONO}" fill="{GREEN}">14x</tspan> faster</text>'
-             + text(650, 630, "inserts.", 96, FG, SANS, 800))
+             + text(120, 582, "inserts.", 104, FG, SANS, 800))
+    x0, y0, w, h = 960, 250, 660, 520
+    maxr = 200_000
+    def px(rows):
+        return x0 + rows / 10_000_000 * w
+    def py(rate):
+        return y0 + h - min(rate, maxr) / maxr * h
+    chart = [line(x0, y0 + h, x0 + w, y0 + h, MUTED), line(x0, y0, x0, y0 + h, MUTED),
+             text(x0, y0 - 30, "inserts per second", 30, MUTED, MONO, 700),
+             text(x0 + w, y0 + h + 50, "10M rows", 30, MUTED, MONO, 700, "end")]
+    for name, color in (("v7", GREEN), ("v4", RED)):
+        pts = [(0, d[name]["curve"][0][1])] + d[name]["curve"]
+        chart.append(f'<polyline points="{" ".join(f"{px(r):.0f},{py(v):.0f}" for r, v in pts)}" fill="none" '
+                     f'stroke="{color}" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>')
+    v7_end, v4_end = d["v7"]["curve"][-1][1], d["v4"]["curve"][-1][1]
+    chart += [text(x0 + w + 28, py(v7_end) + 14, f"v7 {v7_end / 1000:.0f}k", 40, GREEN, MONO, 800),
+              text(x0 + w + 28, py(v4_end) + 14, f"v4 {v4_end / 1000:.1f}k", 40, RED, MONO, 800)]
     return (f'<svg viewBox="0 0 {cw} {ch}" width="{cw}" height="{ch}" xmlns="http://www.w3.org/2000/svg">'
-            f'{rect(0, 0, cw, ch, BG, rx=0)}'
-            f'<svg x="150" y="330" width="420" height="420" viewBox="0 0 512 512">{LOGO}</svg>'
-            f'{title}{rect(652, 690, 160, 10, AMBER, rx=5)}'
-            f'{text(652, 780, "why inserts slow down as the table grows", 34, MUTED, MONO, 400)}'
-            f'{text(652, 830, "tested on PostgreSQL 18 · 10M rows", 34, MUTED, MONO, 400)}'
-            f'{brand}'
-            f'{text(1780, 980, "archemist.dev", 30, MUTED, MONO, 400, "end")}</svg>')
+            f'{rect(0, 0, cw, ch, BG, rx=0)}{title}{rect(122, 640, 160, 10, AMBER, rx=5)}'
+            f'{text(122, 730, "why inserts slow down", 36, MUTED, MONO, 400)}'
+            f'{text(122, 780, "as the table grows", 36, MUTED, MONO, 400)}'
+            f'{"".join(chart)}'
+            f'<svg x="120" y="935" width="80" height="80" viewBox="0 0 512 512">{LOGO}</svg>{brand}'
+            f'{text(1800, 990, "tested on PostgreSQL 18 · archemist.dev", 30, MUTED, MONO, 400, "end")}</svg>')
 
 
 DIAGRAMS = {"UUID - 1 Insert pattern": insert_pattern, "UUID - 2 Bit layout": bit_layout,
