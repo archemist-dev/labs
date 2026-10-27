@@ -1,5 +1,7 @@
 # 03 - What does the primary-key type do to inserts?
 
+Article: [Why Your Inserts Slow Down as the Table Grows, and How to Fix It](https://archemist.dev/articles/uuid-keys/)
+
 One `orders` table (id, status, total in pence, placed_at, address; about 100 bytes a row, narrow on purpose so the index outgrows memory sooner) loaded with the same rows for each key type, in a PostgreSQL 18 container with a memory limit. Rows are inserted by SQL (`INSERT ... SELECT generate_series`), 250,000 per statement, so the key generator is the only difference between variants.
 
 | Variant | Key |
