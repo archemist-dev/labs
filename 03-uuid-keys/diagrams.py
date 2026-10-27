@@ -129,8 +129,39 @@ def levels(d):
     return frame("The cheap fixes don't fix it", "same rows · 5 key choices", "".join(b))
 
 
+LOGO = """<g transform="translate(0 -13)"><defs><clipPath id="liquid"><rect x="0" y="232" width="512" height="280"/></clipPath></defs>
+<circle cx="256" cy="320" r="108" fill="#d4a017" clip-path="url(#liquid)"/>
+<path d="M210 104 V194 A134 134 0 1 0 302 194 V104" fill="none" stroke="#f2efe9" stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="184" y="72" width="144" height="36" rx="14" fill="#f2efe9"/>
+<circle cx="264" cy="208" r="11" fill="#d4a017"/><circle cx="242" cy="174" r="8" fill="#d4a017"/><circle cx="266" cy="142" r="6" fill="#d4a017"/>
+<path d="M209 293 V320 H236 M276 320 H303 V347" fill="none" stroke="#1b1d21" stroke-width="14" stroke-linejoin="round"/>
+<circle cx="209" cy="274" r="19" fill="#d4a017" stroke="#1b1d21" stroke-width="14"/>
+<rect x="236" y="300" width="40" height="40" rx="6" fill="#d4a017" stroke="#1b1d21" stroke-width="14"/>
+<circle cx="303" cy="366" r="19" fill="#d4a017" stroke="#1b1d21" stroke-width="14"/>
+</g>"""
+
+
+def cover(_):
+    """1920x1080 newsletter cover: logo, title with the lab number, gold line, the reader's pain, footer."""
+    cw, ch = 1920, 1080
+    brand = text(140, 980, "ARCHEMIST", 32, AMBER, MONO, 800).replace("<text ", '<text letter-spacing="7" ')
+    title = (text(650, 390, "Same UUID,", 96, FG, SANS, 800)
+             + f'<text x="650" y="510" font-family="{SANS}" font-weight="800" font-size="96" fill="{FG}">'
+               f'<tspan font-family="{MONO}" fill="{GREEN}">14x</tspan> faster</text>'
+             + text(650, 630, "inserts.", 96, FG, SANS, 800))
+    return (f'<svg viewBox="0 0 {cw} {ch}" width="{cw}" height="{ch}" xmlns="http://www.w3.org/2000/svg">'
+            f'{rect(0, 0, cw, ch, BG, rx=0)}'
+            f'<svg x="150" y="330" width="420" height="420" viewBox="0 0 512 512">{LOGO}</svg>'
+            f'{title}{rect(652, 690, 160, 10, AMBER, rx=5)}'
+            f'{text(652, 780, "why inserts slow down as the table grows", 34, MUTED, MONO, 400)}'
+            f'{text(652, 830, "tested on PostgreSQL 18 · 10M rows", 34, MUTED, MONO, 400)}'
+            f'{brand}'
+            f'{text(1780, 980, "archemist.dev", 30, MUTED, MONO, 400, "end")}</svg>')
+
+
 DIAGRAMS = {"UUID - 1 Insert pattern": insert_pattern, "UUID - 2 Bit layout": bit_layout,
-            "UUID - 3 Insert rate": insert_rate, "UUID - 4 Levels": levels}
+            "UUID - 3 Insert rate": insert_rate, "UUID - 4 Levels": levels, "UUID - Cover": cover}
+SIZES = {"UUID - Cover": (1920, 1080)}
 if __name__ == "__main__":
     out = Path(sys.argv[1])
     data = parse(sys.argv[2] if len(sys.argv) > 2 else Path(__file__).with_name("results-ec2-t3small-2026-10-27.txt"),
@@ -143,8 +174,9 @@ if __name__ == "__main__":
             page = Path(tmp) / "d.html"
             page.write_text(f'<!doctype html><html><head><meta charset="utf-8">{fonts}'
                             f'<style>html,body{{margin:0;background:{BG}}}</style></head><body>{fn(data)}</body></html>')
-            subprocess.run([CHROME, "--headless=new", "--hide-scrollbars", f"--window-size={W},{H}",
-                            "--force-device-scale-factor=2", "--virtual-time-budget=8000",
+            w, h = SIZES.get(name, (W, H))
+            subprocess.run([CHROME, "--headless=new", "--hide-scrollbars", f"--window-size={w},{h}",
+                            f"--force-device-scale-factor={1 if name in SIZES else 2}", "--virtual-time-budget=8000",
                             f"--screenshot={out / (name + '.png')}", page.as_uri()],
                            check=True, capture_output=True)
             print(out / f"{name}.png")
