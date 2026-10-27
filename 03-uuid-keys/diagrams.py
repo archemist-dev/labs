@@ -189,8 +189,8 @@ def cover(d):
               text(x0 + w + 28, py(v4_end) + 14, f"v4 {v4_end / 1000:.1f}k", 40, RED, MONO, 800)]
     return (f'<svg viewBox="0 0 {cw} {ch}" width="{cw}" height="{ch}" xmlns="http://www.w3.org/2000/svg">'
             f'{rect(0, 0, cw, ch, BG, rx=0)}{title}{rect(122, 640, 160, 10, AMBER, rx=5)}'
-            f'{text(122, 730, "why inserts slow down", 36, MUTED, MONO, 400)}'
-            f'{text(122, 780, "as the table grows", 36, MUTED, MONO, 400)}'
+            f'{text(122, 730, "same 16 bytes,", 36, MUTED, MONO, 400)}'
+            f'{text(122, 780, "different order", 36, MUTED, MONO, 400)}'
             f'{"".join(chart)}'
             f'<svg x="120" y="935" width="80" height="80" viewBox="0 0 512 512">{LOGO}</svg>{brand}'
             f'{text(1800, 990, "tested on PostgreSQL 18 · archemist.dev", 30, MUTED, MONO, 400, "end")}</svg>')
