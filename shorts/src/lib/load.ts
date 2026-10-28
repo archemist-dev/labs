@@ -4,7 +4,7 @@ import { FPS } from "../theme";
 import type { ShortProps } from "../components/Shell";
 
 // Effects from the playbook's sound table; drop files named like this into public/sfx/.
-const SFX = ["stamp", "reveal", "buzz", "whoosh", "slap", "cricket"];
+const SFX = ["stamp", "reveal", "buzz", "whoosh", "slap", "cricket", "impact", "alarm", "type"];
 const AUDIO_EXT = ["wav", "m4a", "mp3"];
 
 async function exists(path: string) {

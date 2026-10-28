@@ -1,4 +1,5 @@
-"""Byte-level data for the Short 1 animation: which JSON bytes are field names, and the real Protobuf bytes.
+"""Byte-level data for the Shorts: which JSON bytes are field names, the real Protobuf bytes (Short 1),
+and why a reader with the wrong Avro schema reads tip = 46 (Short 2).
 
 Usage: python video_data.py OUT.json
 Same typical order and Protobuf schema as encoding_test.py; asserts the sizes match the published results.
@@ -12,7 +13,7 @@ from pathlib import Path
 # Import the test itself so the schema can't drift; it runs its benchmarks on import (a few seconds), output hidden.
 out_path, sys.argv = sys.argv[1], [sys.argv[0], "typical"]
 with contextlib.redirect_stdout(io.StringIO()):
-    from encoding_test import ProtoV1, to_proto
+    from encoding_test import AV1, AV2, ProtoV1, avro_dec, avro_enc, to_proto
 
 ORDER = json.loads(Path(__file__).with_name("order_typical.json").read_text())
 
@@ -82,7 +83,16 @@ def walk(lo, hi, top):
 
 walk(0, len(data), True)
 
+# Avro: v1 ends with notes (a length prefix, then the text). A reader that assumes the v2 schema expects tip there,
+# so it reads the length prefix as the tip.
+avro = avro_enc(AV1, ORDER)
+notes = ORDER["notes"]
+prefix = avro[-len(notes) - 1]
+tip_wrong = avro_dec(AV2, None, avro)["tip"]
+tip_right = avro_dec(AV1, AV2, avro)["tip"]
+
 assert len(text) == 1076 and sum(names) == 461, (len(text), sum(names))
+assert len(avro) == 417 and (prefix >> 1) ^ -(prefix & 1) == len(notes) == tip_wrong == 46 and tip_right == 0
 assert len(data) == 470 and all(kinds), len(data)
 out = {
     "json": text,
@@ -90,7 +100,13 @@ out = {
     "json_pretty": json.dumps(ORDER, indent=2),
     "proto_hex": data.hex(),
     "proto_kinds": "".join({"tag": "t", "len": "l", "value": "v"}[k] for k in kinds),
+    "avro_tail_hex": avro[-len(notes) - 9:].hex(),  # the last status time, the notes length prefix, the notes text
+    "avro_notes": notes,
+    "avro_prefix_hex": f"{prefix:02x}",
+    "avro_tip_wrong": tip_wrong,
+    "avro_tip_right": tip_right,
 }
 Path(out_path).write_text(json.dumps(out, indent=1))
 print(f"JSON {len(text)} bytes, {sum(names)} names; Protobuf {len(data)} bytes: "
-      f"{kinds.count('tag')} tag, {kinds.count('len')} length, {kinds.count('value')} value")
+      f"{kinds.count('tag')} tag, {kinds.count('len')} length, {kinds.count('value')} value; "
+      f"Avro {len(avro)} bytes, wrong schema reads tip = {tip_wrong} (notes length prefix 0x{prefix:02x}), right schemas {tip_right}")

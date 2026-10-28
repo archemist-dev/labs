@@ -1,0 +1,1026 @@
+{
+ "segments": [
+  {
+   "text": " A field was renamed by accident between two releases.",
+   "start": 0.0,
+   "end": 3.96,
+   "words": [
+    {
+     "word": " A",
+     "start": 0.0,
+     "end": 0.22
+    },
+    {
+     "word": " field",
+     "start": 0.22,
+     "end": 0.52
+    },
+    {
+     "word": " was",
+     "start": 0.52,
+     "end": 0.74
+    },
+    {
+     "word": " renamed",
+     "start": 0.74,
+     "end": 1.22
+    },
+    {
+     "word": " by",
+     "start": 1.22,
+     "end": 1.96
+    },
+    {
+     "word": " accident",
+     "start": 1.96,
+     "end": 2.46
+    },
+    {
+     "word": " between",
+     "start": 2.46,
+     "end": 3.22
+    },
+    {
+     "word": " two",
+     "start": 3.22,
+     "end": 3.48
+    },
+    {
+     "word": " releases.",
+     "start": 3.48,
+     "end": 3.96
+    }
+   ]
+  },
+  {
+   "text": " Price became total price.",
+   "start": 4.84,
+   "end": 6.44,
+   "words": [
+    {
+     "word": " Price",
+     "start": 4.84,
+     "end": 4.84
+    },
+    {
+     "word": " became",
+     "start": 4.84,
+     "end": 5.5
+    },
+    {
+     "word": " total",
+     "start": 5.5,
+     "end": 6.04
+    },
+    {
+     "word": " price.",
+     "start": 6.04,
+     "end": 6.44
+    }
+   ]
+  },
+  {
+   "text": " Old app version still asked for price.",
+   "start": 7.12,
+   "end": 8.96,
+   "words": [
+    {
+     "word": " Old",
+     "start": 7.12,
+     "end": 7.2
+    },
+    {
+     "word": " app",
+     "start": 7.2,
+     "end": 7.36
+    },
+    {
+     "word": " version",
+     "start": 7.36,
+     "end": 7.7
+    },
+    {
+     "word": " still",
+     "start": 7.7,
+     "end": 8.06
+    },
+    {
+     "word": " asked",
+     "start": 8.06,
+     "end": 8.38
+    },
+    {
+     "word": " for",
+     "start": 8.38,
+     "end": 8.6
+    },
+    {
+     "word": " price.",
+     "start": 8.6,
+     "end": 8.96
+    }
+   ]
+  },
+  {
+   "text": " Crash.",
+   "start": 9.78,
+   "end": 9.82,
+   "words": [
+    {
+     "word": " Crash.",
+     "start": 9.78,
+     "end": 9.82
+    }
+   ]
+  },
+  {
+   "text": " And that crash was the lucky case.",
+   "start": 12.0,
+   "end": 13.88,
+   "words": [
+    {
+     "word": " And",
+     "start": 12.0,
+     "end": 12.16
+    },
+    {
+     "word": " that",
+     "start": 12.16,
+     "end": 12.38
+    },
+    {
+     "word": " crash",
+     "start": 12.38,
+     "end": 12.7
+    },
+    {
+     "word": " was",
+     "start": 12.7,
+     "end": 13.08
+    },
+    {
+     "word": " the",
+     "start": 13.08,
+     "end": 13.26
+    },
+    {
+     "word": " lucky",
+     "start": 13.26,
+     "end": 13.46
+    },
+    {
+     "word": " case.",
+     "start": 13.46,
+     "end": 13.88
+    }
+   ]
+  },
+  {
+   "text": " A crash is a fire alarm.",
+   "start": 14.28,
+   "end": 15.58,
+   "words": [
+    {
+     "word": " A",
+     "start": 14.28,
+     "end": 14.4
+    },
+    {
+     "word": " crash",
+     "start": 14.4,
+     "end": 14.64
+    },
+    {
+     "word": " is",
+     "start": 14.64,
+     "end": 14.88
+    },
+    {
+     "word": " a",
+     "start": 14.88,
+     "end": 15.02
+    },
+    {
+     "word": " fire",
+     "start": 15.02,
+     "end": 15.28
+    },
+    {
+     "word": " alarm.",
+     "start": 15.28,
+     "end": 15.58
+    }
+   ]
+  },
+  {
+   "text": " Loud and it saves you.",
+   "start": 16.14,
+   "end": 17.38,
+   "words": [
+    {
+     "word": " Loud",
+     "start": 16.14,
+     "end": 16.16
+    },
+    {
+     "word": " and",
+     "start": 16.16,
+     "end": 16.7
+    },
+    {
+     "word": " it",
+     "start": 16.7,
+     "end": 16.8
+    },
+    {
+     "word": " saves",
+     "start": 16.8,
+     "end": 17.02
+    },
+    {
+     "word": " you.",
+     "start": 17.02,
+     "end": 17.38
+    }
+   ]
+  },
+  {
+   "text": " So I tested the formats from my last video",
+   "start": 18.6,
+   "end": 20.7,
+   "words": [
+    {
+     "word": " So",
+     "start": 18.6,
+     "end": 18.9
+    },
+    {
+     "word": " I",
+     "start": 18.9,
+     "end": 19.02
+    },
+    {
+     "word": " tested",
+     "start": 19.02,
+     "end": 19.24
+    },
+    {
+     "word": " the",
+     "start": 19.24,
+     "end": 19.46
+    },
+    {
+     "word": " formats",
+     "start": 19.46,
+     "end": 19.76
+    },
+    {
+     "word": " from",
+     "start": 19.76,
+     "end": 20.0
+    },
+    {
+     "word": " my",
+     "start": 20.0,
+     "end": 20.12
+    },
+    {
+     "word": " last",
+     "start": 20.12,
+     "end": 20.38
+    },
+    {
+     "word": " video",
+     "start": 20.38,
+     "end": 20.7
+    }
+   ]
+  },
+  {
+   "text": " with a change like that.",
+   "start": 20.7,
+   "end": 21.9,
+   "words": [
+    {
+     "word": " with",
+     "start": 20.7,
+     "end": 21.06
+    },
+    {
+     "word": " a",
+     "start": 21.06,
+     "end": 21.16
+    },
+    {
+     "word": " change",
+     "start": 21.16,
+     "end": 21.34
+    },
+    {
+     "word": " like",
+     "start": 21.34,
+     "end": 21.56
+    },
+    {
+     "word": " that.",
+     "start": 21.56,
+     "end": 21.9
+    }
+   ]
+  },
+  {
+   "text": " One field out, one field in.",
+   "start": 22.24,
+   "end": 23.92,
+   "words": [
+    {
+     "word": " One",
+     "start": 22.24,
+     "end": 22.38
+    },
+    {
+     "word": " field",
+     "start": 22.38,
+     "end": 22.6
+    },
+    {
+     "word": " out,",
+     "start": 22.6,
+     "end": 22.88
+    },
+    {
+     "word": " one",
+     "start": 23.22,
+     "end": 23.38
+    },
+    {
+     "word": " field",
+     "start": 23.38,
+     "end": 23.66
+    },
+    {
+     "word": " in.",
+     "start": 23.66,
+     "end": 23.92
+    }
+   ]
+  },
+  {
+   "text": " Jason crashed.",
+   "start": 25.5,
+   "end": 26.3,
+   "words": [
+    {
+     "word": " Jason",
+     "start": 25.5,
+     "end": 25.92
+    },
+    {
+     "word": " crashed.",
+     "start": 25.92,
+     "end": 26.3
+    }
+   ]
+  },
+  {
+   "text": " Loud.",
+   "start": 26.86,
+   "end": 26.88,
+   "words": [
+    {
+     "word": " Loud.",
+     "start": 26.86,
+     "end": 26.88
+    }
+   ]
+  },
+  {
+   "text": " Fine.",
+   "start": 27.38,
+   "end": 27.56,
+   "words": [
+    {
+     "word": " Fine.",
+     "start": 27.38,
+     "end": 27.56
+    }
+   ]
+  },
+  {
+   "text": " Protobuf didn't crash.",
+   "start": 28.1,
+   "end": 28.96,
+   "words": [
+    {
+     "word": " Protobuf",
+     "start": 28.1,
+     "end": 28.34
+    },
+    {
+     "word": " didn't",
+     "start": 28.34,
+     "end": 28.7
+    },
+    {
+     "word": " crash.",
+     "start": 28.7,
+     "end": 28.96
+    }
+   ]
+  },
+  {
+   "text": " But when a new field took an old field slot,",
+   "start": 28.96,
+   "end": 31.38,
+   "words": [
+    {
+     "word": " But",
+     "start": 28.96,
+     "end": 29.38
+    },
+    {
+     "word": " when",
+     "start": 29.38,
+     "end": 29.52
+    },
+    {
+     "word": " a",
+     "start": 29.52,
+     "end": 29.66
+    },
+    {
+     "word": " new",
+     "start": 29.66,
+     "end": 29.86
+    },
+    {
+     "word": " field",
+     "start": 29.86,
+     "end": 30.12
+    },
+    {
+     "word": " took",
+     "start": 30.12,
+     "end": 30.3
+    },
+    {
+     "word": " an",
+     "start": 30.3,
+     "end": 30.46
+    },
+    {
+     "word": " old",
+     "start": 30.46,
+     "end": 30.72
+    },
+    {
+     "word": " field",
+     "start": 30.72,
+     "end": 30.98
+    },
+    {
+     "word": " slot,",
+     "start": 30.98,
+     "end": 31.38
+    }
+   ]
+  },
+  {
+   "text": " tip came back as zero.",
+   "start": 31.78,
+   "end": 32.78,
+   "words": [
+    {
+     "word": " tip",
+     "start": 31.78,
+     "end": 31.8
+    },
+    {
+     "word": " came",
+     "start": 31.8,
+     "end": 32.04
+    },
+    {
+     "word": " back",
+     "start": 32.04,
+     "end": 32.28
+    },
+    {
+     "word": " as",
+     "start": 32.28,
+     "end": 32.42
+    },
+    {
+     "word": " zero.",
+     "start": 32.42,
+     "end": 32.78
+    }
+   ]
+  },
+  {
+   "text": " Avro, read with the wrong schema, tip came back as 46.",
+   "start": 33.36,
+   "end": 36.32,
+   "words": [
+    {
+     "word": " Avro,",
+     "start": 33.36,
+     "end": 33.52
+    },
+    {
+     "word": " read",
+     "start": 33.76,
+     "end": 33.9
+    },
+    {
+     "word": " with",
+     "start": 33.9,
+     "end": 34.08
+    },
+    {
+     "word": " the",
+     "start": 34.08,
+     "end": 34.16
+    },
+    {
+     "word": " wrong",
+     "start": 34.16,
+     "end": 34.28
+    },
+    {
+     "word": " schema,",
+     "start": 34.28,
+     "end": 34.72
+    },
+    {
+     "word": " tip",
+     "start": 35.08,
+     "end": 35.18
+    },
+    {
+     "word": " came",
+     "start": 35.18,
+     "end": 35.4
+    },
+    {
+     "word": " back",
+     "start": 35.4,
+     "end": 35.62
+    },
+    {
+     "word": " as",
+     "start": 35.62,
+     "end": 35.8
+    },
+    {
+     "word": " 46.",
+     "start": 35.8,
+     "end": 36.32
+    }
+   ]
+  },
+  {
+   "text": " No error.",
+   "start": 38.82,
+   "end": 39.28,
+   "words": [
+    {
+     "word": " No",
+     "start": 38.82,
+     "end": 38.92
+    },
+    {
+     "word": " error.",
+     "start": 38.92,
+     "end": 39.28
+    }
+   ]
+  },
+  {
+   "text": " No log.",
+   "start": 40.24,
+   "end": 40.96,
+   "words": [
+    {
+     "word": " No",
+     "start": 40.24,
+     "end": 40.56
+    },
+    {
+     "word": " log.",
+     "start": 40.56,
+     "end": 40.96
+    }
+   ]
+  },
+  {
+   "text": " My favorite kind.",
+   "start": 41.6,
+   "end": 42.72,
+   "words": [
+    {
+     "word": " My",
+     "start": 41.6,
+     "end": 41.82
+    },
+    {
+     "word": " favorite",
+     "start": 41.82,
+     "end": 42.22
+    },
+    {
+     "word": " kind.",
+     "start": 42.22,
+     "end": 42.72
+    }
+   ]
+  },
+  {
+   "text": " A silent bug is a gas leak.",
+   "start": 43.62,
+   "end": 45.92,
+   "words": [
+    {
+     "word": " A",
+     "start": 43.62,
+     "end": 44.12
+    },
+    {
+     "word": " silent",
+     "start": 44.12,
+     "end": 44.54
+    },
+    {
+     "word": " bug",
+     "start": 44.54,
+     "end": 44.86
+    },
+    {
+     "word": " is",
+     "start": 44.86,
+     "end": 45.26
+    },
+    {
+     "word": " a",
+     "start": 45.26,
+     "end": 45.4
+    },
+    {
+     "word": " gas",
+     "start": 45.4,
+     "end": 45.64
+    },
+    {
+     "word": " leak.",
+     "start": 45.64,
+     "end": 45.92
+    }
+   ]
+  },
+  {
+   "text": " Now imagine, that's a price.",
+   "start": 46.5,
+   "end": 48.62,
+   "words": [
+    {
+     "word": " Now",
+     "start": 46.5,
+     "end": 46.62
+    },
+    {
+     "word": " imagine,",
+     "start": 46.62,
+     "end": 47.06
+    },
+    {
+     "word": " that's",
+     "start": 47.62,
+     "end": 48.04
+    },
+    {
+     "word": " a",
+     "start": 48.04,
+     "end": 48.22
+    },
+    {
+     "word": " price.",
+     "start": 48.22,
+     "end": 48.62
+    }
+   ]
+  },
+  {
+   "text": " So which format?",
+   "start": 50.74,
+   "end": 51.76,
+   "words": [
+    {
+     "word": " So",
+     "start": 50.74,
+     "end": 51.04
+    },
+    {
+     "word": " which",
+     "start": 51.04,
+     "end": 51.4
+    },
+    {
+     "word": " format?",
+     "start": 51.4,
+     "end": 51.76
+    }
+   ]
+  },
+  {
+   "text": " It depends on who reads your data.",
+   "start": 52.14,
+   "end": 53.68,
+   "words": [
+    {
+     "word": " It",
+     "start": 52.14,
+     "end": 52.28
+    },
+    {
+     "word": " depends",
+     "start": 52.28,
+     "end": 52.54
+    },
+    {
+     "word": " on",
+     "start": 52.54,
+     "end": 52.76
+    },
+    {
+     "word": " who",
+     "start": 52.76,
+     "end": 53.02
+    },
+    {
+     "word": " reads",
+     "start": 53.02,
+     "end": 53.26
+    },
+    {
+     "word": " your",
+     "start": 53.26,
+     "end": 53.42
+    },
+    {
+     "word": " data.",
+     "start": 53.42,
+     "end": 53.68
+    }
+   ]
+  },
+  {
+   "text": " A public API?",
+   "start": 54.08,
+   "end": 54.84,
+   "words": [
+    {
+     "word": " A",
+     "start": 54.08,
+     "end": 54.2
+    },
+    {
+     "word": " public",
+     "start": 54.2,
+     "end": 54.46
+    },
+    {
+     "word": " API?",
+     "start": 54.46,
+     "end": 54.84
+    }
+   ]
+  },
+  {
+   "text": " Jason with a written contract.",
+   "start": 55.4,
+   "end": 56.66,
+   "words": [
+    {
+     "word": " Jason",
+     "start": 55.4,
+     "end": 55.58
+    },
+    {
+     "word": " with",
+     "start": 55.58,
+     "end": 55.9
+    },
+    {
+     "word": " a",
+     "start": 55.9,
+     "end": 56.0
+    },
+    {
+     "word": " written",
+     "start": 56.0,
+     "end": 56.16
+    },
+    {
+     "word": " contract.",
+     "start": 56.16,
+     "end": 56.66
+    }
+   ]
+  },
+  {
+   "text": " Your own services?",
+   "start": 57.04,
+   "end": 57.76,
+   "words": [
+    {
+     "word": " Your",
+     "start": 57.04,
+     "end": 57.16
+    },
+    {
+     "word": " own",
+     "start": 57.16,
+     "end": 57.34
+    },
+    {
+     "word": " services?",
+     "start": 57.34,
+     "end": 57.76
+    }
+   ]
+  },
+  {
+   "text": " Protobuf and never reuse a slot.",
+   "start": 57.76,
+   "end": 60.06,
+   "words": [
+    {
+     "word": " Protobuf",
+     "start": 57.76,
+     "end": 58.66
+    },
+    {
+     "word": " and",
+     "start": 58.66,
+     "end": 58.98
+    },
+    {
+     "word": " never",
+     "start": 58.98,
+     "end": 59.3
+    },
+    {
+     "word": " reuse",
+     "start": 59.3,
+     "end": 59.62
+    },
+    {
+     "word": " a",
+     "start": 59.62,
+     "end": 59.8
+    },
+    {
+     "word": " slot.",
+     "start": 59.8,
+     "end": 60.06
+    }
+   ]
+  },
+  {
+   "text": " Kafka or a data lake?",
+   "start": 60.58,
+   "end": 61.58,
+   "words": [
+    {
+     "word": " Kafka",
+     "start": 60.58,
+     "end": 60.66
+    },
+    {
+     "word": " or",
+     "start": 60.66,
+     "end": 61.02
+    },
+    {
+     "word": " a",
+     "start": 61.02,
+     "end": 61.16
+    },
+    {
+     "word": " data",
+     "start": 61.16,
+     "end": 61.3
+    },
+    {
+     "word": " lake?",
+     "start": 61.3,
+     "end": 61.58
+    }
+   ]
+  },
+  {
+   "text": " Avro with a schema registry.",
+   "start": 62.04,
+   "end": 63.4,
+   "words": [
+    {
+     "word": " Avro",
+     "start": 62.04,
+     "end": 62.26
+    },
+    {
+     "word": " with",
+     "start": 62.26,
+     "end": 62.54
+    },
+    {
+     "word": " a",
+     "start": 62.54,
+     "end": 62.64
+    },
+    {
+     "word": " schema",
+     "start": 62.64,
+     "end": 62.88
+    },
+    {
+     "word": " registry.",
+     "start": 62.88,
+     "end": 63.4
+    }
+   ]
+  },
+  {
+   "text": " Pick the format by who reads the data and how long it lives.",
+   "start": 65.22,
+   "end": 68.48,
+   "words": [
+    {
+     "word": " Pick",
+     "start": 65.22,
+     "end": 65.48
+    },
+    {
+     "word": " the",
+     "start": 65.48,
+     "end": 65.66
+    },
+    {
+     "word": " format",
+     "start": 65.66,
+     "end": 65.98
+    },
+    {
+     "word": " by",
+     "start": 65.98,
+     "end": 66.24
+    },
+    {
+     "word": " who",
+     "start": 66.24,
+     "end": 66.5
+    },
+    {
+     "word": " reads",
+     "start": 66.5,
+     "end": 66.7
+    },
+    {
+     "word": " the",
+     "start": 66.7,
+     "end": 66.92
+    },
+    {
+     "word": " data",
+     "start": 66.92,
+     "end": 67.14
+    },
+    {
+     "word": " and",
+     "start": 67.14,
+     "end": 67.62
+    },
+    {
+     "word": " how",
+     "start": 67.62,
+     "end": 67.86
+    },
+    {
+     "word": " long",
+     "start": 67.86,
+     "end": 68.02
+    },
+    {
+     "word": " it",
+     "start": 68.02,
+     "end": 68.16
+    },
+    {
+     "word": " lives.",
+     "start": 68.16,
+     "end": 68.48
+    }
+   ]
+  }
+ ]
+}

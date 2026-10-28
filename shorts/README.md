@@ -4,6 +4,9 @@ Vertical Shorts (1080x1920, 30 fps) rendered with [Remotion](https://www.remotio
 
 ## Make a Short
 
+0. Voice from ElevenLabs instead of a recording (Javlon's cloned voice "Javlon", `dDTVtZ8tiBiK4S4LEKPv`): the key stays outside the chat, in `ELEVENLABS_API_KEY` or `~/.config/elevenlabs/api_key`. Put the script in a text file, one paragraph per beat, then `python tools/eleven_take.py <voice_id> script.txt take.wav '{"stability": 0.5, "similarity_boost": 0.75, "style": 0.15, "use_speaker_boost": true}'` (each paragraph its own request, chained so the prosody carries over, levelled and limited). `python tools/eleven.py voices` lists voices; `tools/eleven.py say` renders a single line, e.g. Production's (week 1: the premade voice Brian). Insert it with `python tools/insert.py take.wav take.json production.wav <first word after it> out.wav` (same sample rate; convert with `npx remotion ffmpeg -i in.mp3 -ac 1 -ar 24000 out.wav`). Use the model `eleven_v4` with an emotion tag per paragraph (`[quietly, like a confession]`, `[slowly, ominous]`...) in one request: `python tools/eleven.py say <voice_id> script.txt take.mp3 '{"stability": 0.5}' eleven_v4`. Week 1 Short 2: the tagged v4 take moved 11-14 semitones, the untagged multilingual_v2 take 3.5 ("monotonic"). A v4 take speaks at about 158 words a minute: speed it up 1.1x at most.
+
+Sound effects: `python tools/sfx.py` synthesizes them into `public/sfx/` (impact, whoosh, stamp, reveal, buzz, alarm, type, cricket, slap). Reading time: give a beat a `hold` in `script.ts`; `tools/beats.ts` turns it into the pause before the next scene, so its last element stays readable.
 1. Record the voice. Save it (not committed) as `public/audio/<id>-<lang>.wav` (or `.m4a`, `.mp3`), e.g. `02-short1-uz.wav`.
 2. Transcribe it with word timings, locally with Whisper:
    ```
