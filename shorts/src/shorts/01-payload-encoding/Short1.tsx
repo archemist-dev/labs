@@ -1,6 +1,7 @@
 import React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { Mark, Pop, Stamp, Title, useDraw, useSpring } from "../../components/parts";
+import { ProductionFace } from "../../components/Production";
 import { NEVER, Sfx, useCue } from "../../components/Shell";
 import { BG, FG, GRAY, GREEN, GREEN_BG, GRID, LIGHT, MONO, MUTED, RED, SANS } from "../../theme";
 import data from "./data.json";
@@ -412,29 +413,6 @@ const Cost: React.FC = () => {
 };
 
 // ---------- 6. Production, deadpan ----------
-
-const ProductionFace: React.FC = () => {
-  const frame = useCurrentFrame();
-  const blink = frame % 70 < 4 ? 1 : 0;
-  const lid = 26 + blink * 14; // half-closed: deadpan
-  return (
-    <svg width={420} height={480} viewBox="0 0 420 480">
-      <rect x={20} y={20} width={380} height={440} rx={36} fill="#262a30" stroke={LIGHT} strokeWidth={6} />
-      {[330, 370, 410].map((y) => (
-        <line key={y} x1={70} y1={y} x2={350} y2={y} stroke={GRAY} strokeWidth={6} strokeLinecap="round" />
-      ))}
-      {[140, 280].map((cx) => (
-        <g key={cx}>
-          <circle cx={cx} cy={160} r={34} fill={FG} />
-          <circle cx={cx} cy={170} r={14} fill={BG} />
-          <rect x={cx - 40} y={120} width={80} height={lid} fill="#262a30" />
-          <line x1={cx - 38} y1={120 + lid} x2={cx + 38} y2={120 + lid} stroke={LIGHT} strokeWidth={6} strokeLinecap="round" />
-        </g>
-      ))}
-      <line x1={160} y1={255} x2={260} y2={255} stroke={LIGHT} strokeWidth={8} strokeLinecap="round" />
-    </svg>
-  );
-};
 
 const Production: React.FC = () => {
   const frame = useCurrentFrame();

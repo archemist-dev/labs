@@ -18,7 +18,7 @@ import numpy as np
 src, tr, beats_path, out = sys.argv[1:5]
 PHRASE, SENTENCE, BEAT, SCENE = 0.24, 0.38, 0.6, 0.85  # seconds of silence between words
 MIN_SILENCE = 0.08  # shorter gaps are left alone
-MIN_SCENE = 3.5  # a shorter scene gets the difference added to the pause after it
+MIN_SCENE = 4.0  # a shorter scene gets the difference added to the pause after it
 XFADE, HOP = 0.03, 0.01
 
 with wave.open(src) as w:
@@ -58,8 +58,13 @@ def quiet_runs(lo, hi):
 # Room tone: the longest run of real room noise, looped with crossfades. Digital silence (zero padding at the
 # file's ends) doesn't count: looped in, it plays as a dropout.
 live = db > 10
-r0, r1 = max((r for r in quiet_runs(0, len(quiet)) if live[r[0]:r[1]].all()), key=lambda r: r[1] - r[0])
-tone_src = pcm[(r0 + 3) * hop:(r1 - 3) * hop]
+room = [r for r in quiet_runs(0, len(quiet)) if live[r[0]:r[1]].all() and r[1] - r[0] > 10]
+if room:
+    r0, r1 = max(room, key=lambda r: r[1] - r[0])
+    tone_src = pcm[(r0 + 3) * hop:(r1 - 3) * hop]
+else:  # a studio-clean take (TTS): its pauses are silence already, so silence is the room tone
+    tone_src = np.zeros((int(0.5 * rate), ch), dtype=np.float32)
+    live[:] = True  # and there are no dropouts to fill
 
 
 def tone(seconds):
@@ -93,7 +98,8 @@ def pause_kind(a, b):
         if abs(beat["start"] - b["start"]) < 0.02:
             if not beat["change"]:
                 return BEAT
-            return SCENE + max(0.0, MIN_SCENE - (a["end"] - scene_start + SCENE))  # speech so far + this pause
+            # at least SCENE; longer when the scene is short, or when its last element needs reading time
+            return max(SCENE + max(0.0, MIN_SCENE - (a["end"] - scene_start + SCENE)), beat.get("need", 0.0))
         if beat["change"]:
             scene_start = beat["start"]
     return SENTENCE if a["word"].strip()[-1:] in ".?!" else PHRASE

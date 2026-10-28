@@ -21,30 +21,38 @@ export const NEVER = 1e6;
 // Frame (inside the scene) where the {name} marker's word is spoken.
 export const useCue = (name: string, fallback = 12) => useContext(SceneCtx).cues[name] ?? fallback;
 
+// Effects sit well under the voice: every effect's volume is scaled by SFX_GAIN (Javlon: "sounds louder than voice").
+const SFX_GAIN = 0.35;
+
 export const Sfx: React.FC<{ name: string; at: number; volume?: number }> = ({ name, at, volume = 0.6 }) => {
   const src = useContext(SceneCtx).sfx[name];
   if (!src) return null;
   return (
     <Sequence from={at} layout="none">
-      <Audio src={staticFile(src)} volume={volume} />
+      <Audio src={staticFile(src)} volume={volume * SFX_GAIN} />
     </Sequence>
   );
 };
 
-// Slow push-in for the whole scene, quick fade and rise on entry, fade on exit.
-const Camera: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+// Slow push-in for the whole scene, quick fade and rise on entry, fade on exit. The opening scene starts on a
+// white flash with a zoom punch and an impact hit; every later scene gets a short, faint flash on the cut.
+const Camera: React.FC<{ first: boolean; children: React.ReactNode }> = ({ first, children }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
-  const opacity = interpolate(frame, [0, 6, durationInFrames - 5, durationInFrames], [0, 1, 1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const rise = interpolate(frame, [0, 8], [40, 0], { extrapolateRight: "clamp" });
-  const scale = interpolate(frame, [0, durationInFrames], [1, 1.05]);
+  const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
+  const opacity = interpolate(frame, [0, first ? 1 : 6, durationInFrames - 5, durationInFrames], [first ? 1 : 0, 1, 1, 0], clamp);
+  const rise = first ? 0 : interpolate(frame, [0, 8], [40, 0], clamp);
+  const punch = first ? interpolate(frame, [0, 10], [1.18, 1], { ...clamp, easing: (t) => 1 - (1 - t) ** 3 }) : 1;
+  const scale = punch * interpolate(frame, [0, durationInFrames], [1, 1.05]);
+  const flash = interpolate(frame, [0, first ? 9 : 5], [first ? 0.95 : 0.12, 0], clamp);
   return (
-    <AbsoluteFill style={{ opacity, transform: `translateY(${rise}px) scale(${scale})`, transformOrigin: "50% 45%" }}>
-      {children}
-    </AbsoluteFill>
+    <>
+      <AbsoluteFill style={{ opacity, transform: `translateY(${rise}px) scale(${scale})`, transformOrigin: "50% 45%" }}>
+        {children}
+      </AbsoluteFill>
+      <AbsoluteFill style={{ background: FG, opacity: flash, pointerEvents: "none" }} />
+      {first ? <Sfx name="impact" at={0} volume={0.7} /> : null}
+    </>
   );
 };
 
@@ -77,7 +85,7 @@ export const Shell: React.FC<ShortProps & { scenes: Record<string, React.FC> }> 
         return (
           <Sequence key={i} from={f(g.start)} durationInFrames={Math.max(1, f(g.end) - f(g.start))} name={g.scene}>
             <SceneCtx.Provider value={{ cues, sfx }}>
-              <Camera>{Scene ? <Scene /> : null}</Camera>
+              <Camera first={i === 0}>{Scene ? <Scene /> : null}</Camera>
             </SceneCtx.Provider>
           </Sequence>
         );

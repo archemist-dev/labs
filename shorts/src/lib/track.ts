@@ -1,7 +1,8 @@
 // Turns a script (beats of text with {cue} markers) into timings.
 // With a Whisper transcript the timings follow the real voice; without one they are estimated at a calm pace.
 
-export type Beat = { scene: string; text: string };
+// hold: seconds the scene's last element stays on screen before the next scene (tools/beats.ts, default 1.5).
+export type Beat = { scene: string; text: string; hold?: number };
 export type Word = { text: string; start: number; end: number }; // seconds
 export type TimedBeat = { scene: string; start: number; end: number; words: Word[]; cues: Record<string, number> };
 export type Track = { beats: TimedBeat[]; duration: number; estimated: boolean };
@@ -9,7 +10,7 @@ export type Track = { beats: TimedBeat[]; duration: number; estimated: boolean }
 const WPS = 2.6; // words per second, calm pace
 const LEAD = 0.4;
 const GAP = 0.45; // pause between beats when estimating
-const TAIL = 1.0; // hold after the last word
+const TAIL = 2.0; // hold after the last word: the end card needs reading time
 const SWITCH = 0.3; // a new scene appears this long before its first word, inside the pause
 
 const norm = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
@@ -60,15 +61,56 @@ function cueTimes(cues: Record<string, number>, words: Word[], fallback: number)
   );
 }
 
+// Spoken forms Whisper writes differently from the script.
+const SAME: Record<string, string> = { "0": "zero", "46": "fortysix", jason: "json" };
+const key = (s: string) => {
+  const n = norm(s);
+  return SAME[n] ?? n;
+};
+
+// Times each script word by the spoken word it matches, searched a few words ahead, so a cue lands on its word even
+// when Whisper splits words differently ("total price" for totalPrice, "46" for forty-six). Words that don't match
+// are placed between their matched neighbours.
+function matchWords(mine: string[], heard: Word[]): Word[] {
+  const at: (number | null)[] = mine.map(() => null);
+  let p = 0;
+  mine.forEach((text, i) => {
+    const k = key(text);
+    for (let j = p; j < Math.min(heard.length, p + 5); j++) {
+      const one = key(heard[j].text);
+      const two = j + 1 < heard.length ? one + key(heard[j + 1].text) : "";
+      if (one === k || two === k) {
+        at[i] = j;
+        p = j + (two === k ? 2 : 1);
+        return;
+      }
+    }
+  });
+  return mine.map((text, i) => {
+    if (at[i] !== null) {
+      const w = heard[at[i]!];
+      return { text, start: w.start, end: w.end };
+    }
+    let lo = i - 1;
+    while (lo >= 0 && at[lo] === null) lo--;
+    let hi = i + 1;
+    while (hi < mine.length && at[hi] === null) hi++;
+    const a = lo >= 0 ? at[lo]! + 1 : 0;
+    const b = hi < mine.length ? at[hi]! - 1 : heard.length - 1;
+    const j = Math.min(heard.length - 1, Math.max(0, Math.round(a + ((i - lo) / (hi - lo)) * Math.max(0, b - a))));
+    return { text, start: heard[j].start, end: heard[j].end };
+  });
+}
+
 // Finds where each beat starts in the spoken words: its first two words, searched just after the previous beat.
 function align(script: Beat[], spoken: Word[]): Track {
   const parsed = script.map((b) => parse(b.text));
   const starts: number[] = [];
   let p = 0;
   for (const { words } of parsed) {
-    const a = norm(words[0]);
-    const b = norm(words[1] ?? "");
-    const window = spoken.slice(p, p + 15).map((w) => norm(w.text));
+    const a = key(words[0]);
+    const b = words[1] ? key(words[1]) : "";
+    const window = spoken.slice(p, p + 15).map((w) => key(w.text));
     let i = window.findIndex((w, j) => w === a && (!b || window[j + 1] === b));
     if (i < 0) i = window.indexOf(a);
     const at = p + Math.max(i, 0);
@@ -79,10 +121,7 @@ function align(script: Beat[], spoken: Word[]): Track {
     const heard = spoken.slice(starts[k], starts[k + 1] ?? spoken.length);
     // Captions keep the script's words (Whisper misspells Uzbek); the voice only gives the timing.
     const mine = parsed[k].words;
-    const words = mine.map((text, i) => {
-      const w = heard[Math.min(heard.length - 1, Math.floor((i * heard.length) / mine.length))];
-      return { text, start: w.start, end: w.end };
-    });
+    const words = matchWords(mine, heard);
     const start = k === 0 ? 0 : Math.max(0, words[0].start - SWITCH);
     return { scene: b.scene, start, end: 0, words, cues: cueTimes(parsed[k].cues, words, start) };
   });

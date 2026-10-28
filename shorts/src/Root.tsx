@@ -7,12 +7,16 @@ import { FPS, H, W } from "./theme";
 import { short1 as payloadShort1 } from "./shorts/01-payload-encoding/script";
 import { SCENES as payloadScenes1 } from "./shorts/01-payload-encoding/Short1";
 import { Thumbnail as payloadThumb1 } from "./shorts/01-payload-encoding/Thumbnail";
+import { short2 as payloadShort2 } from "./shorts/01-payload-encoding/script2";
+import { SCENES2 as payloadScenes2 } from "./shorts/01-payload-encoding/Short2";
+import { Thumbnail2 as payloadThumb2 } from "./shorts/01-payload-encoding/Thumbnail2";
 import { short1 as extractShort1 } from "./shorts/02-extract-first/script";
 import { SCENES as extractScenes1 } from "./shorts/02-extract-first/Short1";
 
 // One entry per Short; each language becomes its own composition, e.g. "02-short1-uz".
 const LIST: { id: string; scripts: Record<string, Beat[]>; scenes: Record<string, React.FC> }[] = [
   { id: "01-short1", scripts: payloadShort1, scenes: payloadScenes1 },
+  { id: "01-short2", scripts: payloadShort2, scenes: payloadScenes2 },
   { id: "02-short1", scripts: extractShort1, scenes: extractScenes1 },
 ];
 const SHORTS = LIST.map((s) => ({ ...s, component: (props: ShortProps) => <Shell {...props} scenes={s.scenes} /> }));
@@ -35,5 +39,6 @@ export const Root: React.FC = () => (
       )),
     )}
     <Still id="01-short1-thumb" component={payloadThumb1} width={W} height={H} />
+    <Still id="01-short2-thumb" component={payloadThumb2} width={W} height={H} />
   </>
 );
