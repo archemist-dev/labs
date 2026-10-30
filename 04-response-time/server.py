@@ -2,7 +2,7 @@
 
 Usage: python3 server.py CERT KEY [PORT]
   GET /order  the order as JSON after a fixed amount of work (WORK rounds of SHA-256 over the body)
-Environment: WORK (default 6000 rounds, about 5 ms on a t3.micro).
+Environment: WORK (default 2500 rounds, about 5 ms on a t3.micro).
 One asyncio event loop, so one request is worked on at a time and the rest wait in line: a single queue.
 Each response carries `Server-Timing: app;dur=<ms>`, the handler's own time, which is what a server log would see.
 TLS 1.3 only, HTTP/1.1 keep-alive. Standard library only (Python 3.12+).
@@ -15,7 +15,7 @@ import ssl
 import sys
 import time
 
-WORK = int(os.environ.get("WORK", 6000))
+WORK = int(os.environ.get("WORK", 2500))
 
 ORDER = {
     "id": "ord_000184",
