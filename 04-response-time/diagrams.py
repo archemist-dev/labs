@@ -63,7 +63,7 @@ def segments(a, mode):
 
 
 def timeline(runs):
-    """The same request to scale: the server log's slice against what the client waits."""
+    """The same request to scale: service time (the server log's slice) inside latency, both inside response time."""
     a = runs[0]["anatomy"]
     x0, scale = 200, 1080 / a["new"]["total"]["50"]
     b = [text(x0 + v * scale, 870, f"{v}", 28, MUTED, MONO, 700, "middle") for v in range(0, 50, 10)]
@@ -84,14 +84,19 @@ def timeline(runs):
                 setup_end = x + w
             x += w
         total = a[mode]["total"]["50"]
-        b.append(text(x + 24, y + 68, f"{total:.0f} ms" if total > 20 else f"{total:.1f} ms", 52,
+        b.append(text(x + 24, y + 6, "response time", 28, MUTED, MONO, 700))
+        b.append(text(x + 24, y + 76, f"{total:.0f} ms" if total > 20 else f"{total:.1f} ms", 52,
                       RED if mode == "new" else GREEN, MONO, 800))
         work_w = a[mode]["app"]["50"] * scale
         b += [line(work_x + work_w / 2, y + 100, work_x + work_w / 2, y + 140, FG, 3),
-              text(work_x + work_w / 2, y + 176, f"server log {a[mode]['app']['50']:.1f}", 30, FG, MONO, 800, "middle")]
+              text(work_x + work_w / 2, y + 176, f"service time {a[mode]['app']['50']:.1f}", 30, FG, MONO, 800, "middle")]
         if mode == "new":
             b += [f'<path d="M{x0 + 4},{y - 8} V{y - 18} H{setup_end - 4} V{y - 8}" fill="none" stroke="{RED}" stroke-width="3"/>',
                   text(setup_end, y - 30, f"+{(a['new']['tcp']['50'] + a['new']['tls']['50']):.0f} ms setup", 34, RED, MONO, 800, "end")]
+    lx, ly = 880, 262  # legend: what each color means
+    b += [rect(lx, ly, 30, 30, RED, rx=6), rect(lx + 38, ly, 30, 30, GRAY, rx=6),
+          text(lx + 84, ly + 26, "latency", 30, LIGHT, MONO, 800),
+          rect(lx + 260, ly, 30, 30, FG, rx=6), text(lx + 306, ly + 26, "service time", 30, LIGHT, MONO, 800)]
     return frame("The server log sees 4.8 ms", "same request · server Frankfurt · client London · p50", "".join(b))
 
 
