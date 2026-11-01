@@ -5,3 +5,5 @@ public/audio/*
 public/sfx/*
 !public/audio/.gitkeep
 !public/sfx/.gitkeep
+# scratch audio from building a Short (raw audio stays on the PC)
+work-*/
