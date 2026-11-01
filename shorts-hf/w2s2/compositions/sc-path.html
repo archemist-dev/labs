@@ -1,0 +1,53 @@
+<template>
+  <style>
+  #root { position: absolute; inset: 0; font-family: "Inter", sans-serif; color: #f2efe9; }
+  #path-cam { position: absolute; inset: 0; transform-origin: 50% 45%; }
+  #path-flash { position: absolute; inset: 0; background: #f2efe9; opacity: 0; }
+  .path-t { position: absolute; left: 80px; top: 220px; right: 80px; }
+  .path-t b { display: block; font-weight: 900; font-size: 72px; line-height: 1.05; }
+  .path-t i { display: block; margin-top: 22px; width: 120px; height: 8px; border-radius: 4px; background: #d4a017; transform-origin: 0 50%; }
+  .path-t u { display: block; margin-top: 22px; font-family: "JetBrains Mono", monospace; font-size: 32px; color: #8a8f98; text-decoration: none; }
+  .path-box { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center; border: 4px solid #9aa1ab; border-radius: 14px; font-weight: 700; font-size: 44px; line-height: 1.1; color: #9aa1ab; }
+  .path-mono { position: absolute; font-family: "JetBrains Mono", monospace; font-weight: 700; line-height: 1; white-space: nowrap; }
+</style>
+  <div id="root" data-composition-id="sc-path" data-width="1080" data-height="1920">
+    <div id="path-cam"><div class="path-t"><b>Creating an order</b><i id="path-line"></i><u>the order path</u></div>
+        <div style="position:absolute;left:60px;top:500px;width:6px;height:490px;background:#e5484d;border-radius:3px;opacity:0.7"></div>
+        <div id="path-menu" class="path-box" style="left:110px;top:520px;width:420px;height:110px;border-color:#9aa1ab;color:#9aa1ab;background:#1b1d21;">menu</div><div id="path-menus" class="path-mono" style="left:580px;top:554px;font-size:44px;color:#e5484d;">BLOCKS</div>
+<div id="path-orders" class="path-box" style="left:110px;top:700px;width:420px;height:110px;border-color:#9aa1ab;color:#9aa1ab;background:#1b1d21;">orders</div><div id="path-orderss" class="path-mono" style="left:580px;top:734px;font-size:44px;color:#e5484d;">BLOCKS</div>
+<div id="path-payments" class="path-box" style="left:110px;top:880px;width:420px;height:110px;border-color:#9aa1ab;color:#9aa1ab;background:#1b1d21;">payments</div><div id="path-paymentss" class="path-mono" style="left:580px;top:914px;font-size:44px;color:#e5484d;">BLOCKS</div>
+        <div class="path-ar" style="position:absolute;left:316px;top:630px;width:6px;height:70px;background:#5c6370;border-radius:3px"></div><div class="path-ar" style="position:absolute;left:316px;top:810px;width:6px;height:70px;background:#5c6370;border-radius:3px"></div>
+        <div style="position:absolute;left:80px;top:1040px;width:920px;height:0;border-top:4px dashed #5c6370"></div>
+        <div id="path-off" class="path-mono" style="left:80px;top:1066px;font-size:30px;color:#8a8f98;">off the path</div>
+        <div id="path-couriers" class="path-box" style="left:110px;top:1120px;width:420px;height:110px;border-color:#34c77b;color:#34c77b;background:#20352a;">couriers</div><div id="path-safe" class="path-mono" style="left:580px;top:1154px;font-size:44px;color:#34c77b;">SAFE</div></div>
+    <div id="path-flash"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    
+  tl.fromTo("#path-cam", { opacity: 0, y: 40, scale: 1 },
+    { opacity: 1, y: 0, scale: 1, duration: 0.27, ease: "power3.out" }, 0);
+  tl.to("#path-cam", { scale: 1.05, duration: 9.9, ease: "none" }, 0.33);
+  tl.to("#path-cam", { opacity: 0, duration: 0.17, ease: "power1.in" }, 9.73);
+  tl.fromTo("#path-flash", { opacity: 0.12 }, { opacity: 0, duration: 0.17, ease: "none" }, 0);
+  tl.fromTo("#path-line", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "back.out(2)" }, 0.13);
+
+    
+        tl.fromTo("#path-menu", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 3.88);
+tl.fromTo("#path-menus", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power1.out" }, 4.08);
+
+        tl.fromTo("#path-orders", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 4.54);
+tl.fromTo("#path-orderss", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power1.out" }, 4.74);
+
+        tl.fromTo("#path-payments", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 5.1);
+tl.fromTo("#path-paymentss", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power1.out" }, 5.3);
+
+        tl.fromTo(".path-ar", { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: 0.15 }, 4.54);
+        tl.to(["#path-menu", "#path-orders", "#path-payments"], { borderColor: "#e5484d", color: "#e5484d", duration: 0.25, stagger: 0.08 }, 5.92);
+        tl.fromTo("#path-off", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 7.82);
+tl.fromTo("#path-couriers", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 8.02);
+tl.fromTo("#path-safe", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power1.out" }, 8.27);
+
+    window.__timelines["sc-path"] = tl;
+  </script>
+</template>

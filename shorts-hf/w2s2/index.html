@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #1b1d21; }
+      #bg { position: absolute; inset: 0; background: #1b1d21; }
+      #progress { position: absolute; left: 0; top: 0; height: 8px; width: 1080px; background: #f2efe9; opacity: 0.35; transform-origin: 0 50%; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="81" data-width="1080" data-height="1920">
+    <div id="bg"></div>
+    <div id="sc-hook" data-composition-id="sc-hook" data-composition-src="compositions/sc-hook.html" data-start="0" data-duration="6.42" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+    <div id="sc-path" data-composition-id="sc-path" data-composition-src="compositions/sc-path.html" data-start="6.42" data-duration="9.9" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+    <div id="sc-deps" data-composition-id="sc-deps" data-composition-src="compositions/sc-deps.html" data-start="16.32" data-duration="8.8" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+    <div id="sc-safe" data-composition-id="sc-safe" data-composition-src="compositions/sc-safe.html" data-start="25.12" data-duration="11.46" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+    <div id="sc-growth" data-composition-id="sc-growth" data-composition-src="compositions/sc-growth.html" data-start="36.58" data-duration="15.82" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+    <div id="sc-fix" data-composition-id="sc-fix" data-composition-src="compositions/sc-fix.html" data-start="52.4" data-duration="5.94" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+    <div id="sc-copy" data-composition-id="sc-copy" data-composition-src="compositions/sc-copy.html" data-start="58.34" data-duration="11.66" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+    <div id="sc-production" data-composition-id="sc-production" data-composition-src="compositions/sc-production.html" data-start="70" data-duration="4.34" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+    <div id="sc-close" data-composition-id="sc-close" data-composition-src="compositions/sc-close.html" data-start="74.34" data-duration="6.66" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+    <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="81" data-track-index="2" data-track-kind="captions" data-width="1080" data-height="1920"></div>
+    <div id="progress" class="clip" data-start="0" data-duration="81" data-track-index="6"></div>
+    <audio id="voice" src="assets/short2-en.wav" data-start="0" data-duration="80.099" data-track-index="7" data-volume="1"></audio>
+    <audio id="sfx-0-impact" src="assets/sfx/impact.wav" data-start="0" data-duration="0.7" data-track-index="3" data-volume="0.245"></audio>
+    <audio id="sfx-1-reveal" src="assets/sfx/reveal.wav" data-start="2.89" data-duration="0.5" data-track-index="4" data-volume="0.122"></audio>
+    <audio id="sfx-2-stamp" src="assets/sfx/stamp.wav" data-start="12.37" data-duration="0.3" data-track-index="5" data-volume="0.122"></audio>
+    <audio id="sfx-3-reveal" src="assets/sfx/reveal.wav" data-start="14.47" data-duration="0.5" data-track-index="3" data-volume="0.122"></audio>
+    <audio id="sfx-4-reveal" src="assets/sfx/reveal.wav" data-start="23.65" data-duration="0.5" data-track-index="4" data-volume="0.122"></audio>
+    <audio id="sfx-5-reveal" src="assets/sfx/reveal.wav" data-start="27.51" data-duration="0.5" data-track-index="5" data-volume="0.122"></audio>
+    <audio id="sfx-6-stamp" src="assets/sfx/stamp.wav" data-start="29.65" data-duration="0.3" data-track-index="3" data-volume="0.122"></audio>
+    <audio id="sfx-7-reveal" src="assets/sfx/reveal.wav" data-start="45.35" data-duration="0.5" data-track-index="4" data-volume="0.122"></audio>
+    <audio id="sfx-8-stamp" src="assets/sfx/stamp.wav" data-start="47.37" data-duration="0.3" data-track-index="5" data-volume="0.14"></audio>
+    <audio id="sfx-9-reveal" src="assets/sfx/reveal.wav" data-start="53.57" data-duration="0.5" data-track-index="3" data-volume="0.122"></audio>
+    <audio id="sfx-10-reveal" src="assets/sfx/reveal.wav" data-start="68.61" data-duration="0.5" data-track-index="4" data-volume="0.122"></audio>
+    <audio id="sfx-11-buzz" src="assets/sfx/buzz.wav" data-start="73.05" data-duration="0.32" data-track-index="5" data-volume="0.175"></audio>
+    <audio id="sfx-12-reveal" src="assets/sfx/reveal.wav" data-start="78.43" data-duration="0.5" data-track-index="3" data-volume="0.122"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#progress", { scaleX: 0 }, { scaleX: 1, duration: 81, ease: "none" }, 0);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

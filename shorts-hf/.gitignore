@@ -1,0 +1,16 @@
+.venv/
+pip-install.log
+check.json
+audio-err.txt
+out/
+narration/*.wav
+narration/*.mp3
+narration/*.json
+w2s2/assets/
+w2s2/.hyperframes/
+w2s2/renders/
+*.mp4
+*.wav
+*.mp3
+*.log
+thumb2/.hyperframes/

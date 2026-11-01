@@ -1,0 +1,45 @@
+<template>
+  <style>
+  #root { position: absolute; inset: 0; font-family: "Inter", sans-serif; color: #f2efe9; }
+  #deps-cam { position: absolute; inset: 0; transform-origin: 50% 45%; }
+  #deps-flash { position: absolute; inset: 0; background: #f2efe9; opacity: 0; }
+  .deps-t { position: absolute; left: 80px; top: 220px; right: 80px; }
+  .deps-t b { display: block; font-weight: 900; font-size: 72px; line-height: 1.05; }
+  .deps-t i { display: block; margin-top: 22px; width: 120px; height: 8px; border-radius: 4px; background: #d4a017; transform-origin: 0 50%; }
+  .deps-t u { display: block; margin-top: 22px; font-family: "JetBrains Mono", monospace; font-size: 32px; color: #8a8f98; text-decoration: none; }
+  .deps-box { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center; border: 4px solid #9aa1ab; border-radius: 14px; font-weight: 700; font-size: 44px; line-height: 1.1; color: #9aa1ab; }
+  .deps-mono { position: absolute; font-family: "JetBrains Mono", monospace; font-weight: 700; line-height: 1; white-space: nowrap; }
+</style>
+  <div id="root" data-composition-id="sc-deps" data-width="1080" data-height="1920">
+    <div id="deps-cam"><div class="deps-t"><b>Couriers → orders</b><i id="deps-line"></i><u>its dependencies</u></div>
+        <div id="deps-co" class="deps-box" style="left:80px;top:560px;width:300px;height:380px;border-color:#34c77b;color:#34c77b;background:#20352a;">couriers</div><div id="deps-or" class="deps-box" style="left:700px;top:560px;width:300px;height:380px;border-color:#9aa1ab;color:#9aa1ab;background:#1b1d21;">orders</div>
+        <div id="deps-assignl" style="position:absolute;left:400px;top:670px;width:280px;height:6px;background:#9aa1ab;border-radius:3px;transform-origin:0 50%"></div><div id="deps-assignh" style="position:absolute;left:662px;top:659px;width:0;height:0;border-left:24px solid #9aa1ab;border-top:14px solid transparent;border-bottom:14px solid transparent"></div><div id="deps-assign" class="deps-mono" style="left:400px;top:626px;font-size:30px;color:#9aa1ab;">ASSIGN</div>
+<div id="deps-statusl" style="position:absolute;left:400px;top:770px;width:280px;height:6px;background:#9aa1ab;border-radius:3px;transform-origin:0 50%"></div><div id="deps-statush" style="position:absolute;left:662px;top:759px;width:0;height:0;border-left:24px solid #9aa1ab;border-top:14px solid transparent;border-bottom:14px solid transparent"></div><div id="deps-status" class="deps-mono" style="left:400px;top:726px;font-size:30px;color:#9aa1ab;">STATUS</div>
+<div id="deps-pointl" style="position:absolute;left:400px;top:870px;width:280px;height:6px;background:#9aa1ab;border-radius:3px;transform-origin:0 50%"></div><div id="deps-pointh" style="position:absolute;left:662px;top:859px;width:0;height:0;border-left:24px solid #9aa1ab;border-top:14px solid transparent;border-bottom:14px solid transparent"></div><div id="deps-point" class="deps-mono" style="left:400px;top:826px;font-size:30px;color:#9aa1ab;">DELIVERY POINT</div>
+        <div id="deps-n" class="deps-mono" style="left:80px;top:990px;font-size:80px;color:#f2efe9;">3 calls</div>
+        <div id="deps-tables" class="deps-box" style="left:80px;top:1110px;width:600px;height:100px;border-color:#34c77b;color:#34c77b;background:#20352a;font-size:40px">shared tables  0</div></div>
+    <div id="deps-flash"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    
+  tl.fromTo("#deps-cam", { opacity: 0, y: 40, scale: 1 },
+    { opacity: 1, y: 0, scale: 1, duration: 0.27, ease: "power3.out" }, 0);
+  tl.to("#deps-cam", { scale: 1.05, duration: 8.8, ease: "none" }, 0.33);
+  tl.to("#deps-cam", { opacity: 0, duration: 0.17, ease: "power1.in" }, 8.63);
+  tl.fromTo("#deps-flash", { opacity: 0.12 }, { opacity: 0, duration: 0.17, ease: "none" }, 0);
+  tl.fromTo("#deps-line", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "back.out(2)" }, 0.13);
+
+    
+        tl.fromTo("#deps-assignl", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, 3.08);
+        tl.fromTo(["#deps-assignh", "#deps-assign"], { opacity: 0 }, { opacity: 1, duration: 0.2 }, 3.08);
+tl.fromTo("#deps-statusl", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, 4.02);
+        tl.fromTo(["#deps-statush", "#deps-status"], { opacity: 0 }, { opacity: 1, duration: 0.2 }, 4.02);
+tl.fromTo("#deps-pointl", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, 4.96);
+        tl.fromTo(["#deps-pointh", "#deps-point"], { opacity: 0 }, { opacity: 1, duration: 0.2 }, 4.96);
+        tl.fromTo("#deps-n", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 6.36);
+tl.fromTo("#deps-tables", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 7.3);
+
+    window.__timelines["sc-deps"] = tl;
+  </script>
+</template>
