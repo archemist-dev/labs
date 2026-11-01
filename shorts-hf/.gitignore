@@ -14,3 +14,4 @@ w2s2/renders/
 *.mp3
 *.log
 thumb2/.hyperframes/
+node_modules/

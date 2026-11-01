@@ -14,4 +14,6 @@ Trial: week 2 Short 2 built with [HyperFrames](https://github.com/heygen-com/hyp
 - Python venv: `python -m venv .venv`, then `pip install numpy scipy praat-parselmouth openai-whisper`.
 - HyperFrames needs a full FFmpeg and FFprobe on PATH. Remotion's bundled build lacks the `pcm_f32le` encoder (the render stops at the audio mix, "Unknown encoder"), and Whisper's own loader fails with it too. Use a Gyan.dev build (`winget install --id Gyan.FFmpeg -e`).
 - Node 22.11 works but several dependencies ask for 22.12 or newer (warnings only).
-- `npx hyperframes init` copies its skills into `~/.claude/skills` and `~/.agents/skills`.
+- HyperFrames is a pinned dev dependency of `w2s2/` (run `npm install` there, then `npm run check|dev|render`), not a global install.
+- Never run `npx hyperframes init` or `npx hyperframes skills ...`: they write the skills into `~/.claude/skills` and `~/.agents/skills` (the CLI has no project option). The skills live in the vault's `.claude/skills/` (`hyperframes`, `hyperframes-cli`, `hyperframes-registry`; `media-use` is left out, it can call HeyGen's paid service).
+- The CLI reports usage telemetry by default (`npx hyperframes telemetry status`, `... disable`).
