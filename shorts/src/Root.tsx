@@ -12,6 +12,7 @@ import { SCENES2 as payloadScenes2 } from "./shorts/01-payload-encoding/Short2";
 import { Thumbnail2 as payloadThumb2 } from "./shorts/01-payload-encoding/Thumbnail2";
 import { short1 as extractShort1 } from "./shorts/02-extract-first/script";
 import { SCENES as extractScenes1 } from "./shorts/02-extract-first/Short1";
+import { Thumbnail as extractThumb1 } from "./shorts/02-extract-first/Thumbnail";
 
 // One entry per Short; each language becomes its own composition, e.g. "02-short1-uz".
 const LIST: { id: string; scripts: Record<string, Beat[]>; scenes: Record<string, React.FC> }[] = [
@@ -40,5 +41,6 @@ export const Root: React.FC = () => (
     )}
     <Still id="01-short1-thumb" component={payloadThumb1} width={W} height={H} />
     <Still id="01-short2-thumb" component={payloadThumb2} width={W} height={H} />
+    <Still id="02-short1-thumb" component={extractThumb1} width={W} height={H} />
   </>
 );

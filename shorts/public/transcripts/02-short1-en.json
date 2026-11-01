@@ -1,0 +1,1012 @@
+{
+ "segments": [
+  {
+   "text": " Orders feels like the obvious first service",
+   "start": 0.0,
+   "end": 2.16,
+   "words": [
+    {
+     "word": " Orders",
+     "start": 0.0,
+     "end": 0.26
+    },
+    {
+     "word": " feels",
+     "start": 0.26,
+     "end": 0.6
+    },
+    {
+     "word": " like",
+     "start": 0.6,
+     "end": 0.88
+    },
+    {
+     "word": " the",
+     "start": 0.88,
+     "end": 1.08
+    },
+    {
+     "word": " obvious",
+     "start": 1.08,
+     "end": 1.48
+    },
+    {
+     "word": " first",
+     "start": 1.48,
+     "end": 1.8
+    },
+    {
+     "word": " service",
+     "start": 1.8,
+     "end": 2.16
+    }
+   ]
+  },
+  {
+   "text": " to pull out of the monolith.",
+   "start": 2.16,
+   "end": 3.22,
+   "words": [
+    {
+     "word": " to",
+     "start": 2.16,
+     "end": 2.34
+    },
+    {
+     "word": " pull",
+     "start": 2.34,
+     "end": 2.5
+    },
+    {
+     "word": " out",
+     "start": 2.5,
+     "end": 2.66
+    },
+    {
+     "word": " of",
+     "start": 2.66,
+     "end": 2.76
+    },
+    {
+     "word": " the",
+     "start": 2.76,
+     "end": 2.86
+    },
+    {
+     "word": " monolith.",
+     "start": 2.86,
+     "end": 3.22
+    }
+   ]
+  },
+  {
+   "text": " I counted what that really costs.",
+   "start": 3.76,
+   "end": 5.22,
+   "words": [
+    {
+     "word": " I",
+     "start": 3.76,
+     "end": 3.88
+    },
+    {
+     "word": " counted",
+     "start": 3.88,
+     "end": 4.1
+    },
+    {
+     "word": " what",
+     "start": 4.1,
+     "end": 4.3
+    },
+    {
+     "word": " that",
+     "start": 4.3,
+     "end": 4.46
+    },
+    {
+     "word": " really",
+     "start": 4.46,
+     "end": 4.72
+    },
+    {
+     "word": " costs.",
+     "start": 4.72,
+     "end": 5.22
+    }
+   ]
+  },
+  {
+   "text": " I rebuilt a small version of the kind of monolith",
+   "start": 6.2,
+   "end": 8.32,
+   "words": [
+    {
+     "word": " I",
+     "start": 6.2,
+     "end": 6.34
+    },
+    {
+     "word": " rebuilt",
+     "start": 6.34,
+     "end": 6.6
+    },
+    {
+     "word": " a",
+     "start": 6.6,
+     "end": 6.8
+    },
+    {
+     "word": " small",
+     "start": 6.8,
+     "end": 7.1
+    },
+    {
+     "word": " version",
+     "start": 7.1,
+     "end": 7.4
+    },
+    {
+     "word": " of",
+     "start": 7.4,
+     "end": 7.56
+    },
+    {
+     "word": " the",
+     "start": 7.56,
+     "end": 7.68
+    },
+    {
+     "word": " kind",
+     "start": 7.68,
+     "end": 7.84
+    },
+    {
+     "word": " of",
+     "start": 7.84,
+     "end": 7.98
+    },
+    {
+     "word": " monolith",
+     "start": 7.98,
+     "end": 8.32
+    }
+   ]
+  },
+  {
+   "text": " I worked on from day one, a few years ago.",
+   "start": 8.32,
+   "end": 10.44,
+   "words": [
+    {
+     "word": " I",
+     "start": 8.32,
+     "end": 8.46
+    },
+    {
+     "word": " worked",
+     "start": 8.46,
+     "end": 8.66
+    },
+    {
+     "word": " on",
+     "start": 8.66,
+     "end": 8.88
+    },
+    {
+     "word": " from",
+     "start": 8.88,
+     "end": 9.06
+    },
+    {
+     "word": " day",
+     "start": 9.06,
+     "end": 9.2
+    },
+    {
+     "word": " one,",
+     "start": 9.2,
+     "end": 9.54
+    },
+    {
+     "word": " a",
+     "start": 9.76,
+     "end": 9.84
+    },
+    {
+     "word": " few",
+     "start": 9.84,
+     "end": 9.96
+    },
+    {
+     "word": " years",
+     "start": 9.96,
+     "end": 10.16
+    },
+    {
+     "word": " ago.",
+     "start": 10.16,
+     "end": 10.44
+    }
+   ]
+  },
+  {
+   "text": " Five modules, one shared database.",
+   "start": 10.84,
+   "end": 12.52,
+   "words": [
+    {
+     "word": " Five",
+     "start": 10.84,
+     "end": 11.06
+    },
+    {
+     "word": " modules,",
+     "start": 11.06,
+     "end": 11.42
+    },
+    {
+     "word": " one",
+     "start": 11.76,
+     "end": 11.88
+    },
+    {
+     "word": " shared",
+     "start": 11.88,
+     "end": 12.12
+    },
+    {
+     "word": " database.",
+     "start": 12.12,
+     "end": 12.52
+    }
+   ]
+  },
+  {
+   "text": " I ran one order through it and counted the dependencies.",
+   "start": 13.12,
+   "end": 15.3,
+   "words": [
+    {
+     "word": " I",
+     "start": 13.12,
+     "end": 13.22
+    },
+    {
+     "word": " ran",
+     "start": 13.22,
+     "end": 13.4
+    },
+    {
+     "word": " one",
+     "start": 13.4,
+     "end": 13.66
+    },
+    {
+     "word": " order",
+     "start": 13.66,
+     "end": 13.84
+    },
+    {
+     "word": " through",
+     "start": 13.84,
+     "end": 14.16
+    },
+    {
+     "word": " it",
+     "start": 14.16,
+     "end": 14.3
+    },
+    {
+     "word": " and",
+     "start": 14.3,
+     "end": 14.42
+    },
+    {
+     "word": " counted",
+     "start": 14.42,
+     "end": 14.72
+    },
+    {
+     "word": " the",
+     "start": 14.72,
+     "end": 14.88
+    },
+    {
+     "word": " dependencies.",
+     "start": 14.88,
+     "end": 15.3
+    }
+   ]
+  },
+  {
+   "text": " Every table and every function that another module touches.",
+   "start": 15.78,
+   "end": 18.46,
+   "words": [
+    {
+     "word": " Every",
+     "start": 15.78,
+     "end": 16.04
+    },
+    {
+     "word": " table",
+     "start": 16.04,
+     "end": 16.34
+    },
+    {
+     "word": " and",
+     "start": 16.34,
+     "end": 16.58
+    },
+    {
+     "word": " every",
+     "start": 16.58,
+     "end": 16.92
+    },
+    {
+     "word": " function",
+     "start": 16.92,
+     "end": 17.2
+    },
+    {
+     "word": " that",
+     "start": 17.2,
+     "end": 17.46
+    },
+    {
+     "word": " another",
+     "start": 17.46,
+     "end": 17.72
+    },
+    {
+     "word": " module",
+     "start": 17.72,
+     "end": 18.0
+    },
+    {
+     "word": " touches.",
+     "start": 18.0,
+     "end": 18.46
+    }
+   ]
+  },
+  {
+   "text": " Orders has 10.",
+   "start": 19.68,
+   "end": 20.92,
+   "words": [
+    {
+     "word": " Orders",
+     "start": 19.68,
+     "end": 19.7
+    },
+    {
+     "word": " has",
+     "start": 19.7,
+     "end": 20.42
+    },
+    {
+     "word": " 10.",
+     "start": 20.42,
+     "end": 20.92
+    }
+   ]
+  },
+  {
+   "text": " 10 dependencies, and it sits on the money path.",
+   "start": 21.44,
+   "end": 24.4,
+   "words": [
+    {
+     "word": " 10",
+     "start": 21.44,
+     "end": 21.78
+    },
+    {
+     "word": " dependencies,",
+     "start": 21.78,
+     "end": 22.34
+    },
+    {
+     "word": " and",
+     "start": 22.86,
+     "end": 23.06
+    },
+    {
+     "word": " it",
+     "start": 23.06,
+     "end": 23.18
+    },
+    {
+     "word": " sits",
+     "start": 23.18,
+     "end": 23.42
+    },
+    {
+     "word": " on",
+     "start": 23.42,
+     "end": 23.7
+    },
+    {
+     "word": " the",
+     "start": 23.7,
+     "end": 23.8
+    },
+    {
+     "word": " money",
+     "start": 23.8,
+     "end": 24.0
+    },
+    {
+     "word": " path.",
+     "start": 24.0,
+     "end": 24.4
+    }
+   ]
+  },
+  {
+   "text": " Who takes orders while you move orders?",
+   "start": 25.7,
+   "end": 27.6,
+   "words": [
+    {
+     "word": " Who",
+     "start": 25.7,
+     "end": 25.82
+    },
+    {
+     "word": " takes",
+     "start": 25.82,
+     "end": 26.12
+    },
+    {
+     "word": " orders",
+     "start": 26.12,
+     "end": 26.46
+    },
+    {
+     "word": " while",
+     "start": 26.46,
+     "end": 26.8
+    },
+    {
+     "word": " you",
+     "start": 26.8,
+     "end": 26.96
+    },
+    {
+     "word": " move",
+     "start": 26.96,
+     "end": 27.22
+    },
+    {
+     "word": " orders?",
+     "start": 27.22,
+     "end": 27.6
+    }
+   ]
+  },
+  {
+   "text": " The usual advice is to start small, at the edge.",
+   "start": 29.42,
+   "end": 32.26,
+   "words": [
+    {
+     "word": " The",
+     "start": 29.42,
+     "end": 29.94
+    },
+    {
+     "word": " usual",
+     "start": 29.94,
+     "end": 30.2
+    },
+    {
+     "word": " advice",
+     "start": 30.2,
+     "end": 30.56
+    },
+    {
+     "word": " is",
+     "start": 30.56,
+     "end": 30.78
+    },
+    {
+     "word": " to",
+     "start": 30.78,
+     "end": 30.92
+    },
+    {
+     "word": " start",
+     "start": 30.92,
+     "end": 31.12
+    },
+    {
+     "word": " small,",
+     "start": 31.12,
+     "end": 31.52
+    },
+    {
+     "word": " at",
+     "start": 31.84,
+     "end": 31.9
+    },
+    {
+     "word": " the",
+     "start": 31.9,
+     "end": 32.02
+    },
+    {
+     "word": " edge.",
+     "start": 32.02,
+     "end": 32.26
+    }
+   ]
+  },
+  {
+   "text": " Menu has only two dependencies, but it runs inside every order.",
+   "start": 32.82,
+   "end": 35.8,
+   "words": [
+    {
+     "word": " Menu",
+     "start": 32.82,
+     "end": 32.92
+    },
+    {
+     "word": " has",
+     "start": 32.92,
+     "end": 33.18
+    },
+    {
+     "word": " only",
+     "start": 33.18,
+     "end": 33.38
+    },
+    {
+     "word": " two",
+     "start": 33.38,
+     "end": 33.6
+    },
+    {
+     "word": " dependencies,",
+     "start": 33.6,
+     "end": 34.0
+    },
+    {
+     "word": " but",
+     "start": 34.36,
+     "end": 34.48
+    },
+    {
+     "word": " it",
+     "start": 34.48,
+     "end": 34.58
+    },
+    {
+     "word": " runs",
+     "start": 34.58,
+     "end": 34.74
+    },
+    {
+     "word": " inside",
+     "start": 34.74,
+     "end": 35.1
+    },
+    {
+     "word": " every",
+     "start": 35.1,
+     "end": 35.48
+    },
+    {
+     "word": " order.",
+     "start": 35.48,
+     "end": 35.8
+    }
+   ]
+  },
+  {
+   "text": " Notifications has two dependencies too,",
+   "start": 36.54,
+   "end": 38.28,
+   "words": [
+    {
+     "word": " Notifications",
+     "start": 36.54,
+     "end": 36.86
+    },
+    {
+     "word": " has",
+     "start": 36.86,
+     "end": 37.26
+    },
+    {
+     "word": " two",
+     "start": 37.26,
+     "end": 37.48
+    },
+    {
+     "word": " dependencies",
+     "start": 37.48,
+     "end": 37.92
+    },
+    {
+     "word": " too,",
+     "start": 37.92,
+     "end": 38.28
+    }
+   ]
+  },
+  {
+   "text": " and it's sent as an event so it can't block orders.",
+   "start": 38.58,
+   "end": 40.74,
+   "words": [
+    {
+     "word": " and",
+     "start": 38.58,
+     "end": 38.64
+    },
+    {
+     "word": " it's",
+     "start": 38.64,
+     "end": 38.78
+    },
+    {
+     "word": " sent",
+     "start": 38.78,
+     "end": 38.92
+    },
+    {
+     "word": " as",
+     "start": 38.92,
+     "end": 39.08
+    },
+    {
+     "word": " an",
+     "start": 39.08,
+     "end": 39.16
+    },
+    {
+     "word": " event",
+     "start": 39.16,
+     "end": 39.46
+    },
+    {
+     "word": " so",
+     "start": 39.46,
+     "end": 39.76
+    },
+    {
+     "word": " it",
+     "start": 39.76,
+     "end": 39.88
+    },
+    {
+     "word": " can't",
+     "start": 39.88,
+     "end": 40.16
+    },
+    {
+     "word": " block",
+     "start": 40.16,
+     "end": 40.34
+    },
+    {
+     "word": " orders.",
+     "start": 40.34,
+     "end": 40.74
+    }
+   ]
+  },
+  {
+   "text": " Curriers can't either.",
+   "start": 41.28,
+   "end": 42.06,
+   "words": [
+    {
+     "word": " Curriers",
+     "start": 41.28,
+     "end": 41.44
+    },
+    {
+     "word": " can't",
+     "start": 41.44,
+     "end": 41.84
+    },
+    {
+     "word": " either.",
+     "start": 41.84,
+     "end": 42.06
+    }
+   ]
+  },
+  {
+   "text": " So ask three questions about every module.",
+   "start": 43.06,
+   "end": 45.22,
+   "words": [
+    {
+     "word": " So",
+     "start": 43.06,
+     "end": 43.24
+    },
+    {
+     "word": " ask",
+     "start": 43.24,
+     "end": 43.46
+    },
+    {
+     "word": " three",
+     "start": 43.46,
+     "end": 43.82
+    },
+    {
+     "word": " questions",
+     "start": 43.82,
+     "end": 44.2
+    },
+    {
+     "word": " about",
+     "start": 44.2,
+     "end": 44.46
+    },
+    {
+     "word": " every",
+     "start": 44.46,
+     "end": 44.84
+    },
+    {
+     "word": " module.",
+     "start": 44.84,
+     "end": 45.22
+    }
+   ]
+  },
+  {
+   "text": " Is it loosely coupled?",
+   "start": 45.7,
+   "end": 46.46,
+   "words": [
+    {
+     "word": " Is",
+     "start": 45.7,
+     "end": 45.78
+    },
+    {
+     "word": " it",
+     "start": 45.78,
+     "end": 45.9
+    },
+    {
+     "word": " loosely",
+     "start": 45.9,
+     "end": 46.18
+    },
+    {
+     "word": " coupled?",
+     "start": 46.18,
+     "end": 46.46
+    }
+   ]
+  },
+  {
+   "text": " Can it block a critical flow without a fallback?",
+   "start": 46.92,
+   "end": 48.92,
+   "words": [
+    {
+     "word": " Can",
+     "start": 46.92,
+     "end": 47.02
+    },
+    {
+     "word": " it",
+     "start": 47.02,
+     "end": 47.18
+    },
+    {
+     "word": " block",
+     "start": 47.18,
+     "end": 47.38
+    },
+    {
+     "word": " a",
+     "start": 47.38,
+     "end": 47.54
+    },
+    {
+     "word": " critical",
+     "start": 47.54,
+     "end": 47.78
+    },
+    {
+     "word": " flow",
+     "start": 47.78,
+     "end": 48.14
+    },
+    {
+     "word": " without",
+     "start": 48.14,
+     "end": 48.4
+    },
+    {
+     "word": " a",
+     "start": 48.4,
+     "end": 48.54
+    },
+    {
+     "word": " fallback?",
+     "start": 48.54,
+     "end": 48.92
+    }
+   ]
+  },
+  {
+   "text": " Does it have its own reason to move?",
+   "start": 49.4,
+   "end": 50.94,
+   "words": [
+    {
+     "word": " Does",
+     "start": 49.4,
+     "end": 49.52
+    },
+    {
+     "word": " it",
+     "start": 49.52,
+     "end": 49.64
+    },
+    {
+     "word": " have",
+     "start": 49.64,
+     "end": 49.8
+    },
+    {
+     "word": " its",
+     "start": 49.8,
+     "end": 49.94
+    },
+    {
+     "word": " own",
+     "start": 49.94,
+     "end": 50.18
+    },
+    {
+     "word": " reason",
+     "start": 50.18,
+     "end": 50.46
+    },
+    {
+     "word": " to",
+     "start": 50.46,
+     "end": 50.7
+    },
+    {
+     "word": " move?",
+     "start": 50.7,
+     "end": 50.94
+    }
+   ]
+  },
+  {
+   "text": " Notifications passes two.",
+   "start": 51.96,
+   "end": 53.26,
+   "words": [
+    {
+     "word": " Notifications",
+     "start": 51.96,
+     "end": 52.48
+    },
+    {
+     "word": " passes",
+     "start": 52.48,
+     "end": 52.82
+    },
+    {
+     "word": " two.",
+     "start": 52.82,
+     "end": 53.26
+    }
+   ]
+  },
+  {
+   "text": " Curriers passes all three.",
+   "start": 53.88,
+   "end": 54.96,
+   "words": [
+    {
+     "word": " Curriers",
+     "start": 53.88,
+     "end": 54.08
+    },
+    {
+     "word": " passes",
+     "start": 54.08,
+     "end": 54.44
+    },
+    {
+     "word": " all",
+     "start": 54.44,
+     "end": 54.66
+    },
+    {
+     "word": " three.",
+     "start": 54.66,
+     "end": 54.96
+    }
+   ]
+  },
+  {
+   "text": " But its reason to move isn't speed.",
+   "start": 55.3,
+   "end": 56.92,
+   "words": [
+    {
+     "word": " But",
+     "start": 55.3,
+     "end": 55.48
+    },
+    {
+     "word": " its",
+     "start": 55.48,
+     "end": 55.62
+    },
+    {
+     "word": " reason",
+     "start": 55.62,
+     "end": 55.8
+    },
+    {
+     "word": " to",
+     "start": 55.8,
+     "end": 56.0
+    },
+    {
+     "word": " move",
+     "start": 56.0,
+     "end": 56.24
+    },
+    {
+     "word": " isn't",
+     "start": 56.24,
+     "end": 56.64
+    },
+    {
+     "word": " speed.",
+     "start": 56.64,
+     "end": 56.92
+    }
+   ]
+  },
+  {
+   "text": " That's the next video.",
+   "start": 56.92,
+   "end": 58.22,
+   "words": [
+    {
+     "word": " That's",
+     "start": 56.92,
+     "end": 57.6
+    },
+    {
+     "word": " the",
+     "start": 57.6,
+     "end": 57.72
+    },
+    {
+     "word": " next",
+     "start": 57.72,
+     "end": 57.88
+    },
+    {
+     "word": " video.",
+     "start": 57.88,
+     "end": 58.22
+    }
+   ]
+  }
+ ]
+}

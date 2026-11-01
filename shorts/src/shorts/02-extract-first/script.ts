@@ -8,7 +8,7 @@ export const short1: Record<"en" | "uz" | "ru", Beat[]> = {
   en: [
     { scene: "hook", text: "Orders feels like the obvious first service to pull out of the monolith. I {count}counted what that really costs." },
     { scene: "monolith", text: "I rebuilt a small version of the kind of monolith I worked on from day one, a few years ago. {five}Five modules, one {db}shared database. I ran {order}one order through it and counted the {deps}dependencies: every table and every function that another module touches." },
-    { scene: "orders", text: "Orders has {ten}ten. Ten dependencies, all on the {money}money path." },
+    { scene: "orders", text: "Orders has {ten}ten. Ten dependencies, and it sits on the {money}money path." },
     { scene: "production", text: "Who takes orders while you move orders?" },
     { scene: "edges", text: "The usual advice is to start small, at the edge. Menu has only {menu}two dependencies, but it runs {inside}inside every order." },
     { scene: "edges", text: "Notifications has {notif}two dependencies too, and it's sent as an event, so it {safe}can't block orders. {couriers}Couriers can't either." },
