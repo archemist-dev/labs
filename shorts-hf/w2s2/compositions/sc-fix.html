@@ -1,0 +1,42 @@
+<template>
+  <style>
+  #root { position: absolute; inset: 0; font-family: "Inter", sans-serif; color: #f2efe9; }
+  #fix-cam { position: absolute; inset: 0; transform-origin: 50% 45%; }
+  #fix-flash { position: absolute; inset: 0; background: #f2efe9; opacity: 0; }
+  .fix-t { position: absolute; left: 80px; top: 220px; right: 80px; }
+  .fix-t b { display: block; font-weight: 900; font-size: 72px; line-height: 1.05; }
+  .fix-t i { display: block; margin-top: 22px; width: 120px; height: 8px; border-radius: 4px; background: #d4a017; transform-origin: 0 50%; }
+  .fix-t u { display: block; margin-top: 22px; font-family: "JetBrains Mono", monospace; font-size: 32px; color: #8a8f98; text-decoration: none; }
+  .fix-box { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center; border: 4px solid #9aa1ab; border-radius: 14px; font-weight: 700; font-size: 44px; line-height: 1.1; color: #9aa1ab; }
+  .fix-mono { position: absolute; font-family: "JetBrains Mono", monospace; font-weight: 700; line-height: 1; white-space: nowrap; }
+</style>
+  <div id="root" data-composition-id="sc-fix" data-width="1080" data-height="1920">
+    <div id="fix-cam"><div class="fix-t"><b>Cheaper first</b><i id="fix-line"></i><u>location logs</u></div>
+        <div id="fix-s1" class="fix-box" style="left:80px;top:1000px;width:300px;height:150px;border-color:#9aa1ab;color:#9aa1ab;background:#1b1d21;">keep<br>30 days</div>
+        <div id="fix-s2" class="fix-box" style="left:390px;top:880px;width:300px;height:270px;border-color:#9aa1ab;color:#9aa1ab;background:#1b1d21;">split<br>by day</div>
+        <div id="fix-s3" class="fix-box" style="left:700px;top:760px;width:300px;height:390px;border-color:#34c77b;color:#34c77b;background:#20352a;">own<br>database</div>
+        <div id="fix-d1" class="fix-mono" style="left:770px;top:700px;font-size:40px;color:#34c77b;">day 1</div>
+        <div id="fix-hint" class="fix-mono" style="left:80px;top:1190px;font-size:34px;color:#8a8f98;">cheaper ➜ bigger</div></div>
+    <div id="fix-flash"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    
+  tl.fromTo("#fix-cam", { opacity: 0, y: 40, scale: 1 },
+    { opacity: 1, y: 0, scale: 1, duration: 0.27, ease: "power3.out" }, 0);
+  tl.to("#fix-cam", { scale: 1.05, duration: 5.94, ease: "none" }, 0.33);
+  tl.to("#fix-cam", { opacity: 0, duration: 0.17, ease: "power1.in" }, 5.77);
+  tl.fromTo("#fix-flash", { opacity: 0.12 }, { opacity: 0, duration: 0.17, ease: "none" }, 0);
+  tl.fromTo("#fix-line", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "back.out(2)" }, 0.13);
+
+    
+        tl.fromTo("#fix-s3", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 1.14);
+tl.fromTo("#fix-d1", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 1.34);
+
+        tl.fromTo("#fix-s1", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 3.98);
+tl.fromTo("#fix-s2", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 4.88);
+tl.fromTo("#fix-hint", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 5.18);
+
+    window.__timelines["sc-fix"] = tl;
+  </script>
+</template>

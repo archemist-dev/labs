@@ -1,0 +1,51 @@
+<template>
+  <style>
+  #root { position: absolute; inset: 0; font-family: "Inter", sans-serif; color: #f2efe9; }
+  #hook-cam { position: absolute; inset: 0; transform-origin: 50% 45%; }
+  #hook-flash { position: absolute; inset: 0; background: #f2efe9; opacity: 0; }
+  .hook-t { position: absolute; left: 80px; top: 220px; right: 80px; }
+  .hook-t b { display: block; font-weight: 900; font-size: 72px; line-height: 1.05; }
+  .hook-t i { display: block; margin-top: 22px; width: 120px; height: 8px; border-radius: 4px; background: #d4a017; transform-origin: 0 50%; }
+  .hook-t u { display: block; margin-top: 22px; font-family: "JetBrains Mono", monospace; font-size: 32px; color: #8a8f98; text-decoration: none; }
+  .hook-box { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center; border: 4px solid #9aa1ab; border-radius: 14px; font-weight: 700; font-size: 44px; line-height: 1.1; color: #9aa1ab; }
+  .hook-mono { position: absolute; font-family: "JetBrains Mono", monospace; font-weight: 700; line-height: 1; white-space: nowrap; }
+</style>
+  <div id="root" data-composition-id="sc-hook" data-width="1080" data-height="1920">
+    <div id="hook-cam"><div class="hook-t"><b>One order, two writers</b><i id="hook-line"></i><u>3 items · £11.99 · DELIVERED</u></div>
+        <div id="hook-rows" class="hook-mono" style="left:80px;top:520px;font-size:190px;color:#9aa1ab;">10</div>
+        <div id="hook-rowsl" class="hook-mono" style="left:84px;top:740px;font-size:44px;color:#9aa1ab;font-family:Inter,sans-serif;font-weight:700">order rows</div>
+        <div id="hook-logs" class="hook-mono" style="left:560px;top:520px;font-size:190px;color:#e5484d;">0</div>
+        <div id="hook-logsl" class="hook-mono" style="left:564px;top:740px;font-size:44px;color:#e5484d;font-family:Inter,sans-serif;font-weight:700">courier logs</div>
+        <div style="position:absolute;left:80px;top:940px;width:920px;height:320px;border:4px solid #5c6370;border-radius:18px"></div>
+        <div id="hook-from" class="hook-mono" style="left:110px;top:1210px;font-size:30px;color:#8a8f98;">restaurant</div><div id="hook-to" class="hook-mono" style="left:880px;top:1090px;font-size:30px;color:#8a8f98;">guest</div>
+        <svg width="1080" height="1920" style="position:absolute;inset:0"><path id="hook-route" d="M120,1190 C300,1000 520,1250 700,1070 S900,1010 980,1120" fill="none" stroke="#5c6370" stroke-width="5" stroke-dasharray="4 14" stroke-linecap="round"/><circle id="hook-pin0" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin1" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin2" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin3" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin4" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin5" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin6" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin7" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin8" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin9" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin10" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin11" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin12" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin13" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin14" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin15" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin16" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin17" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin18" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin19" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin20" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin21" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin22" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin23" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin24" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin25" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin26" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin27" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin28" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-pin29" r="9" fill="#e5484d" cx="0" cy="0"/><circle id="hook-dot" r="20" fill="#34c77b"/></svg></div>
+    <div id="hook-flash"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    
+  tl.fromTo("#hook-cam", { opacity: 1, y: 0, scale: 1.18 },
+    { opacity: 1, y: 0, scale: 1, duration: 0.33, ease: "power3.out" }, 0);
+  tl.to("#hook-cam", { scale: 1.05, duration: 6.42, ease: "none" }, 0.33);
+  tl.to("#hook-cam", { opacity: 0, duration: 0.17, ease: "power1.in" }, 6.25);
+  tl.fromTo("#hook-flash", { opacity: 0.95 }, { opacity: 0, duration: 0.3, ease: "none" }, 0);
+  tl.fromTo("#hook-line", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "back.out(2)" }, 0.13);
+
+    
+        const route = document.getElementById("hook-route"); const L = route.getTotalLength();
+        const at = (p) => route.getPointAtLength(L * p);
+        const o = { p: 0, v: 0 };
+        tl.fromTo("#hook-rows", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 0.12);
+        tl.to(o, { v: 150, duration: 2.86, ease: "power2.out", onUpdate: () => { document.getElementById("hook-logs").textContent = Math.round(o.v); } }, 0.2);
+        tl.to(o, { p: 1, duration: 2.86, ease: "power1.inOut", onUpdate: () => { const q = at(o.p); const d = document.getElementById("hook-dot"); d.setAttribute("cx", q.x); d.setAttribute("cy", q.y); } }, 0.2);
+        for (let i = 0; i < 30; i++) {
+          const q = at((i + 1) / 31); const e = document.getElementById("hook-pin" + i);
+          e.setAttribute("cx", q.x); e.setAttribute("cy", q.y);
+          tl.fromTo(e, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.15, transformOrigin: "50% 50%", ease: "back.out(3)" }, 0.2 + (i / 30) * 2.86 * 0.9);
+        }
+        tl.fromTo("#hook-dot", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.2);
+        tl.to("#hook-logs", { scale: 1.12, duration: 0.12, yoyo: true, repeat: 1, transformOrigin: "0 50%" }, 3.06);
+        tl.to("#hook-rows", { scale: 1.1, duration: 0.12, yoyo: true, repeat: 1, transformOrigin: "0 50%" }, 5.12);
+    window.__timelines["sc-hook"] = tl;
+  </script>
+</template>

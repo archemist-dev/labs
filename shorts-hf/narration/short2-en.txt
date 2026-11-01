@@ -1,0 +1,15 @@
+[curious] You're splitting a monolith. Why would the part writing one hundred fifty rows per order go before orders?
+
+[clear, conversational] A food-delivery platform did exactly that. Creating an order touches menu, orders and payments. Break one, and nobody can order. Couriers isn't on that path.
+
+[matter-of-fact] And it depended on orders in only three places: assign a courier, send a status, read the delivery point. Three calls. No shared tables.
+
+[sincere] When couriers were down, orders were still taken and paid. Couriers were dispatched by hand. Yeah, I know, that's not good. It only works while the fleet is small. Back then, it was okay.
+
+[serious, a bit slower] But it had a second reason to move. One order writes ten rows. Its courier writes one hundred fifty. At ten thousand orders a day, that's over half a billion rows a year. Fifteen times the order data. The writes are easy. The size isn't.
+
+[clear, conversational] So the logs got their own database from day one. Cheaper first: keep thirty days, or split by day.
+
+[firm] And one of those three calls was chatty: the delivery point. Copy the address once, when the courier is assigned. Ask orders on every refresh: fifty lookups. Copy it: one.
+
+[firm] You clear the storeroom first. Extract the supporting services first, to free the core.
