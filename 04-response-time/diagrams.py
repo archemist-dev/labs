@@ -1,7 +1,8 @@
 """Render the article diagrams as PNG (Archemist style: charcoal, big type, green = win, red = bad).
 
 Usage: python3 diagrams.py OUT_DIR
-Numbers come from summary-run1.json and summary-run2.json (the reference run, 2026-10-30).
+Numbers come from summary-run1.json and summary-run2.json (London client, 2026-10-30)
+and summary-sydney-run1.json and summary-sydney-run2.json (Sydney client, anatomy only, 2026-11-02).
 Needs Google Chrome; fonts load from Google Fonts.
 """
 import json
@@ -50,7 +51,10 @@ def frame(title, subtitle, body):
 
 def load_runs():
     here = Path(__file__).parent
-    return [json.loads((here / f"summary-run{r}.json").read_text()) for r in (1, 2)]
+    runs = [json.loads((here / f"summary-run{r}.json").read_text()) for r in (1, 2)]
+    for r, run in enumerate(runs, 1):  # the far client (Sydney), anatomy only
+        run["far"] = json.loads((here / f"summary-sydney-run{r}.json").read_text())
+    return runs
 
 
 def segments(a, mode):
@@ -63,41 +67,44 @@ def segments(a, mode):
 
 
 def timeline(runs):
-    """The same request to scale: service time (the server log's slice) inside latency, both inside response time."""
-    a = runs[0]["anatomy"]
-    x0, scale = 200, 1080 / a["new"]["total"]["50"]
-    b = [text(x0 + v * scale, 870, f"{v}", 28, MUTED, MONO, 700, "middle") for v in range(0, 50, 10)]
-    b += [line(x0 + v * scale, 300, x0 + v * scale, 830, GRID, 2) for v in range(0, 50, 10)]
-    b.append(text(x0 + 45 * scale, 870, "ms", 28, MUTED, MONO, 700))
-    for y, mode, name in ((360, "new", "new connection"), (610, "reused", "reused connection")):
-        b.append(text(x0, y - 30, name, 36, LIGHT))
+    """The same request to scale from two distances: service time (the server log's slice) inside latency, both inside response time."""
+    far, near = runs[0]["far"]["anatomy"], runs[0]["anatomy"]
+    x0, scale = 200, 1100 / far["new"]["total"]["50"]
+    b = [text(x0 + v * scale, 880, f"{v}", 28, MUTED, MONO, 700, "middle") for v in range(0, 1000, 200)]
+    b += [line(x0 + v * scale, 300, x0 + v * scale, 845, GRID, 2) for v in range(0, 1000, 200)]
+    b.append(text(x0 + 900 * scale, 880, "ms", 28, MUTED, MONO, 700))
+    rows = ((340, far, "new", "Sydney · new connection"), (500, far, "reused", "Sydney · reused"),
+            (655, near, "new", "London · new connection"), (770, near, "reused", "London · reused"))
+    for y, a, mode, name in rows:
+        h = 70 if a is far else 46
+        b.append(text(x0, y - 18, name, 32, LIGHT))
         x, work_x, setup_end = x0, 0, x0
         for key, v, color, label in segments(a, mode):
             w = v * scale
             if w > 0.5:
-                b.append(rect(x + 2, y, max(w - 4, 2), 100, color, rx=8))
+                b.append(rect(x + 1, y, max(w - 3, 3), h, color, rx=6))
             if label and w > 60:
-                b.append(text(x + w / 2, y + 64, label, 36, BG if color == FG else FG, MONO, 800, "middle"))
+                b.append(text(x + w / 2, y + 48, label, 32, FG, MONO, 800, "middle"))
             if key == "work":
                 work_x = x
             if key == "tls":
                 setup_end = x + w
             x += w
         total = a[mode]["total"]["50"]
-        b.append(text(x + 24, y + 6, "response time", 28, MUTED, MONO, 700))
-        b.append(text(x + 24, y + 76, f"{total:.0f} ms" if total > 20 else f"{total:.1f} ms", 52,
+        b.append(text(x + 20, y + h * 0.72, f"{total:.0f} ms" if total > 20 else f"{total:.1f} ms", 44 if a is far else 36,
                       RED if mode == "new" else GREEN, MONO, 800))
-        work_w = a[mode]["app"]["50"] * scale
-        b += [line(work_x + work_w / 2, y + 100, work_x + work_w / 2, y + 140, FG, 3),
-              text(work_x + work_w / 2, y + 176, f"service time {a[mode]['app']['50']:.1f}", 30, FG, MONO, 800, "middle")]
-        if mode == "new":
-            b += [f'<path d="M{x0 + 4},{y - 8} V{y - 18} H{setup_end - 4} V{y - 8}" fill="none" stroke="{RED}" stroke-width="3"/>',
-                  text(setup_end, y - 30, f"+{(a['new']['tcp']['50'] + a['new']['tls']['50']):.0f} ms setup", 34, RED, MONO, 800, "end")]
-    lx, ly = 880, 262  # legend: what each color means
+        if a is far and mode == "new":
+            b.append(text(x + 20, y - 18, "response time", 26, MUTED, MONO, 700))
+            work_w = a[mode]["app"]["50"] * scale
+            b += [line(work_x + work_w / 2, y + h, work_x + work_w / 2, y + h + 22, FG, 3),
+                  text(work_x + work_w / 2, y + h + 54, f"service time {a[mode]['app']['50']:.1f}", 28, FG, MONO, 800, "middle"),
+                  f'<path d="M{x0 + 4},{y - 6} V{y - 14} H{setup_end - 4} V{y - 6}" fill="none" stroke="{RED}" stroke-width="3"/>',
+                  text(setup_end, y - 22, f"+{(a['new']['tcp']['50'] + a['new']['tls']['50']):.0f} ms setup", 30, RED, MONO, 800, "end")]
+    lx, ly = 880, 248  # legend: what each color means
     b += [rect(lx, ly, 30, 30, RED, rx=6), rect(lx + 38, ly, 30, 30, GRAY, rx=6),
           text(lx + 84, ly + 26, "latency", 30, LIGHT, MONO, 800),
           rect(lx + 260, ly, 30, 30, FG, rx=6), text(lx + 306, ly + 26, "service time", 30, LIGHT, MONO, 800)]
-    return frame("The server log sees 4.8 ms", "same request · server Frankfurt · client London · p50", "".join(b))
+    return frame("The server log sees 4.8 ms", "same request · server Frankfurt · p50", "".join(b))
 
 
 def knee(runs):
@@ -169,15 +176,15 @@ LOGO = """<g transform="translate(0 -13)"><defs><clipPath id="liquid"><rect x="0
 def cover(runs):
     """1920x1080 newsletter cover: the hook's two numbers, both requests to scale, small logo, footer."""
     cw, ch = 1920, 1080
-    a = runs[0]["anatomy"]
-    reused, new = (sum(r["anatomy"][m]["total"]["50"] for r in runs) / 2 for m in ("reused", "new"))
+    a = runs[0]["far"]["anatomy"]
+    reused, new = (sum(r["far"]["anatomy"][m]["total"]["50"] for r in runs) / 2000 for m in ("reused", "new"))
     brand = text(222, 990, "ARCHEMIST", 32, AMBER, MONO, 800).replace("<text ", '<text letter-spacing="7" ')
     title = (text(120, 330, "Same request.", 104, FG, SANS, 800)
              + f'<text x="120" y="456" font-family="{MONO}" font-weight="800" font-size="104">'
-               f'<tspan fill="{GREEN}">{reused:.0f} ms</tspan><tspan fill="{FG}" font-family="{SANS}">,</tspan></text>'
+               f'<tspan fill="{GREEN}">{reused:.1f} s</tspan><tspan fill="{FG}" font-family="{SANS}">,</tspan></text>'
              + f'<text x="120" y="582" font-family="{SANS}" font-weight="800" font-size="104" fill="{FG}">then '
-               f'<tspan font-family="{MONO}" fill="{RED}">{new:.0f} ms</tspan>.</text>')
-    x0, scale = 1080, 700 / new
+               f'<tspan font-family="{MONO}" fill="{RED}">{new:.1f} s</tspan>.</text>')
+    x0, scale = 1080, 700 / a["new"]["total"]["50"]
     bars = []
     for y, mode in ((300, "reused"), (640, "new")):
         x = x0
@@ -198,7 +205,7 @@ def cover(runs):
             f'{text(122, 780, "nothing broken", 36, MUTED, MONO, 400)}'
             f'{"".join(bars)}'
             f'<svg x="120" y="935" width="80" height="80" viewBox="0 0 512 512">{LOGO}</svg>{brand}'
-            f'{text(1800, 990, "tested on AWS, Frankfurt to London · archemist.dev", 30, MUTED, MONO, 400, "end")}</svg>')
+            f'{text(1800, 990, "tested on AWS, Frankfurt to Sydney · archemist.dev", 30, MUTED, MONO, 400, "end")}</svg>')
 
 
 DIAGRAMS = {"Response - 1 Timeline": timeline, "Response - 2 Load": knee,

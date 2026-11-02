@@ -1,0 +1,42 @@
+# 04-response-time far-client run, 2026-11-02 (anatomy only, N=100 per mode)
+# Server: AWS EC2 t3.micro, eu-central-1a (Frankfurt). Client: AWS EC2 t3.micro, ap-southeast-2b (Sydney).
+# WORK=2500 (server default). Client: N=100 ./run-on-vm.sh client ec2-35-158-240-254.eu-central-1.compute.amazonaws.com anatomy
+
+== machine (server)
+Ubuntu 26.04.1 LTS
+CPU(s):                                  2
+Model name:                              Intel(R) Xeon(R) Platinum 8259CL CPU @ 2.50GHz
+               total        used        free      shared  buff/cache   available
+Mem:           908Mi       305Mi       381Mi       2.7Mi       331Mi       603Mi
+Python 3.14.4
+instance-type: t3.micro
+placement/availability-zone: eu-central-1a
+listening on :8443, body 462 bytes, WORK 2500 rounds (4.80 ms)
+
+== machine (client)
+Ubuntu 26.04.1 LTS
+CPU(s):                                  2
+Model name:                              Intel(R) Xeon(R) Platinum 8259CL CPU @ 2.50GHz
+               total        used        free      shared  buff/cache   available
+Mem:           908Mi       306Mi       379Mi       2.7Mi       331Mi       602Mi
+Python 3.14.4
+instance-type: t3.micro
+placement/availability-zone: ap-southeast-2b
+ping to server:
+
+== run 1
+
+== anatomy: 100 requests per mode, 100 ms apart (ms; p50 / p99)
+mode                  dns              tcp              tls             wait         transfer            total       server app
+cold        0.63 /   4.72  292.88 / 296.15  294.40 / 297.71  298.18 / 309.26    0.03 /   0.05  886.38 / 899.98    4.84 /  12.03
+new         0.42 /   0.54  293.30 / 296.19  294.88 / 304.97  298.50 / 301.59    0.03 /   0.06  887.22 / 902.55    4.84 /   5.15
+reused      0.00 /   0.00    0.00 /   0.00    0.00 /   0.00  298.79 / 310.99    0.03 /   0.06  298.83 / 311.03    4.84 /   7.58
+reused, wait minus server app at p50: 293.95 ms (network round trip and queue)
+== run 2
+
+== anatomy: 100 requests per mode, 100 ms apart (ms; p50 / p99)
+mode                  dns              tcp              tls             wait         transfer            total       server app
+cold        0.69 /   4.07  293.53 / 296.28  295.13 / 299.72  298.74 / 306.71    0.03 /   0.06  888.25 / 903.50    4.83 /   7.26
+new         0.42 /   0.53  292.62 / 296.11  294.19 / 297.66  297.81 / 301.30    0.03 /   0.06  885.09 / 895.59    4.84 /   5.01
+reused      0.00 /   0.00    0.00 /   0.00    0.00 /   0.00  289.28 / 304.71    0.03 /   0.06  289.32 / 304.74    4.84 /  14.32
+reused, wait minus server app at p50: 284.44 ms (network round trip and queue)

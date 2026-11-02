@@ -2,7 +2,7 @@
 # Run the response-time lab on two fresh Ubuntu LTS VMs: the server in one region, the client in another.
 # Usage, copy the folder to each VM, then inside it:
 #   server VM: ./run-on-vm.sh server        (self-signed cert, server on :8443 in the background)
-#   client VM: ./run-on-vm.sh client HOST   (HOST = the server's public DNS name; runs everything twice)
+#   client VM: ./run-on-vm.sh client HOST [anatomy|load|all]   (HOST = the server's public DNS name; runs it twice, default all)
 # The server's security group must allow TCP 8443 from the client's public IP only.
 set -euo pipefail
 ROLE="${1:?server or client}"
@@ -25,9 +25,10 @@ if [ "$ROLE" = server ]; then
   sleep 2 && cat server.log
 else
   HOST="${2:?server public DNS name}"
+  WHAT="${3:-all}"
   echo "ping to server:" && ping -c 5 -q "$HOST" | tail -1 || true
   for run in 1 2; do
     echo "== run $run"
-    JSON="summary-run$run.json" python3 client.py "$HOST" all
+    JSON="summary-run$run.json" python3 client.py "$HOST" "$WHAT"
   done
 fi

@@ -27,7 +27,7 @@ Standard library only (Python 3.12+). The client does not verify the self-signed
 - **Load**: the server's max throughput (closed loop, 32 connections, 10 s), then open-loop Poisson arrivals at 20, 40, 60, 70, 80 and 90% of it, 60 s per step, over a pool of 64 keep-alive connections. Each latency starts when the request was due, not when it was sent, so a slow server can't hide the requests it delayed (no coordinated omission). The client's own scheduling lag (p99) is printed per step to show the client isn't the bottleneck.
 - **Fan-out**: a page that calls n services in parallel waits for the slowest. For n = 1, 5, 10, 50, 20,000 resamples of n latencies from each load step: the share of pages that hit at least one call slower than the single-call p99 (theory: 1 - 0.99^n), and the p50 and p99 of the slowest call. Assumes the n calls are independent and behave like this server; real services differ.
 
-Not measured: HTTP/2 or HTTP/3, connection pools under failure, retries, hedged requests, more than one server worker.
+Not measured: load from the far client (load and fan-out ran from London only), HTTP/2 or HTTP/3, connection pools under failure, retries, hedged requests, more than one server worker.
 
 ## Results (2026-10-30)
 
@@ -49,6 +49,22 @@ Two full runs. Anatomy, max throughput and p50 under load agree between runs (wi
 - The server log sees 4.8 ms. The client waits 17 ms on a reused connection and 44 ms on a new one: the same request, the same 462 bytes.
 - Frankfurt to London is about 12 ms per round trip (TCP connect). TLS 1.3 costs one more round trip plus the handshake (about 14 ms). Wait is a round trip plus the work.
 - DNS is under 1 ms at p50 even with the local cache flushed: the VPC resolver answers from its own cache. A browser or phone resolving from scratch pays more; not measured here.
+
+### Far client: Sydney to Frankfurt (2026-11-02, anatomy only, ms, p50 / p99)
+
+Server: AWS EC2 t3.micro, eu-central-1a (Frankfurt). Client: AWS EC2 t3.micro, ap-southeast-2b (Sydney). Same CPU, OS and Python as above, 100 requests per mode (`N=100`), two runs. Raw log: [results-ec2-t3micro-sydney-2026-11-02.txt](results-ec2-t3micro-sydney-2026-11-02.txt); summaries `summary-sydney-run1.json`, `summary-sydney-run2.json`.
+
+| Mode | DNS | TCP | TLS | Wait | Total | Server app |
+| --- | --- | --- | --- | --- | --- | --- |
+| cold, run 1 | 0.63 / 4.72 | 292.88 / 296.15 | 294.40 / 297.71 | 298.18 / 309.26 | **886.38** / 899.98 | 4.84 / 12.03 |
+| cold, run 2 | 0.69 / 4.07 | 293.53 / 296.28 | 295.13 / 299.72 | 298.74 / 306.71 | **888.25** / 903.50 | 4.83 / 7.26 |
+| new, run 1 | 0.42 / 0.54 | 293.30 / 296.19 | 294.88 / 304.97 | 298.50 / 301.59 | **887.22** / 902.55 | 4.84 / 5.15 |
+| new, run 2 | 0.42 / 0.53 | 292.62 / 296.11 | 294.19 / 297.66 | 297.81 / 301.30 | **885.09** / 895.59 | 4.84 / 5.01 |
+| reused, run 1 | 0 | 0 | 0 | 298.79 / 310.99 | **298.83** / 311.03 | 4.84 / 7.58 |
+| reused, run 2 | 0 | 0 | 0 | 289.28 / 304.71 | **289.32** / 304.74 | 4.84 / 14.32 |
+
+- Same 4.8 ms of server work. Round trip about 293 ms, so a new connection pays about 588 ms of setup (TCP + TLS) and lands at 0.89 s; a reused one at 0.29 to 0.30 s. Service time is under 1% of the response time.
+- Runs agree within 4%. Transfer stayed at 0.03 ms (omitted).
 
 ### Load: open loop, Poisson arrivals, 60 s per step (ms)
 
