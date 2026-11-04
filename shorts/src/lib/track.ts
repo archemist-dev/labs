@@ -2,7 +2,9 @@
 // With a Whisper transcript the timings follow the real voice; without one they are estimated at a calm pace.
 
 // hold: seconds the scene's last element stays on screen before the next scene (tools/beats.ts, default 1.5).
-export type Beat = { scene: string; text: string; hold?: number };
+// minScene: the shortest this scene may last before tools/pace.py pads the pause after it (default 4 s); a one-line
+// beat like Production's sets it low, so no long silence follows the punchline.
+export type Beat = { scene: string; text: string; hold?: number; minScene?: number };
 export type Word = { text: string; start: number; end: number }; // seconds
 export type TimedBeat = { scene: string; start: number; end: number; words: Word[]; cues: Record<string, number> };
 export type Track = { beats: TimedBeat[]; duration: number; estimated: boolean };
