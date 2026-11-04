@@ -11,14 +11,14 @@ import { BG, FG, GOLD, GREEN, LIGHT, MONO, MUTED, RED, SANS } from "../../theme"
 import { FALL, fmt, fmtRows, phase, settle, rateAt, round100, rowsAt, simulate, speed, type Key } from "./sim";
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
-const lerpColor = (a: string, b: string, t: number) => {
+export const lerpColor = (a: string, b: string, t: number) => {
   const p = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
   const [x, y] = [p(a), p(b)];
   return `rgb(${x.map((v, i) => Math.round(v + (y[i] - v) * t)).join(",")})`;
 };
 
 // Moves the camera every frame (the canvas re-renders on each Remotion frame).
-const Cam: React.FC<{ pos: [number, number, number]; look: [number, number, number] }> = ({ pos, look }) => {
+export const Cam: React.FC<{ pos: [number, number, number]; look: [number, number, number] }> = ({ pos, look }) => {
   const camera = useThree((s) => s.camera);
   useLayoutEffect(() => {
     camera.position.set(...pos);
@@ -28,7 +28,7 @@ const Cam: React.FC<{ pos: [number, number, number]; look: [number, number, numb
   return null;
 };
 
-const Lights: React.FC = () => (
+export const Lights: React.FC = () => (
   <>
     <ambientLight intensity={0.55} />
     <directionalLight position={[4, 9, 7]} intensity={2.2} />
@@ -36,7 +36,7 @@ const Lights: React.FC = () => (
   </>
 );
 
-const Floor: React.FC = () => (
+export const Floor: React.FC = () => (
   <>
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]}>
       <planeGeometry args={[40, 40]} />
@@ -45,6 +45,15 @@ const Floor: React.FC = () => (
     <gridHelper args={[40, 40, "#2c3036", "#24272c"]} />
   </>
 );
+
+// The lane camera: a slow orbit from the left-front to the right-front, pushing in a little. Lane labels sit at
+// top 440 (far lane, z -1.9) and 880 (near lane, z 1.9) on screen; every lane scene reuses this framing.
+export const LANE_LOOK: [number, number, number] = [-0.9, 0.3, 0.2];
+export const laneCam = (frame: number): [number, number, number] => {
+  const a = interpolate(frame, [0, 360], [-0.22, 0.1], clamp);
+  const r = interpolate(frame, [0, 360], [15.5, 14.2], clamp);
+  return [Math.sin(a) * r - 0.9, 11.5, Math.cos(a) * r + 0.2];
+};
 
 // ---- Scene 1: the race in 3D -------------------------------------------------------------------------------------
 
@@ -100,7 +109,7 @@ const Belt3: React.FC<{ k: Key; z: number; ten: number; slow: number }> = ({ k, 
   );
 };
 
-const Race3: React.FC = () => {
+export const Race3: React.FC = () => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const today = useCue("today", 30);
@@ -111,14 +120,12 @@ const Race3: React.FC = () => {
   const rows = rowsAt(frame, ten, slow);
   const tick = frame >= ten && frame < slow;
   // Camera: a slow orbit from the left-front to the right-front, pushing in a little.
-  const a = interpolate(frame, [0, 360], [-0.22, 0.1], clamp);
-  const r = interpolate(frame, [0, 360], [15.5, 14.2], clamp);
-  const pos: [number, number, number] = [Math.sin(a) * r - 0.9, 11.5, Math.cos(a) * r + 0.2];
+  const pos = laneCam(frame);
   const pop = useSpring(x14 - 4, 200);
   return (
     <>
       <ThreeCanvas width={width} height={height} style={{ position: "absolute", inset: 0 }} camera={{ fov: 38 }}>
-        <Cam pos={pos} look={[-0.9, 0.3, 0.2]} />
+        <Cam pos={pos} look={LANE_LOOK} />
         <Lights />
         <Floor />
         {LANES3.map((l) => (

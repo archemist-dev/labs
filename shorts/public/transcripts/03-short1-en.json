@@ -1,0 +1,678 @@
+{
+ "segments": [
+  {
+   "text": " Your UUID primary key works fine today, until the table grows.",
+   "start": 0.0,
+   "end": 4.64,
+   "words": [
+    {
+     "word": " Your",
+     "start": 0.0,
+     "end": 0.42
+    },
+    {
+     "word": " UUID",
+     "start": 0.42,
+     "end": 0.98
+    },
+    {
+     "word": " primary",
+     "start": 0.98,
+     "end": 1.52
+    },
+    {
+     "word": " key",
+     "start": 1.52,
+     "end": 1.82
+    },
+    {
+     "word": " works",
+     "start": 1.82,
+     "end": 2.08
+    },
+    {
+     "word": " fine",
+     "start": 2.08,
+     "end": 2.38
+    },
+    {
+     "word": " today,",
+     "start": 2.38,
+     "end": 2.82
+    },
+    {
+     "word": " until",
+     "start": 3.18,
+     "end": 3.64
+    },
+    {
+     "word": " the",
+     "start": 3.64,
+     "end": 3.88
+    },
+    {
+     "word": " table",
+     "start": 3.88,
+     "end": 4.12
+    },
+    {
+     "word": " grows.",
+     "start": 4.12,
+     "end": 4.64
+    }
+   ]
+  },
+  {
+   "text": " In my test, at 10 million rows, a random UUID inserted 6,600 rows a second.",
+   "start": 5.42,
+   "end": 11.8,
+   "words": [
+    {
+     "word": " In",
+     "start": 5.42,
+     "end": 5.52
+    },
+    {
+     "word": " my",
+     "start": 5.52,
+     "end": 5.74
+    },
+    {
+     "word": " test,",
+     "start": 5.74,
+     "end": 6.18
+    },
+    {
+     "word": " at",
+     "start": 6.38,
+     "end": 6.64
+    },
+    {
+     "word": " 10",
+     "start": 6.64,
+     "end": 6.9
+    },
+    {
+     "word": " million",
+     "start": 6.9,
+     "end": 7.18
+    },
+    {
+     "word": " rows,",
+     "start": 7.18,
+     "end": 7.64
+    },
+    {
+     "word": " a",
+     "start": 7.92,
+     "end": 8.08
+    },
+    {
+     "word": " random",
+     "start": 8.08,
+     "end": 8.36
+    },
+    {
+     "word": " UUID",
+     "start": 8.36,
+     "end": 8.96
+    },
+    {
+     "word": " inserted",
+     "start": 8.96,
+     "end": 9.6
+    },
+    {
+     "word": " 6",
+     "start": 9.6,
+     "end": 10.04
+    },
+    {
+     "word": ",600",
+     "start": 10.04,
+     "end": 10.9
+    },
+    {
+     "word": " rows",
+     "start": 10.9,
+     "end": 11.22
+    },
+    {
+     "word": " a",
+     "start": 11.22,
+     "end": 11.46
+    },
+    {
+     "word": " second.",
+     "start": 11.46,
+     "end": 11.8
+    }
+   ]
+  },
+  {
+   "text": " A time ordered one, 93,000. 14 times faster.",
+   "start": 12.22,
+   "end": 16.16,
+   "words": [
+    {
+     "word": " A",
+     "start": 12.22,
+     "end": 12.4
+    },
+    {
+     "word": " time",
+     "start": 12.4,
+     "end": 12.64
+    },
+    {
+     "word": " ordered",
+     "start": 12.64,
+     "end": 12.86
+    },
+    {
+     "word": " one,",
+     "start": 12.86,
+     "end": 13.18
+    },
+    {
+     "word": " 93",
+     "start": 13.42,
+     "end": 13.96
+    },
+    {
+     "word": ",000.",
+     "start": 13.96,
+     "end": 14.56
+    },
+    {
+     "word": " 14",
+     "start": 14.86,
+     "end": 15.24
+    },
+    {
+     "word": " times",
+     "start": 15.24,
+     "end": 15.64
+    },
+    {
+     "word": " faster.",
+     "start": 15.64,
+     "end": 16.16
+    }
+   ]
+  },
+  {
+   "text": " Same rows, same Postgres. Only the ID changed.",
+   "start": 17.04,
+   "end": 20.04,
+   "words": [
+    {
+     "word": " Same",
+     "start": 17.04,
+     "end": 17.3
+    },
+    {
+     "word": " rows,",
+     "start": 17.3,
+     "end": 17.6
+    },
+    {
+     "word": " same",
+     "start": 17.96,
+     "end": 18.12
+    },
+    {
+     "word": " Postgres.",
+     "start": 18.12,
+     "end": 18.56
+    },
+    {
+     "word": " Only",
+     "start": 18.94,
+     "end": 19.16
+    },
+    {
+     "word": " the",
+     "start": 19.16,
+     "end": 19.34
+    },
+    {
+     "word": " ID",
+     "start": 19.34,
+     "end": 19.58
+    },
+    {
+     "word": " changed.",
+     "start": 19.58,
+     "end": 20.04
+    }
+   ]
+  },
+  {
+   "text": " At 1 million rows, you'd never notice. It hides until the index outgrows memory.",
+   "start": 21.22,
+   "end": 25.7,
+   "words": [
+    {
+     "word": " At",
+     "start": 21.22,
+     "end": 21.5
+    },
+    {
+     "word": " 1",
+     "start": 21.5,
+     "end": 21.68
+    },
+    {
+     "word": " million",
+     "start": 21.68,
+     "end": 21.9
+    },
+    {
+     "word": " rows,",
+     "start": 21.9,
+     "end": 22.26
+    },
+    {
+     "word": " you'd",
+     "start": 22.42,
+     "end": 22.68
+    },
+    {
+     "word": " never",
+     "start": 22.68,
+     "end": 22.84
+    },
+    {
+     "word": " notice.",
+     "start": 22.84,
+     "end": 23.22
+    },
+    {
+     "word": " It",
+     "start": 23.52,
+     "end": 23.8
+    },
+    {
+     "word": " hides",
+     "start": 23.8,
+     "end": 24.04
+    },
+    {
+     "word": " until",
+     "start": 24.04,
+     "end": 24.42
+    },
+    {
+     "word": " the",
+     "start": 24.42,
+     "end": 24.6
+    },
+    {
+     "word": " index",
+     "start": 24.6,
+     "end": 24.88
+    },
+    {
+     "word": " outgrows",
+     "start": 24.88,
+     "end": 25.24
+    },
+    {
+     "word": " memory.",
+     "start": 25.24,
+     "end": 25.7
+    }
+   ]
+  },
+  {
+   "text": " It was fine yesterday.",
+   "start": 27.02,
+   "end": 28.16,
+   "words": [
+    {
+     "word": " It",
+     "start": 27.02,
+     "end": 27.22
+    },
+    {
+     "word": " was",
+     "start": 27.22,
+     "end": 27.38
+    },
+    {
+     "word": " fine",
+     "start": 27.38,
+     "end": 27.68
+    },
+    {
+     "word": " yesterday.",
+     "start": 27.68,
+     "end": 28.16
+    }
+   ]
+  },
+  {
+   "text": " And the cheap fixes? Room on each page? No help.",
+   "start": 30.76,
+   "end": 34.1,
+   "words": [
+    {
+     "word": " And",
+     "start": 30.76,
+     "end": 31.36
+    },
+    {
+     "word": " the",
+     "start": 31.36,
+     "end": 31.5
+    },
+    {
+     "word": " cheap",
+     "start": 31.5,
+     "end": 31.68
+    },
+    {
+     "word": " fixes?",
+     "start": 31.68,
+     "end": 32.04
+    },
+    {
+     "word": " Room",
+     "start": 32.56,
+     "end": 32.68
+    },
+    {
+     "word": " on",
+     "start": 32.68,
+     "end": 32.82
+    },
+    {
+     "word": " each",
+     "start": 32.82,
+     "end": 32.96
+    },
+    {
+     "word": " page?",
+     "start": 32.96,
+     "end": 33.32
+    },
+    {
+     "word": " No",
+     "start": 33.62,
+     "end": 33.8
+    },
+    {
+     "word": " help.",
+     "start": 33.8,
+     "end": 34.1
+    }
+   ]
+  },
+  {
+   "text": " A separate random public ID? The same cliff.",
+   "start": 34.4,
+   "end": 36.82,
+   "words": [
+    {
+     "word": " A",
+     "start": 34.4,
+     "end": 34.54
+    },
+    {
+     "word": " separate",
+     "start": 34.54,
+     "end": 34.78
+    },
+    {
+     "word": " random",
+     "start": 34.78,
+     "end": 35.12
+    },
+    {
+     "word": " public",
+     "start": 35.12,
+     "end": 35.46
+    },
+    {
+     "word": " ID?",
+     "start": 35.46,
+     "end": 35.76
+    },
+    {
+     "word": " The",
+     "start": 36.14,
+     "end": 36.22
+    },
+    {
+     "word": " same",
+     "start": 36.22,
+     "end": 36.46
+    },
+    {
+     "word": " cliff.",
+     "start": 36.46,
+     "end": 36.82
+    }
+   ]
+  },
+  {
+   "text": " So here's my take. IDs made outside the database? Use UUID v7, not v4.",
+   "start": 38.42,
+   "end": 43.6,
+   "words": [
+    {
+     "word": " So",
+     "start": 38.42,
+     "end": 38.5
+    },
+    {
+     "word": " here's",
+     "start": 38.5,
+     "end": 38.74
+    },
+    {
+     "word": " my",
+     "start": 38.74,
+     "end": 38.88
+    },
+    {
+     "word": " take.",
+     "start": 38.88,
+     "end": 39.18
+    },
+    {
+     "word": " IDs",
+     "start": 39.64,
+     "end": 39.78
+    },
+    {
+     "word": " made",
+     "start": 39.78,
+     "end": 40.0
+    },
+    {
+     "word": " outside",
+     "start": 40.0,
+     "end": 40.3
+    },
+    {
+     "word": " the",
+     "start": 40.3,
+     "end": 40.52
+    },
+    {
+     "word": " database?",
+     "start": 40.52,
+     "end": 40.9
+    },
+    {
+     "word": " Use",
+     "start": 41.36,
+     "end": 41.5
+    },
+    {
+     "word": " UUID",
+     "start": 41.5,
+     "end": 42.1
+    },
+    {
+     "word": " v7,",
+     "start": 42.1,
+     "end": 42.8
+    },
+    {
+     "word": " not",
+     "start": 42.98,
+     "end": 43.1
+    },
+    {
+     "word": " v4.",
+     "start": 43.1,
+     "end": 43.6
+    }
+   ]
+  },
+  {
+   "text": " Only the database makes IDs? A plain big int counter.",
+   "start": 43.94,
+   "end": 46.98,
+   "words": [
+    {
+     "word": " Only",
+     "start": 43.94,
+     "end": 44.16
+    },
+    {
+     "word": " the",
+     "start": 44.16,
+     "end": 44.36
+    },
+    {
+     "word": " database",
+     "start": 44.36,
+     "end": 44.68
+    },
+    {
+     "word": " makes",
+     "start": 44.68,
+     "end": 44.98
+    },
+    {
+     "word": " IDs?",
+     "start": 44.98,
+     "end": 45.36
+    },
+    {
+     "word": " A",
+     "start": 45.74,
+     "end": 45.84
+    },
+    {
+     "word": " plain",
+     "start": 45.84,
+     "end": 46.14
+    },
+    {
+     "word": " big",
+     "start": 46.14,
+     "end": 46.42
+    },
+    {
+     "word": " int",
+     "start": 46.42,
+     "end": 46.64
+    },
+    {
+     "word": " counter.",
+     "start": 46.64,
+     "end": 46.98
+    }
+   ]
+  },
+  {
+   "text": " Same size, same uniqueness. So why is one so slow?",
+   "start": 48.22,
+   "end": 51.68,
+   "words": [
+    {
+     "word": " Same",
+     "start": 48.22,
+     "end": 48.46
+    },
+    {
+     "word": " size,",
+     "start": 48.46,
+     "end": 48.82
+    },
+    {
+     "word": " same",
+     "start": 49.24,
+     "end": 49.4
+    },
+    {
+     "word": " uniqueness.",
+     "start": 49.4,
+     "end": 49.8
+    },
+    {
+     "word": " So",
+     "start": 50.38,
+     "end": 50.5
+    },
+    {
+     "word": " why",
+     "start": 50.5,
+     "end": 50.7
+    },
+    {
+     "word": " is",
+     "start": 50.7,
+     "end": 50.88
+    },
+    {
+     "word": " one",
+     "start": 50.88,
+     "end": 51.06
+    },
+    {
+     "word": " so",
+     "start": 51.06,
+     "end": 51.32
+    },
+    {
+     "word": " slow?",
+     "start": 51.32,
+     "end": 51.68
+    }
+   ]
+  },
+  {
+   "text": " That's the next video.",
+   "start": 52.02,
+   "end": 53.04,
+   "words": [
+    {
+     "word": " That's",
+     "start": 52.02,
+     "end": 52.38
+    },
+    {
+     "word": " the",
+     "start": 52.38,
+     "end": 52.48
+    },
+    {
+     "word": " next",
+     "start": 52.48,
+     "end": 52.66
+    },
+    {
+     "word": " video.",
+     "start": 52.66,
+     "end": 53.04
+    }
+   ]
+  }
+ ]
+}

@@ -22,6 +22,10 @@ assert data["v7"]["rate"][-1] == 93023, data["v7"]["rate"][-1]  # "93,000"
 assert round(data["v7"]["rate"][-1] / data["v4"]["rate"][-1]) == 14  # "fourteen times"
 assert data["v4"]["rows"][-1] == 10_000_000
 
+# Seconds to load 10M rows per variant (the cheap-fixes scene).
+data["load_s"] = {k: int(runs[k]["load_s"]) for k in ("bigint", "v7", "v4", "v4_ff70", "bigint_public_v4")}
+assert data["load_s"] == {"bigint": 58, "v7": 90, "v4": 391, "v4_ff70": 514, "bigint_public_v4": 410}, data["load_s"]
+
 out = Path(sys.argv[1])
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(json.dumps(data, indent=1) + "\n")

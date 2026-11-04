@@ -8,7 +8,7 @@ Vertical Shorts (1080x1920, 30 fps) rendered with [Remotion](https://www.remotio
 
 Sound effects: `python tools/sfx.py` synthesizes them into `public/sfx/` (impact, whoosh, stamp, reveal, buzz, alarm, type, cricket, slap). Reading time: give a beat a `hold` in `script.ts`; `tools/beats.ts` turns it into the pause before the next scene, so its last element stays readable.
 1. Record the voice. Save it (not committed) as `public/audio/<id>-<lang>.wav` (or `.m4a`, `.mp3`), e.g. `02-short1-uz.wav`.
-2. Transcribe it with word timings, locally with Whisper:
+2. Transcribe it with word timings, locally with Whisper. On Windows (no `whisper` on the path), use the venv and faster-whisper instead, same JSON shape: `py -3.13 -m venv .venv`, `.venv/Scripts/python -m pip install numpy scipy noisereduce faster-whisper praat-parselmouth pillow`, then `.venv/Scripts/python tools/transcribe.py IN.wav OUT.json` (medium.en; the audio tools run from the same venv). With openai-whisper:
    ```
    whisper public/audio/02-short1-uz.wav --model medium --language uz --word_timestamps True --output_format json --output_dir public/transcripts
    ```
