@@ -8,7 +8,7 @@ import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { Mark, Pop, useSpring } from "../../components/parts";
 import { Sfx, useCue } from "../../components/Shell";
 import { BG, FG, GOLD, GREEN, LIGHT, MONO, MUTED, RED, SANS } from "../../theme";
-import { FALL, fmt, phase, rateAt, round100, rowsAt, simulate, speed, type Key } from "./sim";
+import { FALL, fmt, fmtRows, phase, settle, rateAt, round100, rowsAt, simulate, speed, type Key } from "./sim";
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 const lerpColor = (a: string, b: string, t: number) => {
@@ -56,7 +56,7 @@ const BX0 = -3.3;
 const BX1 = 0.5;
 const CX = 1.55; // database cylinders
 const SLAB_GAP = 0.62;
-const UNIT3 = 0.17; // world units per frame at v7's first-window rate
+const UNIT3 = 0.05; // world units per frame at v7's first-window rate
 
 const laneColor = (key: Key, rate: number) =>
   key === "v7" ? GREEN : lerpColor(LIGHT, RED, interpolate(rate, [20_000, 120_000], [1, 0], clamp));
@@ -127,7 +127,7 @@ const Race3: React.FC = () => {
       </ThreeCanvas>
       <div style={{ position: "absolute", top: 200, left: 70 }}>
         <div style={{ fontFamily: SANS, fontWeight: 700, fontSize: 40, color: MUTED }}>rows in the table</div>
-        <div style={{ fontFamily: MONO, fontWeight: 800, fontSize: 120, color: FG, letterSpacing: -2 }}>{fmt(rows)}</div>
+        <div style={{ fontFamily: MONO, fontWeight: 800, fontSize: 120, color: FG, letterSpacing: -2 }}>{fmtRows(rows)}</div>
         <div style={{ marginTop: 8, width: 140, height: 8, borderRadius: 4, background: GOLD }} />
       </div>
       {tick && frame % 4 === 0 ? <Sfx name="type" at={frame} volume={0.15} /> : null}
@@ -229,7 +229,7 @@ const PageRow3: React.FC<{ k: Key; z: number; start: number }> = ({ k, z, start 
         if (i < 0) return null;
         const t = interpolate(frame, [d.spawn, d.land], [0, 1], clamp);
         return (
-          <mesh key={d.k} position={[xOf(i), PH + 1.6 - t * t * 1.5, z]} rotation={[t * 2, t * 3, 0]}>
+          <mesh key={d.k} position={[xOf(i), PH + 1.6 - settle(t) * 1.5, z]} rotation={[0, settle(t) * 0.8, 0]}>
             <boxGeometry args={[0.28, 0.28, 0.28]} />
             <meshStandardMaterial color={FG} emissive={color} emissiveIntensity={0.8} />
           </mesh>

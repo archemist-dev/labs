@@ -5,7 +5,12 @@ import data from "./data.json";
 export type Key = "v7" | "v4";
 
 export const fmt = (n: number) => Math.round(n).toLocaleString("en-US");
-export const round100 = (n: number) => Math.round(n / 100) * 100;
+// The row counter steps in round numbers, so the digits don't flicker.
+export const fmtRows = (n: number) => fmt(n >= 1_000_000 ? Math.floor(n / 250_000) * 250_000 : Math.floor(n / 50_000) * 50_000);
+// Keys glide in and settle into their page instead of accelerating.
+export const settle = (t: number) => 1 - (1 - t) ** 3;
+// Live rates step in thousands so the digits stay calm; the spoken end values (6,600 and 93,000) are set by the scenes.
+export const round100 = (n: number) => Math.round(n / 1000) * 1000;
 
 const clamp01 = (t: number) => Math.min(1, Math.max(0, t));
 const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
@@ -48,9 +53,9 @@ export function phase(key: Key, frame: number, ten: number, slow: number, unit: 
 export type Page = { id: number; fill: number; hit: number; split: number; born: number };
 export type Drop = { k: number; page: number; spawn: number; land: number; label: string };
 
-export const FALL = 12; // frames a key takes to drop into its page
-const EVERY = 7; // a new key every 7 frames
-const STEP = { v7: 0.15, v4: 0.16 }; // share of a page one key fills (pages hold only a few keys on screen)
+export const FALL = 22; // frames a key takes to drop into its page (slow enough to read the ID)
+const EVERY = 15; // a new key every half second
+const STEP = { v7: 0.3, v4: 0.2 }; // share of a page one key fills (pages hold only a few keys on screen)
 const V7_FULL = 0.9; // lab: v7 leaves end 90% full, v4 about 70%
 
 function mulberry32(seed: number) {

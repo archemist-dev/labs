@@ -5,7 +5,7 @@ import { interpolate, useCurrentFrame } from "remotion";
 import { Mark, Pop, useSpring } from "../../components/parts";
 import { Sfx, useCue } from "../../components/Shell";
 import { BG, FG, GOLD, GRAY, GREEN, LIGHT, MONO, MUTED, RED, SANS } from "../../theme";
-import { FALL, fmt, phase, rateAt, round100, rowsAt, simulate, speed, type Key } from "./sim";
+import { FALL, fmt, fmtRows, phase, settle, rateAt, round100, rowsAt, simulate, speed, type Key } from "./sim";
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 const mix = (a: string, b: string, t: number) => {
@@ -23,7 +23,7 @@ const LANES: { key: Key; label: string; sub: string; y: number }[] = [
 const X0 = 70;
 const X1 = 740;
 const GAP = 112;
-const UNIT = 30; // px per frame at v7's first-window rate
+const UNIT = 9; // px per frame at v7's first-window rate (about 270 px a second; faster was hard on the eyes)
 
 const laneColor = (key: Key, rate: number) =>
   key === "v7" ? GREEN : mix(LIGHT, RED, interpolate(rate, [20_000, 120_000], [1, 0], clamp));
@@ -68,13 +68,11 @@ const Lane: React.FC<{ lane: (typeof LANES)[number]; ten: number; slow: number; 
       {Array.from({ length: n }, (_, i) => {
         const x = X0 + ((((p + i * gap) % (X1 - X0)) + (X1 - X0)) % (X1 - X0));
         const fade = interpolate(x, [X0, X0 + 60, X1 - 50, X1], [0, 1, 1, 0], clamp);
-        const blur = Math.min(10, v * 0.35);
         return (
-          <div key={i} style={{ position: "absolute", left: x, top: lane.y - 22, opacity: fade, display: "flex", gap: 4, filter: `blur(${blur * 0.15}px)` }}>
+          <div key={i} style={{ position: "absolute", left: x, top: lane.y - 22, opacity: fade, display: "flex", gap: 4 }}>
             {[34, 22, 22].map((w, j) => (
               <div key={j} style={{ width: w, height: 44, borderRadius: 5, background: color, opacity: j === 0 ? 1 : 0.55 }} />
             ))}
-            {blur > 3 ? <div style={{ position: "absolute", right: "100%", top: 18, width: blur * 6, height: 8, borderRadius: 4, background: color, opacity: 0.25 }} /> : null}
           </div>
         );
       })}
@@ -110,7 +108,7 @@ const Race: React.FC = () => {
       <div style={{ position: "absolute", top: 210, left: X0, right: 70 }}>
         <div style={{ fontFamily: SANS, fontWeight: 700, fontSize: 40, color: MUTED }}>rows in the table</div>
         <div style={{ fontFamily: MONO, fontWeight: 800, fontSize: 120, color: FG, letterSpacing: -2, transform: `scale(${tick ? 1.04 : 1})`, transformOrigin: "left" }}>
-          {fmt(rows)}
+          {fmtRows(rows)}
         </div>
         <div style={{ marginTop: 8, width: 140, height: 8, borderRadius: 4, background: GOLD }} />
       </div>
@@ -206,11 +204,11 @@ const Pages: React.FC<{ row: (typeof ROWS)[number]; start: number }> = ({ row, s
         const i = pages.findIndex((p) => p.id === d.page);
         if (i < 0) return null;
         const t = interpolate(frame, [d.spawn, d.land], [0, 1], clamp);
-        const y = row.y - 150 + t * t * 170;
-        const x = xOf(i) + w / 2 - 70;
+        const y = row.y - 150 + settle(t) * 170;
+        const x = xOf(i) + w / 2 - 100;
         return (
-          <div key={d.k} style={{ position: "absolute", left: x, top: y, width: 140, textAlign: "center", opacity: interpolate(t, [0, 0.15, 0.9, 1], [0, 1, 1, 0]) }}>
-            <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 30, color: FG }}>{d.label}</div>
+          <div key={d.k} style={{ position: "absolute", left: x, top: y, width: 200, textAlign: "center", opacity: interpolate(t, [0, 0.15, 0.9, 1], [0, 1, 1, 0]) }}>
+            <div style={{ display: "inline-block", padding: "4px 12px", borderRadius: 8, background: "#2a2e34", border: `3px solid ${color}`, fontFamily: MONO, fontWeight: 700, fontSize: 34, color: FG }}>{d.label}</div>
           </div>
         );
       })}
