@@ -14,7 +14,7 @@ export const short1: Record<"en", Beat[]> = {
     },
     { scene: "ids", text: "{same}Same rows, same {pg}Postgres. Only the {id}ID changed.", hold: 1.6 },
     { scene: "curve", text: "At {m1}1 million rows, you'd never notice. It hides until the {index}index outgrows {memory}memory.", hold: 1.6 },
-    { scene: "production", text: "It was fine {yesterday}yesterday.", hold: 1.0 },
+    { scene: "production", text: "It was fine {yesterday}yesterday.", hold: 0.4, minScene: 0 },
     { scene: "fixes", text: "And the {cheap}cheap fixes? {room}Room on each page? No {nohelp}help. A separate random {public}public ID? The same {cliff}cliff.", hold: 1.6 },
     { scene: "take", text: "So here's my take. IDs made {outside}outside the database? Use {v7}UUID v7, not v4. Only the {only}database makes IDs? A plain {bigint}big int counter.", hold: 1.8 },
     { scene: "end", text: "Same {size}size, same uniqueness. So why is one so {slow2}slow? That's the {next}next video.", hold: 1.5 },

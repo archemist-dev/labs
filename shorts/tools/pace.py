@@ -99,7 +99,7 @@ def pause_kind(a, b):
             if not beat["change"]:
                 return BEAT
             # at least SCENE; longer when the scene is short, or when its last element needs reading time
-            return max(SCENE + max(0.0, MIN_SCENE - (a["end"] - scene_start + SCENE)), beat.get("need", 0.0))
+            return max(SCENE + max(0.0, beat.get("minScene", MIN_SCENE) - (a["end"] - scene_start + SCENE)), beat.get("need", 0.0))
         if beat["change"]:
             scene_start = beat["start"]
     return SENTENCE if a["word"].strip()[-1:] in ".?!" else PHRASE

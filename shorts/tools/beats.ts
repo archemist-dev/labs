@@ -17,13 +17,15 @@ let lastCue = 0; // the latest cue of the current scene, in seconds
 const beats = track.beats.map((b, k) => {
   const change = k > 0 && b.scene !== track.beats[k - 1].scene;
   let need = 0;
+  let minScene: number | undefined;
   if (change) {
+    minScene = script[k - 1].minScene;
     const prev = track.beats[k - 1];
     need = Math.max(0, lastCue + (script[k - 1].hold ?? HOLD) + SWITCH - prev.words[prev.words.length - 1].end);
     lastCue = 0;
   }
   const cues = Object.values(b.cues);
   lastCue = Math.max(lastCue, ...(cues.length ? cues : [b.words[b.words.length - 1].start]));
-  return { start: b.words[0].start, scene: b.scene, change, need: Math.round(need * 100) / 100 };
+  return { start: b.words[0].start, scene: b.scene, change, need: Math.round(need * 100) / 100, ...(minScene !== undefined ? { minScene } : {}) };
 });
 console.log(JSON.stringify(beats.slice(1)));
