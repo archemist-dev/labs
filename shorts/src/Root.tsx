@@ -13,12 +13,18 @@ import { Thumbnail2 as payloadThumb2 } from "./shorts/01-payload-encoding/Thumbn
 import { short1 as extractShort1 } from "./shorts/02-extract-first/script";
 import { SCENES as extractScenes1 } from "./shorts/02-extract-first/Short1";
 import { Thumbnail as extractThumb1 } from "./shorts/02-extract-first/Thumbnail";
+import { opening as uuidOpening } from "./shorts/03-uuid-keys/script";
+import { SCENES_A as uuidProtoA } from "./shorts/03-uuid-keys/ProtoA";
+import { SCENES_B as uuidProtoB } from "./shorts/03-uuid-keys/ProtoB";
 
 // One entry per Short; each language becomes its own composition, e.g. "02-short1-uz".
 const LIST: { id: string; scripts: Record<string, Beat[]>; scenes: Record<string, React.FC> }[] = [
   { id: "01-short1", scripts: payloadShort1, scenes: payloadScenes1 },
   { id: "01-short2", scripts: payloadShort2, scenes: payloadScenes2 },
   { id: "02-short1", scripts: extractShort1, scenes: extractScenes1 },
+  // Visual prototypes for week 3 "The 14x cliff" opening: A = 2D upgraded, B = 3D.
+  { id: "03-protoA", scripts: uuidOpening, scenes: uuidProtoA },
+  { id: "03-protoB", scripts: uuidOpening, scenes: uuidProtoB },
 ];
 const SHORTS = LIST.map((s) => ({ ...s, component: (props: ShortProps) => <Shell {...props} scenes={s.scenes} /> }));
 
