@@ -39,7 +39,7 @@ export const Thumbnail: React.FC = () => (
         <Img src={staticFile("logo.svg")} style={{ width: 92, height: 92 }} />
         <div style={{ fontFamily: MONO, fontWeight: 800, fontSize: 40, letterSpacing: 10, color: GOLD }}>ARCHEMIST</div>
       </div>
-      <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 34, color: MUTED }}>tested · 10M rows</div>
+      <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 34, color: MUTED }}>tested · PostgreSQL 18</div>
     </div>
   </AbsoluteFill>
 );
