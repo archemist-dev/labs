@@ -51,3 +51,10 @@ class Order:
     status: str = CREATED
     courier_id: str | None = None
     history: list[str] = field(default_factory=list)
+
+
+@dataclass
+class Courier:
+    id: str
+    max_orders: int = 3  # orders chained onto one trip
+    order_ids: list[str] = field(default_factory=list)

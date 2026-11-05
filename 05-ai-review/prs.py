@@ -104,25 +104,28 @@ PRS = [
 """)],
     },
     {
-        "id": "b06-cancel-race",
+        "id": "b06-chain-assign",
         "kind": "bug",
-        "title": "Let guests cancel before the order leaves the kitchen",
-        "body": "Adds OrderService.cancel. Refunds the guest and marks the order CANCELLED unless it is already out "
-                "for delivery.",
-        "bug": "Race: cancel reads the order, checks its status, then writes it back with store.save instead of the "
-               "compare-and-set update_status. A dispatch between the read and the save is overwritten: the order "
-               "is refunded and CANCELLED while a courier is carrying it. Nothing errors.",
+        "title": "Chain orders onto couriers already on a trip",
+        "body": "Couriers on a trip can take more orders from the same area, up to their max_orders. Adds "
+                "OrderService.attach to put an order onto a courier's chain.",
+        "bug": "Race on chaining: attach reads the order and the courier, checks them, then writes both, with no lock "
+               "or compare-and-set across the check and the write. Two attach calls at the same moment (the same "
+               "order offered to two couriers, or two orders to one courier) both pass the checks: the order ends "
+               "up in two couriers' chains, so one courier carries an order that isn't theirs, or a courier goes "
+               "over max_orders. Every call returns success.",
         "edits": [("orders/service.py", DELIVER, DELIVER + """
-    def cancel(self, order_id) -> Order:
+    def attach(self, order_id, courier_id) -> Order:
+        courier = self.store.get_courier(courier_id)
+        if len(courier.order_ids) >= courier.max_orders:
+            raise ValueError(f"courier {courier_id} is full")
         order = self.store.get(order_id)
-        if order.status in (OUT_FOR_DELIVERY, DELIVERED, CANCELLED):
-            raise ValueError(f"cannot cancel order in {order.status}")
-        result = self.payments.refund(order.id, order.total_pence)
-        if not result.ok:
-            raise RuntimeError(f"refund failed for {order.id}: {result.reason}")
-        order.status = CANCELLED
-        order.history.append(CANCELLED)
+        if order.courier_id is not None:
+            raise ValueError(f"order {order_id} already has a courier")
+        order.courier_id = courier_id
+        courier.order_ids.append(order_id)
         self.store.save(order)
+        self.store.save_courier(courier)
         return order
 """)],
     },
@@ -243,15 +246,29 @@ def health(store):
 """)],
     },
     {
-        "id": "c02-type-hints",
+        "id": "c02-chain-assign-safe",
         "kind": "clean",
-        "title": "Type hints for OrderService.advance and dispatch",
-        "body": "Typing only.",
-        "note": "Annotations only.",
-        "edits": [("orders/service.py", """    def advance(self, order_id, new_status) -> Order:
-""", """    def advance(self, order_id: str, new_status: str) -> Order:
-"""), ("orders/service.py", """    def dispatch(self, order_id, courier_id) -> Order:
-""", """    def dispatch(self, order_id: str, courier_id: str) -> Order:
+        "title": "Chain orders onto couriers already on a trip",
+        "body": "Couriers on a trip can take more orders from the same area, up to their max_orders. The check and "
+                "the write happen in one store call under the store's lock, so two offers at once can't both win.",
+        "note": "Check and write are atomic under the store lock on the stored objects; a losing concurrent attach "
+                "gets ConflictError.",
+        "edits": [("orders/store.py", """    def ping(self) -> None:""", """    def attach_order(self, order_id: str, courier_id: str) -> Order:
+        \"\"\"Chain an order onto a courier's trip, atomically.\"\"\"
+        with self._lock:
+            order = self._orders[order_id]
+            courier = self._couriers[courier_id]
+            if order.courier_id is not None:
+                raise ConflictError(f"{order_id} already has courier {order.courier_id}")
+            if len(courier.order_ids) >= courier.max_orders:
+                raise ConflictError(f"courier {courier_id} is full")
+            order.courier_id = courier_id
+            courier.order_ids.append(order_id)
+            return order
+
+    def ping(self) -> None:"""), ("orders/service.py", DELIVER, DELIVER + """
+    def attach(self, order_id, courier_id) -> Order:
+        return self.store.attach_order(order_id, courier_id)
 """)],
     },
     {
