@@ -183,11 +183,11 @@ const ROWS3: { key: Key; label: string; rule: string; z: number; top: number }[]
   { key: "v7", label: "UUIDv7", rule: "→ last page", z: -1.8, top: 430 },
   { key: "v4", label: "UUIDv4", rule: "→ any page", z: 1.8, top: 905 },
 ];
-const PX0 = -2.9;
-const PSPAN = 5.8;
+export const PX0 = -2.9;
+export const PSPAN = 5.8;
 const PH = 1.05;
 
-const PageRow3: React.FC<{ k: Key; z: number; start: number }> = ({ k, z, start }) => {
+export const PageRow3: React.FC<{ k: Key; z: number; start: number }> = ({ k, z, start }) => {
   const frame = useCurrentFrame();
   const { pages, inFlight } = simulate(k, frame, start);
   const color = k === "v7" ? GREEN : RED;

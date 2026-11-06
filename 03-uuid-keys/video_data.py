@@ -1,4 +1,4 @@
-"""Write the week 3 Short's data (insert rate per million rows, run 1) for the Remotion scenes.
+"""Write the week 3 Shorts' data (insert rate per million rows, leaf density, index size; run 1) for the Remotion scenes.
 
 Usage: python3 video_data.py ../shorts/src/shorts/03-uuid-keys/data.json
 Asserts the numbers the Short speaks match the published results.
@@ -25,6 +25,13 @@ assert data["v4"]["rows"][-1] == 10_000_000
 # Seconds to load 10M rows per variant (the cheap-fixes scene).
 data["load_s"] = {k: int(runs[k]["load_s"]) for k in ("bigint", "v7", "v4", "v4_ff70", "bigint_public_v4")}
 assert data["load_s"] == {"bigint": 58, "v7": 90, "v4": 391, "v4_ff70": 514, "bigint_public_v4": 410}, data["load_s"]
+
+# Short 2 "Where the next row lands": leaf density and primary key index size (run 1).
+data["leaf_density"] = {k: runs[k]["leaf_density"] for k in ("v7", "v4")}
+data["pkey_mb"] = {k: int(runs[k]["pkey_mb"]) for k in ("v7", "v4")}
+assert round(data["leaf_density"]["v4"]) == 70 and round(data["leaf_density"]["v7"]) == 90  # "70% full", "90%"
+assert data["pkey_mb"] == {"v7": 301, "v4": 389}, data["pkey_mb"]
+assert round((data["pkey_mb"]["v4"] / data["pkey_mb"]["v7"] - 1) * 100) == 29  # "29% bigger"
 
 out = Path(sys.argv[1])
 out.parent.mkdir(parents=True, exist_ok=True)

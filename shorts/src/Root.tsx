@@ -13,9 +13,11 @@ import { Thumbnail2 as payloadThumb2 } from "./shorts/01-payload-encoding/Thumbn
 import { short1 as extractShort1 } from "./shorts/02-extract-first/script";
 import { SCENES as extractScenes1 } from "./shorts/02-extract-first/Short1";
 import { Thumbnail as extractThumb1 } from "./shorts/02-extract-first/Thumbnail";
-import { opening as uuidOpening, short1 as uuidShort1 } from "./shorts/03-uuid-keys/script";
+import { opening as uuidOpening, short1 as uuidShort1, short2 as uuidShort2 } from "./shorts/03-uuid-keys/script";
+import { SCENES2 as uuidScenes2 } from "./shorts/03-uuid-keys/Short2";
 import { SCENES1 as uuidScenes1 } from "./shorts/03-uuid-keys/Short1";
 import { Thumbnail as uuidThumb1 } from "./shorts/03-uuid-keys/Thumbnail";
+import { Thumbnail2 as uuidThumb2 } from "./shorts/03-uuid-keys/Thumbnail2";
 import { SCENES_A as uuidProtoA } from "./shorts/03-uuid-keys/ProtoA";
 import { SCENES_B as uuidProtoB } from "./shorts/03-uuid-keys/ProtoB";
 
@@ -25,6 +27,7 @@ const LIST: { id: string; scripts: Record<string, Beat[]>; scenes: Record<string
   { id: "01-short2", scripts: payloadShort2, scenes: payloadScenes2 },
   { id: "02-short1", scripts: extractShort1, scenes: extractScenes1 },
   { id: "03-short1", scripts: uuidShort1, scenes: uuidScenes1 },
+  { id: "03-short2", scripts: uuidShort2, scenes: uuidScenes2 },
   // Visual prototypes for week 3 "The 14x cliff" opening: A = 2D upgraded, B = 3D.
   { id: "03-protoA", scripts: uuidOpening, scenes: uuidProtoA },
   { id: "03-protoB", scripts: uuidOpening, scenes: uuidProtoB },
@@ -52,5 +55,6 @@ export const Root: React.FC = () => (
     <Still id="01-short2-thumb" component={payloadThumb2} width={W} height={H} />
     <Still id="02-short1-thumb" component={extractThumb1} width={W} height={H} />
     <Still id="03-short1-thumb" component={uuidThumb1} width={W} height={H} />
+    <Still id="03-short2-thumb" component={uuidThumb2} width={W} height={H} />
   </>
 );

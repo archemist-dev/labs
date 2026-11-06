@@ -16,7 +16,7 @@ const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 const ease = (t: number) => 1 - (1 - t) ** 3;
 const shadow = "0 4px 18px #000";
 
-const Header: React.FC<{ text: string; sub?: string }> = ({ text, sub }) => {
+export const Header: React.FC<{ text: string; sub?: string }> = ({ text, sub }) => {
   const line = useSpring(4);
   return (
     <div style={{ position: "absolute", top: 200, left: 70, right: 70 }}>
@@ -27,7 +27,7 @@ const Header: React.FC<{ text: string; sub?: string }> = ({ text, sub }) => {
   );
 };
 
-const Canvas: React.FC<{ children: React.ReactNode; pos: [number, number, number]; look: [number, number, number] }> = ({ children, pos, look }) => {
+export const Canvas: React.FC<{ children: React.ReactNode; pos: [number, number, number]; look: [number, number, number] }> = ({ children, pos, look }) => {
   const { width, height } = useVideoConfig();
   return (
     <ThreeCanvas width={width} height={height} style={{ position: "absolute", inset: 0 }} camera={{ fov: 38 }}>
@@ -40,7 +40,7 @@ const Canvas: React.FC<{ children: React.ReactNode; pos: [number, number, number
 };
 
 // A database: three stacked discs.
-const Db: React.FC<{ x: number; z: number; color: string; glow?: number; scale?: number }> = ({ x, z, color, glow = 0.3, scale = 1 }) => (
+export const Db: React.FC<{ x: number; z: number; color: string; glow?: number; scale?: number }> = ({ x, z, color, glow = 0.3, scale = 1 }) => (
   <group position={[x, 0, z]} scale={[scale, scale, scale]}>
     {[0.35, 0.95, 1.55].map((y) => (
       <mesh key={y} position={[0, y, 0]}>
@@ -237,7 +237,7 @@ const Eye: React.FC<{ x: number; blink: number }> = ({ x, blink }) => (
   </group>
 );
 
-const Rack: React.FC<{ frame: number }> = ({ frame }) => {
+export const Rack: React.FC<{ frame: number }> = ({ frame }) => {
   const blink = frame % 70 < 4 ? 1 : 0;
   const edges = useMemo(() => new THREE.EdgesGeometry(new THREE.BoxGeometry(2.2, 2.8, 1.2)), []);
   return (
