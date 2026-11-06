@@ -1,0 +1,787 @@
+{
+ "segments": [
+  {
+   "text": " Same size, same uniqueness.",
+   "start": 0.0,
+   "end": 2.22,
+   "words": [
+    {
+     "word": " Same",
+     "start": 0.0,
+     "end": 0.4
+    },
+    {
+     "word": " size,",
+     "start": 0.4,
+     "end": 0.94
+    },
+    {
+     "word": " same",
+     "start": 1.5,
+     "end": 1.68
+    },
+    {
+     "word": " uniqueness.",
+     "start": 1.68,
+     "end": 2.22
+    }
+   ]
+  },
+  {
+   "text": " So why does a random UUID insert 14 times slower?",
+   "start": 3.06,
+   "end": 6.68,
+   "words": [
+    {
+     "word": " So",
+     "start": 3.06,
+     "end": 3.14
+    },
+    {
+     "word": " why",
+     "start": 3.14,
+     "end": 3.52
+    },
+    {
+     "word": " does",
+     "start": 3.52,
+     "end": 3.68
+    },
+    {
+     "word": " a",
+     "start": 3.68,
+     "end": 3.86
+    },
+    {
+     "word": " random",
+     "start": 3.86,
+     "end": 4.18
+    },
+    {
+     "word": " UUID",
+     "start": 4.18,
+     "end": 4.66
+    },
+    {
+     "word": " insert",
+     "start": 4.66,
+     "end": 5.36
+    },
+    {
+     "word": " 14",
+     "start": 5.36,
+     "end": 5.9
+    },
+    {
+     "word": " times",
+     "start": 5.9,
+     "end": 6.22
+    },
+    {
+     "word": " slower?",
+     "start": 6.22,
+     "end": 6.68
+    }
+   ]
+  },
+  {
+   "text": " It's not the ID, it's where it lands.",
+   "start": 7.6,
+   "end": 10.16,
+   "words": [
+    {
+     "word": " It's",
+     "start": 7.6,
+     "end": 7.88
+    },
+    {
+     "word": " not",
+     "start": 7.88,
+     "end": 8.04
+    },
+    {
+     "word": " the",
+     "start": 8.04,
+     "end": 8.3
+    },
+    {
+     "word": " ID,",
+     "start": 8.3,
+     "end": 8.68
+    },
+    {
+     "word": " it's",
+     "start": 8.98,
+     "end": 9.36
+    },
+    {
+     "word": " where",
+     "start": 9.36,
+     "end": 9.5
+    },
+    {
+     "word": " it",
+     "start": 9.5,
+     "end": 9.74
+    },
+    {
+     "word": " lands.",
+     "start": 9.74,
+     "end": 10.16
+    }
+   ]
+  },
+  {
+   "text": " A food delivery platform picked random UUIDs",
+   "start": 11.72,
+   "end": 14.52,
+   "words": [
+    {
+     "word": " A",
+     "start": 11.72,
+     "end": 11.82
+    },
+    {
+     "word": " food",
+     "start": 11.82,
+     "end": 12.04
+    },
+    {
+     "word": " delivery",
+     "start": 12.04,
+     "end": 12.36
+    },
+    {
+     "word": " platform",
+     "start": 12.36,
+     "end": 12.86
+    },
+    {
+     "word": " picked",
+     "start": 12.86,
+     "end": 13.16
+    },
+    {
+     "word": " random",
+     "start": 13.16,
+     "end": 13.62
+    },
+    {
+     "word": " UUIDs",
+     "start": 13.62,
+     "end": 14.52
+    }
+   ]
+  },
+  {
+   "text": " for its orders, the right call at first.",
+   "start": 14.52,
+   "end": 16.98,
+   "words": [
+    {
+     "word": " for",
+     "start": 14.52,
+     "end": 14.64
+    },
+    {
+     "word": " its",
+     "start": 14.64,
+     "end": 14.82
+    },
+    {
+     "word": " orders,",
+     "start": 14.82,
+     "end": 15.16
+    },
+    {
+     "word": " the",
+     "start": 15.5,
+     "end": 15.7
+    },
+    {
+     "word": " right",
+     "start": 15.7,
+     "end": 15.86
+    },
+    {
+     "word": " call",
+     "start": 15.86,
+     "end": 16.18
+    },
+    {
+     "word": " at",
+     "start": 16.18,
+     "end": 16.52
+    },
+    {
+     "word": " first.",
+     "start": 16.52,
+     "end": 16.98
+    }
+   ]
+  },
+  {
+   "text": " Then the index outgrew memory.",
+   "start": 17.58,
+   "end": 19.58,
+   "words": [
+    {
+     "word": " Then",
+     "start": 17.58,
+     "end": 17.84
+    },
+    {
+     "word": " the",
+     "start": 17.84,
+     "end": 18.1
+    },
+    {
+     "word": " index",
+     "start": 18.1,
+     "end": 18.5
+    },
+    {
+     "word": " outgrew",
+     "start": 18.5,
+     "end": 19.02
+    },
+    {
+     "word": " memory.",
+     "start": 19.02,
+     "end": 19.58
+    }
+   ]
+  },
+  {
+   "text": " Every query was green, inserts still slowed down.",
+   "start": 20.46,
+   "end": 23.58,
+   "words": [
+    {
+     "word": " Every",
+     "start": 20.46,
+     "end": 20.7
+    },
+    {
+     "word": " query",
+     "start": 20.7,
+     "end": 21.06
+    },
+    {
+     "word": " was",
+     "start": 21.06,
+     "end": 21.28
+    },
+    {
+     "word": " green,",
+     "start": 21.28,
+     "end": 21.68
+    },
+    {
+     "word": " inserts",
+     "start": 22.12,
+     "end": 22.48
+    },
+    {
+     "word": " still",
+     "start": 22.48,
+     "end": 22.88
+    },
+    {
+     "word": " slowed",
+     "start": 22.88,
+     "end": 23.18
+    },
+    {
+     "word": " down.",
+     "start": 23.18,
+     "end": 23.58
+    }
+   ]
+  },
+  {
+   "text": " In my test, random pages ended 70% full,",
+   "start": 24.38,
+   "end": 27.42,
+   "words": [
+    {
+     "word": " In",
+     "start": 24.38,
+     "end": 24.5
+    },
+    {
+     "word": " my",
+     "start": 24.5,
+     "end": 24.72
+    },
+    {
+     "word": " test,",
+     "start": 24.72,
+     "end": 25.08
+    },
+    {
+     "word": " random",
+     "start": 25.38,
+     "end": 25.62
+    },
+    {
+     "word": " pages",
+     "start": 25.62,
+     "end": 25.98
+    },
+    {
+     "word": " ended",
+     "start": 25.98,
+     "end": 26.32
+    },
+    {
+     "word": " 70",
+     "start": 26.32,
+     "end": 26.78
+    },
+    {
+     "word": "%",
+     "start": 26.78,
+     "end": 27.08
+    },
+    {
+     "word": " full,",
+     "start": 27.08,
+     "end": 27.42
+    }
+   ]
+  },
+  {
+   "text": " time ordered, 90%.",
+   "start": 27.42,
+   "end": 29.44,
+   "words": [
+    {
+     "word": " time",
+     "start": 27.42,
+     "end": 28.04
+    },
+    {
+     "word": " ordered,",
+     "start": 28.04,
+     "end": 28.34
+    },
+    {
+     "word": " 90%.",
+     "start": 28.7,
+     "end": 29.44
+    }
+   ]
+  },
+  {
+   "text": " Same 16 bytes, a 29% bigger index.",
+   "start": 29.44,
+   "end": 32.82,
+   "words": [
+    {
+     "word": " Same",
+     "start": 29.44,
+     "end": 29.96
+    },
+    {
+     "word": " 16",
+     "start": 29.96,
+     "end": 30.38
+    },
+    {
+     "word": " bytes,",
+     "start": 30.38,
+     "end": 30.68
+    },
+    {
+     "word": " a",
+     "start": 30.96,
+     "end": 31.16
+    },
+    {
+     "word": " 29",
+     "start": 31.16,
+     "end": 31.52
+    },
+    {
+     "word": "%",
+     "start": 31.52,
+     "end": 31.96
+    },
+    {
+     "word": " bigger",
+     "start": 31.96,
+     "end": 32.28
+    },
+    {
+     "word": " index.",
+     "start": 32.28,
+     "end": 32.82
+    }
+   ]
+  },
+  {
+   "text": " Keys are kept sorted in pages.",
+   "start": 33.76,
+   "end": 35.48,
+   "words": [
+    {
+     "word": " Keys",
+     "start": 33.76,
+     "end": 33.92
+    },
+    {
+     "word": " are",
+     "start": 33.92,
+     "end": 34.1
+    },
+    {
+     "word": " kept",
+     "start": 34.1,
+     "end": 34.3
+    },
+    {
+     "word": " sorted",
+     "start": 34.3,
+     "end": 34.68
+    },
+    {
+     "word": " in",
+     "start": 34.68,
+     "end": 35.08
+    },
+    {
+     "word": " pages.",
+     "start": 35.08,
+     "end": 35.48
+    }
+   ]
+  },
+  {
+   "text": " A random key belongs anywhere,",
+   "start": 35.94,
+   "end": 37.32,
+   "words": [
+    {
+     "word": " A",
+     "start": 35.94,
+     "end": 36.1
+    },
+    {
+     "word": " random",
+     "start": 36.1,
+     "end": 36.28
+    },
+    {
+     "word": " key",
+     "start": 36.28,
+     "end": 36.54
+    },
+    {
+     "word": " belongs",
+     "start": 36.54,
+     "end": 36.88
+    },
+    {
+     "word": " anywhere,",
+     "start": 36.88,
+     "end": 37.32
+    }
+   ]
+  },
+  {
+   "text": " so full pages split to fit it.",
+   "start": 37.64,
+   "end": 39.5,
+   "words": [
+    {
+     "word": " so",
+     "start": 37.64,
+     "end": 37.8
+    },
+    {
+     "word": " full",
+     "start": 37.8,
+     "end": 38.12
+    },
+    {
+     "word": " pages",
+     "start": 38.12,
+     "end": 38.46
+    },
+    {
+     "word": " split",
+     "start": 38.46,
+     "end": 38.78
+    },
+    {
+     "word": " to",
+     "start": 38.78,
+     "end": 38.98
+    },
+    {
+     "word": " fit",
+     "start": 38.98,
+     "end": 39.14
+    },
+    {
+     "word": " it.",
+     "start": 39.14,
+     "end": 39.5
+    }
+   ]
+  },
+  {
+   "text": " Less of the index fits in memory,",
+   "start": 39.68,
+   "end": 41.1,
+   "words": [
+    {
+     "word": " Less",
+     "start": 39.68,
+     "end": 39.86
+    },
+    {
+     "word": " of",
+     "start": 39.86,
+     "end": 40.02
+    },
+    {
+     "word": " the",
+     "start": 40.02,
+     "end": 40.14
+    },
+    {
+     "word": " index",
+     "start": 40.14,
+     "end": 40.4
+    },
+    {
+     "word": " fits",
+     "start": 40.4,
+     "end": 40.62
+    },
+    {
+     "word": " in",
+     "start": 40.62,
+     "end": 40.82
+    },
+    {
+     "word": " memory,",
+     "start": 40.82,
+     "end": 41.1
+    }
+   ]
+  },
+  {
+   "text": " and inserts wait on the disk.",
+   "start": 41.38,
+   "end": 42.84,
+   "words": [
+    {
+     "word": " and",
+     "start": 41.38,
+     "end": 41.52
+    },
+    {
+     "word": " inserts",
+     "start": 41.52,
+     "end": 41.92
+    },
+    {
+     "word": " wait",
+     "start": 41.92,
+     "end": 42.2
+    },
+    {
+     "word": " on",
+     "start": 42.2,
+     "end": 42.36
+    },
+    {
+     "word": " the",
+     "start": 42.36,
+     "end": 42.52
+    },
+    {
+     "word": " disk.",
+     "start": 42.52,
+     "end": 42.84
+    }
+   ]
+  },
+  {
+   "text": " UUID v7 puts the time first,",
+   "start": 44.32,
+   "end": 46.62,
+   "words": [
+    {
+     "word": " UUID",
+     "start": 44.32,
+     "end": 44.76
+    },
+    {
+     "word": " v7",
+     "start": 44.76,
+     "end": 45.42
+    },
+    {
+     "word": " puts",
+     "start": 45.42,
+     "end": 45.74
+    },
+    {
+     "word": " the",
+     "start": 45.74,
+     "end": 45.98
+    },
+    {
+     "word": " time",
+     "start": 45.98,
+     "end": 46.22
+    },
+    {
+     "word": " first,",
+     "start": 46.22,
+     "end": 46.62
+    }
+   ]
+  },
+  {
+   "text": " so every new ID lands on the last page,",
+   "start": 46.76,
+   "end": 49.16,
+   "words": [
+    {
+     "word": " so",
+     "start": 46.76,
+     "end": 47.04
+    },
+    {
+     "word": " every",
+     "start": 47.04,
+     "end": 47.34
+    },
+    {
+     "word": " new",
+     "start": 47.34,
+     "end": 47.56
+    },
+    {
+     "word": " ID",
+     "start": 47.56,
+     "end": 47.84
+    },
+    {
+     "word": " lands",
+     "start": 47.84,
+     "end": 48.18
+    },
+    {
+     "word": " on",
+     "start": 48.18,
+     "end": 48.32
+    },
+    {
+     "word": " the",
+     "start": 48.32,
+     "end": 48.52
+    },
+    {
+     "word": " last",
+     "start": 48.52,
+     "end": 48.74
+    },
+    {
+     "word": " page,",
+     "start": 48.74,
+     "end": 49.16
+    }
+   ]
+  },
+  {
+   "text": " already in memory.",
+   "start": 49.34,
+   "end": 50.26,
+   "words": [
+    {
+     "word": " already",
+     "start": 49.34,
+     "end": 49.7
+    },
+    {
+     "word": " in",
+     "start": 49.7,
+     "end": 49.94
+    },
+    {
+     "word": " memory.",
+     "start": 49.94,
+     "end": 50.26
+    }
+   ]
+  },
+  {
+   "text": " A primary key is a write pattern, not just a name.",
+   "start": 51.82,
+   "end": 54.62,
+   "words": [
+    {
+     "word": " A",
+     "start": 51.82,
+     "end": 52.02
+    },
+    {
+     "word": " primary",
+     "start": 52.02,
+     "end": 52.32
+    },
+    {
+     "word": " key",
+     "start": 52.32,
+     "end": 52.66
+    },
+    {
+     "word": " is",
+     "start": 52.66,
+     "end": 52.86
+    },
+    {
+     "word": " a",
+     "start": 52.86,
+     "end": 53.08
+    },
+    {
+     "word": " write",
+     "start": 53.08,
+     "end": 53.2
+    },
+    {
+     "word": " pattern,",
+     "start": 53.2,
+     "end": 53.62
+    },
+    {
+     "word": " not",
+     "start": 53.82,
+     "end": 54.08
+    },
+    {
+     "word": " just",
+     "start": 54.08,
+     "end": 54.26
+    },
+    {
+     "word": " a",
+     "start": 54.26,
+     "end": 54.4
+    },
+    {
+     "word": " name.",
+     "start": 54.4,
+     "end": 54.62
+    }
+   ]
+  }
+ ]
+}
