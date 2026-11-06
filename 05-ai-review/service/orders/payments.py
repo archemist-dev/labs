@@ -1,4 +1,11 @@
+"""Card provider client.
+
+The provider dedupes charges by Idempotency-Key: a repeated key returns the first charge, never a second one.
+Refunds take no key: every POST /refunds creates a new refund.
+"""
 from dataclasses import dataclass
+
+from .http import TransientError
 
 
 class PaymentError(Exception):
@@ -16,26 +23,27 @@ class RefundResult:
 
 
 class PaymentClient:
-    """Thin client for the card provider. The provider dedupes charges by idempotency key."""
-
     def __init__(self, http):
         self.http = http
 
     def charge(self, order_id: str, amount_pence: int, idempotency_key: str) -> str:
-        resp = self.http.post(
-            "/charges",
-            json={"order_id": order_id, "amount": amount_pence, "currency": "GBP"},
-            headers={"Idempotency-Key": idempotency_key},
-            timeout=5,
-        )
+        try:
+            resp = self.http.post(
+                "/charges",
+                json={"order_id": order_id, "amount": amount_pence, "currency": "GBP"},
+                headers={"Idempotency-Key": idempotency_key},
+            )
+        except TransientError as e:
+            raise PaymentTimeout(order_id) from e
         if resp.status == 402:
             raise PaymentError(resp.json().get("reason", "declined"))
-        if resp.status in (408, 504):
-            raise PaymentTimeout(order_id)
         return resp.json()["charge_id"]
 
     def refund(self, order_id: str, amount_pence: int) -> RefundResult:
-        resp = self.http.post("/refunds", json={"order_id": order_id, "amount": amount_pence}, timeout=5)
+        try:
+            resp = self.http.post("/refunds", json={"order_id": order_id, "amount": amount_pence})
+        except TransientError:
+            return RefundResult(ok=False, reason="no answer; check the provider before refunding again")
         if resp.status != 200:
             return RefundResult(ok=False, reason=resp.json().get("reason", "refund failed"))
         return RefundResult(ok=True)

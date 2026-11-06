@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from datetime import datetime
 
 CREATED = "CREATED"
 PAID = "PAID"
@@ -44,12 +45,14 @@ class Order:
     items: list[Item]
     address: Address
     zone: str
+    created_at: datetime  # timezone-aware, UTC
     subtotal_pence: int = 0
     delivery_fee_pence: int = 0
     discount_pence: int = 0
     total_pence: int = 0
     status: str = CREATED
     courier_id: str | None = None
+    picked_up_at: datetime | None = None
     history: list[str] = field(default_factory=list)
 
 

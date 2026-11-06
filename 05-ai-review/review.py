@@ -50,7 +50,8 @@ Write your review as the comments you would post on the PR.
     # The narrow version: only ways the change can fail without anyone noticing.
     "checklist": CONTEXT + """
 Review only for silent failures: ways this change can do the wrong thing while returning success and raising no error.
-Check each of these against the diff:
+First read what the change depends on outside the diff: its callers, the docstrings and comments of what it calls,
+config defaults and flags. Then check each of these:
 - Errors caught and not re-raised, or logged and dropped
 - Retries: is every retried call idempotent (same key, safe to repeat)?
 - Defaults for missing or null values: is the default correct, or does it hide missing data?
@@ -60,6 +61,8 @@ Check each of these against the diff:
 - Return values that signal failure and are ignored
 - Multi-step writes with no rollback when a later step fails
 - Health checks or fallbacks that report OK while something is broken
+- Contracts: does the change still keep every rule stated elsewhere (units, time zones, which errors callers catch,
+  what a default means, whether a call is safe to repeat, whether a read is a copy or a stale view)?
 
 Ignore style, naming and refactoring suggestions.
 For each finding write one comment starting with [BLOCKING] or [NIT].
