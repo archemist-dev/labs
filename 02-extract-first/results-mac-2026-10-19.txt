@@ -7,7 +7,7 @@ Order status: DELIVERED; history: CREATED > PAID > COOKING > COURIER_ASSIGNED > 
 
 ## Per module, one typical order (3 items, 25-minute delivery)
 
-| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Seams to cut | On order creation |
+| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Dependencies to cut | On order creation |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | menu | 2 | 0 | 5 | 0 (0 tables) | 5 (2 links) | 0 | 0 | 2 | yes |
 | orders | 3 | 16 | 7 | 5 (2 tables) | 8 (3 links) | 6 | 4 | 10 | yes |
@@ -41,7 +41,7 @@ Order status: DELIVERED; history: CREATED > PAID > COOKING > COURIER_ASSIGNED > 
 | orders | notifications | event:order_status | 5 |
 | orders | payments | charge | 1 |
 
-Seams to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.
+Dependencies to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.
 Assumptions: GPS point every 10 s, ETA refresh every 30 s, 10 min to the restaurant, 15 min to the guest.
 == extract_test.py copy
 Courier module gets the delivery point by: copy
@@ -49,7 +49,7 @@ Order status: DELIVERED; history: CREATED > PAID > COOKING > COURIER_ASSIGNED > 
 
 ## Per module, one typical order (3 items, 25-minute delivery)
 
-| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Seams to cut | On order creation |
+| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Dependencies to cut | On order creation |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | menu | 2 | 0 | 5 | 0 (0 tables) | 5 (2 links) | 0 | 0 | 2 | yes |
 | orders | 3 | 16 | 7 | 5 (2 tables) | 8 (3 links) | 6 | 4 | 10 | yes |
@@ -83,7 +83,7 @@ Order status: DELIVERED; history: CREATED > PAID > COOKING > COURIER_ASSIGNED > 
 | orders | notifications | event:order_status | 5 |
 | orders | payments | charge | 1 |
 
-Seams to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.
+Dependencies to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.
 Assumptions: GPS point every 10 s, ETA refresh every 30 s, 10 min to the restaurant, 15 min to the guest.
 == extract_test.py calls
 Courier module gets the delivery point by: calls
@@ -91,7 +91,7 @@ Order status: DELIVERED; history: CREATED > PAID > COOKING > COURIER_ASSIGNED > 
 
 ## Per module, one typical order (3 items, 25-minute delivery)
 
-| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Seams to cut | On order creation |
+| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Dependencies to cut | On order creation |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | menu | 2 | 0 | 5 | 0 (0 tables) | 5 (2 links) | 0 | 0 | 2 | yes |
 | orders | 3 | 16 | 56 | 5 (2 tables) | 8 (3 links) | 6 | 53 | 10 | yes |
@@ -125,7 +125,7 @@ Order status: DELIVERED; history: CREATED > PAID > COOKING > COURIER_ASSIGNED > 
 | orders | notifications | event:order_status | 5 |
 | orders | payments | charge | 1 |
 
-Seams to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.
+Dependencies to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.
 Assumptions: GPS point every 10 s, ETA refresh every 30 s, 10 min to the restaurant, 15 min to the guest.
 == extract_test.py calls
 Courier module gets the delivery point by: calls
@@ -133,7 +133,7 @@ Order status: DELIVERED; history: CREATED > PAID > COOKING > COURIER_ASSIGNED > 
 
 ## Per module, one typical order (3 items, 25-minute delivery)
 
-| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Seams to cut | On order creation |
+| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Dependencies to cut | On order creation |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | menu | 2 | 0 | 5 | 0 (0 tables) | 5 (2 links) | 0 | 0 | 2 | yes |
 | orders | 3 | 16 | 56 | 5 (2 tables) | 8 (3 links) | 6 | 53 | 10 | yes |
@@ -167,7 +167,7 @@ Order status: DELIVERED; history: CREATED > PAID > COOKING > COURIER_ASSIGNED > 
 | orders | notifications | event:order_status | 5 |
 | orders | payments | charge | 1 |
 
-Seams to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.
+Dependencies to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.
 Assumptions: GPS point every 10 s, ETA refresh every 30 s, 10 min to the restaurant, 15 min to the guest.
 == extract_test.py joins
 Courier module gets the delivery point by: joins
@@ -175,7 +175,7 @@ Order status: DELIVERED; history: CREATED > PAID > COOKING > COURIER_ASSIGNED > 
 
 ## Per module, one typical order (3 items, 25-minute delivery)
 
-| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Seams to cut | On order creation |
+| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Dependencies to cut | On order creation |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | menu | 2 | 0 | 5 | 0 (0 tables) | 5 (2 links) | 0 | 0 | 2 | yes |
 | orders | 3 | 16 | 56 | 5 (2 tables) | 58 (4 links) | 6 | 3 | 10 | yes |
@@ -208,7 +208,7 @@ Order status: DELIVERED; history: CREATED > PAID > COOKING > COURIER_ASSIGNED > 
 | orders | notifications | event:order_status | 5 |
 | orders | payments | charge | 1 |
 
-Seams to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.
+Dependencies to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.
 Assumptions: GPS point every 10 s, ETA refresh every 30 s, 10 min to the restaurant, 15 min to the guest.
 == extract_test.py joins
 Courier module gets the delivery point by: joins
@@ -216,7 +216,7 @@ Order status: DELIVERED; history: CREATED > PAID > COOKING > COURIER_ASSIGNED > 
 
 ## Per module, one typical order (3 items, 25-minute delivery)
 
-| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Seams to cut | On order creation |
+| Module | Owns tables | Writes to its tables | Reads of its tables | Others' tables it touches | Its tables others touch | Calls out | Calls in | Dependencies to cut | On order creation |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | menu | 2 | 0 | 5 | 0 (0 tables) | 5 (2 links) | 0 | 0 | 2 | yes |
 | orders | 3 | 16 | 56 | 5 (2 tables) | 58 (4 links) | 6 | 3 | 10 | yes |
@@ -249,7 +249,7 @@ Order status: DELIVERED; history: CREATED > PAID > COOKING > COURIER_ASSIGNED > 
 | orders | notifications | event:order_status | 5 |
 | orders | payments | charge | 1 |
 
-Seams to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.
+Dependencies to cut = distinct cross-module table links (either direction) + distinct cross-module functions or events.
 Assumptions: GPS point every 10 s, ETA refresh every 30 s, 10 min to the restaurant, 15 min to the guest.
 == scale.py
 Rows per order: location logs (courier_positions) 150, orders tables 10 (orders + order_items + order_status_history)
