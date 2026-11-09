@@ -8,6 +8,7 @@ Auth: ANTHROPIC_API_KEY from your environment (--bare reads nothing else). Never
     RUNS=1 PRS=b01-chain-from-view,c01-couriers-on-trip python3 review.py   # quick try
     MODEL=claude-sonnet-5-5 python3 review.py
     RULES=unwritten python3 review.py     # same PRs, rule docstrings and comments removed (rules.py)
+    REVIEWERS=default PRS=b01-chain-from-view python3 review.py   # one reviewer, chosen PRs
 
 Raw outputs: runs/<reviewer>/<pr>/run<k>.json, or runs-unwritten/... (skipped if present, so a run resumes).
 """
@@ -32,6 +33,7 @@ RUNS_DIR = HERE / ("runs" if RULES == "written" else "runs-unwritten")
 MODEL = os.environ.get("MODEL", "claude-sonnet-5-5")
 RUNS = int(os.environ.get("RUNS", "3"))
 ONLY = set(filter(None, os.environ.get("PRS", "").split(",")))
+ONLY_REVIEWERS = set(filter(None, os.environ.get("REVIEWERS", "").split(",")))
 
 CONTEXT = """You are reviewing a pull request in this repository. The PR is branch `pr`, opened against `main`.
 Title: {title}
@@ -143,6 +145,8 @@ def main():
         sys.exit("ANTHROPIC_API_KEY is not set in this shell (export it from your shell profile or keychain).")
     prs = [p for p in PRS if not ONLY or p["id"] in ONLY]
     for name, template in REVIEWERS.items():
+        if ONLY_REVIEWERS and name not in ONLY_REVIEWERS:
+            continue
         for pr in prs:
             for k in range(1, RUNS + 1):
                 dest = RUNS_DIR / name / pr["id"] / f"run{k}.json"
