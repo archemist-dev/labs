@@ -46,7 +46,7 @@ MODEL=... JUDGE_MODEL=... python3 review.py                                    #
 2. **Checklist prompt**: only silent failures, and read what the change depends on outside the diff first (callers, docstrings, config, flags). It checks swallowed errors, retry idempotency, defaults, time, money, concurrency, ignored return values, multi-step writes and health checks. Each finding is tagged `[BLOCKING]` or `[NIT]`, and style is ignored.
 3. **Checklist, blocking only**: level 2's output with only `[BLOCKING]` comments posted (a severity bar). No extra run.
 
-Measured per level: silent failures caught (of 10), false alarms per clean PR, comments per PR, cost per PR. Each is shown as the mean over 3 runs, with the range in brackets.
+Measured per level: silent failures caught (of 10), false alarms per clean PR, comments per PR, cost per PR. Cost is also shown per month at 20, 100 and 500 PRs a week (review cost only, API list price as billed by Claude Code). Each is shown as the mean over 3 runs, with the range in brackets.
 
 **What counts.** A bug is caught when a comment names it or its concrete effect. A false alarm is a comment on a clean PR claiming a defect that isn't real; style and test suggestions don't count.
 
@@ -56,6 +56,10 @@ Measured per level: silent failures caught (of 10), false alarms per clean PR, c
 - The judge is a model too. Spot-check the `.grade.json` files before publishing, and correct any wrong grade by hand (and say so here).
 - One model per reviewer, on the date of the run. Results change with models and prompts; the numbers are a snapshot, not a ranking of tools.
 - Model answers vary, so there are 3 runs per PR. Publish the ranges, not one number.
+
+## Pilot (2026-11-06, discarded)
+
+One run of b01 and its first twin, both reviewers. Both reviewers caught b01 as blocking. Both also flagged the first twin, which shortlisted couriers from the lagging view: that was a fair catch (it could silently skip a courier), so the twin was replaced with c01 (filter in the store). The pilot also showed two flaws in the base service that drew comments on every PR: nothing ran the view's background job, and `service.chain` didn't catch `ConflictError`. Both are fixed (`jobs.py`, `app.py`). Cost: $0.045 to $0.051 per review (claude-sonnet-5-5, 3 to 5 turns). These runs are not part of the results.
 
 ## Results
 

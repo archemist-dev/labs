@@ -144,6 +144,14 @@ def table(rows):
         print(f"| {label} | {spread(caught)} | {spread(fa)} | {spread(comments)} | {spread(cost, '${:.3f}')} |")
     print("\nMean over runs, range in brackets. Level 3 is level 2's output with only [BLOCKING] comments posted.")
 
+    print("\n| Reviewer | Cost per PR | 20 PRs/week | 100 PRs/week | 500 PRs/week |")
+    print("|---|---|---|---|---|")
+    for reviewer, runs in rows.items():
+        per_pr = mean(r["cost"] / r["n"] for r in runs.values())
+        monthly = [f"${per_pr * prs * 52 / 12:,.0f}/month" for prs in (20, 100, 500)]
+        print(f"| {reviewer} | ${per_pr:.3f} | " + " | ".join(monthly) + " |")
+    print("\nReview cost only (API list price as billed by Claude Code); the judge's cost is not included.")
+
 
 def main():
     if not os.environ.get("ANTHROPIC_API_KEY"):

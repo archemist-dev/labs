@@ -37,7 +37,7 @@ PRS = [
     # ---------- seeded silent failures ----------
     {
         "id": "b01-chain-from-view",
-        "twin": "c01-chain-view-shortlist",
+        "twin": "c01-couriers-on-trip",
         "kind": "bug",
         "title": "Read courier chains from the courier view in pick_courier",
         "body": "pick_courier reads every courier from the primary on each new order, which is most of the primary's "
@@ -231,28 +231,24 @@ class PaymentTimeout(Exception):"""),
     },
     # ---------- clean twins ----------
     {
-        "id": "c01-chain-view-shortlist",
+        "id": "c01-couriers-on-trip",
         "twin": "b01-chain-from-view",
         "kind": "clean",
-        "title": "Shortlist couriers from the courier view in pick_courier",
-        "body": "pick_courier reads every courier from the primary on each new order. Use the courier view to "
-                "shortlist couriers that are on a trip, then read each shortlisted courier from the store and decide "
-                "on that, since the view can lag.",
-        "note": "The view only narrows the list; the decision (chain, capacity, last order) is made on the store's "
-                "current data. A lagging view can at worst miss a courier who just started a trip, never assign a "
-                "wrong one.",
+        "title": "Only load couriers on a trip in pick_courier",
+        "body": "pick_courier deep-copies every courier from the primary on each new order, idle ones included, and "
+                "then skips the idle ones. Filter them inside the store under the same lock, so only couriers with a "
+                "chain are copied.",
+        "note": "Same decision on the same primary data: the loop already skipped couriers with no chained orders; "
+                "now the store filters them in one locked pass.",
         "edits": [
-            ("orders/chain.py", """def pick_courier(store, order):
-    \"\"\"The courier whose last chained order is closest to the new one, within MAX_DETOUR and with room left.\"\"\"
-    best = None
-    for courier in store.couriers():
-""", """def pick_courier(store, view, order):
-    \"\"\"The courier whose last chained order is closest to the new one, within MAX_DETOUR and with room left.\"\"\"
-    best = None
-    shortlist = [courier_id for courier_id in view.courier_ids() if view.chain(courier_id)]
-    for courier in (store.get_courier(courier_id) for courier_id in shortlist):
-"""),
-            ("orders/service.py", CHAIN_CALL, """        courier_id = chain.pick_courier(self.store, self.view, order)
+            ("orders/store.py", """    def attach_order(self, order_id: str, courier_id: str) -> Order:""", """    def couriers_on_trip(self) -> list[Courier]:
+        \"\"\"Couriers with at least one chained order.\"\"\"
+        with self._lock:
+            return [copy.deepcopy(c) for c in self._couriers.values() if c.order_ids]
+
+    def attach_order(self, order_id: str, courier_id: str) -> Order:"""),
+            ("orders/chain.py", """    for courier in store.couriers():
+""", """    for courier in store.couriers_on_trip():
 """),
         ],
     },

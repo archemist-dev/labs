@@ -16,6 +16,7 @@ from .models import (
 from .notify import NotifyError
 from .payments import PaymentError
 from .reports import LONDON
+from .store import ConflictError
 from .views import CourierView
 
 log = logging.getLogger(__name__)
@@ -78,7 +79,10 @@ class OrderService:
         courier_id = chain.pick_courier(self.store, order)
         if courier_id is None:
             return None
-        return self.store.attach_order(order_id, courier_id)
+        try:
+            return self.store.attach_order(order_id, courier_id)
+        except ConflictError:
+            return None  # the courier filled up or the order was taken meanwhile
 
     def dispatcher_screen(self) -> dict[str, list[str]]:
         return {courier_id: self.view.chain(courier_id) for courier_id in self.view.courier_ids()}
