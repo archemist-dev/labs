@@ -67,8 +67,8 @@ print(f"refund of 1199 pence: provider applied {provider.applied} refund(s), cli
 ''',
     "03": '''
 svc = make_service()
-order = svc.place_order("guest_1", [Item("PZ-MARG", "Margherita", 1, 1199)], ADDRESS, "CB4", promo_code="TENOFF", now=NOON)
-print(f"10% promo on a 1199 pence pizza with {order.delivery_fee_pence} pence delivery: discount {order.discount_pence} pence")
+order = svc.place_order("guest_1", [Item("BG-CHEESE", "Cheeseburger", 1, 1199)], ADDRESS, "CB4", promo_code="TENOFF", now=NOON)
+print(f"10% promo on a 1199 pence cheeseburger with {order.delivery_fee_pence} pence delivery: discount {order.discount_pence} pence")
 ''',
     "04": '''
 from orders.reports import kitchen_summary
@@ -106,7 +106,7 @@ print(f"CB4 (no free-delivery offer), 2695 pence basket: delivery fee {order.del
 ''',
     "08": '''
 svc = make_service()
-order = svc.place_order("guest_1", [Item("PZ-MARG", "Margherita", 1, 1199)], ADDRESS, "CB4", now=NOON)
+order = svc.place_order("guest_1", [Item("BG-CHEESE", "Cheeseburger", 1, 1199)], ADDRESS, "CB4", now=NOON)
 print(f"CB4 with surge on (349 + 150): delivery fee {order.delivery_fee_pence} pence")
 ''',
     "09": '''

@@ -11,8 +11,8 @@ from orders.store import OrderStore
 
 ADDRESS = Address("Anglia Ruskin University", "East Rd", "Cambridge", "CB1 1PT", 52.203889, 0.132917)
 ITEMS = [
-    Item("PZ-MARG", "Margherita", 1, 1199),
-    Item("SD-WINGS", "Wings", 2, 549),
+    Item("BG-CHEESE", "Cheeseburger", 1, 1199),
+    Item("MX-TACOS", "Tacos", 2, 549),
     Item("DR-COLA", "Cola", 2, 199),
 ]
 NOON = datetime(2026, 7, 1, 11, 0, tzinfo=timezone.utc)

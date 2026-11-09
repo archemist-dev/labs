@@ -31,7 +31,7 @@ MODEL=... JUDGE_MODEL=... python3 review.py                                    #
 |---|---|---|---|---|---|
 | 01 | Read courier chains from the courier view (cuts primary reads) | `views.py`: the view lags; display only, decisions read the store | Order moved from courier_7 to courier_9, new order next door | chained to courier_7 | courier_9 |
 | 02 | Retry transient errors in `Http.post` | `payments.py`: refunds take no idempotency key | Refund times out after the provider applied it | 2 refunds | 1 |
-| 03 | Apply the promo to what the guest pays | `money.py`: promos apply to the item subtotal only | 10% on a 1199p pizza, 499p delivery | 169p off | 119p |
+| 03 | Apply the promo to what the guest pays | `money.py`: promos apply to the item subtotal only | 10% on a 1199p cheeseburger, 499p delivery | 169p off | 119p |
 | 04 | Kitchen summary for one day | `models.py` UTC timestamps, `reports.py` London days | Order at 00:30 London, 2 July | 0 orders | 1 |
 | 05 | `Notifier.send` returns a status instead of raising | `service.dispatch` queues for retry only on `NotifyError` | SMS provider down at dispatch | 0 queued | 1 |
 | 06 | `CardExpired` exception for the app | `place_order` cleans up only on `PaymentError` | Expired card | order stuck CREATED, 5 items reserved | PAYMENT_FAILED, 0 |
