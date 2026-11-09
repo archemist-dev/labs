@@ -1,0 +1,11 @@
+{
+  "comments": 4,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The PR is clean, and the review's four bullets confirm that it behaves as intended: the discount stays on the subtotal, and a ValueError is raised before anything is saved. The review flags no defect, and its note about empty promo codes says that behaviour is reasonable rather than calling it a bug.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.015034800000000001
+}

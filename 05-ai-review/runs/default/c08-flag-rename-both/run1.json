@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c08-flag-rename-both",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Rename `surge_fee` flag to `dynamic_delivery_fee`**\n\nThe rename is complete and consistent. I grepped the whole repo, and no stale `\"surge_fee\"` string lookups remain. The flag key in `flags.py` and its one reader in `service.py` both use the new name. That matters because `flags.enabled` returns `False` for unknown names. A missed call site would have silently turned off the fee, with no error. I found no missed call sites.\n\nNits, none blocking:\n\n1. **Line length** (`service.py:48`): the line is now very long. Consider wrapping it or pulling the flag into a local variable:\n   ```python\n   dynamic_fee = flags.enabled(\"dynamic_delivery_fee\")\n   order.delivery_fee_pence = money.delivery_fee(zone, order.subtotal_pence, surge=dynamic_fee)\n   ```\n2. **Leftover \"surge\" naming**: the PR says pricing calls this \"dynamic delivery fee\" everywhere, but \"surge\" is still used in a few places:\n   - `config.py:8`: the comment still says \"while the surge_fee flag is on\", which now names a flag that doesn't exist. Please update it, because the comment is wrong after this change.\n   - `config.py`: the `surge_pence` field and its zone entries.\n   - `money.py`: the `surge` parameter and the docstring.\n\n   Renaming the field and parameter is optional and could be a follow-up. The `config.py` comment should be fixed in this PR.\n3. **Deployment**: the flags are hardcoded in `FLAGS`, so no external config is affected. If any environment overrides or dashboards reference `surge_fee`, they would silently stop working. I found none in this repo, but please confirm.\n4. **Tests**: `tests/test_service.py` doesn't reference the flag, so nothing broke. But no test covers the flag-on or flag-off fee behaviour, which is what would catch a rename mistake like this. I suggest adding a test that creates an order in a zone with `surge_pence` (e.g. CB1) and asserts the fee with the flag on and with it patched off. A test that `flags.enabled(\"dynamic_delivery_fee\")` is `True` would also help.\n\nFix the stale comment in `config.py` and this is good to merge. The extra test is recommended.",
+  "cost_usd": 0.03450639999999999,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2426,
+    "cache_read_input_tokens": 6762,
+    "output_tokens": 1050,
+    "output_tokens_details": {
+      "thinking_tokens": 52
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2426
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 770,
+        "cache_read_input_tokens": 3150,
+        "cache_creation_input_tokens": 695,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 695,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

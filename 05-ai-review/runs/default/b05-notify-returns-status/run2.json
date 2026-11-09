@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b05-notify-returns-status",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Blocking: this change breaks the retry path in `OrderService.dispatch`.**\n\n`orders/service.py:92-97` still wraps `notifier.send` in `try/except NotifyError` and calls `outbox.add(...)` in the handler. After this PR, `send` never raises, so that handler is dead code. A failed courier SMS is now logged by `Notifier` and then dropped:\n\n- The message is never added to `Outbox`.\n- The worker that \"retries every minute\" never sees it.\n- The order is already `OUT_FOR_DELIVERY`, so the courier is never told to pick it up, and nothing reports the failure.\n\nThe PR only edits `notify.py`, so the caller was missed. The fix is to use the return value:\n\n```python\nif not self.notifier.send(order.courier_id, text):\n    log.warning(\"courier sms failed for %s, queued for retry\", order.id)\n    self.outbox.add(order.courier_id, text)\n```\n\nThen remove the unused `NotifyError` import from `service.py`.\n\n**Return values are easy to ignore, which is how this bug happened.** For a caller that must act on failure, such as dispatch, an exception forces the handling and a bool doesn't. The PR's reasoning is that SMS failures are expected. That is a fair argument, but it doesn't remove the need for callers to handle them. If you keep the bool, I'd like:\n- Every call site audited. `dispatch` is the only one today.\n- A docstring that says the caller must check the result.\n\nAlternatively, keep raising and leave `dispatch` as it is. That is the smaller change.\n\n**Other issues**\n- `NotifyError` is now unused in `notify.py`. Remove it, or keep it deliberately and say why.\n- `sms.send` can itself raise on a timeout or network error. The docstring says timeouts return False, but this code only handles `resp.ok`. Either catch the provider exceptions and return False, or correct the docstring.\n- The log line includes the full phone number. That is PII in logs, so consider masking it.\n- `return resp.ok` may not be a strict bool. Use `bool(resp.ok)` if the provider's type is loose.\n\n**Tests**\n- `FakeNotifier.send` returns `None`, which is falsy. After the fix above, every dispatch test would take the failure path and queue to the outbox. The fake should return `True`.\n- There is no test for a failed send. Please add one that checks `dispatch` puts the message in `outbox.pending` when `send` returns False. That test would have caught this regression.\n- Add `Notifier` unit tests for the ok, rejected and timeout cases, including the log output.\n\nPlease don't merge until `dispatch` is updated.",
+  "cost_usd": 0.0463958,
+  "usage": {
+    "input_tokens": 12,
+    "cache_creation_input_tokens": 3269,
+    "cache_read_input_tokens": 16714,
+    "output_tokens": 1333,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3269
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 881,
+        "cache_read_input_tokens": 3871,
+        "cache_creation_input_tokens": 817,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 817,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 6
+}

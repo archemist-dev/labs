@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b08-flag-rename",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Rename the surge_fee flag to dynamic_delivery_fee**\n\n**Blocking: this change turns off the surge fee for everyone.**\n\nThe PR renames the flag name in `orders/service.py`, but `FLAGS` in `orders/flags.py` still defines only `\"surge_fee\": True`. `enabled()` returns `FLAGS.get(name, False)`, so `flags.enabled(\"dynamic_delivery_fee\")` now returns `False` for an unknown key. Surge pricing (`zone.surge_pence`, e.g. +100p in CB1 and +150p in CB4) will silently stop being charged on every order. Nothing errors and nothing is logged. Customers are undercharged until someone notices.\n\n**Fix:** rename the key in `flags.py` in the same PR:\n```python\nFLAGS = {\n    \"dynamic_delivery_fee\": True,\n    \"chain_orders\": True,\n}\n```\nIf the flag is also set outside this repo (an env var, a config service, or an override), migrate that too, or temporarily accept both names. Deploy ordering matters here.\n\n**Other points**\n- **Silent default for unknown flags.** `enabled()` returns `False` for a typo or a missing name, which is how this bug stays hidden. Consider raising on unknown flag names, or at least logging a warning. A test that asserts every `flags.enabled(\"...\")` literal exists in `FLAGS` would also catch this.\n- **Incomplete rename.** The `surge` naming remains in `money.delivery_fee(..., surge=...)`, `Zone.surge_pence`, and the zone config. That may be intentional, since the PR only claims to rename the flag. If the goal is to match Pricing's terminology, say so in the description or open a follow-up. Having both names in the code is confusing.\n- **Line length.** The edited line in `service.py` is now very long. Consider pulling the flag value into a local variable.\n- **Tests.** The PR adds no tests, and nothing covers the flag-on path. Please add a test in `tests/test_service.py` that creates an order in a surge zone such as CB1 with the flag on and asserts `delivery_fee_pence == fee_pence + surge_pence`. That test would have failed on this PR. Add a second test with the flag off.\n\nPlease don't merge until `flags.py` is updated and a test covers it.",
+  "cost_usd": 0.0313472,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1895,
+    "cache_read_input_tokens": 6526,
+    "output_tokens": 971,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1895
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 777,
+        "cache_read_input_tokens": 2916,
+        "cache_creation_input_tokens": 398,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 398,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

@@ -68,6 +68,37 @@ Measured per level: silent failures caught (of 10), false alarms per clean PR, c
 
 One run of b01 and its first twin, both reviewers. Both reviewers caught b01 as blocking. Both also flagged the first twin, which shortlisted couriers from the lagging view: that was a fair catch (it could silently skip a courier), so the twin was replaced with c01 (filter in the store). The pilot also showed two flaws in the base service that drew comments on every PR: nothing ran the view's background job, and `service.chain` didn't catch `ConflictError`. Both are fixed (`jobs.py`, `app.py`). Cost: $0.045 to $0.051 per review (claude-sonnet-5-5, 3 to 5 turns). These runs are not part of the results.
 
-## Results
+## Results (2026-11-09)
 
-Not run yet.
+Reviewer model claude-sonnet-5-5, judge claude-opus-5-5, Claude Code 2.1.280. Raw reviews and grades: `runs/` and `runs-unwritten/`.
+
+### Rules written down: 2 reviewers x 20 PRs x 3 runs
+
+| Level | Silent failures caught (of 10) | False alarms per clean PR | Comments per PR | Cost per PR |
+|---|---|---|---|---|
+| 1. Default prompt | 10 in every run | 0.3 | 5.7 | $0.041 |
+| 2. Checklist prompt | 10 in every run | 0 | 1.8 | $0.031 |
+| 3. Checklist, blocking only | 10 in every run | 0 | 0.7 | $0.031 |
+
+Every catch was a blocking comment that names the bug. I spot-checked 4 grades against the review text. False alarms leave out c09, whose first version had a real bug: it read, changed and saved the whole order, so a concurrent change could be lost. The reviewers flagged that correctly. c09 and b09 were fixed afterwards and not re-run; b09's old version was caught 3 of 3 by both reviewers. With c09 included, the rates are 0.7 and 0.3.
+
+Monthly review cost: $4 / $18 / $88 (default) and $3 / $13 / $67 (checklist) at 20 / 100 / 500 PRs a week. Review cost only.
+
+### Rules not written down: default prompt, 10 bug PRs
+
+One run each, then 2 more runs of the two misses. Graded by hand from the review text (`run<k>.grade.json`, marked manual). Cost $0.047 per review, $0.66 in all.
+
+| Bug | Rules written | Rules not written |
+|---|---|---|
+| 01 chaining reads the lagging view (the story) | caught 3 of 3 | **0 of 3**: saw the lag every time, called it a trade-off ("correctness holds, what suffers is chaining quality") |
+| 02 retry repeats refunds | 3 of 3 | 1 of 1 |
+| 03 promo also discounts delivery | 3 of 3 | **0 of 3**: "a business decision to confirm", "good to merge" |
+| 04 UTC day vs London day | 3 of 3 | 1 of 1 |
+| 05 notifier returns False, caller expects an exception | 3 of 3 | 1 of 1 |
+| 06 CardExpired outside PaymentError | 3 of 3 | 1 of 1 |
+| 07 default None to 0 | 3 of 3 | 1 of 1 |
+| 08 flag renamed at the call site only | 3 of 3 | 1 of 1 |
+| 09 pickup time set on a copy | 3 of 3 | 1 of 1 |
+| 10 km vs metres | 3 of 3 | 1 of 1 |
+
+8 of 10 were still caught: their rule can be read from the code itself (a caller's `except`, `distance_m` next to `distance`, the `is not None` check, the flags dict). The two misses break rules that exist only as knowledge: that the view is display-only, and that promos never discount delivery. Without the sentence, the reviewer treats the bug as a design choice.

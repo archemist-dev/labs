@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c02-retry-charges-only",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\n- **Same key on every retry:** `charge` passes `Idempotency-Key` as `order.id` (`service.py:57`). The key is fixed for the order, so all three attempts carry the same key. The provider dedupes on that key, so a retry after a lost response returns the first charge and can't create a second.\n- **Refunds:** `refund` doesn't pass `attempts`, so it keeps the default of 1. It is still a single attempt, which matches the rule that refunds take no key.\n- **Exhausted retries:** the last transient failure still raises `TransientError`. `charge` turns that into `PaymentTimeout`, so callers see an error, not a false success.\n- **Non-transient statuses:** these are returned on the first attempt without retrying. A 402 decline still reaches the `PaymentError` path.",
+  "cost_usd": 0.0266542,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2832,
+    "cache_read_input_tokens": 7451,
+    "output_tokens": 549,
+    "output_tokens_details": {
+      "thinking_tokens": 127
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2832
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 349,
+        "cache_read_input_tokens": 3465,
+        "cache_creation_input_tokens": 786,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 786,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

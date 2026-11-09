@@ -1,0 +1,6 @@
+{
+  "caught": true,
+  "caught_in_blocking": true,
+  "why": "Blocking: FLAGS still defines surge_fee; enabled() returns False for the new name; surge stops.",
+  "judge_model": "manual (read by Claude, 2026-11-09)"
+}

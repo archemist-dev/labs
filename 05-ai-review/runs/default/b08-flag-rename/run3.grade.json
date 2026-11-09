@@ -1,0 +1,11 @@
+{
+  "comments": 6,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The blocking comment names the seeded bug exactly. flags.py still defines surge_fee, and flags.enabled returns False for unknown names, so surge pricing silently turns off for every order. The other five comments (deployment, tests, safety net, style, scope) are checks or suggestions, not merge blockers.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.018734800000000003
+}

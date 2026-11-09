@@ -1,0 +1,6 @@
+{
+  "caught": true,
+  "caught_in_blocking": true,
+  "why": "Blocking: geo.distance is km, MAX_DETOUR is metres; the check never fires.",
+  "judge_model": "manual (read by Claude, 2026-11-09)"
+}

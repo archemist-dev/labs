@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b06-card-expired",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Tell the app when the card has expired**\n\n**Blocking: expired cards now leak stock and leave the order stuck in CREATED.**\n\n`CardExpired` subclasses `Exception`, not `PaymentError`. In `service.place_order` (service.py:58), the cleanup only runs under `except PaymentError:`. That cleanup releases the reserved stock and moves the order from CREATED to PAYMENT_FAILED. For an expired card, none of that runs:\n- The reserved stock is never released.\n- The order stays in `CREATED` indefinitely.\n- The exception propagates to the caller. The only difference from before is that it is a different type.\n\nBefore this PR, an expired card took the cleanup path. This change is a regression.\n\nSuggested fix, which also matches the docstring's \"declined, guest not charged\" semantics: make it a subclass.\n\n```python\nclass CardExpired(PaymentError):\n    \"\"\"The card has expired. The app should ask for another card.\"\"\"\n```\n\nWith that, the existing `except PaymentError` in `place_order` cleans up and re-raises. The app can catch `CardExpired` before `PaymentError` to prompt for a new card. Any other generic handlers keep working.\n\n**Test coverage: none added.** `tests/` has no test for this. Please add:\n- `charge()` raises `CardExpired` when the provider returns 402 with `reason: \"card_expired\"`.\n- Other 402 reasons still raise a plain `PaymentError`.\n- `place_order` with an expired card releases stock and sets the order to `PAYMENT_FAILED`. This is the test that would have caught the bug above.\n\n**Minor**\n- `CardExpired(order_id)` carries only the order id, while `PaymentError` carries the provider reason. Once it subclasses `PaymentError`, this is consistent enough. Make sure the message is useful when logged.\n- The string `\"card_expired\"` is a magic value tied to the provider's API. Consider a module-level constant.\n- Check that the app or API layer (`views.py` and `app.py` have no handling today) actually maps `CardExpired` to a distinct response. Otherwise the app still won't be able to tell the difference.",
+  "cost_usd": 0.0425224,
+  "usage": {
+    "input_tokens": 12,
+    "cache_creation_input_tokens": 2922,
+    "cache_read_input_tokens": 15282,
+    "output_tokens": 1185,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2922
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 710,
+        "cache_read_input_tokens": 3273,
+        "cache_creation_input_tokens": 1068,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1068,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 6
+}

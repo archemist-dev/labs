@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c10-spread-metres",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review**\n\nThe logic is correct, and it does what the title says. It's a small change, but I have a few comments.\n\n1. **Reuses `MAX_DETOUR` for a different meaning.**\n   - The constant is documented as \"metres from the courier's last chained order to the new one\". It's now also the limit on distance from the first order.\n   - Using the same 800 m for both is a product decision, and the comment is now wrong.\n   - Please add a separate constant, e.g. `MAX_SPREAD = 800`, and update the docstring and comment. That lets the two limits be tuned independently.\n   - Also note that with equal limits, the first-order check is a no-op for 2-order chains. The last order is the first order, so it matters only from the third order on. That's fine, but it's worth knowing.\n\n2. **Minor structure and efficiency.**\n   - `first` and its distance are computed before the cheaper last-order check, and even for couriers that would fail it. Computing them is cheap, but it reads more clearly to compute both distances and then do a single combined condition.\n   - When `len(order_ids) == 1`, `first` and `last` are the same lookup, so you could reuse it.\n   - Only the first order's address matters. Consider whether `store.get` can return `None` for a delivered or cancelled first order. If completed orders get evicted, `first.address` would raise `AttributeError`. This matches the existing risk for `last`, but it's now doubled.\n\n3. **Semantics to confirm.** If a courier delivers the first order, and the chain continues, should the anchor still be that first order or the earliest *remaining* one? As written, it stays anchored to the original even once that order has been delivered. If `order_ids` is trimmed on delivery, this naturally works. If it isn't, the courier is anchored to a stale location. Please confirm which one is intended.\n\n4. **Tests: none added.** `tests/test_service.py` has no chain coverage, and this behaviour change should have tests. Suggested cases:\n   - A chain where each hop is under 800 m but the new order is more than 800 m from the first. It should be rejected (the actual regression case).\n   - A new order within limits of both first and last. It should be accepted.\n   - Two couriers, where the nearest-to-last courier is excluded by the spread rule and the other is chosen.\n   - A one-order chain, to confirm the behaviour is unchanged.\n   - The boundary: exactly 800 m should be accepted (`>` vs `>=`).\n\n5. **Security/performance.** No concerns. There's one extra store lookup and one haversine calculation per courier, which is negligible.\n\n**Verdict:** The change is fine to merge once the constant and comment are separated and tests are added. Please also answer the question in point 3.",
+  "cost_usd": 0.0378924,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 2701,
+    "cache_read_input_tokens": 9077,
+    "output_tokens": 1127,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2701
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 891,
+        "cache_read_input_tokens": 2967,
+        "cache_creation_input_tokens": 1153,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1153,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

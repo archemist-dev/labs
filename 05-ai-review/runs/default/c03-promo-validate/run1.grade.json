@@ -1,0 +1,11 @@
+{
+  "comments": 6,
+  "blocking": 2,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 1,
+  "false_alarms_blocking": 1,
+  "why": "This PR is clean, and the review raises two blocking issues: missing tests, which is a valid test request and not a false alarm, and a claim that the ValueError may still surface as a 500. That second one is a false alarm, because raising ValueError instead of KeyError is the intended behaviour and the review presents it as a defect to fix before merge. The four nits are suggestions and don't count as false alarms.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.023029799999999996
+}

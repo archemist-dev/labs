@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b01-chain-from-view",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**[BLOCKING]** `orders/chain.py`, `pick_courier`: it now reads each courier's chain from `CourierView`. The view's docstring says it is \"Eventually consistent: it lags the store by a few seconds... Display only; decisions read the store.\" Choosing a courier is a decision, so it breaks that rule. Two stale-read cases give wrong results with no error:\n\n- **Courier already full.** The view shows a chain shorter than `max_orders`, but the store's chain is already full. `attach_order` raises `ConflictError`, and `OrderService.chain` catches that and returns `None`. The order then goes to normal dispatch with no log entry. At dinner peak, many chaining attempts could be dropped this way and nobody would see it.\n- **Wrong \"last\" order.** The view's last order for a courier is out of date, so `geo.distance_m` is measured from the wrong address. The order can be chained to a courier who is really more than `MAX_DETOUR` away, or a closer courier can be skipped. `attach_order` only checks capacity and whether the order was already taken. It doesn't check distance, so the bad chain succeeds.\n\nThere are two more problems with the same cause:\n\n- **Empty chain looks like no chain.** `view.chain()` returns `[]` for a courier the view hasn't seen yet. That is indistinguishable from a courier with no chain, so a new courier or one the view hasn't caught up on is silently skipped.\n- **Dead refresher.** If the refresher thread dies, the view stays stale indefinitely and nothing reports it.\n\n**[NIT]** `pick_courier` still calls `store.couriers()`, which deep-copies every courier from the store. So the PR doesn't remove the per-order store read it set out to remove. It only stops using `courier.order_ids` from that read. Take `max_orders` and the courier IDs from somewhere other than the primary if the aim is to cut load.\n\nThe fix is to keep reading chains from the store for the decision. To cut primary load, use a replica or a cheaper store query. If the view is kept, `attach_order` should re-validate distance and capacity, and the `ConflictError` fallback should be logged or counted.",
+  "cost_usd": 0.039111599999999996,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3820,
+    "cache_read_input_tokens": 7338,
+    "output_tokens": 926,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3820
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 716,
+        "cache_read_input_tokens": 3339,
+        "cache_creation_input_tokens": 1900,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1900,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

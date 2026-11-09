@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b06-card-expired",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Blocking: expired cards now leave the order and stock in a bad state.**\n\n`CardExpired` subclasses `Exception`, not `PaymentError`. In `service.py:57-62`, `place_order` only catches `PaymentError`. When the provider returns `card_expired`, the new exception skips that handler, and three things go wrong:\n\n- The stock reserved for the order is never released. Those items stay reserved for an order that can't be paid.\n- The order stays in `CREATED` and is never moved to `PAYMENT_FAILED`.\n- Before this PR, the same decline was handled correctly. This is a regression.\n\nThe simplest fix is to make `CardExpired` a subclass of `PaymentError`:\n\n```python\nclass CardExpired(PaymentError):\n    \"\"\"The card has expired. The app should ask for another card.\"\"\"\n```\n\n- The existing cleanup then runs unchanged.\n- Any caller that catches `PaymentError` still works.\n- The app can catch `CardExpired` first to ask for a new card.\n\nIf you want it to stay separate, add `CardExpired` to the `except` in `service.py` instead. Subclassing is the better choice, because the docstring on `PaymentError` (\"provider declined, guest not charged\") also describes an expired card.\n\n**Tests (missing):** the PR adds no tests. Please add:\n- A `PaymentClient` test that a 402 with `reason: \"card_expired\"` raises `CardExpired`, and that other 402 reasons still raise `PaymentError`.\n- A `place_order` test with `FakePayments` raising `CardExpired`. It should check that the stock is released, the status is `PAYMENT_FAILED`, and the exception reaches the caller.\n\n**Minor:**\n- `\"card_expired\"` is a magic string. Make it a constant, and confirm the exact value with the provider's docs.\n- `CardExpired(order_id)` carries only the order id. That matches `PaymentTimeout`, but `PaymentError` carries the reason. This is fine as is. If you subclass `PaymentError`, keep the arguments consistent.\n- Check the view layer, which isn't visible in the diff. Whatever maps `PaymentError` to an HTTP response also needs to produce a distinguishable response for `CardExpired`, such as a specific error code. Otherwise the app still can't tell the two apart.\n\nI haven't found any security or performance concerns.",
+  "cost_usd": 0.0456536,
+  "usage": {
+    "input_tokens": 12,
+    "cache_creation_input_tokens": 3462,
+    "cache_read_input_tokens": 15878,
+    "output_tokens": 1256,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3462
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 782,
+        "cache_read_input_tokens": 3572,
+        "cache_creation_input_tokens": 1309,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1309,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 6
+}

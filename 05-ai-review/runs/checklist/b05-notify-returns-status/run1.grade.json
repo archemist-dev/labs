@@ -1,0 +1,11 @@
+{
+  "comments": 2,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The blocking comment names the seeded bug exactly: dispatch ignores send's False return value, so the outbox retry path is dead, the courier is never told and only a log line is left. The second comment is a non-blocking nit.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0144898
+}

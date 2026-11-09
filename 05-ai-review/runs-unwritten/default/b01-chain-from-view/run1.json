@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b01-chain-from-view",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "Review comments:\n\n**1. The change doesn't deliver the stated goal (`orders/chain.py`).**\n`pick_courier` still calls `store.couriers()`. That reads and deep-copies every courier from the primary on every order, so the primary read the PR is meant to remove is still there. The view only replaces `courier.order_ids`. You need `max_orders` from somewhere, and the view has no courier metadata. Either:\n- iterate `view.courier_ids()` and look up `max_orders` from a cached or replica source, or\n- extend the view to carry `max_orders`.\n\nThe `store.get(chained[-1])` call for the last order is the only other primary read, and the description says that one is intended.\n\n**2. The view is eventually consistent, and `pick_courier` now depends on it for correctness (`orders/views.py`).**\n`CourierView` is updated by a background job through `catch_up()`. It can lag the store, so `pick_courier` can now see stale chains:\n- **Stale full or empty:** a courier can look full or empty when they aren't, so you miss valid chains. That is a benign loss of efficiency.\n- **Stale not-full:** a courier can look like they have room when they are already full. `attach_order` re-checks and raises `ConflictError`, which `chain()` turns into `None`. The order is then dispatched unchained even though another courier may have been a fine match. At dinner peak the lag is longest and couriers fill fastest, so this will happen most often exactly when load is highest.\n- **Stale last order:** `chained[-1]` may no longer be the courier's actual last order, for example after `detach_order`. The detour is then measured from the wrong address.\n- **Stale after a detach:** a removed order can still appear in the view's chain. `store.get` still succeeds for it, so there is no crash, but the result is wrong.\n- **Missing courier:** a courier who has no events yet isn't in the view. `view.chain` returns `[]` and they are skipped, which is correct. A courier with a chain who is missing from the view would be treated the same way.\n\nPlease decide whether this staleness is acceptable. If it is, document it in the docstring and monitor the conflict rate. If it isn't, fall back to the store's chain on a conflict, or retry with the next-best courier.\n\n**3. Thread safety of the view.**\n`catch_up` mutates `_chains` and `_position` from the background job, while `chain()` is now read from request threads. Neither is locked. `catch_up` also isn't idempotent if two runs overlap, because `_position += len(events)` can double-count. This was tolerable for a dashboard, but it is riskier on an order path.\n\n**4. Signature change.**\n`pick_courier(store, view, order)` is a breaking change, and `service.py` is the only caller I found. Check for other callers, for example in jobs or reports. Passing `view` as a required positional argument is fine, but consider a keyword argument.\n\n**5. Tests.**\n`test_chain_onto_nearby_courier` calls `view.catch_up()` explicitly, so it covers the happy path. These cases are missing:\n- a stale view, where the store has a newer chain and `catch_up` hasn't run, covering both the full-courier conflict path and a changed last order\n- a courier detached from a chain\n- a test that asserts `pick_courier` doesn't read chains from the store, since that is the point of the PR\n- `chain()` returning `None` when the view is empty\n\n**Summary:** please don't merge as-is. The primary load is only partly removed (point 1), and the stale-read behavior (point 2) needs an explicit decision and tests.",
+  "cost_usd": 0.056243,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 5331,
+    "cache_read_input_tokens": 5175,
+    "output_tokens": 1370,
+    "output_tokens_details": {
+      "thinking_tokens": 32
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 5331
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1176,
+        "cache_read_input_tokens": 2958,
+        "cache_creation_input_tokens": 2373,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 2373,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

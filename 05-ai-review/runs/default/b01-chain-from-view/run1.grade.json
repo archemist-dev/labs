@@ -1,0 +1,11 @@
+{
+  "comments": 4,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review's first point is marked blocking. It quotes the 'display only; decisions read the store' contract. It also says the view's chained[-1] can be an order that was already detached, so the detour is measured from the wrong address. That is the seeded bug and its effect.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.025534799999999996
+}

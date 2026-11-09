@@ -1,0 +1,11 @@
+{
+  "comments": 0,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review reports no defects. It correctly confirms that retry is opt-in, that the Idempotency-Key stays the same across attempts, and that exhausted retries still raise an error, which matches the answer key for this clean PR.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0152598
+}

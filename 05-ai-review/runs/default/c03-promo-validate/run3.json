@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c03-promo-validate",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Reject unknown promo codes cleanly**\n\nThe change does what the description says, and the discount is still computed on `order.subtotal_pence` only. That matches the promo terms in `money.py`, so delivery and surge fees are untouched. The check runs before `store.save` and before any stock is reserved, so a rejected code leaves no half-created order or reservation behind. I have a few comments, and none of them block the merge.\n\n1. **The 500 may not be fixed.**\n   - The diff swaps a `KeyError` for a `ValueError`. The other validation failures in `place_order` (\"kitchen closed\", \"unknown zone\") already raise `ValueError`, so this is consistent.\n   - If the API layer doesn't map `ValueError` to a 4xx, the client still gets a 500. I only have `orders/service.py` in this diff, so I couldn't check the handler.\n   - Please confirm that `ValueError` becomes a 400/422 at the API boundary. If it doesn't, a dedicated `UnknownPromoError(ValueError)` would be easier to map.\n\n2. **Echoing user input in the error message.** `f\"unknown promo: {promo_code}\"` puts the raw code into the exception. That's low risk, but if the message is logged or returned to the client, consider truncating it or leaving the code out. The zone check does the same thing, so it's a minor point.\n\n3. **Minor cleanup.** The code does `in self.promos` and then `self.promos[promo_code]`. Something like `promo = self.promos.get(promo_code)` followed by `if promo is None: raise ...` would do one lookup and read more cleanly. It's a style preference only.\n\n4. **No tests.** `tests/test_service.py` builds the service with `promos={\"TENOFF\": {\"percent\": 10}}`, but the PR adds no test. Please add:\n   - A test that an unknown code raises `ValueError`.\n   - Assertions that nothing was saved, no stock was reserved and no charge was made, so the ordering guarantee above is protected from regressions.\n   - A test that a valid promo such as `TENOFF` discounts only the subtotal, and that the discount is the same whether or not a delivery fee applies. This locks in the promo terms from `money.py`.\n   - A test that an empty or `None` code still means \"no promo\". The `if promo_code:` guard means `\"\"` silently skips validation, which is probably intended. A test would document that.\n\n5. **Case and whitespace.** Lookups are exact-match, so `tenoff` is rejected. That's fine if it's intended. If these codes are typed by users, you may want to normalize them (`strip().upper()`). That could go in a follow-up.\n\nPerformance and security: there's nothing to flag. It's a dict lookup, and the check closes a way for a client to trigger an unhandled exception.\n\n**Verdict:** Approve once the tests are added and the `ValueError` to 4xx mapping is confirmed.",
+  "cost_usd": 0.037106,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2738,
+    "cache_read_input_tokens": 6160,
+    "output_tokens": 1108,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2738
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 961,
+        "cache_read_input_tokens": 2551,
+        "cache_creation_input_tokens": 1606,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1606,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

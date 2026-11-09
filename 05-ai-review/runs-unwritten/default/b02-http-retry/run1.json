@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b02-http-retry",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Retry transient provider errors in Http.post\"**\n\n**Blocking: retrying `refund` can refund twice**\n\n`Http.post` now retries every POST, but only some callers are safe to retry.\n- `PaymentClient.charge` sends an `Idempotency-Key`, so a retry is safe there.\n- `PaymentClient.refund` (`orders/payments.py:40`) sends no idempotency key. A 502, 503 or 504 can be returned after the provider has already processed the request. If the first attempt did refund and the retry then refunds again, the guest is refunded twice.\n- The existing `refund` fallback reads \"no answer; check the provider before refunding again\". That shows the authors already treat an unknown outcome as something to check by hand. Silent retries remove that check.\n\nSuggested fix: make retry opt-in rather than the default for every POST.\n- Add something like `retry=False` to `Http.post`, or only retry when an `Idempotency-Key` header is present.\n- Have `charge` opt in.\n- Add an idempotency key to `refund` if the provider supports one, then opt it in too.\n\nThe PR says \"so every provider client gets it\", but that is exactly the problem for non-idempotent calls.\n\n**Bug: timeouts are not retried**\n\nThe description says \"502/503 or a timeout\". The loop only retries on status codes.\n- If `session.post` raises a timeout or connection exception, it propagates on the first attempt with no retry.\n- That exception is also not a `TransientError`, so `charge` and `refund` won't convert it to `PaymentTimeout` or a failed `RefundResult`. That looks unchanged from before, but it means the timeout half of the description isn't delivered.\n- If you do retry timeouts, be careful: a timed-out POST is the case where the request most likely did go through. That makes the idempotency point above more important.\n\n**Smaller points**\n- A 408 is retried, but 429 isn't. If the provider sends `Retry-After`, honour it.\n- Backoff is deterministic (0.2s, then 0.4s). Add jitter so clients don't retry in lockstep during a provider incident.\n- `time.sleep` blocks the caller. Worst case is about 3 \u00d7 timeout (5s) + 0.6s \u2248 15.6s per call. Check that this fits within the request deadlines in `service.py` and `views.py`, since `charge` is called inline in the order flow.\n- `attempts=0` or a negative value would skip the loop and hit `resp` unbound (`UnboundLocalError`). Validate it, or use `max(1, attempts)`.\n- Retries are silent. Log each retry, with the path and status, so you can see how often the provider flakes.\n- The final error reports only the last status. That's fine, but chain the last response or exception where possible.\n\n**Tests**\n\nThe PR adds no tests, and `tests/test_service.py` doesn't cover `Http`. Please add tests with a fake session and a patched `time.sleep` for:\n- success on the first attempt, with no sleep\n- 503 then 200, which returns the response\n- three 5xx responses, which raise `TransientError` after exactly 3 calls\n- non-retryable statuses such as 402 and 404, which return immediately\n- the backoff delays\n- a non-idempotent call (`refund`) not being retried, once that is fixed\n\n**Verdict:** request changes. The refund double-send risk needs fixing before merge, and the timeout handling needs to match the description.",
+  "cost_usd": 0.0459556,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 2588,
+    "cache_read_input_tokens": 9298,
+    "output_tokens": 1500,
+    "output_tokens_details": {
+      "thinking_tokens": 127
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2588
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1222,
+        "cache_read_input_tokens": 2966,
+        "cache_creation_input_tokens": 1041,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1041,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

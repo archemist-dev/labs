@@ -1,0 +1,11 @@
+{
+  "comments": 1,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review correctly finds the rename complete and behavior unchanged. Its only finding is a stale code comment in config.py, which it says doesn't change behavior, so it's a non-blocking docs note rather than a false alarm.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0155848
+}

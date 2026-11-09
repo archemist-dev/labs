@@ -1,0 +1,11 @@
+{
+  "comments": 4,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review correctly finds the rename complete and makes four non-blocking suggestions: a stale comment and naming, line length, checking for external references, and a test. None of them says the change is wrong, so none counts as a false alarm.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0186998
+}

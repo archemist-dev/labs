@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b06-card-expired",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/payments.py` and `orders/service.py:58`: `CardExpired` extends `Exception`, not `PaymentError`. `place_order` only catches `PaymentError`, so the cleanup in that handler no longer runs for an expired card.\n\nConcrete trigger: the provider returns 402 with reason `card_expired`. Before this change that raised `PaymentError`, and the handler then:\n- released the reserved stock, and\n- moved the order from CREATED to PAYMENT_FAILED.\n\nNow `CardExpired` bypasses the handler, so:\n- the stock reserved for the order is never released, which leaks inventory;\n- the order stays in CREATED forever, which is a stale unpaid order.\n\nThe exception does reach the caller, so it isn't swallowed. But the stock and order state are left inconsistent with nothing to flag it. Every expired-card attempt leaks stock.\n\nSuggested fix: make `CardExpired` subclass `PaymentError`, which keeps existing handlers working. Alternatively, catch `(PaymentError, CardExpired)` in `place_order`. The docstring \"The guest was not charged\" should also be kept true for the new class.\n\nI did not review other code paths. The only caller of `charge` I found was `place_order`.",
+  "cost_usd": 0.037633799999999995,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 3610,
+    "cache_read_input_tokens": 13819,
+    "output_tokens": 839,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3610
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 422,
+        "cache_read_input_tokens": 3448,
+        "cache_creation_input_tokens": 1581,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1581,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 6
+}

@@ -1,0 +1,11 @@
+{
+  "comments": 2,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The blocking comment names the seeded bug directly. Http.post now retries every POST, but refunds carry no idempotency key, so a refund the provider already applied gets sent again and the guest is refunded twice with no error. The second comment is a nit about the PR description not matching what is retried.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0158348
+}

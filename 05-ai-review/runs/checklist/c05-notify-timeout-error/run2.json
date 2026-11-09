@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c05-notify-timeout-error",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\n`NotifyTimeout` subclasses `NotifyError`. The only caller that catches the error is `OrderService.dispatch` in `orders/service.py`, which catches `NotifyError`. It will still catch timeouts, log a warning, and queue the message in the outbox, as it did before.\n\nTwo small observations, neither a silent failure:\n- The `NotifyTimeout` message is just `to`, while `NotifyError` uses `f\"{to}: {resp.error}\"`. This only changes the exception text.\n- `dispatch` still logs one generic warning for both cases. Ops won't see the timeout/rejection split in the logs until a caller catches `NotifyTimeout` separately or logs the exception type.",
+  "cost_usd": 0.0278268,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 2784,
+    "cache_read_input_tokens": 13934,
+    "output_tokens": 554,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2784
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 241,
+        "cache_read_input_tokens": 3679,
+        "cache_creation_input_tokens": 524,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 524,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

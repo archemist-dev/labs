@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b07-zone-defaults",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: blocking issue. This change makes delivery free for every zone with no free-delivery offer.**\n\n**1. `orders/money.py:19` breaks with the new default (blocking)**\n\n`delivery_fee` still reads:\n```python\nif zone.free_over_pence is not None and subtotal_pence >= zone.free_over_pence:\n    return 0\n```\n`None` used to mean \"no offer in this zone\". With the default now `0`, the `is not None` check is always true, and every subtotal is `>= 0`. Any zone that omits `free_over_pence` gets a delivery fee of 0 on every order, and surge is skipped too. In the current config that is **CB4**. It is also any zone the config service sends with `0`, if it sends numeric fields as plain ints as the description says.\n\nThe change type-checks and the existing tests probably still pass, because they only cover CB1. The bug is silent and costs revenue.\n\n**Suggested fix:** keep `0` as the \"no offer\" sentinel, and update `delivery_fee` and the comment to match:\n```python\nfree_over_pence: int = 0  # free delivery once the subtotal reaches this; 0 = no offer\n...\nif zone.free_over_pence > 0 and subtotal_pence >= zone.free_over_pence:\n```\nThis fits the PR's goal of a plain int. The remaining downside is that a real \"free for everything\" zone can no longer be expressed, which seems acceptable. If that matters, keep the field `Optional` and have the config loader convert `0` to `None`.\n\n**2. Tests**\n- Add a test that a zone without `free_over_pence` (CB4) is charged `fee_pence`, and `fee_pence + surge_pence` with surge on, even for a large subtotal.\n- Add a test that `free_over_pence=0` means no offer.\n- Add a boundary test for a subtotal exactly at the threshold in CB1 (2500).\n\n**3. Minor**\n- Update the field comment, which no longer says what the \"no offer\" value is.\n- Grep the other modules (`reports.py`, `views.py`) for other readers of this field. I only found the one in `money.py`, but the sentinel meaning should be documented where the field is defined.\n\nI'd request changes until `delivery_fee` is updated.",
+  "cost_usd": 0.0347004,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 2395,
+    "cache_read_input_tokens": 9367,
+    "output_tokens": 1041,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2395
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 740,
+        "cache_read_input_tokens": 3234,
+        "cache_creation_input_tokens": 580,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 580,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

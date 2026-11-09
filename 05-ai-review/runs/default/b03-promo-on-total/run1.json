@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b03-promo-on-total",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: blocking issue**\n\n**1. The change contradicts the documented promo terms (blocking).**\nThe `money.py` module docstring says: \"a percentage promo applies to the item subtotal only, never to delivery or surge fees.\" This PR applies the percentage to `subtotal + delivery_fee`, and the delivery fee can include the surge fee. That breaks the written terms. Every percentage-promo order now gets a bigger discount than the terms allow, and the extra amount is paid by the business. The docstring may be out of date. If so, a product or finance owner needs to confirm that, and the PR should update the docstring in the same change. Without that confirmation, I wouldn't merge this.\n\n**2. Surge pricing now gets discounted.**\nBecause `delivery_fee` includes `surge_pence` when the `surge_fee` flag is on, the promo now reduces surge revenue. Surge exists to attract couriers at peak times, and a promo shouldn't quietly cancel part of it.\n\n**3. The support problem is better fixed in the UI.**\nThe tickets come from guests expecting \"10% off your order\" to equal 10% of the total they see. Two other options would fix that without changing pricing:\n- Label the discount line as \"10% off items\".\n- Show the discount next to the subtotal, not the total.\n\nIf the business does want the discount to cover delivery, change the promo copy and terms at the same time.\n\n**4. Tests.**\nThe diff has no test changes. `tests/test_service.py` should cover these cases:\n- a promo with a non-zero delivery fee\n- a promo with free delivery (the subtotal is at or above `free_over_pence`)\n- a promo with surge on\n- rounding, since `percent_off` rounds down, so the discount may still not be exactly 10% of the total\n\nThere are also pre-existing problems that this PR doesn't touch, but are worth a follow-up:\n- `self.promos[promo_code]` raises a bare `KeyError` for an unknown code. It should raise a clear `ValueError`.\n- The order is saved before stock is reserved. If `reserve` fails partway through, the earlier reservations are never released.\n\n**Recommendation:** request changes. Get the promo terms confirmed first. If they stand, switch to a UI or copy fix. If they've changed, update the `money.py` docstring and add tests.",
+  "cost_usd": 0.0343566,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2897,
+    "cache_read_input_tokens": 6338,
+    "output_tokens": 929,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2897
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 758,
+        "cache_read_input_tokens": 2717,
+        "cache_creation_input_tokens": 1599,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1599,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

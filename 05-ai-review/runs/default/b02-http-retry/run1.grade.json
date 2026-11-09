@@ -1,0 +1,11 @@
+{
+  "comments": 7,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review's one blocking comment names the seeded bug: Http.post now retries every POST, refunds have no idempotency key, and a refund the provider already applied gets sent again. It also says charges are safe because the provider dedupes them by key. The other six comments (timeouts, error context, latency, backoff jitter, 408/500, tests) are listed as non-blocking issues or suggestions.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0219948
+}

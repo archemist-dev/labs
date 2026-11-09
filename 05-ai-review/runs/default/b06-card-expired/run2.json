@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b06-card-expired",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Tell the app when the card has expired**\n\n**Blocking: `CardExpired` leaks stock and leaves the order stuck in `CREATED`.**\n\n`CardExpired` subclasses `Exception`, not `PaymentError`. `place_order` in `orders/service.py` (line ~58) only catches `PaymentError`. Before this change, an expired card raised `PaymentError`, so the handler ran. Now it raises `CardExpired`, which skips the handler. That has three effects:\n- The stock reserved for the order is never released.\n- The order is never moved to `PAYMENT_FAILED`. It stays in `CREATED` for good.\n- The exception reaches the app, so the app does get the specific signal. The cleanup is lost, though, and every expired card permanently locks up inventory.\n\nSuggested fix, which also keeps existing `except PaymentError` callers working:\n```python\nclass CardExpired(PaymentError):\n    \"\"\"The card has expired. The app should ask for another card.\"\"\"\n```\nThe docstring on `PaymentError` (\"provider declined, guest not charged\") is accurate for an expired card, so the subclass fits. If you want it to stay separate, add it to the `except` in `service.py`: `except (PaymentError, CardExpired):`. I prefer the subclass because any future decline-type error then gets the same cleanup.\n\n**Tests: none were added.**\n- `tests/` has no coverage for this change. Please add a client test where a 402 with `reason: \"card_expired\"` raises `CardExpired`. Add another where a different 402 reason still raises `PaymentError`.\n- Add a `place_order` test showing that an expired card releases stock and sets the order to `PAYMENT_FAILED`. This test would have caught the bug above.\n\n**Minor**\n- `\"card_expired\"` is a magic string tied to the provider's API. Make it a named constant, and add a comment or link to the provider docs.\n- `CardExpired(order_id)` carries only the order id. That matches `PaymentTimeout`, so it's fine, but the message could be more useful for logs.\n\nI'd hold off on merging until the exception hierarchy or the `except` clause is fixed.",
+  "cost_usd": 0.039997,
+  "usage": {
+    "input_tokens": 12,
+    "cache_creation_input_tokens": 2814,
+    "cache_read_input_tokens": 15095,
+    "output_tokens": 1143,
+    "output_tokens_details": {
+      "thinking_tokens": 41
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2814
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 711,
+        "cache_read_input_tokens": 3178,
+        "cache_creation_input_tokens": 1055,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1055,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 6
+}

@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b02-http-retry",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/http.py`, `Http.post`: retrying is not safe for refunds. `PaymentClient.refund` calls `http.post(\"/refunds\", ...)` with no idempotency key. Its docstring says every POST to `/refunds` creates a new refund. A 502, 503 or 504 can come back after the provider has already applied the refund, and `TransientError`'s own docstring says \"the provider may or may not have applied the request\". The retry would then create a second refund for the same order and amount. If any retry returns 200, `refund` returns `RefundResult(ok=True)`, so the guest is refunded twice and nothing reports it. This also defeats the \"check the provider before refunding again\" handling in `refund`. Retries should be opt-in per call (for example `attempts=1` by default). Only calls that carry an idempotency key, such as `charge`, should retry. Alternatively, add a key to refunds if the provider supports one.\n\n`charge` is safe to retry. It sends `Idempotency-Key`, which is `order.id` in `service.py`, and the provider returns the first charge for a repeated key.\n\n[NIT] `Http.post` retries 408 and 5xx responses, and the final `TransientError` reports only the last status. That's fine for `charge`. Note that the worst-case latency is now about 3 \u00d7 5s of timeouts plus 0.6s of backoff, so check any caller that depends on the old 5s bound.",
+  "cost_usd": 0.0278956,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2774,
+    "cache_read_input_tokens": 7208,
+    "output_tokens": 628,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2774
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 472,
+        "cache_read_input_tokens": 3228,
+        "cache_creation_input_tokens": 965,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 965,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

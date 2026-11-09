@@ -1,0 +1,11 @@
+{
+  "comments": 1,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The single [BLOCKING] comment names the seeded bug: CardExpired is outside the PaymentError hierarchy, so place_order no longer releases the stock or moves the order to PAYMENT_FAILED. It also gives the effects: leaked inventory and an order stuck in CREATED.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.015414800000000003
+}

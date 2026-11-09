@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c04-summary-london-day",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "[NIT] `orders/reports.py` `kitchen_summary`: `day` has to be a `datetime.date`. A `datetime` fails the `london_day(...) == day` comparison for every order, because a `datetime` never equals a `date`. The function then returns `{\"orders\": 0, \"revenue_pence\": 0}` with no error. `day.isoformat()` also works on a `datetime`, so nothing flags the mistake. Consider asserting the type or normalizing it with `day.date()`.\n\n[NIT] The day is taken from `created_at`, not from when the order was delivered. An order created at 23:50 London time and delivered at 00:20 is counted on the earlier day. `Order` has no `delivered_at` field, and the existing `daily_revenue` buckets the same way, so this matches current behavior. The summary is described as \"delivered orders \u2026 for a day\", so say in a docstring that it groups by creation day.\n\nThe rest is sound. It reuses `london_day`, so the UTC-to-London conversion and DST handling match the stated rules. Money stays in integer pence. Only `DELIVERED` orders are counted.",
+  "cost_usd": 0.034976,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 3306,
+    "cache_read_input_tokens": 10270,
+    "output_tokens": 818,
+    "output_tokens_details": {
+      "thinking_tokens": 157
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3306
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 491,
+        "cache_read_input_tokens": 3406,
+        "cache_creation_input_tokens": 1319,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1319,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

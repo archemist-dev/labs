@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c08-flag-rename-both",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\nThe flag is renamed in both places it is used, `FLAGS` in `orders/flags.py` and the `flags.enabled(...)` call in `orders/service.py`. A repo-wide grep found no other readers of `surge_fee` by name. That covers config, tests and any environment or override path. The only remaining mention is a comment in `orders/config.py:8`, which is stale but harmless.\n\n`flags.enabled` returns False for unknown names, so a mismatch between the key and the lookup would silently turn surge pricing off. Here both use `dynamic_delivery_fee` and the value stays `True`, so behaviour is unchanged.",
+  "cost_usd": 0.0228364,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2529,
+    "cache_read_input_tokens": 7537,
+    "output_tokens": 433,
+    "output_tokens_details": {
+      "thinking_tokens": 46
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2529
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 217,
+        "cache_read_input_tokens": 3561,
+        "cache_creation_input_tokens": 387,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 387,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

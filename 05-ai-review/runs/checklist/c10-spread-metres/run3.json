@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c10-spread-metres",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\nI checked three things:\n\n- **Units:** `geo.distance_m` converts kilometres to metres, so the new check on the first order compares metres against `MAX_DETOUR`, which is in metres.\n- **Lookups:** `store.get` returns a deep copy and raises `KeyError` for an unknown order id. A missing first order would fail loudly, not silently.\n- **Empty chains:** the existing `not courier.order_ids` guard runs before `order_ids[0]` is read, so an empty chain can't cause an index error.\n\nOne thing to be aware of is not a silent failure. The new check reuses `MAX_DETOUR` (800 m) as the limit on spread from the first order. The comment on that constant still says it measures from the last chained order. The behaviour matches the PR description, so I'm not flagging it.",
+  "cost_usd": 0.0303144,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 3125,
+    "cache_read_input_tokens": 10387,
+    "output_tokens": 629,
+    "output_tokens_details": {
+      "thinking_tokens": 72
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3125
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 273,
+        "cache_read_input_tokens": 3553,
+        "cache_creation_input_tokens": 991,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 991,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

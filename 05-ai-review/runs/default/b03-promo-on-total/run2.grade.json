@@ -1,0 +1,11 @@
+{
+  "comments": 6,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "Comment 1 is marked blocking and points to the money.py rule that promos apply to the item subtotal only. It says the PR now discounts delivery and surge fees, which is exactly the seeded bug. The rest are test suggestions and nits that aren't blocking.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.016749800000000002
+}

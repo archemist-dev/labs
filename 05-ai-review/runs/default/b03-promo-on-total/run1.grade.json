@@ -1,0 +1,11 @@
+{
+  "comments": 6,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "Comment 1 is explicitly marked blocking. It quotes the money.py rule that promos apply to the subtotal only, never to delivery or surge fees, and says every promo order is now over-discounted. That is the seeded bug and its effect. The other five comments (surge, UI fix, tests, and two pre-existing follow-ups) are not marked as must-fix before merge, so they don't count as blocking.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.022439800000000003
+}

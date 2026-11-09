@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c03-promo-validate",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\n- **Unknown promo code:** it now raises `ValueError` before `self.store.save(order)`. Nothing is saved, no stock is reserved and no charge is made.\n- **Discount base:** the discount is still computed on `order.subtotal_pence`, the item subtotal only. That matches the promo terms in `money.py`, because delivery and surge fees are excluded.\n- **Money handling:** the discount stays in integer pence. `percent_off` rounds down and rejects a percent outside 0\u2013100 with an error.\n- **Missing code:** an empty or `None` promo code skips the promo block. `discount_pence` defaults to 0, which is correct for \"no promo\".",
+  "cost_usd": 0.0319018,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 3882,
+    "cache_read_input_tokens": 11999,
+    "output_tokens": 503,
+    "output_tokens_details": {
+      "thinking_tokens": 49
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3882
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 229,
+        "cache_read_input_tokens": 5068,
+        "cache_creation_input_tokens": 233,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 233,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

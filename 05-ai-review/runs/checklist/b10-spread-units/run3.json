@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b10-spread-units",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/chain.py:15` compares kilometres to a limit in metres. `geo.distance` returns km, and `MAX_DETOUR` is 800 m. The new check therefore only rejects a first order more than 800 km from the new one. In practice it never rejects anything, so chains can still drift across town. The PR looks like it works and raises no error, but it does nothing. Use `geo.distance_m(first.address, order.address)` instead.",
+  "cost_usd": 0.0201924,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2455,
+    "cache_read_input_tokens": 6967,
+    "output_tokens": 325,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2455
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 153,
+        "cache_read_input_tokens": 3002,
+        "cache_creation_input_tokens": 872,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 872,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

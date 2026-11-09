@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b07-zone-defaults",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: blocking bug. Don't merge as is.**\n\n**1. Every zone without an offer now gets free delivery (`orders/config.py`, `orders/money.py:19`)**\n\n`delivery_fee` still has this check:\n```python\nif zone.free_over_pence is not None and subtotal_pence >= zone.free_over_pence:\n    return 0\n```\n`None` used to mean \"no offer in this zone\". With the default changed to `0`, the `is not None` check is always true, and `subtotal >= 0` is always true. Any zone that leaves the field out will now charge **no delivery fee on any order**.\n\nCB4 in `ZONES` is an example. It has no `free_over_pence`, so it used to pay 349p and now pays 0p. Surge fees are skipped for those zones too. This is a silent revenue loss. mypy won't catch it, and nothing in the diff touches `money.py`.\n\nMake `0` mean \"no offer\" explicitly. For example, change the check in `money.py` to:\n```python\nif zone.free_over_pence > 0 and subtotal_pence >= zone.free_over_pence:\n```\nAlso update the comment in `config.py` to say `0 = no offer in this zone`.\n\nUsing `0` as the sentinel isn't quite the same as `surge_pence = 0`. For surge, 0 is a harmless value, because it adds nothing. For free-over, 0 is the most generous value possible unless the code treats it specially. A \"free delivery over \u00a30\" zone would also be indistinguishable from \"no offer\".\n\nIf the config service really sends every field as an int, it probably sends `0` for \"no offer\". That makes the `> 0` check correct for production data as well.\n\n**2. Test coverage**\n\n`tests/test_service.py` doesn't cover this. Please add tests for `delivery_fee` or `place_order` that check:\n- a zone with no `free_over_pence` (CB4) is still charged the fee, with and without surge, at a large subtotal;\n- CB1 is free at exactly 2500 and charged at 2499;\n- `load_zones` applies the default when the field is omitted.\n\nA test like the first one would have caught this regression.\n\n**3. Minor**\n\nSearch for other readers of the field outside `orders/`, such as reports, views, or the config service client. I only found the one in `money.py`. Any other code that checks for `None` will also behave differently now.\n\nThe motivation (a consistent int type, no Optional) is reasonable. It just needs the `money.py` change and the tests to go with it.",
+  "cost_usd": 0.0361576,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 2350,
+    "cache_read_input_tokens": 11838,
+    "output_tokens": 1100,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2350
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 815,
+        "cache_read_input_tokens": 2919,
+        "cache_creation_input_tokens": 850,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 850,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

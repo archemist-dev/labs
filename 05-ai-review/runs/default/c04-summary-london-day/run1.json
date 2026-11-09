@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c04-summary-london-day",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Kitchen summary: orders and revenue for one day\"**\n\nThe change is small and correct for the cases I traced. The London-day bucketing matches `daily_revenue`, and `created_at` is documented as UTC-aware, so `london_day` is safe to call on it. I have a few points, mostly about tests and consistency.\n\n**1. No tests (main issue).**\nThe PR adds no tests for `kitchen_summary`. This function is where timezone bugs show up, so I'd want these cases:\n- **BST boundary:** an order at 23:30 UTC in summer belongs to the *next* London day. Check it lands in the right bucket.\n- **GMT vs BST:** an order at 23:30 UTC in winter stays on the same day. Check both seasons.\n- **Status filter:** non-delivered orders (CANCELLED, PAID, and so on) are excluded.\n- **Empty day:** the result is `{\"day\": ..., \"orders\": 0, \"revenue_pence\": 0}`.\n- **DST change days:** the clocks-change days in March and October, which are 23 and 25 hours long.\n\n**2. Day is chosen by `created_at`, not delivery time.**\nBoth this function and `daily_revenue` use `created_at`. A kitchen manager reading \"delivered orders for a day\" will probably expect the day the order was delivered, or at least the day the kitchen took the revenue. An order placed at 23:50 and delivered at 00:20 will count toward the previous day. The model has no `delivered_at` field, only `picked_up_at`. If `created_at` is a deliberate choice, please say so in a docstring and the PR description. If it isn't, a `delivered_at` timestamp is needed. Either way, the semantics should be explicit.\n\n**3. Duplicated logic with `daily_revenue`.**\n`kitchen_summary` re-implements the delivered and London-day filter. Consider a shared helper such as `_delivered_on(orders, day)`, so the two reports can't drift apart. Alternatively, build the summary from the same filter.\n\n**4. Input handling.**\n- `day` must be a `datetime.date`. If someone passes a `datetime`, `london_day(...) == day` is silently never true, so you get a zero result with no error. Add a type hint (`day: date`), and consider raising on a `datetime`.\n- The return type is `dict`. A `TypedDict` or dataclass would document the shape.\n- `revenue_pence` sums `total_pence`, which includes the delivery fee and is net of discounts. Confirm that's what \"revenue\" means here. If managers want food revenue only, use `subtotal_pence`.\n\n**5. Performance.**\nThis scans the full orders list and converts the timezone for every order, even though only one day is wanted. That's fine for small data. If `orders` comes from the store, filter by a UTC range (the London day's start and end converted to UTC) at the query level. That also avoids loading all history.\n\n**6. Security.**\nNo concerns. The function is pure and takes no external input.\n\n**Verdict:** Request changes. I'd like the tests added and the `created_at` vs delivery-time question settled before merge. The other points are nice-to-haves.",
+  "cost_usd": 0.0460488,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 3363,
+    "cache_read_input_tokens": 9609,
+    "output_tokens": 1364,
+    "output_tokens_details": {
+      "thinking_tokens": 24
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3363
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1042,
+        "cache_read_input_tokens": 3511,
+        "cache_creation_input_tokens": 1271,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1271,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

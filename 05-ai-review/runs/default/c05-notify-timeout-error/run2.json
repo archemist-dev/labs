@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c05-notify-timeout-error",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Separate SMS timeouts from rejections**\n\nThe subclass is correct and backward compatible, but it doesn't achieve the stated goal yet, and it has no tests.\n\n**1. The logs won't change (main issue)**\n- The only caller is `OrderService.dispatch` in `orders/service.py:95`. It catches `NotifyError` and logs the same \"courier sms failed \u2026 queued for retry\" line for both cases.\n- Because `NotifyTimeout` subclasses `NotifyError`, nothing breaks. Ops still can't tell a timeout from a rejection, though.\n- Suggested fix: add `except NotifyTimeout:` before the generic handler, or include `type(e).__name__` or the error text in the log.\n  ```python\n  except NotifyTimeout:\n      log.warning(\"courier sms timed out for %s, queued for retry\", order.id)\n      self.outbox.add(...)\n  except NotifyError:\n      log.warning(\"courier sms rejected for %s, queued for retry\", order.id)\n      self.outbox.add(...)\n  ```\n\n**2. Retry semantics are now worth deciding**\n- `Outbox` retries every failed message every minute \"until they go through\". A rejected number will never succeed, so it retries forever.\n- A timeout is the opposite case. The provider may have delivered the message anyway, so a retry could send a duplicate pickup SMS to the courier.\n- This PR creates the distinction needed to handle the two cases differently, for example by not queueing permanent rejections, or by capping attempts. That could be a follow-up, but please at least raise it.\n\n**3. Inconsistent exception messages**\n- `NotifyTimeout(to)` carries only the number. `NotifyError` carries `f\"{to}: {resp.error}\"`.\n- Use a consistent format, such as `f\"{to}: timeout\"`, so the log output is useful when the exception is logged.\n\n**4. Brittle string match**\n- `resp.error == \"timeout\"` depends on a magic string from the SMS provider client. Please define it as a constant, or confirm that the provider client guarantees that exact value. If the provider uses a different casing or wording, such as \"timed out\", timeouts will silently stay as plain `NotifyError`.\n\n**5. Tests**\n- No tests were added. At minimum:\n  - `send` raises `NotifyTimeout` when `resp.error == \"timeout\"`.\n  - `send` raises a plain `NotifyError`, and not `NotifyTimeout`, for other errors such as a rejected number.\n  - `dispatch` still queues to the outbox for both exception types, and logs the distinct message once item 1 is done.\n- `tests/test_service.py` has a `FakeNotifier`, so the service-level test is easy to add.\n\n**Minor**\n- The `Notifier` docstring could mention `NotifyTimeout`, for example \"raises NotifyTimeout on timeout, NotifyError otherwise\".",
+  "cost_usd": 0.0445894,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 2557,
+    "cache_read_input_tokens": 12522,
+    "output_tokens": 1463,
+    "output_tokens_details": {
+      "thinking_tokens": 149
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2557
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1090,
+        "cache_read_input_tokens": 3306,
+        "cache_creation_input_tokens": 670,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 670,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

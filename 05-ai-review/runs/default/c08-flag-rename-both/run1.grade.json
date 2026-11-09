@@ -1,0 +1,11 @@
+{
+  "comments": 4,
+  "blocking": 1,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review correctly says the rename is complete. One item is blocking: although the nits are labelled non-blocking, the review makes merging conditional on fixing the stale surge_fee comment in config.py. That is a docs fix, not a claim that the code misbehaves, so it doesn't count as a false alarm.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0216598
+}

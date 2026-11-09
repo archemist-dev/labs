@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b09-pickup-time-lost",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Record when the courier picks the order up\"**\n\n**Blocker: `pick_up` never persists the timestamp.** `store.get()` returns a deep copy. `pick_up` sets `picked_up_at` on that copy and returns it, but it never writes it back. The store's copy is unchanged, so the pickup time is lost as soon as the call returns. The next `get()` will show `picked_up_at = None`. The `ValueError` guard against a second pickup also never fires, because it reads the same unchanged field. The log line says \"picked up\" even though nothing was recorded. The PR's stated purpose is ETA tracking, so this is a functional failure.\n\n`OrderStore` has no method that updates this field. `save()` would overwrite the whole record, which could clobber a concurrent status change. `update_status` is the only compare-and-set path, and it only touches status. To fix it, add a store method such as `mark_picked_up(order_id, at)`. It should take the lock, check that `status == OUT_FOR_DELIVERY` and `picked_up_at is None`, set the field, and raise `ConflictError` otherwise. That also removes the read-then-write race, where two courier-app retries could both pass the check. Then have `pick_up` call it, the same way `advance` and `update_status` work together.\n\n**Other issues**\n- `now or datetime.now(...)` is fine for the default. Use `now if now is not None else ...` for strictness, and consider rejecting naive datetimes, since the rest of the code uses tz-aware values.\n- The error message reports only `order.status`. When the real cause is \"already picked up\", the message will say \"cannot be picked up in OUT_FOR_DELIVERY\", which is confusing. Use separate messages, or a distinct exception, so the courier app can tell the two cases apart. A repeat call is a likely retry, so you may want it to be idempotent and return the existing order.\n- Nothing checks that the caller is the assigned courier, and `courier_id` can be `None`. If the courier app exposes this, add a `courier_id` argument and verify it matches. That is an authorization gap.\n- Nothing in the PR calls `pick_up`. There is no HTTP route in `http.py` or `app.py`, so the courier app can't use it yet. Mention that in the description if it's planned for a later PR.\n\n**Tests:** none were added. A test that calls `pick_up` and then re-fetches the order with `store.get` would have caught the blocker. Please add tests for:\n- the happy path, asserting on the re-fetched order\n- a wrong status, such as PAID or DELIVERED\n- a second pickup\n- a concurrent or conflicting call, once the store method exists\n\n**Performance and security:** no performance concerns. The security concern is the missing courier ownership check above.\n\nPlease don't merge until the persistence bug is fixed.",
+  "cost_usd": 0.053685000000000004,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 5171,
+    "cache_read_input_tokens": 10810,
+    "output_tokens": 1227,
+    "output_tokens_details": {
+      "thinking_tokens": 34
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 5171
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 927,
+        "cache_read_input_tokens": 4650,
+        "cache_creation_input_tokens": 1940,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1940,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

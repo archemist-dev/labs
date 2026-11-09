@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b06-card-expired",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Blocking: `CardExpired` bypasses the cleanup in `place_order`.**\n\n`CardExpired` subclasses `Exception`, not `PaymentError`. `OrderService.place_order` (`orders/service.py:58`) only catches `PaymentError`. When the provider returns `card_expired`, the new exception now skips that handler, which means:\n\n- The stock reserved for the order is never released, so it leaks.\n- The order stays in `CREATED` and is never moved to `PAYMENT_FAILED`.\n- Before this PR, an expired card went through the `PaymentError` path and was cleaned up correctly. This is a regression.\n\nThe simplest fix is `class CardExpired(PaymentError)`. The docstring on `PaymentError` (\"provider declined, guest not charged\") is also true for an expired card. Existing handlers keep working, and the app can still catch `CardExpired` first to prompt for a new card. If you would rather keep the classes separate, `place_order` must also catch `CardExpired`. Subclassing is safer, though, because any other caller that handles `PaymentError` is also covered.\n\n**Minor**\n- `CardExpired(order_id)` carries only the order id, while `PaymentError` carries the provider reason. That is fine, but be consistent about it. Whichever you choose, document what the argument means.\n- The string `\"card_expired\"` is a magic value from the provider. Make it a named constant, or add a comment pointing to the provider docs.\n\n**Tests**\nNo tests were added. Please add:\n- A payments-level test that a 402 with `reason: card_expired` raises `CardExpired`, and that other 402 reasons still raise `PaymentError`.\n- A `place_order` test that an expired card releases the stock and sets the order to `PAYMENT_FAILED`, while the `CardExpired` exception still reaches the caller. This test would have caught the bug above. `FakePayments` in `tests/test_service.py` will need to be able to raise it.\n\nThere are no performance or security concerns.",
+  "cost_usd": 0.0384724,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 2920,
+    "cache_read_input_tokens": 12062,
+    "output_tokens": 1071,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2920
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 661,
+        "cache_read_input_tokens": 3028,
+        "cache_creation_input_tokens": 1311,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1311,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 6
+}

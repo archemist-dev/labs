@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b03-promo-on-total",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Apply the promo to what the guest pays**\n\n**Blocking: this contradicts the documented promo terms.**\nThe module docstring in `orders/money.py` says: \"a percentage promo applies to the item subtotal only, never to delivery or surge fees.\" This PR applies the percentage to `subtotal + delivery_fee`, and the fee includes surge, so it breaks that rule directly. The PR doesn't mention the rule or change it.\n\nThis looks like a business or legal decision, not a code fix. Product or marketing needs to confirm it before merge. If the terms really are changing, the docstring has to change in the same PR. It should also check where the promo terms are published to guests, such as T&Cs, the promo emails and the app copy.\n\nIf the terms stay as they are, the support tickets point to a display problem. The fix would be to label the discount as \"10% off items\" in the UI, or to show it against the subtotal line. Changing the maths is the wrong response to that.\n\n**Other issues**\n- **Cost:** the discount grows with delivery and surge fees. With surge on, the business pays more for promo orders exactly when demand is highest. The fee is also waived over the free-delivery threshold, so a guest just under the threshold gets a bigger discount than one just over it. That behaviour is odd and nobody has signed off on it.\n- **Wrong amount on partial returns:** `cancel` refunds `order.total_pence`, which is fine. Nothing else reads `discount_pence` (I grepped), so the change is contained to this one place. Any future per-item refund logic would have to take the fee-inclusive discount into account.\n- **Unknown promo code:** `self.promos[promo_code]` raises `KeyError` for a bad code. This isn't new, but a 500 on a typo'd code is poor. Raise a `ValueError(\"unknown promo\")`, as is done for the zone.\n- **Rounding:** `percent_off` rounds down, which is fine. The \"discount equals 10% of the total\" claim will still be off by up to 1p, which is worth knowing when the tickets are triaged.\n\n**Tests**\n- No test covers promos at all. `TENOFF` is configured in `make_service` but never used. This PR needs at least these tests:\n  - A promo order below the free-delivery threshold, so the fee is non-zero. Assert the exact discount and total.\n  - A promo order with surge enabled.\n  - A promo order over the free-delivery threshold, to show it matches the old behaviour.\n  - An unknown promo code.\n- The existing tests all use `ITEMS` with a subtotal of 2695, which gets free delivery. The new code path wouldn't be exercised even if a promo were passed.\n\n**Verdict:** request changes. Get the policy confirmed first, and update the `money.py` docstring if it's approved. Add the tests either way.",
+  "cost_usd": 0.0473208,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4794,
+    "cache_read_input_tokens": 6334,
+    "output_tokens": 1103,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 4794
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 925,
+        "cache_read_input_tokens": 2715,
+        "cache_creation_input_tokens": 3498,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 3498,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

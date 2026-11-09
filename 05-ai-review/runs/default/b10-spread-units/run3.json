@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b10-spread-units",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Blocking: unit bug in the new check (`orders/chain.py`, line 15)**\n\n`geo.distance` returns kilometres, but `MAX_DETOUR` is in metres (800). The new check therefore compares km to 800 m. It only rejects a courier when the first order is more than 800 *km* away, so it will essentially never fire. The PR looks like it works, but the drift limit isn't enforced.\n\nThe fix is to use `geo.distance_m`, as the line below it already does:\n\n```python\nif geo.distance_m(first.address, order.address) > MAX_DETOUR:\n    continue\n```\n\n**Other points**\n\n- **Shared constant:** the new check reuses `MAX_DETOUR`, which is documented as \"from the courier's last chained order\". If the first-order limit should be the same 800 m, the comment and docstring need updating. If it should differ, which seems more likely, since a chain's total spread usually needs a looser or tighter bound than a single hop, add a separate constant such as `MAX_CHAIN_SPREAD`.\n- **Structure:** compute `first` and `last` and run both distance checks together. For example, compute `detour` once and then do `if detour > MAX_DETOUR or spread > MAX_SPREAD: continue`. The current version has one check as an early `continue` and the other inside the `if`, which is harder to read. When there is only one order in the chain, `first` and `last` are the same, so the check is redundant but harmless. It also costs an extra store lookup and distance calculation per courier. That's negligible, but you could skip it when `len(order_ids) == 1`.\n- **Tests:** the PR adds none, and a test would have caught the unit bug. Please add cases to `tests/` for:\n  - a chain where each hop is within the limit but the new order is beyond the limit from the first order (should return `None`, or fall through to another courier)\n  - a new order within the limit of both the first and last orders (should be accepted)\n  - a boundary case at exactly the limit\n- **Security and performance:** no concerns.",
+  "cost_usd": 0.0281798,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1991,
+    "cache_read_input_tokens": 6104,
+    "output_tokens": 849,
+    "output_tokens_details": {
+      "thinking_tokens": 32
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1991
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 666,
+        "cache_read_input_tokens": 2502,
+        "cache_creation_input_tokens": 908,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 908,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

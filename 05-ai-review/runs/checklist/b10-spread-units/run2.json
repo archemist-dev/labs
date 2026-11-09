@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b10-spread-units",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/chain.py` line 15 compares kilometres with metres. `geo.distance` returns kilometres, but `MAX_DETOUR` is 800 metres. The new check is therefore `km > 800`, which is about 800 km, so it almost never rejects anything. The feature does nothing, and no error is raised. For example, a new order 5 km from the chain's first order passes the check, and the chain still spreads across town.\n\nFix: use `geo.distance_m(first.address, order.address) > MAX_DETOUR`.",
+  "cost_usd": 0.0194042,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2175,
+    "cache_read_input_tokens": 6826,
+    "output_tokens": 357,
+    "output_tokens_details": {
+      "thinking_tokens": 27
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2175
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 182,
+        "cache_read_input_tokens": 2863,
+        "cache_creation_input_tokens": 731,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 731,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

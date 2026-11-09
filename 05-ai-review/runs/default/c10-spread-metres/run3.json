@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c10-spread-metres",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Don't let a chain spread too far from its first order\"**\n\nThe logic is correct. It rejects a candidate courier whose first order is more than `MAX_DETOUR` from the new order, and it still applies the last-order check. A few things should change before merge.\n\n**1. Reusing `MAX_DETOUR` for the first-order limit is a design problem.**\n- `MAX_DETOUR` is documented as \"metres from the courier's last chained order to the new one\". It now also bounds distance from the first order.\n- With the same 800 m limit on both, the new check only matters for chains of 3 or more orders. For a chain of 1, first and last are the same order, so the check duplicates the existing one.\n- A separate constant such as `MAX_CHAIN_SPREAD` would be clearer and tunable on its own. Update the comment on `MAX_DETOUR` too.\n- If the intent really is a single radius, say so in a comment. Note that this makes the chain a cluster within 800 m of its anchor order.\n\n**2. Minor cleanup.**\n- The `detour <= MAX_DETOUR` check on the last order is still needed, but it now sits after the `continue` guard, so the two checks look different. Using the same style for both would read better. For example, compute both distances and skip if either exceeds its limit.\n- `first` and `last` are the same object when the chain has one order, so `store.get` and `distance_m` run twice. This is only a small performance cost. You could skip the first-order check when `len(order_ids) == 1`, or compare `order_ids[0]` to `order_ids[-1]`.\n- Move the `store.get(first)` and distance computation below the cheap checks, or compute them lazily. The loop is O(couriers), so this has little effect.\n- The docstring still says only \"closest last order within MAX_DETOUR\". Update it to mention the first-order constraint.\n\n**3. Test coverage is missing.**\n- The PR adds no tests. `tests/test_service.py` only has `test_chain_onto_nearby_courier`.\n- Please add a test where a courier has a chain A\u2192B, with B near A. A new order C is near B (within the limit) but more than the limit from A. Assert that `pick_courier` returns `None`, or that another eligible courier is chosen.\n- Add a boundary test where the distance is exactly `MAX_DETOUR`. The check is `>`, so it should still be accepted.\n- Add a test that a courier rejected on spread doesn't block a farther but valid courier. The `continue` handles this, but a test would lock it in.\n\n**4. Behavior to confirm.**\n- Chains that reach `max_orders` or drift out of range are now rejected without a log or reason. If the service handles `None` by creating a new trip, that is fine. Please confirm it does.\n- Security: no concerns.\n\nOverall this is a small, correct change. I'd like to see a dedicated constant and the tests before approving.",
+  "cost_usd": 0.0342614,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 1751,
+    "cache_read_input_tokens": 9072,
+    "output_tokens": 1183,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1751
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 950,
+        "cache_read_input_tokens": 2968,
+        "cache_creation_input_tokens": 202,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 202,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c07-zone-min-order",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Minimum order per zone**\n\nThe change is small and the default of 0 keeps existing zones working. The check is in the right place: it runs before stock reservation and payment, so a rejected order has no side effects to undo. I have a few concerns, though.\n\n**1. No tests (blocker).**\nThe PR adds no tests. `tests/test_service.py` exists, so please add cases for:\n- a subtotal below the minimum, which should raise and leave no stock reserved, no charge made, and no order saved\n- a subtotal exactly at the minimum, which should be accepted (this pins down the `<` boundary)\n- a zone with `min_order_pence=0`, which should behave as before\n- `load_zones` with the new field set and with it omitted\n\n**2. Order is built before validation.**\nThe `Order` is constructed and `subtotal_pence` is set before the check. Nothing is saved, so this is harmless. Still, compute `money.subtotal(items)` and validate it first, then build the `Order`. That keeps all the rejections together (kitchen closed, unknown zone, minimum).\n\n**3. The minimum is checked against the pre-discount subtotal.**\nA promo can take the basket below the minimum. For example, with a 1000p minimum, a 1000p basket and a 50% code gives a 500p charge. This may be intended, since \"basket\" usually means the item subtotal. Please confirm that with product and write it down, either in a comment or a test. If the minimum should apply after discounts, the check has to move below the discount calculation.\n\n**4. The error is a bare `ValueError` with a pence-denominated string.**\n- Callers can't tell this rejection apart from \"kitchen closed\" or \"unknown zone\" without matching on the message. That makes it hard for the API layer to show a useful \"add \u00a3X more\" message. A dedicated subclass, such as `MinimumOrderError(minimum, subtotal)`, would be better.\n- The message is also user-facing and shows raw pence, so it reads as \"minimum order in CB1 is 1500 pence\". Consider formatting it as pounds, or leaving formatting to the caller via structured fields.\n\n**5. No validation of config values.**\n`Zone` is loaded from a remote config service. A negative `min_order_pence` would be silently accepted. This is harmless today, because the check would never fire. A `__post_init__` check for `>= 0` would still catch config typos early. It could also check that `free_over_pence` and `min_order_pence` are consistent.\n\n**6. Minor: the example config doesn't use the field.**\n`ZONES` in `config.py` has no zone with a minimum. Setting one on a zone, or adding a fixture in the tests, would exercise the load path.\n\n**Performance and security:** I see no concerns. The check is O(1) on a value already computed. The minimum is enforced server-side, so clients can't bypass it.\n\n**Summary:** the logic is correct as written. Please add tests and decide on the discount semantics (point 3) before merging. Points 2, 4 and 5 are nice-to-haves.",
+  "cost_usd": 0.043021000000000004,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3565,
+    "cache_read_input_tokens": 6360,
+    "output_tokens": 1195,
+    "output_tokens_details": {
+      "thinking_tokens": 47
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3565
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 990,
+        "cache_read_input_tokens": 2771,
+        "cache_creation_input_tokens": 2213,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 2213,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

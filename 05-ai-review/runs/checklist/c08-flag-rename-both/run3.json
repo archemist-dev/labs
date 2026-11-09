@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c08-flag-rename-both",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "The rename is consistent. The flag definition and its only caller, in `service.py`, both use `dynamic_delivery_fee`. No other code, config or test refers to `surge_fee`. The only leftover is a comment in `orders/config.py:8` that still says \"surge_fee flag\", which affects nothing at runtime.\n\nThe flag's default is a risk in general. `flags.enabled` returns False for unknown names, so any stale `surge_fee` lookup would quietly turn the surcharge off. I searched the repo and found no such lookup.\n\nNo silent failures found.",
+  "cost_usd": 0.0217604,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2487,
+    "cache_read_input_tokens": 7307,
+    "output_tokens": 392,
+    "output_tokens_details": {
+      "thinking_tokens": 28
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2487
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 184,
+        "cache_read_input_tokens": 3330,
+        "cache_creation_input_tokens": 576,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 576,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

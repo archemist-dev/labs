@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b06-card-expired",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/payments.py` and `orders/service.py:58`: `CardExpired` doesn't subclass `PaymentError`, and `place_order` only catches `PaymentError`.\n\n- **Trigger:** the provider returns 402 with `reason == \"card_expired\"`.\n- **What happens:** `CardExpired` skips the `except PaymentError` cleanup. The stock reserved for each item is never released.\n- **Order state:** the order stays in `CREATED` and is never moved to `PAYMENT_FAILED`.\n- **Why it's silent:** the exception does reach the caller, but nothing records the failure. The leaked stock reservations and the stuck `CREATED` order stay behind with no error.\n- **Fix:** make `CardExpired` subclass `PaymentError`. The app can still catch it specifically, and the existing cleanup runs. Alternatively, catch `(PaymentError, CardExpired)` in the service.\n\nI found no other callers of `charge` or `PaymentError` in `orders` or `tests`. The only one is `place_order`.",
+  "cost_usd": 0.035701,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 3398,
+    "cache_read_input_tokens": 13855,
+    "output_tokens": 795,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3398
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 359,
+        "cache_read_input_tokens": 3474,
+        "cache_creation_input_tokens": 1343,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1343,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 6
+}

@@ -1,0 +1,11 @@
+{
+  "comments": 4,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "This is a clean PR, and the review found no defects. All four bullets confirm intended behavior: unknown codes now raise ValueError before saving, and the discount is still taken from the subtotal only. None of them claims a defect, so there are no false alarms.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0148298
+}

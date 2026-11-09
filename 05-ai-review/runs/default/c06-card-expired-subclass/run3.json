@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c06-card-expired-subclass",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "Review of \"Tell the app when the card has expired\":\n\n**Overall:** The change is small and correct. Because `CardExpired` subclasses `PaymentError`, the `except PaymentError` in `service.py:58` still releases stock, marks the order `PAYMENT_FAILED`, and re-raises. The caller sees `CardExpired`, as the description intends.\n\n**Issues / suggestions**\n\n1. **Inconsistent exception payload (minor).** `CardExpired(order_id)` carries the order id. `PaymentError(reason)` carries the reason string. Anyone who logs or displays `str(e)` for a `PaymentError` will get a reason in one case and an order id in the other. I'd keep the payload consistent, for example `CardExpired(reason)`. Alternatively, give `PaymentError` a `.reason` attribute and an `order_id` attribute.\n\n2. **Magic string.** `\"card_expired\"` is a provider contract value hard-coded inline. Define it as a constant, and ideally map it in one place, such as a `{reason: exception class}` dict. Other specific declines like `insufficient_funds` can then be added without growing an if-chain.\n\n3. **Nothing in the repo consumes it yet.** Only `service.py` catches `PaymentError`. The view or app layer (`views.py` and `app.py`) has no `CardExpired` handling. The description says \"the app wants to ask for a new card\", so please confirm that the API layer turns this into a distinguishable response, such as a specific error code. If it doesn't, the new class has no effect for the app.\n\n4. **Tests are missing.** `tests/test_service.py` has no payment-failure tests at all, and the PR adds none. I'd add:\n   - a `PaymentClient.charge` test where a 402 with `card_expired` raises `CardExpired`.\n   - a test where a 402 with another reason raises plain `PaymentError`, and not `CardExpired`.\n   - a service-level test that an expired card still releases stock and sets `PAYMENT_FAILED`. This is the \"existing decline handling still runs\" claim, and nothing currently tests it. `FakePayments` will need a way to raise it.\n\n5. **Robustness (nit).** `resp.json().get(...)` assumes a JSON object body on a 402. That was already the case before this PR, so it isn't a regression.\n\nNo performance or security concerns. The exception carries only the order id and doesn't leak card data.\n\n**Verdict:** Fine to merge once tests are added. Please also confirm how the app layer surfaces `CardExpired`.",
+  "cost_usd": 0.040157200000000004,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 2779,
+    "cache_read_input_tokens": 12511,
+    "output_tokens": 1186,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2779
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 843,
+        "cache_read_input_tokens": 3208,
+        "cache_creation_input_tokens": 990,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 990,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

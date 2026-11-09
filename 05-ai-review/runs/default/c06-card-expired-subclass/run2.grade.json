@@ -1,0 +1,11 @@
+{
+  "comments": 4,
+  "blocking": 2,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review correctly says the subclass keeps the release-stock and PAYMENT_FAILED path working. It blocks on missing tests and on the exception payload being inconsistent. Both are test or consistency concerns, not claims that the code misbehaves. The magic-string and app-wiring items only ask the author to verify something, so none of the comments count as a false alarm.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0266548
+}

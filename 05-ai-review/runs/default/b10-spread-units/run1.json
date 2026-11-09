@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b10-spread-units",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Blocking: unit mismatch in the new check (`orders/chain.py`)**\n\n`geo.distance` returns kilometres. `MAX_DETOUR` is 800 metres. The new line compares km to metres:\n\n```python\nif geo.distance(first.address, order.address) > MAX_DETOUR:\n```\n\nThe check only rejects an order when it is more than 800 km from the first order. In practice it never fires, so the PR doesn't change behaviour. The fix is to use `geo.distance_m`, as the line below it already does.\n\n```python\nif geo.distance_m(first.address, order.address) > MAX_DETOUR:\n```\n\n**Other comments**\n\n- **Reusing `MAX_DETOUR` for the first-order limit.** `MAX_DETOUR` is documented as the distance from the last order. Using it for the first order too means a chain can never grow beyond 800 m from its start. That is probably intended, but it should be a separate constant, e.g. `MAX_CHAIN_SPREAD`, so the two limits can be tuned independently. Update the comment on `MAX_DETOUR` as well.\n- **Redundant work.** The `first` lookup and distance calculation run before the `last` check. When the chain has one order, `first` and `last` are the same, so the distance is computed twice. It's a minor cost. You could compute both distances and then test them together:\n  ```python\n  d_first = geo.distance_m(first.address, order.address)\n  detour = geo.distance_m(last.address, order.address)\n  if d_first > MAX_SPREAD or detour > MAX_DETOUR: continue\n  ```\n- **Tests.** The PR adds none, and a test would have caught the unit bug. Please add these cases to `tests/test_service.py` or a new `test_chain.py`:\n  - a chain whose new order is within 800 m of the last order but more than 800 m from the first, which should be rejected;\n  - a new order within both limits, which should be accepted;\n  - a single-order chain, as a boundary check.\n- **Security.** I have no concerns.\n\nPlease fix the unit bug and add the tests before merging.",
+  "cost_usd": 0.0282586,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1851,
+    "cache_read_input_tokens": 6098,
+    "output_tokens": 888,
+    "output_tokens_details": {
+      "thinking_tokens": 34
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1851
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 692,
+        "cache_read_input_tokens": 2499,
+        "cache_creation_input_tokens": 771,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 771,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

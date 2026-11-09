@@ -1,0 +1,11 @@
+{
+  "comments": 0,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review reports no defects. Its bullets confirm the intended behaviour (same Idempotency-Key on every attempt, exhausted retries raise, declines aren't retried, refunds stay single-attempt), and its out-of-scope note doesn't claim a defect.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.015864800000000002
+}

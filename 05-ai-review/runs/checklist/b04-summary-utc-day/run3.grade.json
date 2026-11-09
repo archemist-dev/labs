@@ -1,0 +1,11 @@
+{
+  "comments": 1,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The single blocking comment names the seeded bug exactly. It says created_at.date() uses the UTC date rather than london_day, so BST orders between 00:00 and 01:00 London time land in the previous day's summary, and it suggests the correct fix.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0135698
+}

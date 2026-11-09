@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c06-card-expired-subclass",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Tell the app when the card has expired\"**\n\nThe change is small and correct. Making `CardExpired` a `PaymentError` subclass means the `except PaymentError` in `service.py:58` still releases stock and marks the order `PAYMENT_FAILED`, then re-raises. I found no other callers that depend on the exception type or message.\n\n**Issues**\n\n1. **No tests.** `tests/test_service.py` has no payment-failure tests at all. Please add these:\n   - A 402 response with `reason: \"card_expired\"` raises `CardExpired`.\n   - Any other 402 reason still raises plain `PaymentError`.\n   - Through `OrderService`, an expired card releases stock and sets `PAYMENT_FAILED`, and the `CardExpired` error propagates to the caller.\n\n2. **Inconsistent exception payload.** `PaymentError(reason)` carries the provider reason, but `CardExpired(order_id)` carries the order id. Anything that logs or displays `str(e)` will now get different kinds of content depending on the type. Pass the reason, e.g. `CardExpired(reason)`, or keep the order id as an attribute. `PaymentTimeout(order_id)` already uses the order id, so decide on one convention.\n\n3. **Unverified magic string.** `\"card_expired\"` is hard-coded, and I can't confirm it matches the provider's documented reason code. If it's wrong, expired cards will silently fall back to a generic `PaymentError` and the app will never ask for a new card. Please link the provider docs, or add a named constant plus a test that pins the value.\n\n4. **App wiring.** I couldn't find where the app layer catches this. If an API or handler layer sits outside this repo, make sure it catches `CardExpired` before the generic `PaymentError`. Otherwise the new subclass has no visible effect.\n\n**Minor**\n- `resp.json()` is now called once and its result stored. That is fine, and it avoids a second parse.\n- I see no security or performance concerns. The reason string is only used for comparison, and nothing new is exposed.\n\nRequesting changes for the tests (item 1) and the payload consistency (item 2). The rest is fine once those are addressed.",
+  "cost_usd": 0.0375558,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 2584,
+    "cache_read_input_tokens": 12179,
+    "output_tokens": 1108,
+    "output_tokens_details": {
+      "thinking_tokens": 28
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2584
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 726,
+        "cache_read_input_tokens": 3009,
+        "cache_creation_input_tokens": 994,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 994,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

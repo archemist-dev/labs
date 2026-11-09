@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b02-http-retry",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/payments.py:44`, `PaymentClient.refund`: the new retry in `Http.post` can issue a duplicate refund.\n\n- **Why it's unsafe:** `refund` sends no Idempotency-Key, and the module docstring says \"every POST /refunds creates a new refund\". `TransientError` is documented as \"the provider may or may not have applied the request\".\n- **Failure case:** the provider applies a refund but returns 502, 503 or 504, or times out with a 408. `Http.post` now silently re-POSTs, and the provider creates a second refund for the same amount.\n- **What the caller sees:** the final retry succeeds with 200, so `refund` returns `RefundResult(ok=True)`. Nothing is raised and nothing is logged, and the guest is refunded twice.\n- **Contract broken:** before this change, a transient failure surfaced as `ok=False` with \"check the provider before refunding again\". The retry removes that safeguard.\n- **Fix:** make retries opt-in, for example `attempts=1` by default. Only calls that carry an idempotency key, such as `charge`, would pass more attempts. Alternatively, `Http.post` could retry only when the request has an `Idempotency-Key` header.\n\n`charge` is safe to retry, because it sends `Idempotency-Key=order.id` and the provider dedupes on it.",
+  "cost_usd": 0.030400999999999997,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2895,
+    "cache_read_input_tokens": 7210,
+    "output_tokens": 723,
+    "output_tokens_details": {
+      "thinking_tokens": 119
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2895
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 574,
+        "cache_read_input_tokens": 3229,
+        "cache_creation_input_tokens": 1085,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1085,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

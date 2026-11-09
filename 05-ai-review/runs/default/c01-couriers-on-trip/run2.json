@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c01-couriers-on-trip",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Only load couriers on a trip in pick_courier\"**\n\nOverall this looks good. The change is small and correct, and I found no blocking issues.\n\n**Correctness**\n- `couriers_on_trip()` filters on `c.order_ids` while holding the lock. That is the same truthiness check `pick_courier` already does. Behaviour is unchanged, and idle couriers are no longer deep-copied.\n- The filter runs before `deepcopy`, because the condition is inside the comprehension. That is where the saving comes from.\n- The snapshot is consistent with `couriers()`: both take the lock once and return copies.\n- The existing race is unchanged. Between the snapshot and `store.get(courier.order_ids[-1])`, a courier's chain can change. `attach_order` still enforces capacity and conflicts atomically, so this is safe. The caller must handle `ConflictError`.\n\n**Nits**\n1. In `chain.py`, `if not courier.order_ids or ...` is now redundant, since the store guarantees a non-empty chain. Keeping it is harmless as a defensive check. Dropping it would leave `len(...) >= max_orders` as the only check, and a short comment would make that clearer. Either choice is fine.\n2. The filter lives in the store and its name encodes the policy (\"on trip\" means a non-empty chain). If \"on trip\" later means something else, such as a status field, this method is the single place to change. The docstring is clear, so I have no objection.\n\n**Tests**\n- This PR adds no tests. `tests/test_service.py` is the only test file, and nothing references `couriers_on_trip`. I'd suggest a small store test that saves one idle courier and one with a chain, then asserts `couriers_on_trip()` returns only the second. I'd also assert that the returned objects are copies, so mutating one doesn't change the store.\n- A `pick_courier` test covering these cases would help too:\n  - Idle couriers only returns `None`.\n  - A full courier is skipped.\n  - The nearest courier within `MAX_DETOUR` wins.\n\n**Performance and security**\n- This is a modest win. It reduces the work done under the global lock on every new order, so it also lowers contention. The scan over all couriers is still O(n). An index of on-trip couriers would be the next step if the fleet gets large, but that isn't needed here.\n- There are no security concerns.\n\nApprove, with a request for the store test.",
+  "cost_usd": 0.0425632,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 3604,
+    "cache_read_input_tokens": 10756,
+    "output_tokens": 1118,
+    "output_tokens_details": {
+      "thinking_tokens": 47
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3604
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 792,
+        "cache_read_input_tokens": 4346,
+        "cache_creation_input_tokens": 677,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 677,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c02-retry-charges-only",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Retry transient errors on charges**\n\nThe design is sound. Retrying `/charges` is safe because the same `Idempotency-Key` is sent on every attempt. `attempts` defaults to 1, so refunds stay single-attempt. I have a few issues, one of them significant.\n\n**1. Timeouts aren't retried (bug, mostly defeats the PR's purpose)**\n- The description names \"502/503 or a timeout\", but the retry loop only handles HTTP status codes.\n- A real timeout is raised by `session.post` as an exception, such as `requests.Timeout` or a connection error. It propagates straight out of the loop on the first attempt and isn't retried.\n- It also isn't converted to `TransientError`. The only place `TransientError` is raised is the status check, so `charge()` never turns a timeout into `PaymentTimeout`.\n- This was already true before the PR, but this PR is the one that promises timeout handling.\n- Fix: catch the session's timeout and connection exceptions inside the loop. Treat them like a retryable status, and raise `TransientError` after the last attempt. How you do that depends on the session type, because the exception classes differ between `requests` and `httpx`.\n- Retrying after a timeout is safe here because of the idempotency key.\n\n**2. Retry count vs. description**\n- The description says \"retry twice\", and `attempts=3` is 1 initial try plus 2 retries, which matches.\n- The name `attempts` is a little ambiguous next to that wording, so a comment at the call site would help.\n\n**3. Latency**\n- Worst case is 3 \u00d7 5s timeouts plus 0.2s and 0.4s of sleep, about 15.6s, all synchronous.\n- Check that this fits within any upstream request timeout, such as the gateway or the order service's caller.\n- If it doesn't, consider a total deadline.\n- The backoff has no jitter. That's minor at this volume, but cheap to add.\n\n**4. Error message**\n- `resp` is used after the loop. That works because `attempts >= 1`, but `attempts=0` would raise `UnboundLocalError`.\n- Validate `attempts >= 1`, or restructure the loop.\n\n**5. Docs**\n- The `Http` class docstring still says \"One attempt per call\", which is now only the default. Please update it.\n- The `PaymentTimeout` semantics are unchanged. After 3 failures the charge may still have happened, so callers must reuse the same idempotency key on any later retry. This is worth stating in the `charge` docstring.\n\n**6. Tests (missing)**\nThe PR adds no tests. At minimum I'd expect these, using a fake session and a patched `time.sleep`:\n- A 503 followed by a 200 returns the response, and the same key and headers are sent on every attempt.\n- Three 503s raise `TransientError`, which `charge()` turns into `PaymentTimeout`, after exactly 3 calls.\n- A 402 is not retried, and it still raises `PaymentError`.\n- A timeout exception is retried (this will currently fail, see #1).\n- `refund()` makes exactly one call on a 503 and returns `ok=False`. This guards the \"refunds stay single-attempt\" requirement.\n- The backoff sleeps are 0.2s and then 0.4s.\n\n**Security**\nNo concerns. The key is reused as intended, and nothing sensitive is logged.\n\nI'd request changes for #1 and #6 before merging.",
+  "cost_usd": 0.041421200000000005,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2708,
+    "cache_read_input_tokens": 6586,
+    "output_tokens": 1327,
+    "output_tokens_details": {
+      "thinking_tokens": 56
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2708
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1131,
+        "cache_read_input_tokens": 2964,
+        "cache_creation_input_tokens": 1163,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1163,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

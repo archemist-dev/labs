@@ -1,0 +1,11 @@
+{
+  "comments": 2,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The [BLOCKING] comment says pick_courier now makes a decision from the CourierView, which views.py calls lagging and display-only. It also says a stale chain makes the detour be measured from the wrong last order, so a courier can be wrongly picked with no error. That is the seeded bug's effect, although the review uses a just-attached example rather than detach_order. The point that the PR doesn't cut load is a second comment, and it isn't marked blocking.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0234698
+}

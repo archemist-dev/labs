@@ -1,0 +1,11 @@
+{
+  "comments": 1,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review correctly finds no defect and confirms that the new check compares metres with metres. Its only finding is a non-blocking note that the MAX_DETOUR comment is stale. That is a docs remark, not a claim that the code misbehaves, so it is not a false alarm.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0159648
+}

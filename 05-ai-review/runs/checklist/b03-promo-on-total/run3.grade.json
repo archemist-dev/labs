@@ -1,0 +1,11 @@
+{
+  "comments": 2,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The [BLOCKING] comment cites the money.py rule that promos apply to the subtotal only and shows that applying the promo to subtotal + delivery fee over-discounts promo orders. The second comment is a [NIT] about a 100% discount producing a \u00a30 charge. False alarms are 0 because this is a bug PR.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0159198
+}

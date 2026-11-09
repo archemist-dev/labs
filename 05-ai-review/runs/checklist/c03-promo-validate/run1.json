@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c03-promo-validate",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\nThe new check raises `ValueError` before anything is saved, reserved or charged, so an unknown code fails loudly. It does not touch the discount calculation, which still applies only to the item subtotal. That matches the promo terms in `money.py`. The discount stays in integer pence and rounds down. `discount_pence` defaults to 0 when no code is given, which is correct.\n\nOne thing I did not check: whether callers translate `ValueError` into a 4xx rather than a 500. A mismatch there would still raise an error, so it isn't a silent failure.",
+  "cost_usd": 0.0311322,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 3884,
+    "cache_read_input_tokens": 12001,
+    "output_tokens": 464,
+    "output_tokens_details": {
+      "thinking_tokens": 45
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3884
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 186,
+        "cache_read_input_tokens": 5074,
+        "cache_creation_input_tokens": 229,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 229,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

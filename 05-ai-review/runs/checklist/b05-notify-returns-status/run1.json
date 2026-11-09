@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b05-notify-returns-status",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/service.py:94` (`dispatch`) still wraps `self.notifier.send(...)` in `except NotifyError`, but `send` no longer raises. When the provider rejects the SMS, for example for a bad number or a timeout, `send` returns False. `dispatch` ignores that return value and returns the order as if the courier had been told. The `outbox.add(...)` retry path is now dead code, so nothing queues a retry. The courier never gets the pickup message, and the only trace is a log warning. The fix is to check the result in `dispatch`: `if not self.notifier.send(order.courier_id, text): self.outbox.add(order.courier_id, text)`. The `except NotifyError` handler can then be removed.\n\n[NIT] `Notifier.send` only returns `resp.ok` and logs when it is False. If `self.sms.send` itself raises, for example on a network error, that exception is no longer a `NotifyError`. It is not handled in `dispatch` either, so it escapes after the order has already moved to OUT_FOR_DELIVERY. This was already the case before the change. The new docstring now claims that timeouts return False, which isn't guaranteed.",
+  "cost_usd": 0.0338482,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 3418,
+    "cache_read_input_tokens": 11131,
+    "output_tokens": 725,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3418
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 393,
+        "cache_read_input_tokens": 4106,
+        "cache_creation_input_tokens": 731,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 731,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

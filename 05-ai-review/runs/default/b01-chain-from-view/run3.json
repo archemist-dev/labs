@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b01-chain-from-view",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: request changes. The view is documented as unsafe for this decision, and the PR doesn't deliver the load reduction it claims.**\n\n**1. The view is explicitly not for decisions (correctness).**\nThe `CourierView` docstring says it is \"Eventually consistent: it lags the store by a few seconds, more under load. Display only; decisions read the store.\" `pick_courier` is a decision, and this change makes it read stale chains. Lag is worst at dinner peak, which is when this path runs the most. Stale data causes these problems:\n- **Full couriers look free.** The view shows a courier with room, but the courier is already full. `attach_order` raises `ConflictError`, and `service.chain` swallows it and returns `None`. The order then falls back to normal dispatch even though another courier could have taken it. This is a silent loss of chaining that gets worse under load.\n- **The wrong order is read as the last stop.** `chained[-1]` can be an order that has since been detached. After `detach_order`, the view may still list an order that is no longer on that courier. The distance is then measured from the wrong address, so the order can be chained onto a courier who is nowhere near it. `attach_order` only checks capacity and whether the order already has a courier. It does not re-check the detour, so nothing downstream catches this.\n- **Brand-new couriers are skipped.** A courier whose first chain event the view hasn't consumed yet reads as empty, so it is skipped.\n- **Quick successive orders conflict.** Several orders arriving close together all see the same stale chain, pick the same courier, and collide on `attach_order`. Only the first wins.\n\n`attach_order` does protect the capacity limit, so this won't overfill a courier. The damage is lower chaining quality and wrong detour decisions that nothing detects.\n\n**2. The primary read load isn't removed.**\n`pick_courier` still calls `store.couriers()`, which deep-copies every courier under the store lock. It also still calls `store.get(chained[-1])` for each candidate. The only thing removed is `courier.order_ids`, which was already part of that same read. So the PR description's claim that it removes \"every courier read from the primary\" isn't true. The read cost is about the same, and the view adds a staleness risk on top. The view also has no `max_orders`, which is why the courier list is still needed. That is a sign the view doesn't hold enough data for this use.\n\n**3. Mixed sources.**\nCourier rows (`max_orders`) come from the store, chains come from the view, and order rows come from the store. These can disagree with each other. For example, `store.get` of an order from a stale chain can return one that is already delivered or detached.\n\n**4. Tests.**\nThe existing test calls `svc.view.catch_up()` before `chain`, so it only covers the case where the view is fully up to date. There is no test where the view lags, such as after `attach_order` or `detach_order` without a `catch_up`. That is exactly the case this change makes worse. Also, `pick_courier` now takes a new `view` argument, and no test calls it directly.\n\n**Suggestions:**\n- If the goal is to cut primary load, the safe options are:\n  - read from a real read replica or a cache that has a bounded-staleness guarantee;\n  - ask the store for only the candidates, for example a store query that returns couriers with room and their last order, which is one query instead of N+1 reads;\n  - use the view only to pre-filter candidates, then re-read the shortlisted couriers from the store before choosing.\n- If the staleness is accepted on purpose, update the `CourierView` docstring to say so. Re-check the detour against the store inside `attach_order`, or re-verify the chosen courier before attaching. Also add tests for a lagging view.\n- Measure first. If the load really comes from `couriers()`, the numbers should show that this change moves it.",
+  "cost_usd": 0.054136000000000004,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4770,
+    "cache_read_input_tokens": 6610,
+    "output_tokens": 1447,
+    "output_tokens_details": {
+      "thinking_tokens": 30
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 4770
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1249,
+        "cache_read_input_tokens": 2975,
+        "cache_creation_input_tokens": 3214,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 3214,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

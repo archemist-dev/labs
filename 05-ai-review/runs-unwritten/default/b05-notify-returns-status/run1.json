@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b05-notify-returns-status",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Notifier.send returns a status instead of raising**\n\n**Blocking: this breaks the retry path in `OrderService.dispatch`.**\n\n`orders/service.py:93-97` is the only caller of `Notifier.send`. It still relies on the exception:\n\n```python\ntry:\n    self.notifier.send(order.courier_id, text)\nexcept NotifyError:\n    log.warning(\"courier sms failed for %s, queued for retry\", order.id)\n    self.outbox.add(order.courier_id, text)\n```\n\n`send` no longer raises, so the `except` branch is now dead code. A failed courier SMS is logged inside `Notifier` and then dropped. `dispatch` ignores the returned `False`, and nothing is added to the `Outbox`. The courier never gets the pickup message and nothing retries it. The PR description calls failures expected, but this change removes the only handling for them. It is a silent regression in order dispatch.\n\nFix: change `dispatch` to use the return value:\n\n```python\nif not self.notifier.send(order.courier_id, text):\n    log.warning(\"courier sms failed for %s, queued for retry\", order.id)\n    self.outbox.add(order.courier_id, text)\n```\n\nAlso drop the now-unused `NotifyError` import from `service.py`. Delete the `NotifyError` class too, unless something else needs it. Otherwise it stays as a misleading, never-raised exception.\n\n**Tests: the gap that hid this.**\n- `FakeNotifier.send` in `tests/test_service.py` returns `None`, which is falsy. Once `dispatch` checks the return value, the fake will look like a failure on every call. Make it return `True`, and add a way to make it return `False`.\n- No test covers the failure path. Add one that makes `send` return `False` and asserts that `outbox.pending == [(courier_id, text)]`. That test would have caught this bug. Because the fake never raised, the existing tests never exercised the `except NotifyError` branch.\n- Add `Notifier` unit tests for `resp.ok` true and false. The false case should check the return value and the log record.\n\n**Smaller points**\n- `resp.ok` may be non-bool, so use `return bool(resp.ok)` to match the `-> bool` annotation.\n- The docstring says `send` returns False on \"provider rejects the message or times out\". Only `resp.ok` is checked. If `self.sms.send` raises on a timeout or network error, that exception still propagates. Either catch it and return `False`, or correct the docstring. As written, callers still have to handle exceptions as well as the return value.\n- The log line includes the full phone number, which is PII. Consider masking it, for example showing only the last 4 digits.\n- A bare `bool` makes it easy to ignore failures, which is how the bug above happened. If the return value matters, consider a small result type or a clear docstring contract. Returning a status is a reasonable design choice. It only works if every caller checks the result.\n\nPlease don't merge until `dispatch` is updated and the failure path has a test.",
+  "cost_usd": 0.0540748,
+  "usage": {
+    "input_tokens": 12,
+    "cache_creation_input_tokens": 3564,
+    "cache_read_input_tokens": 16614,
+    "output_tokens": 1588,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3564
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 990,
+        "cache_read_input_tokens": 3812,
+        "cache_creation_input_tokens": 1171,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1171,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 7
+}

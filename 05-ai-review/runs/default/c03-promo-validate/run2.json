@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c03-promo-validate",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Reject unknown promo codes cleanly**\n\nThe fix is correct and small. The discount is still computed on `order.subtotal_pence` and not on delivery or surge, so it follows the promo terms in `money.py`. The validation also runs before `store.save` and before stock is reserved or payment is charged. A bad code therefore leaves no half-created order, reservation, or charge behind.\n\n**Issues and suggestions**\n\n1. **No test (blocking).** `tests/test_service.py` has a `TENOFF` promo fixture, but nothing exercises the new path. Please add:\n   - A test that `place_order(..., promo_code=\"BOGUS\")` raises `ValueError`.\n   - Assertions that nothing was saved, `stock.reserve` was not called, and `payments.charge` was not called.\n   - If none exists yet, a happy-path test that `TENOFF` gives 10% off the subtotal only. It should use a non-free-delivery zone so it proves the delivery fee is excluded.\n\n2. **The issue says \"500\", but a `ValueError` may still become one.** `ValueError` is already used for \"kitchen closed\" and \"unknown zone\", so this is consistent. Please confirm the API layer maps `ValueError` to a 4xx. If it doesn't, the user-visible bug isn't fixed. A dedicated `InvalidPromoError(ValueError)` would let the handler return a clear 400/422 without catching every `ValueError`.\n\n3. **Ordering (minor).** Zone and promo validation are split across the function, with the promo check after fee computation. Moving the promo lookup up beside the zone check would fail fast and keep all input validation together. It would also avoid the double lookup (`in`, then `[...]`). For example, `promo = self.promos.get(promo_code)`, then raise if it is `None`.\n\n4. **Input normalisation (minor, product decision).** Codes are matched case-sensitively and without stripping whitespace. `\"tenoff\"` is now rejected where before it would have raised a `KeyError`, so behaviour is no worse. Decide whether normalising is wanted.\n\n5. **Error message.** Echoing the user-supplied code in the message is fine here. Make sure it isn't logged at a level or in a place where codes are considered sensitive.\n\nThere are no performance or security concerns. The change is a dict membership check.\n\n**Verdict:** Approve once a regression test is added and the `ValueError` to 4xx mapping is confirmed.",
+  "cost_usd": 0.0341222,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2741,
+    "cache_read_input_tokens": 6166,
+    "output_tokens": 958,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2741
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 811,
+        "cache_read_input_tokens": 2554,
+        "cache_creation_input_tokens": 1606,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1606,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

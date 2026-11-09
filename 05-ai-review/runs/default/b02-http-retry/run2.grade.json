@@ -1,0 +1,11 @@
+{
+  "comments": 7,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review's only blocking comment names the seeded bug: refunds carry no idempotency key, so retrying a timed-out or 5xx refund POST refunds the guest twice. The other six comments are non-blocking: unretried exceptions, blocking sleep, retry amplification, naming, the final error message and missing tests.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0211248
+}

@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c01-couriers-on-trip",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\nThe new `couriers_on_trip()` reads from the same primary store, under the same lock, as `couriers()` did. It returns deep copies, so callers still get copies and not live objects. Its filter, `if c.order_ids`, matches the `not courier.order_ids` check that `pick_courier` already does. Idle couriers were skipped before and are excluded now, so the selection result is unchanged. `pick_courier` is called only from `service.py:79`, and its return contract (a courier id or `None`) hasn't changed.\n\nI left the redundant `not courier.order_ids` check in `pick_courier` alone. It does no harm.",
+  "cost_usd": 0.023889800000000003,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3026,
+    "cache_read_input_tokens": 7279,
+    "output_tokens": 364,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3026
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 213,
+        "cache_read_input_tokens": 3283,
+        "cache_creation_input_tokens": 1162,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1162,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}
