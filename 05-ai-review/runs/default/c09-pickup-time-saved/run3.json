@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c09-pickup-time-saved",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Record when the courier picks the order up\"**\n\nThe change is small and mostly sound. The check and the write both happen inside `self._lock`. The store returns a deepcopy, as the other store methods do. `picked_up_at` already exists on `Order`, and `datetime`/`timezone` are already imported in `service.py`. I have one blocking issue, which is missing tests, plus a few smaller points.\n\n**Blocking: no tests**\n- `tests/test_service.py` is unchanged. The PR needs tests for at least these cases:\n  - Pickup succeeds for an order that is `OUT_FOR_DELIVERY`, and `picked_up_at` is set to the supplied `now`.\n  - Pickup raises `ConflictError` for an order in any other status (e.g. `PREPARING`, `DELIVERED`, `CANCELLED`).\n  - A second pickup raises `ConflictError` and leaves the original timestamp unchanged.\n  - An unknown `order_id` behaves sensibly. See the `KeyError` point below.\n  - Two concurrent `pick_up` calls on the same order. Exactly one should succeed.\n\n**Suggestions**\n1. **Use the constant, not a string literal.** `store.py` compares against `\"OUT_FOR_DELIVERY\"`. `models.py` already defines `OUT_FOR_DELIVERY`, so import and use it. A typo or a rename would otherwise fail silently.\n2. **Unknown order IDs.** `self._orders[order_id]` raises a bare `KeyError`. Check how `get` and `advance` handle this and stay consistent with them. Don't let the courier app see a raw `KeyError`.\n3. **`now or datetime.now(...)`.** This works for datetimes, because they are always truthy. `now if now is not None else ...` states the intent more clearly. Also consider rejecting naive datetimes, since the default is timezone-aware and mixing the two will break ETA arithmetic later.\n4. **Courier validation.** `pick_up` doesn't check who is picking the order up. Any caller can mark any order as picked up. If the courier app passes its own courier ID, check it against `order.courier_id`. If an authorization layer sits above the service, say so in the docs. The log line also prints `courier_id` as if it were verified.\n5. **Orphaned order.** `order.courier_id` can be `None` if the order is detached. The log line would then read \"picked up by None\". Decide whether pickup should require an assigned courier, and enforce that in the store.\n6. **Pickup state is never cleared.** Check whether `advance`/`cancel`/courier detach should reset `picked_up_at`. Otherwise stale values could survive a re-dispatch.\n\n**Performance and security**\n- There are no performance concerns. The lock is held briefly, and the deepcopy matches the existing pattern.\n- The only security concern is the missing caller check in point 4.\n\nOnce tests are added and the string literal is replaced, I'd be happy to approve.",
+  "cost_usd": 0.0411964,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2926,
+    "cache_read_input_tokens": 6472,
+    "output_tokens": 1206,
+    "output_tokens_details": {
+      "thinking_tokens": 44
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2926
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 990,
+        "cache_read_input_tokens": 2858,
+        "cache_creation_input_tokens": 1487,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1487,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

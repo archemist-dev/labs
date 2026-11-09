@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c09-pickup-time-saved",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "[NIT] `orders/service.py` `pick_up`: a caller-supplied `now` is stored without checking it. The `Order` model says its datetimes are timezone-aware UTC. A courier app that passes a naive or local-time `now` would store a bad `picked_up_at` and still get success. Nothing in the repo calls `pick_up` yet, so this can't happen today. A cheap guard would be to reject a naive `now` or convert it to UTC.\n\nI found nothing else. The pickup write runs under the store lock, and the status check and the `picked_up_at` check happen in the same critical section. The store returns a copy. A repeated call or a call in the wrong state raises `ConflictError`, so it fails loudly. The default `now` is timezone-aware UTC. Pickup doesn't change a courier's chain, so the event-fed `CourierView` doesn't need to hear about it.",
+  "cost_usd": 0.0394636,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 4254,
+    "cache_read_input_tokens": 12383,
+    "output_tokens": 714,
+    "output_tokens_details": {
+      "thinking_tokens": 162
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 4254
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 375,
+        "cache_read_input_tokens": 5040,
+        "cache_creation_input_tokens": 633,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 633,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

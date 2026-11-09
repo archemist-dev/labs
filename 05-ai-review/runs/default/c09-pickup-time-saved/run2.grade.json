@@ -1,0 +1,10 @@
+{
+  "comments": 5,
+  "blocking": 1,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "Only blocking comment is missing tests (a test suggestion, not a false alarm); rest are suggestions.",
+  "judge_model": "manual (read by Claude, 2026-11-09)"
+}

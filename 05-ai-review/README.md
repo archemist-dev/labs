@@ -76,13 +76,13 @@ Reviewer model claude-sonnet-5-5, judge claude-opus-5-5, Claude Code 2.1.280. Ra
 
 | Level | Silent failures caught (of 10) | False alarms per clean PR | Comments per PR | Cost per PR |
 |---|---|---|---|---|
-| 1. Default prompt | 10 in every run | 0.3 | 5.7 | $0.041 |
-| 2. Checklist prompt | 10 in every run | 0 | 1.8 | $0.031 |
-| 3. Checklist, blocking only | 10 in every run | 0 | 0.7 | $0.031 |
+| 1. Default prompt | 10 in every run | 0.3 (0.2-0.4) | 5.5 | $0.040 |
+| 2. Checklist prompt | 10 in every run | 0 | 1.6 | $0.030 |
+| 3. Checklist, blocking only | 10 in every run | 0 | 0.5 | $0.030 |
 
-Every catch was a blocking comment that names the bug. I spot-checked 4 grades against the review text. False alarms leave out c09, whose first version had a real bug: it read, changed and saved the whole order, so a concurrent change could be lost. The reviewers flagged that correctly. c09 and b09 were fixed afterwards and not re-run; b09's old version was caught 3 of 3 by both reviewers. With c09 included, the rates are 0.7 and 0.3.
+Every catch was a blocking comment that names the bug. Grades are by the judge, except b09 and c09. Their first versions were changed after the run: c09 had a real bug (it read, changed and saved the whole order, so a concurrent change could be lost), and the reviewers flagged it correctly. Both PRs were re-run 3 times per reviewer on 2026-11-09 and graded by hand (marked manual in the grade files). I spot-checked 4 judge grades against the review text. The default reviewer's false alarms are mostly blocking requests about other behaviour: timeouts not retried (already true before the PR) and created day vs delivered day.
 
-Monthly review cost: $4 / $18 / $88 (default) and $3 / $13 / $67 (checklist) at 20 / 100 / 500 PRs a week. Review cost only.
+Monthly review cost: $4 / $18 / $88 (default) and $3 / $13 / $66 (checklist) at 20 / 100 / 500 PRs a week. Review cost only.
 
 ### Rules not written down: default prompt, 10 bug PRs
 

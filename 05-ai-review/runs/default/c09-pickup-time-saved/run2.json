@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c09-pickup-time-saved",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Record when the courier picks the order up\"**\n\nThe change is small and mostly sound. The check and the write both happen under the store lock, so the \"only once, only while out for delivery\" guard can't be raced. It returns a deepcopy, like the other store methods. `picked_up_at` already exists on `Order`, and `datetime`/`timezone` are already imported in the service. I have a few things to fix and one blocking gap.\n\n**Blocking: no tests**\n- Nothing in `tests/` covers `pick_up` or `set_picked_up`. At minimum, add tests for:\n  - the happy path: an order out for delivery gets `picked_up_at` set to the given `now`;\n  - a second `pick_up` raises `ConflictError` and leaves the original timestamp unchanged;\n  - an order in PAID, PREPARING, DELIVERED or CANCELLED raises `ConflictError`;\n  - the default `now` is timezone-aware UTC.\n- A concurrency test would be worth adding, since the lock is the point of the design. Run two threads calling `pick_up` and assert exactly one succeeds.\n\n**Issues and suggestions**\n1. **Unknown order id.** `self._orders[order_id]` raises a bare `KeyError`. Check how `get` and `advance` handle this, and behave the same way. The courier app will call this endpoint, so a bad id shouldn't surface as a 500.\n2. **Magic string.** `store.py` compares against the literal `\"OUT_FOR_DELIVERY\"`. `models.OUT_FOR_DELIVERY` already exists, and `service.py` imports it. Import and use the constant so the two can't drift apart.\n3. **`now or datetime.now(...)`.** Use `now if now is not None else ...`. A falsy `now` is unlikely with datetime, but `is None` is the correct idiom. Also consider rejecting naive datetimes from callers, because mixing naive and aware values will break ETA arithmetic later.\n4. **Authorization.** `pick_up` doesn't check that the caller is the courier assigned to the order. Anyone who can call the service could mark any order as picked up, and that would skew ETAs. If the courier app passes its identity, add a `courier_id` parameter and verify it against `order.courier_id` inside the lock. If auth is handled at a higher layer, say so in the docstring.\n5. **Logging.** The log line is fine. `order.courier_id` could be `None` in theory, but `attach_order` should prevent that for out-for-delivery orders. Also add a docstring to `pick_up` describing the `ConflictError` it raises.\n6. **Error message.** \"cannot be picked up in {status}\" is misleading when the real cause is that the order was already picked up (status is still OUT_FOR_DELIVERY). Use separate messages for the two cases.\n\nOnce the tests are added and items 1, 2 and 6 are fixed, this is good to merge. Please also confirm item 4 is intended.",
+  "cost_usd": 0.053922399999999995,
+  "usage": {
+    "input_tokens": 12,
+    "cache_creation_input_tokens": 3868,
+    "cache_read_input_tokens": 16032,
+    "output_tokens": 1510,
+    "output_tokens_details": {
+      "thinking_tokens": 35
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3868
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 982,
+        "cache_read_input_tokens": 3310,
+        "cache_creation_input_tokens": 1977,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1977,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 6
+}

@@ -1,0 +1,10 @@
+{
+  "comments": 4,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "Blocking: get returns a copy and pick_up never writes it back; quotes the store docstring.",
+  "judge_model": "manual (read by Claude, 2026-11-09)"
+}
