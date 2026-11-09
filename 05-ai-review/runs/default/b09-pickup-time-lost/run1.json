@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b09-pickup-time-lost",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Record when the courier picks the order up\"**\n\n**Blocking: `pick_up` never persists anything.**\n`store.get()` returns a deep copy, as the `OrderStore` docstring says. `pick_up` sets `picked_up_at` on that copy and returns it, and it never writes it back. The stored order is unchanged. The caller sees a populated `picked_up_at` on the returned object, but the next `store.get()` returns `None`. Nothing is recorded, so ETA tracking would never see the pickup time. The log line also says \"picked up\" when nothing was saved.\n\nThe store has no method that sets this field. The options are:\n- Add a compare-and-set method like `update_status`, for example `store.mark_picked_up(order_id, at)`. It would take the lock, check `status == OUT_FOR_DELIVERY and picked_up_at is None`, set the field, and raise `ConflictError` otherwise.\n- Or call `store.save(order)` after the change. That is a read-modify-write and would overwrite concurrent status changes, so I'd avoid it. The store docstring points to the compare-and-set style for concurrent changes.\n\n**Race condition.**\nThe check-then-set in `pick_up` is not atomic. Two courier-app retries, or a pickup racing a `deliver` or `cancel`, can both pass the guard. Doing the check inside the store's lock, as above, fixes this and makes the \"already picked up\" guard reliable. A double-tap from the app is a realistic case.\n\n**Smaller points**\n- Guard errors raise `ValueError`, the same as `advance`. That is consistent. A concurrent loss should surface as `ConflictError`, as it does elsewhere in the store.\n- `now or datetime.now(...)` is fine. If a caller passes a naive datetime, it would break the \"timezone-aware, UTC\" convention in `models.py`. Consider rejecting naive values.\n- The log line reads `order.courier_id`, which can be `None` if the order was detached. That is harmless but worth knowing.\n- `pick_up` doesn't add a history entry. `history` only records statuses, so that is probably intended. Say so if it is.\n\n**Tests**\nThe PR adds none. Please add tests for:\n- the happy path, which asserts `store.get(id).picked_up_at` is set. This is the test that would have caught the bug above, so it must read back from the store and not check the returned object;\n- calling it twice, which should be rejected;\n- calling it in a non-`OUT_FOR_DELIVERY` state such as `PAID` or `DELIVERED`;\n- an explicit `now` being honoured.\n\n**Security and performance**\nNothing notable for performance. `pick_up` takes no courier identity, so nothing checks that the caller is the courier assigned to the order. If the courier app's auth layer doesn't enforce that, consider passing `courier_id` and verifying it matches `order.courier_id`.\n\nI'd request changes, mainly because of the persistence bug.",
+  "cost_usd": 0.0602462,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 6470,
+    "cache_read_input_tokens": 9291,
+    "output_tokens": 1245,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 6470
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 980,
+        "cache_read_input_tokens": 4548,
+        "cache_creation_input_tokens": 1922,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1922,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

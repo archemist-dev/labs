@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b01-chain-from-view",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Read courier chains from the courier view in pick_courier**\n\n**1. The primary read load is mostly still there (performance).**\n`pick_courier` still loops over `store.couriers()`. That call deep-copies every `Courier` under the store lock, so the per-order scan of every courier on the primary stays. The PR only replaces the `courier.order_ids` read. It still calls `store.get(chained[-1])` for each candidate, so the order reads also remain. The stated goal was to cut the primary's read load at dinner peak, and this change doesn't do that.\n\n- Iterate `view.courier_ids()` instead.\n- `max_orders` currently comes from `Courier`, so the view needs to carry it or you need a cached courier-config lookup.\n- Otherwise the load doesn't move.\n\n**2. The view is stale, which causes correctness problems.**\nThe view is refreshed by a background job every 1s. `CourierView` is eventually consistent, and `pick_courier` now makes decisions with it.\n\n- **Stale chains.** A courier who was just attached to an order, or detached from one, shows an old chain for up to about 1s. Two orders arriving close together can both pick the same courier, based on the old \"last order\". The second `attach_order` often succeeds anyway, because it only checks capacity. So the chain is built from a stale \"closest last stop\" and the detour check (`MAX_DETOUR`) is not honoured.\n- **Over-capacity decisions.** `len(chained) >= max_orders` uses the stale length. The store's `attach_order` catches a full courier with `ConflictError`, and `service.chain` then returns `None`. Under a burst, orders that could have been chained will fall back to normal dispatch. That is safe but wasteful.\n- **Detached orders.** If an order was detached (reassignment, or the courier ending a shift), the view can still name it as `chained[-1]`. `store.get` still works, so the code measures the detour from a stop the courier no longer has.\n- **Mixed sources.** The loop's `courier.order_ids` (fresh) and `chained` (stale) used to be the same value. Now `not chained` can skip a courier who has just been assigned, or include one who is now empty. That is minor, but it shows that the two sources are inconsistent.\n\nThe view was built for the dispatcher screen, where one second of lag is fine. Using it for assignment needs a deliberate decision. Options:\n- Accept the staleness and document it.\n- Have `attach_order` validate that the courier's current last order matches what the picker saw (compare-and-set).\n- Call `view.catch_up()` before picking. That is cheap, because it only applies new events.\n\n**3. Concurrency in the view.**\n`catch_up` mutates `_chains` and `_position` from the refresher thread. Request threads now read it on the hot path. Each `dict` operation is atomic under the GIL, but `catch_up` is not safe if two threads call it at once. `self._position += len(events)` can double-apply or skip events. That is a risk if anyone adds a `catch_up()` call in the request path, as suggested above. It would need a lock.\n\n**4. API change.**\n`pick_courier(store, view, order)` changes a public signature. I only found the one caller, which is updated. Consider making `view` the primary argument and passing a courier-capacity source explicitly.\n\n**5. Tests.**\n- `test_chain_onto_nearby_courier` calls `svc.view.catch_up()` by hand. That hides the staleness issue, because it never covers a lagging view.\n- Please add tests for:\n  - A view that lags behind the store: a courier who has just been filled, and a detached order.\n  - Two quick consecutive `chain()` calls with no `catch_up()` between them.\n  - A courier absent from the view.\n- There are no direct tests for `pick_courier`.\n\n**Security:** no concerns.\n\n**Verdict:** request changes. The change doesn't remove the main primary read, and it makes a decision on stale data without any guard against that.",
+  "cost_usd": 0.06086060000000001,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 4849,
+    "cache_read_input_tokens": 11573,
+    "output_tokens": 1657,
+    "output_tokens_details": {
+      "thinking_tokens": 30
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 4849
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1309,
+        "cache_read_input_tokens": 4979,
+        "cache_creation_input_tokens": 1289,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1289,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

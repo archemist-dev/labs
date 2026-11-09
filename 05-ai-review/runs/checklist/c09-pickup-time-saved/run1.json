@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c09-pickup-time-saved",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\n- **Concurrency:** `set_picked_up` does its status check, its `picked_up_at is None` check and the write under `self._lock`. Two concurrent pickups can't both succeed, and the loser gets a `ConflictError`. It returns a deep copy, which matches the store's documented contract.\n- **Failure signaling:** A wrong status or a repeat pickup raises `ConflictError`. Nothing is caught or swallowed. An unknown `order_id` raises `KeyError`, which is loud.\n- **Time:** The default `datetime.now(timezone.utc)` is timezone-aware UTC, as `Order.created_at` expects. `now or ...` only falls back on `None`, because a `datetime` is always truthy.\n- **Read models:** `picked_up_at` isn't used by `CourierView` or by the chain events. Setting it publishes no event, but no reader depends on one.\n- **Logging:** `order.courier_id` may be `None` in the log line. That only affects the log text.\n\n[NIT] `pick_up` accepts a caller-supplied `now` without checking it. A naive datetime would be stored as-is, which breaks the \"timezone-aware UTC\" convention. The only in-repo caller passes nothing, so I couldn't find a concrete trigger.",
+  "cost_usd": 0.0375722,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3816,
+    "cache_read_input_tokens": 7341,
+    "output_tokens": 781,
+    "output_tokens_details": {
+      "thinking_tokens": 144
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3816
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 574,
+        "cache_read_input_tokens": 3361,
+        "cache_creation_input_tokens": 1874,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1874,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

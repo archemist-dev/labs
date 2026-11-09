@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b01-chain-from-view",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**[BLOCKING]** `orders/chain.py`, `pick_courier`: it now reads the courier's chain from `CourierView`, and `views.py` documents that view as \"Eventually consistent: it lags the store by a few seconds\u2026 Display only; decisions read the store.\" Choosing a courier is a decision, so this breaks that rule.\n\n- **Stale chain, wrong detour.** Suppose a courier has just been chained to order X, and the view has not caught up yet. `view.chain` returns the old chain, so `chained[-1]` is the previous order. The detour is then measured from the wrong address. The courier can be picked when they are really more than 800 m away, or a closer courier can be skipped. The call returns a valid courier id and raises nothing.\n- **Empty chain, courier skipped.** A courier whose chain is not in the view yet gets `[]`, because `chain()` defaults missing couriers to `[]`. The code reads that as \"no chain\" and skips them. If the courier's chain is genuinely empty, skipping is correct. If the view just hasn't seen their events, it is silent data loss, and the view also lags more under load, which is the dinner-peak case this PR targets.\n- **Full courier looks free.** A courier at `max_orders` can look like they have room. `attach_order` then raises `ConflictError`, and `OrderService.chain` catches it and returns `None`, so the order falls back to normal dispatch. The caller sees success with no chaining and no log line, so the stale read is hidden. Under load the chaining feature quietly gets worse.\n\nThe PR also doesn't achieve its stated goal. `pick_courier` still calls `store.couriers()` on every order, and that call is the full read of every courier from the primary. It still calls `store.get(chained[-1])` as well. Only the `order_ids` source changed, so the load isn't reduced but correctness is.\n\nTo cut load safely, keep the store as the source of truth for chains. A cheaper store query would do that, or the view could be used only as a pre-filter with the final check made against the store.",
+  "cost_usd": 0.0390378,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3993,
+    "cache_read_input_tokens": 7344,
+    "output_tokens": 879,
+    "output_tokens_details": {
+      "thinking_tokens": 33
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3993
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 669,
+        "cache_read_input_tokens": 3342,
+        "cache_creation_input_tokens": 2070,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 2070,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

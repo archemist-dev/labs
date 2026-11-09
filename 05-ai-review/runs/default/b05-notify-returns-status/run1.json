@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b05-notify-returns-status",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Blocking: this change breaks the retry path in `OrderService.dispatch`.**\n\n`orders/service.py:92-97` still relies on the old contract:\n\n```python\ntry:\n    self.notifier.send(order.courier_id, text)\nexcept NotifyError:\n    log.warning(...)\n    self.outbox.add(order.courier_id, text)\n```\n\n`send` no longer raises `NotifyError`, so the `except` branch is now dead code. A failed courier SMS is logged once inside `Notifier` and then dropped. It never reaches `Outbox`, so the worker that retries every minute never sees it. The result is that couriers silently stop getting pickup messages whenever the provider has a hiccup. That is the exact case this PR calls expected. The PR didn't touch `service.py`, so nothing flags the problem.\n\nFix: change `dispatch` to use the return value.\n\n```python\nif not self.notifier.send(order.courier_id, text):\n    self.outbox.add(order.courier_id, text)\n```\n\nThen drop the now-unused `NotifyError` import from `service.py`. If nothing else uses `NotifyError`, remove the class too. Otherwise it is a leftover that suggests `send` still raises.\n\n**Other issues**\n\n1. **Timeouts may still raise.** The docstring says `send` returns False on a timeout. The code only checks `resp.ok`. If `self.sms.send` raises on a timeout or connection error, which is common for HTTP clients, the exception still propagates out of `dispatch`, after the order has already moved to OUT_FOR_DELIVERY. Either catch the provider's exceptions in `Notifier.send` and return False, or correct the docstring. I'd catch them.\n2. **Tests don't cover this.** `FakeNotifier.send` returns `None`, which is falsy. Once `dispatch` is fixed, the existing test would treat every send as a failure. Make the fake return `True`. Add these tests:\n   - `dispatch` with a failing notifier puts the message in `outbox.pending`.\n   - `Notifier.send` returns True on success, and returns False and logs on failure.\n   - A timeout case, if you handle it.\n3. **PII in logs.** `log.warning` writes the full phone number `to` to the logs. Consider masking it, for example by showing only the last 4 digits. Provider `resp.error` text can also contain the number.\n4. **Silent-failure risk for callers.** A bool return is easy to ignore, and that is what happened here. Check for other callers outside this repo, such as jobs or the outbox worker. My grep found only `service.dispatch` in this repo. Consider whether the outbox retry worker, which is not in this repo snapshot, relies on `NotifyError` too.\n\nPlease don't merge until `dispatch` is updated and tested.",
+  "cost_usd": 0.0442998,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 3067,
+    "cache_read_input_tokens": 13324,
+    "output_tokens": 1313,
+    "output_tokens_details": {
+      "thinking_tokens": 40
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3067
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 923,
+        "cache_read_input_tokens": 3751,
+        "cache_creation_input_tokens": 735,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 735,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

@@ -1,0 +1,11 @@
+{
+  "comments": 6,
+  "blocking": 2,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The blocking comment quotes the money.py rule that promos apply to the item subtotal only, never to delivery or surge fees, and says the PR breaks it by discounting subtotal + delivery_fee. The cost comment also names the effect: the discount grows with the fee. The missing-tests comment is the second blocking one, since the review says the PR \"needs\" those tests before merge.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0210548
+}

@@ -1,0 +1,11 @@
+{
+  "comments": 4,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review correctly finds no defect: it notes that the default of 0 never trips the check, which matches the answer key. Its four bullets are observations, and it says outright that it is not flagging the promo point, so none of them claims a defect.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0178198
+}

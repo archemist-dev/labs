@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c07-zone-min-order",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Minimum order per zone**\n\nThe change is small and the check is in a sensible place. It runs before `store.save`, stock reservation and payment, so a rejected order leaves nothing to clean up. The `0 = no minimum` default keeps existing zones working. I have a few points, one of them significant.\n\n**1. No tests (should fix before merge)**\nThe diff adds no tests. `tests/test_service.py` exists, so please add cases for:\n- a subtotal below the minimum is rejected, and no order is saved, no stock is reserved and no charge is made\n- a subtotal exactly equal to the minimum is accepted (this pins the `<` boundary)\n- a subtotal above the minimum is accepted\n- `min_order_pence=0` never rejects, including an empty or zero-value basket\n- a zone with a minimum, loaded through `load_zones`, to confirm the field passes through\n\n**2. Is the minimum meant to apply before or after the promo? (needs a decision)**\nThe check uses the pre-discount subtotal. With a 20% promo, a \u00a310 minimum can be met by a \u00a310 basket that then pays \u00a38 plus delivery. That may be what you want, since many businesses define the minimum on the basket value. If the minimum is meant to protect margin, it should apply after the discount. Please confirm which, and add a test and a comment that fix the behaviour.\n\n**3. The feature does nothing yet**\nNeither zone in `ZONES` sets `min_order_pence`, so no zone enforces a minimum. If that is intentional because the values come from the config service, say so in the PR description. Otherwise add the values.\n\n**4. Interaction with the delivery fee and `free_over_pence` (minor)**\nThe check does not consider the fee. That seems fine, but a zone could set `min_order_pence` above `free_over_pence` or below it. A short note on the intended relationship would help.\n\n**5. Error handling and UX (minor)**\n- The failure is a bare `ValueError` with a pence amount in the message, the same as the other validation errors here. If the API layer shows this text to guests, \"299 pence\" reads badly. A dedicated exception such as `MinimumOrderError`, carrying the minimum and the shortfall, would let callers show \"add \u00a3X more\". It would also stop callers from treating this as a generic `ValueError`.\n- The check could sit next to the other validations, before the `Order` object is built. It only needs `zone` and `money.subtotal(items)`. That is cosmetic.\n\n**6. Config validation (minor)**\n`Zone` accepts a negative `min_order_pence`. A negative value behaves like 0, which is harmless. A `__post_init__` check would catch config typos early.\n\n**Performance and security**\nNo concerns. The check is O(1) on a value that is already computed, and it is enforced server-side, so clients can't bypass it.\n\n**Summary:** The logic is correct as written. I'd like tests added and a decision on the pre- or post-discount question before approving.",
+  "cost_usd": 0.0434352,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3520,
+    "cache_read_input_tokens": 6356,
+    "output_tokens": 1227,
+    "output_tokens_details": {
+      "thinking_tokens": 104
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3520
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1072,
+        "cache_read_input_tokens": 2769,
+        "cache_creation_input_tokens": 2170,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 2170,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

@@ -1,0 +1,11 @@
+{
+  "comments": 4,
+  "blocking": 2,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review's first, blocking comment names the seeded bug: geo.distance returns km but is compared to MAX_DETOUR in metres, so the check never fires. It also gives the geo.distance_m fix. I counted the missing tests as a second blocking item because the review's closing line requires them before merge; the security line raises nothing, so I didn't count it as a comment.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0222098
+}

@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b01-chain-from-view",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Read courier chains from the courier view in pick_courier**\n\n**1. The primary load isn't actually removed (main concern).**\n`pick_courier` still calls `store.couriers()`. That call deep-copies every `Courier` under the store lock, and it was the expensive part of the old code. The change only swaps `courier.order_ids` for `view.chain(courier.id)`. The per-order `store.get` for the last chained order also remains. The PR description says the goal is to cut the primary's read load, and this change doesn't do that. To get there, iterate `view.courier_ids()` and read `max_orders` from somewhere cheap. For example, the view could cache `max_orders`, or you could keep a small courier-config cache. `store.get_courier` is only a stopgap, since it still reads from the primary.\n\n**2. The view is stale, and the code makes decisions that depend on it being fresh.**\n`CourierView` is only updated by the background job calling `catch_up()`. It lags the store by some interval.\n- **Missed chaining:** a courier who just got an order can look empty, or their last chained order can be out of date. The code then measures the detour from the wrong order and may pick the wrong courier or skip a valid one.\n- **Stale last order:** after `detach_order`, `chained[-1]` can still point to a removed order. `store.get` on it then returns an order that is no longer on that courier.\n- **Capacity check:** the `len(chained) >= max_orders` check can pass on stale data. `attach_order` re-checks capacity and raises `ConflictError`, and `service.chain` swallows that and returns `None`. That is safe, but under bursts at peak more orders will silently fall back to normal dispatch.\n- **Mismatched sources:** `courier.max_orders` comes from the store and the chain comes from the view, so the two are checked against different snapshots.\n\nThe conflict check in `attach_order` means correctness holds. What suffers is chaining quality. Please state explicitly that this tradeoff is accepted, and add a metric for how often `chain` returns `None` after a `ConflictError`. Also check how often `jobs.py` runs `catch_up`, because that sets the staleness window.\n\n**3. Thread safety of the view.**\n`catch_up` mutates `_chains` and `_position` in the job thread with no lock. Request threads now read `_chains` on the hot path. `chain()` copies a list that a concurrent `catch_up` might be replacing, and `courier_ids()` iterates a dict that might be growing. The dict-growth case can raise `RuntimeError: dictionary changed size during iteration`. Before this PR only the dispatcher screen read the view. Now it is on the order path, so it needs a lock or a copy-on-write swap of `_chains`.\n\n**4. Design.**\n`pick_courier(store, view, order)` takes both the store and the view, and the reader has to know which fields come from which. Consider a single small interface, or have the view expose what `pick_courier` needs (chain plus capacity).\n\n**5. Tests.**\nThe one existing test calls `view.catch_up()` manually before chaining, so it passes. Nothing covers these cases:\n- The view hasn't caught up, so a courier whose chain has just changed is stale.\n- `detach_order` has run but the view is stale.\n- A `ConflictError` fallback after a stale capacity read.\n- A courier at `max_orders`, or a courier with no chain.\n\nPlease add tests for these. If you fix point 1, also add one that asserts `store.couriers()` is not called.\n\n**Verdict:** request changes. The staleness is acceptable if it is deliberate, but the main goal isn't met yet, and the unlocked view is a real race now that it is on the request path.",
+  "cost_usd": 0.057141800000000006,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 4659,
+    "cache_read_input_tokens": 11329,
+    "output_tokens": 1521,
+    "output_tokens_details": {
+      "thinking_tokens": 32
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 4659
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1219,
+        "cache_read_input_tokens": 4737,
+        "cache_creation_input_tokens": 1341,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1341,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

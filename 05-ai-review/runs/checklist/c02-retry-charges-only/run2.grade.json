@@ -1,0 +1,11 @@
+{
+  "comments": 4,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review says the change is correct and gives four confirming observations: the key is the same on every attempt, refunds stay single-attempt, exhausted retries still raise, and non-transient statuses aren't retried. None of them claims a defect, which matches the answer key for this clean PR.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0156998
+}

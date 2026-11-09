@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b02-http-retry",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/http.py` `Http.post` now retries every POST, but `PaymentClient.refund` (`payments.py:44`) sends no idempotency key. `payments.py` says \"every POST /refunds creates a new refund.\"\n\n- **Trigger:** the provider applies a refund and then returns 502, 503 or 504, or times out before the response arrives. `TransientError` is documented as \"the provider may or may not have applied the request\", and that is exactly this case.\n- **What happens:** `Http.post` resends the same body, and the provider creates a second refund. If the second attempt returns 200, `refund()` returns `RefundResult(ok=True)`. The guest is refunded twice, and no error is raised or logged.\n- **Fix:** make retry opt-in, for example `attempts=1` by default. Only `charge` would pass `attempts=3`, because it sends an `Idempotency-Key`. Alternatively, add an idempotency key to refunds if the provider supports one.\n\nCharges are safe to retry. `charge` sends `Idempotency-Key=order.id`, and the provider returns the first charge for a repeated key.\n\n[NIT] The PR description says timeouts are retried. Only 408 and 5xx status codes are retried. If `session.post` raises on a timeout, that exception propagates on the first attempt and is not retried. This is not a silent failure, but the behaviour doesn't match the description.",
+  "cost_usd": 0.029446,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2796,
+    "cache_read_input_tokens": 7210,
+    "output_tokens": 700,
+    "output_tokens_details": {
+      "thinking_tokens": 90
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2796
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 557,
+        "cache_read_input_tokens": 3229,
+        "cache_creation_input_tokens": 986,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 986,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

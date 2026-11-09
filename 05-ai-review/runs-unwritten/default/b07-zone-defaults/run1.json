@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b07-zone-defaults",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Request changes. This change makes delivery free in every zone that has no threshold.**\n\n**Blocking bug: `orders/money.py:16`**\n\n`delivery_fee` still checks `zone.free_over_pence is not None`. With the new default of `0`, that check is always true. Any subtotal satisfies `subtotal_pence >= 0`, so the function returns `0`.\n\nCB4 has no `free_over_pence`, so it now gets the default of `0`. Before this PR it got `None` and was always charged 349p, plus surge. After it, CB4 delivery is always free. Surge pricing is also skipped for any zone that relies on the default. This silently loses revenue and nothing raises an error.\n\nThe PR changes what `0` means, from \"a valid threshold\" to \"no threshold\", but it leaves the consumer unchanged. The fix is to make `0` mean \"disabled\" in `delivery_fee`:\n\n```python\nif zone.free_over_pence > 0 and subtotal_pence >= zone.free_over_pence:\n    return 0\n```\n\n**Smaller points**\n- The new comment on the field should also say that `0` means no free-delivery threshold. That is the real contract now, and it is what caused this bug.\n- A bare `0` means \"never\" for `free_over_pence`, but `0` for `surge_pence` means \"no surge\". That is fine, but it is worth documenting, because a free-over-\u00a30 zone can no longer be expressed. That seems acceptable.\n- The config service may send `null` rather than omitting the field. `Zone(**fields)` would then put `None` into an `int` field at runtime, and mypy can't catch that because the input is a raw dict. Consider coercing in `load_zones`, for example `fields.get(\"free_over_pence\") or 0`, or validating the input.\n\n**Tests**\n- I found no test covering `delivery_fee` with a zone that has no threshold. `tests/test_service.py` is the only test file, and the diff doesn't touch it.\n- Please add these cases:\n  - CB4 charges 349p at a large subtotal.\n  - CB4 charges 349p + 150p with surge.\n  - CB1 is free at exactly 2500p.\n  - CB1 is charged at 2499p.\n  - A zone built with the default `free_over_pence` is charged.\n\nThe type cleanup is reasonable, but I wouldn't merge it until `delivery_fee` is updated and tests cover the default case.",
+  "cost_usd": 0.0323104,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1838,
+    "cache_read_input_tokens": 6172,
+    "output_tokens": 1037,
+    "output_tokens_details": {
+      "thinking_tokens": 81
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1838
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 875,
+        "cache_read_input_tokens": 2564,
+        "cache_creation_input_tokens": 693,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 693,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

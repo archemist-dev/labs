@@ -1,0 +1,11 @@
+{
+  "comments": 8,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The blocking comment names the seeded bug directly. `send` no longer raises, so the `except NotifyError` branch in `dispatch` never runs. A failed SMS is only logged and never added to the Outbox, so the courier is never told about the pickup. The other 7 comments are 3 test suggestions and 4 smaller points.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.021699799999999998
+}

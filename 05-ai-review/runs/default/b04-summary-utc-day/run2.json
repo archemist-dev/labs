@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b04-summary-utc-day",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Kitchen summary: orders and revenue for one day\"**\n\n**Blocking: the day is bucketed in UTC, not London time**\n\n`kitchen_summary` filters on `o.created_at.date() == day`. `date()` returns the date in the timestamp's own timezone, and `london_day`'s docstring says these timestamps are UTC. The module's own rule is that \"Kitchens open, close and report in London time\", and `daily_revenue` already follows it by calling `london_day(o.created_at)`.\n\nDuring BST (late March to late October), an order placed at 23:30 London time on the 5th is stored as 22:30 UTC on the 5th, so it lands on the right day. An order placed at 00:30 London time on the 6th is stored as 23:30 UTC on the 5th. That order is counted in the 5th's summary instead of the 6th's. Late-night and early-morning orders get attributed to the wrong day. This would make `kitchen_summary` disagree with `daily_revenue` for the same day.\n\nSuggested fix:\n```python\ndelivered = [o for o in orders if o.status == DELIVERED and london_day(o.created_at) == day]\n```\nThis also fails loudly on naive datetimes. `astimezone` treats a naive value as system-local time, so make sure `created_at` is always tz-aware.\n\n**Design: avoid duplicating logic**\n\nThis duplicates the filter that `daily_revenue` already applies. It would be simpler to have both share one helper, or to build the summary from `daily_revenue` plus a count. That way the two can't drift apart again.\n\n**Tests**\n\nThe PR adds no tests, and `tests/` only contains `test_service.py`. Please add tests for:\n- An order at 23:30 UTC during BST, which belongs to the next London day.\n- An order just before and just after London midnight, in both BST and GMT.\n- A DST transition day (the 23-hour and 25-hour days).\n- Non-delivered orders being excluded.\n- A day with no orders, which should return 0 orders and 0 revenue.\n- Consistency with `daily_revenue`.\n\n**Minor**\n- Add a type hint for `day` (`datetime.date`) and document that it is a London calendar date.\n- The one-line dict return is dense. Splitting it across lines would read better.\n- If `orders` is large, a single pass computing the count and sum together would avoid building an intermediate list. This is low priority.\n- I have no security concerns. The function is pure and takes no external input.\n\nPlease fix the timezone bug and add tests before merging.",
+  "cost_usd": 0.029683000000000005,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1572,
+    "cache_read_input_tokens": 6095,
+    "output_tokens": 1029,
+    "output_tokens_details": {
+      "thinking_tokens": 49
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1572
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 830,
+        "cache_read_input_tokens": 2499,
+        "cache_creation_input_tokens": 492,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 492,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

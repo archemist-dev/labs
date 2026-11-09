@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b07-zone-defaults",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Blocking: this change breaks delivery fees for every zone that has no free-delivery offer.**\n\n`delivery_fee` in `orders/money.py:19` still reads:\n\n```python\nif zone.free_over_pence is not None and subtotal_pence >= zone.free_over_pence:\n    return 0\n```\n\nBefore this PR, `None` meant \"no offer in this zone\". With the new default of `0`, the `is not None` check is always true. The condition then reduces to `subtotal_pence >= 0`, which is true for every order. As a result, delivery is free for any zone that omits `free_over_pence`. In the current config that is CB4, which would charge 0 instead of 349 (or 499 with surge). The surge fee is skipped for the same reason. That is direct revenue loss. mypy won't catch it, and the type-checker complaint goes away while the behaviour changes.\n\n**Fix.** 0 is now the \"no offer\" sentinel, so `delivery_fee` needs to treat it that way:\n\n```python\nif zone.free_over_pence > 0 and subtotal_pence >= zone.free_over_pence:\n    return 0\n```\n\nAlso update the field comment to say so, for example `# 0 = no free-delivery offer`. Otherwise the next reader will take 0 to mean \"free over 0p\".\n\n**Smaller points**\n- **Sentinel limitation:** with 0 as the sentinel, you can no longer express \"free delivery on all orders\" for a zone. That is probably fine, but it is worth stating explicitly.\n- **Config service:** if the service sends `0` for \"no offer\", this works. If it ever sends `null`, `Zone(**fields)` will now silently accept `None` at runtime, because dataclasses don't validate types. `delivery_fee` would then raise a `TypeError` on the `> 0` comparison. Consider coercing or validating in `load_zones`.\n- **Tests:** nothing in `tests/` covers `delivery_fee` or `load_zones`. A regression test would have caught this. I'd add tests for:\n  - a zone with no offer (CB4) charging its full fee, with and without surge\n  - a zone with an offer (CB1) being free at exactly the threshold and charged just below it\n  - `load_zones` defaulting `free_over_pence` to 0\n\nI'd request changes until `delivery_fee` is updated and tests are added.",
+  "cost_usd": 0.031811599999999995,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 1990,
+    "cache_read_input_tokens": 9148,
+    "output_tokens": 1000,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1990
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 774,
+        "cache_read_input_tokens": 3023,
+        "cache_creation_input_tokens": 386,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 386,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b05-notify-returns-status",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/service.py:92-97`, `OrderService.dispatch`: the courier pickup SMS is now silently dropped when sending fails.\n- `dispatch` still wraps `notifier.send` in `except NotifyError` and queues the message in `outbox` for retry.\n- `Notifier.send` no longer raises, so that handler never runs. `dispatch` ignores the returned `False`.\n- Input that triggers it: any provider rejection or timeout, such as a bad number or a provider hiccup.\n- Result: the order moves to OUT_FOR_DELIVERY and `dispatch` returns normally. Nothing is added to the outbox, so there is no retry. The only trace is a `log.warning` inside `Notifier`, and the courier is never told about the pickup.\n- Fix: in `dispatch`, check the return value with `if not self.notifier.send(...): self.outbox.add(...)`. Alternatively, keep raising `NotifyError`.\n\n[NIT] `orders/notify.py` `Notifier.send`: the new warning logs the full phone number `to`. That is a minor PII concern. The old exception message carried it too, but it is now written to logs on every failure.\n\n[NIT] `NotifyError` is now unused once `dispatch` is fixed to check the return value. Leaving it, and the `except NotifyError` handler, misleads readers into thinking the failure path still works.\n\n[NIT] `tests/test_service.py` uses a `FakeNotifier` that, from what I could see, never fails. No test covers the failure path, which is why this regression passes.",
+  "cost_usd": 0.037278,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 3299,
+    "cache_read_input_tokens": 14615,
+    "output_tokens": 891,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3299
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 526,
+        "cache_read_input_tokens": 3989,
+        "cache_creation_input_tokens": 729,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 729,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 6
+}

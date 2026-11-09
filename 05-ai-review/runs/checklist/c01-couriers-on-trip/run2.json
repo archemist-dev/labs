@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c01-couriers-on-trip",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\n`couriers_on_trip()` filters on `c.order_ids` under the same lock and still returns deep copies. The old loop already skipped couriers with an empty `order_ids`, so `pick_courier` returns the same result as before. The change doesn't alter how `couriers()` behaves. It also doesn't alter the copy semantics or the event publishing.",
+  "cost_usd": 0.0243428,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3330,
+    "cache_read_input_tokens": 7144,
+    "output_tokens": 312,
+    "output_tokens_details": {
+      "thinking_tokens": 54
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3330
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 124,
+        "cache_read_input_tokens": 3147,
+        "cache_creation_input_tokens": 1602,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1602,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

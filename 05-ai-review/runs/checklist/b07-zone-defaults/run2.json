@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b07-zone-defaults",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/config.py` and `orders/money.py`: delivery becomes free for every order in zones with no free-delivery offer.\n\nThe old default `None` meant \"no offer in this zone\". The PR changes the default to `0`, but `delivery_fee` in `orders/money.py` still checks `zone.free_over_pence is not None`. With the new default, that check is always true, and `subtotal_pence >= 0` holds for any order.\n\nConcrete case: zone CB4 leaves out `free_over_pence`, so it now loads as 0. Every CB4 order then gets `delivery_fee == 0` instead of 349 pence, or 499 pence when surge is on. Nothing raises an error. The only effect is that delivery revenue is lost and surge fees are never charged in that zone. Any zone the config service sends with `free_over_pence: 0` gets the same result.\n\nFix: treat 0 as \"no offer\". For example, change the check to `zone.free_over_pence > 0 and subtotal_pence >= zone.free_over_pence`. Also update the field comment to say that 0 means no offer. If a threshold of 0 should ever mean \"always free\", keep `None` as the default and have the config loader convert nulls instead.",
+  "cost_usd": 0.0280884,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 2477,
+    "cache_read_input_tokens": 10257,
+    "output_tokens": 681,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2477
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 406,
+        "cache_read_input_tokens": 3396,
+        "cache_creation_input_tokens": 500,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 500,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

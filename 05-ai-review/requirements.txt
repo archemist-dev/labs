@@ -1,0 +1,2 @@
+# Standard library only (Python 3.12+). Also needs the Claude Code CLI (`claude`) on PATH,
+# and pytest for check_bugs.py and the order service's own tests.

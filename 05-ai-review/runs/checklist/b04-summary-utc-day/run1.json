@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b04-summary-utc-day",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/reports.py`, `kitchen_summary`: it buckets orders with `o.created_at.date()`. `created_at` is timezone-aware UTC (`models.py:48`). The `london_day` docstring says kitchens report in London time, and `daily_revenue` already uses `london_day`. During British Summer Time, an order created at 23:30 UTC on 1 June is 00:30 on 2 June in London. This function counts it under 1 June, so one day's orders and revenue are understated and the next day's are overstated. The function returns normally and nothing signals the error. It also disagrees with `daily_revenue` for the same orders. Fix: compare `london_day(o.created_at) == day`.\n\n[NIT] The function filters on `created_at`, not delivery time. An order created late one day and delivered the next is counted on the creation day. This matches `daily_revenue`, so it is probably intended, but the \"delivered orders for a day\" wording is ambiguous.",
+  "cost_usd": 0.021186800000000002,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2086,
+    "cache_read_input_tokens": 6964,
+    "output_tokens": 467,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2086
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 324,
+        "cache_read_input_tokens": 3002,
+        "cache_creation_input_tokens": 503,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 503,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b09-pickup-time-lost",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Record when the courier picks the order up\"**\n\n**Blocker: `pick_up` never saves the pickup time.**\n\n`OrderStore.get` returns a deep copy. Its docstring says so: \"changing one changes nothing until it is written back\". `pick_up` sets `order.picked_up_at` on that copy and returns it. It never writes it back, so nothing is stored.\n\n- The returned object has the timestamp, so a quick check of the return value would look correct.\n- Any later `store.get(order_id)` has `picked_up_at = None`.\n- ETA tracking would never see a pickup time.\n- The \"already picked up\" guard never fires either. Calling `pick_up` twice succeeds both times and logs \"picked up\" each time.\n\nFix: add a store method that updates the stored order under the lock, like `update_status` and `attach_order` do. For example, `mark_picked_up(order_id, when)` could check `status == OUT_FOR_DELIVERY` and `picked_up_at is None`, set the field, and raise `ConflictError` otherwise. Then `pick_up` should return the result of that call. Don't use `store.save(order)` as the fix. It would overwrite the whole order from a stale copy and could clobber a concurrent status change or courier attach.\n\n**Race condition (follows from the above).**\n\nThe status and `picked_up_at` checks are done on a snapshot, outside the lock. Two concurrent calls, such as a courier app retry or a double tap, can both pass the check. Doing the check and the write inside one locked store method fixes this. It also means a `cancel` or `deliver` that lands between the read and the write can't be overwritten.\n\n**Smaller points**\n\n- `now or datetime.now(timezone.utc)` is fine and matches the `place_order` style. Use `now if now is not None else ...` to be strict. Also consider rejecting naive datetimes, since `created_at` is documented as timezone-aware UTC. A naive `now` from the courier app would break ETA arithmetic later.\n- The error message \"cannot be picked up in {status}\" is misleading when the status is correct but `picked_up_at` is already set. Use separate messages for the two cases.\n- The method doesn't check who is calling. `courier_id` is not passed in, so any caller can record a pickup for any order. If this is exposed to the courier app, verify the caller is the assigned courier, for example `pick_up(order_id, courier_id)`. The authorization check belongs in the service, not only in the HTTP layer.\n- It isn't clear what `OUT_FOR_DELIVERY` means here. `dispatch` moves the order to `OUT_FOR_DELIVERY` and sends the courier \"Pickup \u2026\" SMS. That suggests the order is already out for delivery before pickup is recorded, which is a slightly odd ordering. Please confirm this is intended. If so, a short comment would help.\n- Logging `order.courier_id` is fine, but it can be `None` here. The log line would then say \"picked up by None\".\n\n**Tests**\n\nThe PR adds no tests, and `tests/test_service.py` has the infrastructure for them. A test that asserts the returned order has the timestamp would have passed even with the bug above. The tests need to cover:\n\n- Pickup, then `store.get(...)`, asserting `picked_up_at` is persisted. This is the one that would have caught the bug.\n- A second `pick_up` raises.\n- `pick_up` raises for orders not in `OUT_FOR_DELIVERY`: `PAID`, `PREPARING`, `DELIVERED` and `CANCELLED`.\n- An unknown order id. The store raises `KeyError`, so decide whether that should be surfaced differently.\n- An explicit `now` is used as given.\n\n**Performance and security**\n\nThere are no performance concerns. The security point is the missing caller authorization described above.\n\n**Verdict:** Request changes. The feature doesn't work as written because the pickup time is lost, and it has no tests.",
+  "cost_usd": 0.061188200000000005,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 5492,
+    "cache_read_input_tokens": 6291,
+    "output_tokens": 1567,
+    "output_tokens_details": {
+      "thinking_tokens": 98
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 5492
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1396,
+        "cache_read_input_tokens": 2706,
+        "cache_creation_input_tokens": 4205,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 4205,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

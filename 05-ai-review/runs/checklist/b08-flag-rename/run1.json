@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b08-flag-rename",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/service.py:48` now checks `\"dynamic_delivery_fee\"`, but `orders/flags.py` still defines only `\"surge_fee\": True`. `flags.enabled()` returns `False` for any unknown name, so the lookup quietly returns off.\n\nSurge pricing is currently on. After this change `surge=` is always `False`, and no order is charged `surge_pence`. Nothing raises an error, and every order still gets a plausible fee. The result is undercharged delivery fees on every order.\n\nFix: rename the key in `FLAGS` in the same PR. Also update the comment in `orders/config.py:8` that mentions `surge_fee`. Any external flag store or config that sets `surge_fee` needs the same rename.",
+  "cost_usd": 0.021147199999999998,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2032,
+    "cache_read_input_tokens": 7216,
+    "output_tokens": 476,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2032
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 252,
+        "cache_read_input_tokens": 3240,
+        "cache_creation_input_tokens": 211,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 211,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

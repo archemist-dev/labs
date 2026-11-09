@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c08-flag-rename-both",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Rename `surge_fee` flag to `dynamic_delivery_fee`**\n\nThe rename is complete and correct. I found no blocking issues.\n\n- A grep for `surge_fee` finds no remaining uses of the flag name. `flags.py` and the one call in `service.py` are both updated, and there are no other readers. `flags.enabled` returns False for unknown names, so a missed reference would have turned surge pricing off without any error. That can't happen here.\n- The flag stays `True`, so behavior is unchanged.\n\nNon-blocking suggestions:\n1. **Stale comment:** `orders/config.py:8` still says `# added to the fee while the surge_fee flag is on`. Update it to `dynamic_delivery_fee`. The description says pricing uses \"dynamic delivery fee\" everywhere, so the `surge_pence` field, the `surge=` parameter in `money.delivery_fee`, and the \"surge fees\" mention in the `money.py` docstring are now inconsistent. Renaming them could be a follow-up PR, or you could say in this one that it's out of scope.\n2. **Line length:** the edited line in `service.py` is now very long. Consider wrapping it or assigning `surge = flags.enabled(\"dynamic_delivery_fee\")` first.\n3. **Deploy and config:** the repo has no environment, remote or config overrides for this flag. If any external system sets `surge_fee` (a flag dashboard, deploy config), it will silently stop working after this change, because the new name isn't there and reads as off. Please confirm nothing outside this repo references the old name.\n4. **Tests:** `tests/test_service.py` has no test that depends on the flag name. A small test that monkeypatches `FLAGS[\"dynamic_delivery_fee\"]` to False and checks the fee loses the zone's `surge_pence` would guard against a future rename like this one going unnoticed.",
+  "cost_usd": 0.0314222,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2325,
+    "cache_read_input_tokens": 6766,
+    "output_tokens": 921,
+    "output_tokens_details": {
+      "thinking_tokens": 121
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2325
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 626,
+        "cache_read_input_tokens": 3152,
+        "cache_creation_input_tokens": 592,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 592,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c10-spread-metres",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Don't let a chain spread too far from its first order**\n\nThe logic is correct and the units are consistent. `distance_m` returns metres, and `MAX_DETOUR` is in metres. I have a few suggestions, and none of them block the merge.\n\n**Code quality**\n- **Shared constant:** The new check reuses `MAX_DETOUR`, but that constant is documented as \"metres from the courier's last chained order to the new one\". It now also means \"radius from the first order\", and the two limits will probably need to change independently. I'd add a separate `MAX_CHAIN_SPREAD` and update the comment and docstring. Setting it to 800 for now keeps today's behaviour.\n- **Redundant check:** `detour <= MAX_DETOUR` on the last-order distance is still needed for chains of two or more orders. For a one-order chain, `first` and `last` are the same order, so the new check already covers it. You could skip the first-order check in that case. It would also be clearer to compute `detour` first and then do both checks together.\n- **Docstring:** It still describes only the closest-last-order rule. It should mention the first-order limit.\n- **Minor:** `first` and the distance to it are computed even when the last-order check would reject the courier. Checking the cheaper or more likely failing condition first would avoid that. The cost is trivial, though.\n\n**Bugs and edge cases**\n- I found no correctness bugs. `order_ids` is checked non-empty before `[0]` is indexed.\n- **Possible `None` from the store:** `store.get` could return `None` if an order was removed, for example after a reassignment. The existing code has the same issue with `last`, so this doesn't make anything worse. The new `first` lookup adds one more place it could happen.\n- **Spread semantics:** Distance from the first order only bounds the spread to about 2\u00d7800 m between any two orders in the chain. If the goal is a bounded trip, the limit may need to be tighter than the per-hop limit. Check this with the product owner.\n\n**Performance and security**\n- There's one extra store lookup and one haversine calculation per candidate courier. This is negligible, and I have no security concerns.\n\n**Test coverage**\n- This is the main gap. The PR adds no tests. `tests/test_service.py` only has `test_chain_onto_nearby_courier`, which covers the happy path. Please add a test where:\n  - The new order is within 800 m of the last order but more than 800 m from the first, so the courier is rejected and `chain` returns `None` (or picks another courier).\n  - Another courier is within range, to confirm that one is picked.\n  - The new order is exactly at the boundary, to confirm the `>` comparison is inclusive as intended.\n  - The chain has one order, to confirm behaviour is unchanged.",
+  "cost_usd": 0.0406384,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 2657,
+    "cache_read_input_tokens": 9107,
+    "output_tokens": 1275,
+    "output_tokens_details": {
+      "thinking_tokens": 73
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2657
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 904,
+        "cache_read_input_tokens": 3001,
+        "cache_creation_input_tokens": 1075,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1075,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

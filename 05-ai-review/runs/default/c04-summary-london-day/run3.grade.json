@@ -1,0 +1,11 @@
+{
+  "comments": 7,
+  "blocking": 1,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 1,
+  "false_alarms_blocking": 1,
+  "why": "The review correctly says the london_day logic is right. But it treats the \"missing per-kitchen filter\" as a defect that must be resolved before merge, and that defect isn't real. The other items are suggestions, a question (created vs delivered), or requests for tests, so they don't count as false alarms.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.029634799999999996
+}

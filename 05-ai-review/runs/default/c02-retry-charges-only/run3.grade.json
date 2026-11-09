@@ -1,0 +1,11 @@
+{
+  "comments": 8,
+  "blocking": 2,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 1,
+  "false_alarms_blocking": 1,
+  "why": "This is a clean PR. The review gave the main reason for requesting changes as \"timeouts are not retried\", which claims the change misbehaves even though the answer key says it doesn't, so I counted it as a blocking false alarm. I also counted the missing tests as blocking, but that isn't a false alarm. The attempts=0 edge case and the key-lifetime point are conditional, and the rest are suggestions or nits.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.029289799999999998
+}

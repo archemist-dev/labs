@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b01-chain-from-view",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Read courier chains from the courier view in pick_courier**\n\n**Blocking: the view is the wrong source for this decision.**\nThe `CourierView` docstring says it is \"Eventually consistent: it lags the store by a few seconds, more under load. Display only; decisions read the store.\" `pick_courier` is a decision, and the lag is worst at dinner peak, which is when this change matters.\n\nA stale chain causes concrete problems:\n- **Wrong \"last order\".** If the view hasn't caught up, `chained[-1]` is an older order. The detour is then measured from the wrong address, and a courier can be picked or skipped wrongly.\n- **Wrong capacity check.** `len(chained) >= max_orders` can pass on a stale chain. `attach_order` still raises `ConflictError` when the courier is full, so it's safe, but the order then fails to chain. Under load, with many orders landing on the same nearby courier, this will happen often.\n- **Brand-new chains.** A courier whose first order isn't in the view yet looks empty and is skipped.\n- **Possible crash.** `store.get(chained[-1])` is fine for orders that exist. If the view and store ever diverge, though, the error surfaces in the order path.\n\nThe `attach_order` conflict check keeps this from corrupting data. It only turns the staleness into failed or suboptimal chaining.\n\n**Blocking: the primary read load isn't removed.**\nThe loop still calls `store.couriers()`. That deep-copies every courier on each order, and it is the read the description complains about. The change adds view lookups and still does the full read, plus a `store.get` per candidate. If `couriers()` is the load, this PR doesn't fix it. If it isn't, the description needs to say what the load actually is.\n\n**Suggestions**\n- If the read load needs relief, keep the decision on the store. Options include a store method that returns only the fields needed (id, `max_orders`, last order id), a read replica with a freshness guarantee, or a short-lived cache. If a stale read is acceptable, it should be an explicit product decision. The view's contract would then need to change, because it is currently labelled display-only.\n- Use the view only to prefilter candidates. For example, take the top few by view data, then confirm each against `store.get_courier(id)` before attaching. That shrinks the primary reads without trusting stale data.\n- Changing the signature to `pick_courier(store, view, order)` is also an API break. Check for any other callers.\n\n**Tests**\n- The existing test calls `svc.view.catch_up()` before chaining, so it only covers the case where the view is fresh.\n- Add a test where the view lags: the courier gains an order in the store, `catch_up` isn't run, and `pick_courier` must still respect `max_orders` and use the correct last order.\n- Add a test for a courier that is new to the view.\n- Add a test that no full `store.couriers()` read happens, if reducing load is the goal.\n\nI recommend not merging as is.",
+  "cost_usd": 0.038351,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2629,
+    "cache_read_input_tokens": 6610,
+    "output_tokens": 1193,
+    "output_tokens_details": {
+      "thinking_tokens": 41
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2629
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 969,
+        "cache_read_input_tokens": 2975,
+        "cache_creation_input_tokens": 1073,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1073,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

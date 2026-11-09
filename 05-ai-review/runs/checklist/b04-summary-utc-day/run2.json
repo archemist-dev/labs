@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b04-summary-utc-day",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `kitchen_summary` in `orders/reports.py` uses `o.created_at.date()`. That takes the date in whatever time zone the timestamp carries. `london_day`'s docstring says timestamps are UTC and that kitchens report in London time. `daily_revenue` already uses `london_day` for the same grouping.\n\nDuring British Summer Time (UTC+1), an order created at 23:30 UTC on 2026-06-10 is 00:30 on 06-11 in London. The summary counts it under 06-10, so it lands on the wrong day. The same order is counted under 06-11 by `daily_revenue`. The function returns normally, so nothing flags the mismatch. Orders in the hour after London midnight (00:00\u201301:00 London) are the ones affected. Their revenue is attributed to the previous day. The two reports will disagree.\n\nFix: compare `london_day(o.created_at) == day`.",
+  "cost_usd": 0.020093600000000003,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1911,
+    "cache_read_input_tokens": 6873,
+    "output_tokens": 457,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1911
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 306,
+        "cache_read_input_tokens": 2910,
+        "cache_creation_input_tokens": 420,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 420,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

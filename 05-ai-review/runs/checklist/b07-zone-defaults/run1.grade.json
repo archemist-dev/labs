@@ -1,0 +1,11 @@
+{
+  "comments": 1,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review's only comment is marked [BLOCKING] and names the seeded bug exactly. With the new default of 0, delivery_fee's `is not None` check passes for every order, so CB4 (which leaves out free_over_pence) gets free delivery on all orders, and nothing raises an error.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.015544800000000001
+}

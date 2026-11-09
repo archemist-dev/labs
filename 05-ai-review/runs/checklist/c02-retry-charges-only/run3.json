@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c02-retry-charges-only",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\n- **Same key on every attempt:** the retry loop reuses the same `headers`, and `place_order` passes `idempotency_key=order.id`. The provider returns the first charge for a repeated key, so a retried charge can't create a second one.\n- **Exhausted retries raise:** after the last attempt `Http.post` raises `TransientError`. `charge` turns that into `PaymentTimeout`, which propagates to the caller.\n- **Declines aren't retried:** a 402 isn't in the transient status list, so it returns on the first attempt and still raises `PaymentError`.\n- **Refunds unchanged:** `refund` doesn't pass `attempts`, so it keeps the default of 1 and stays single-attempt.\n\nI didn't review exceptions raised by `session.post` itself, such as a client-side timeout. The diff doesn't touch that path, and it isn't retried. It raises rather than failing silently.",
+  "cost_usd": 0.035454400000000004,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 3934,
+    "cache_read_input_tokens": 11762,
+    "output_tokens": 670,
+    "output_tokens_details": {
+      "thinking_tokens": 140
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3934
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 389,
+        "cache_read_input_tokens": 4309,
+        "cache_creation_input_tokens": 1044,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1044,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

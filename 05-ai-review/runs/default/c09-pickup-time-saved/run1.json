@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c09-pickup-time-saved",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "Fields and imports check out. The PR adds no tests.\n\n**Review of \"Record when the courier picks the order up\"**\n\nThe logic is sound. The check and the write both happen under `self._lock`, so concurrent pickups can't both succeed. The method returns a deep copy, like the other store methods. `picked_up_at` already exists on `Order`, and `datetime` and `timezone` are already imported in `service.py`.\n\n**Issues**\n\n1. **No tests (main blocker).** `tests/test_service.py` isn't touched. Please add tests for:\n   - Pickup succeeds for an `OUT_FOR_DELIVERY` order and sets `picked_up_at`.\n   - A second pickup raises `ConflictError` and leaves the original timestamp unchanged.\n   - Pickup on orders in other states (e.g. PREPARING, DELIVERED, CANCELLED) raises `ConflictError`.\n   - An explicit `now` is stored as given.\n   - Ideally, a concurrency test with two threads picking up the same order, where exactly one succeeds.\n\n2. **Unknown order id.** `self._orders[order_id]` raises a bare `KeyError`. Check how `get` and `advance` handle a missing id and match that behaviour, so the courier app sees a consistent error.\n\n3. **Magic string.** `store.py` compares against the literal `\"OUT_FOR_DELIVERY\"`. `models.OUT_FOR_DELIVERY` already exists, so import and use it to avoid drift.\n\n4. **`now or datetime.now(...)`.** Use `now if now is not None else ...`. It works for datetimes today, but the `is None` form is the safer idiom. It would also help to accept only timezone-aware datetimes, since `picked_up_at` feeds ETA calculations. A naive `now` passed by a caller would later fail when compared or subtracted against aware datetimes.\n\n5. **Log line.** `order.courier_id` may be `None` if an order reaches `OUT_FOR_DELIVERY` without an assigned courier. Check that the invariant holds. The log is harmless either way, but it would be misleading.\n\n6. **Minor.** The pickup state check doesn't use `TRANSITIONS` or a service-level guard like `cancel` does. That's fine, since it isn't a status transition, but a short docstring on `pick_up` stating the preconditions and the `ConflictError` it raises would help callers.\n\nThere are no performance or security concerns. One question on security: should `pick_up` verify that the caller is the assigned courier? Right now any caller with an order id can set the timestamp, if the service layer is the only gate. If authorization is handled upstream, that's fine.\n\nPlease add the tests, and the missing-id handling and constant reuse are worth fixing before merge.",
+  "cost_usd": 0.0409906,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 2762,
+    "cache_read_input_tokens": 9528,
+    "output_tokens": 1207,
+    "output_tokens_details": {
+      "thinking_tokens": 33
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2762
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 915,
+        "cache_read_input_tokens": 3050,
+        "cache_creation_input_tokens": 1131,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1131,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

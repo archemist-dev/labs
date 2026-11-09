@@ -1,0 +1,6 @@
+{
+  "caught": false,
+  "caught_in_blocking": false,
+  "why": "Says it 'may pick the wrong courier', then concludes 'correctness holds. What suffers is chaining quality' and asks to accept the tradeoff. Not flagged as a defect.",
+  "judge_model": "manual (read by Claude, 2026-11-09)"
+}

@@ -1,0 +1,11 @@
+{
+  "comments": 8,
+  "blocking": 2,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 1,
+  "false_alarms_blocking": 1,
+  "why": "The review counts as having 8 findings. Two of them block the merge: missing tests, and timeouts not being retried. The timeout finding is a false alarm. The answer key says this change has no defect, and the review itself admits the behaviour existed before this PR. Even so, it asks for the fix before merge. The other findings are not false alarms: missing tests, latency, nits and the question about how long the idempotency key lives.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.029734800000000002
+}

@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b03-promo-on-total",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Apply the promo to what the guest pays\"**\n\nThe change does what the description says. The discount is now `percent_off(subtotal + delivery_fee, percent)`, so a 10% code takes off 10% of the total the guest sees. The mechanics are sound. Money stays in integer pence, `percent_off` rounds down, and the discount can't exceed the payable amount because the percent is capped at 100. I have a few concerns, none blocking.\n\n**1. Business decision: the discount now covers delivery**\n- The old code deliberately discounted only the subtotal. This change makes every promo reduce the delivery fee as well, including the surge fee when `surge_fee` is on. That is a real margin change, not just a display fix.\n- Please confirm product and finance have agreed to it. If they haven't, the alternative is to change the wording to \"10% off your items\". That is cheaper and keeps the old behaviour.\n- Refunds, partial cancellations and courier-cost reporting may all assume the old rule. I found nothing else in the repo that reads `discount_pence`, but `reports.py` sums `total_pence`, so revenue will drop slightly.\n\n**2. Interaction with free delivery**\n- `delivery_fee` is decided from the pre-discount subtotal, and that part is unchanged. The promo never pushes an order back under the free-delivery threshold, which is good. It also means the guest sees a discount on the subtotal of an order that is already free to deliver.\n- A guest just under the threshold pays delivery and gets 10% off it. A guest just over pays no delivery and gets nothing extra. That is consistent but worth knowing about.\n\n**3. Tests are missing**\n- The diff has no test changes. `TENOFF` is already configured in `make_service()` but nothing uses it, so there is no coverage for promos at all.\n- Please add:\n  - a case with a delivery fee. For example, a small order in a zone with a fee should give `discount == (subtotal + fee) * 10 // 100` and a matching `total_pence`. This is the exact support-ticket scenario.\n  - a free-delivery case, where the discount equals 10% of the subtotal.\n  - a rounding case, for example a payable amount of 1999 pence, which should give a discount of 199.\n  - a surge-on case, using the flag.\n  - an unknown promo code. `self.promos[promo_code]` raises a bare `KeyError`.\n\n**4. Minor issues**\n- **Unknown promo code:** it raises `KeyError` before anything is saved. That is safe, but a `ValueError(\"unknown promo\")` would match the other validation errors in this function, such as the unknown zone.\n- **Rounding:** rounding down means the guest sees 10% off to within 1p, but not exactly. If tickets say \"not exactly 10%\", that is rounding rather than a bug. A one-line comment saying so would help.\n- **Readability:** `order.subtotal_pence + order.delivery_fee_pence` now appears twice. A local `payable` used for both the discount and the total would remove that. The total line could then be `payable - order.discount_pence`.\n\n**Security and performance:** no concerns. The change is a constant-time integer calculation. The promo code is looked up in a server-side dict and not computed from client input.\n\n**Verdict:** approve once the delivery-discount decision is confirmed and the tests from item 3 are added.",
+  "cost_usd": 0.0582864,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 5373,
+    "cache_read_input_tokens": 10877,
+    "output_tokens": 1405,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 5373
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1104,
+        "cache_read_input_tokens": 4537,
+        "cache_creation_input_tokens": 2255,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 2255,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

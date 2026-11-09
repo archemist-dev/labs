@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b09-pickup-time-lost",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Record when the courier picks the order up\"**\n\n**Blocking: the pickup time is never saved.**\n`pick_up` calls `self.store.get(order_id)`, which returns a deep copy (see the `OrderStore` docstring and `get`). The method sets `picked_up_at` on that copy and returns it. It never writes the copy back. The stored order is unchanged, so a later `get` still returns `picked_up_at=None`. The caller sees the timestamp on the returned object, and the log line says the pickup happened, but nothing is recorded. ETA tracking would never see the value.\n\nCalling `self.store.save(order)` would not be a good fix. `save` overwrites the whole record, so it would clobber a concurrent `update_status` such as a cancel or deliver that landed between the `get` and the `save`.\n\nI'd add a store method in the same style as `update_status` and `attach_order`, for example `mark_picked_up(order_id, at)`. It should do the following under the lock:\n- Check that the status is `OUT_FOR_DELIVERY` and that `picked_up_at is None`. Raise `ConflictError` otherwise.\n- Set the timestamp.\n- Return a copy.\n\nThis also fixes the race in the current guard. The check and the write are separate steps, so two concurrent pickup calls could both pass the check. Doing the check and write inside the lock makes it atomic, and only the first call wins.\n\n**Smaller issues**\n- `now or datetime.now(...)` treats any falsy value as \"not provided\". `if now is None` is more precise. Also check that a caller-supplied `now` is timezone-aware, because `Order.created_at` is documented as aware UTC and naive values would break later comparisons.\n- Errors are inconsistent. `advance` and `cancel` raise `ValueError` for bad transitions, and the store raises `ConflictError` for races. Once the check moves into the store, translate the error so callers get the same kind of exception as the other methods. Using one exception for both \"wrong state\" and \"already picked up\" also makes it hard for the courier app to tell a harmless double-tap from a real error. Consider making the double-tap case idempotent.\n- The log line prints `order.courier_id`, which may be `None` for an order that was never attached. It's harmless, but worth knowing.\n- There is no authorization check that the caller is the assigned courier. If the HTTP layer doesn't check this, any courier could mark any order as picked up. Please confirm that `http.py` handles it. The PR doesn't add an endpoint.\n\n**Tests**\nThe PR adds none. Tests that would have caught the main bug:\n- After `pick_up`, `store.get(id).picked_up_at` equals the supplied `now`. This test fails on the current code.\n- `pick_up` on an order that isn't `OUT_FOR_DELIVERY` raises.\n- A second `pick_up` raises, or is a no-op if you make it idempotent, and it doesn't overwrite the first timestamp.\n- Two concurrent pickups: exactly one succeeds.\n\n**Performance and security**\nThere are no performance concerns. The only security concern is the authorization question above.",
+  "cost_usd": 0.05503380000000001,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 4921,
+    "cache_read_input_tokens": 10879,
+    "output_tokens": 1356,
+    "output_tokens_details": {
+      "thinking_tokens": 29
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 4921
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1031,
+        "cache_read_input_tokens": 4713,
+        "cache_creation_input_tokens": 1627,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1627,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

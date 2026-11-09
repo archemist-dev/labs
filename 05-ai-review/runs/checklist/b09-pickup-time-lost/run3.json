@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b09-pickup-time-lost",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "Store.get returns a deep copy, so the mutation is never persisted.\n\n[BLOCKING] `orders/service.py`, `pick_up`: the pickup time is never saved. `self.store.get` returns a deep copy, and the `OrderStore` docstring says changing it changes nothing until it is written back. `pick_up` sets `order.picked_up_at` on that copy and returns it without calling `store.save` or any other store method.\n- **Failing input:** a courier calls `pick_up(order_id)` on an `OUT_FOR_DELIVERY` order. The call returns an Order with `picked_up_at` set and logs \"picked up\", but the stored order still has `picked_up_at = None`. Any later `store.get` or ETA read sees no pickup time.\n- **Duplicate guard:** the `picked_up_at is not None` check never trips, because the stored value stays `None`. A second `pick_up` call succeeds and logs again.\n- **Fix:** add a compare-and-set store method, for example `mark_picked_up(order_id, when)`. It should run under the lock and raise `ConflictError` if the status is not `OUT_FOR_DELIVERY` or `picked_up_at` is already set.\n\n[BLOCKING] `orders/service.py`, `pick_up`: this is a read-modify-write with no lock or compare-and-set. Even if the result were saved with `store.save`, two concurrent pickups, or a pickup racing `deliver`, could both pass the check. The later write would then overwrite the earlier `picked_up_at`, or overwrite a `DELIVERED` status with the stale copy. Do the check and the write atomically inside the store.\n\n[NIT] `now or datetime.now(...)`: a naive `now` from the caller would be stored as-is, even though `created_at` is documented as timezone-aware UTC. Reject or normalize naive datetimes.",
+  "cost_usd": 0.044802,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 5315,
+    "cache_read_input_tokens": 7025,
+    "output_tokens": 771,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 5315
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 619,
+        "cache_read_input_tokens": 3073,
+        "cache_creation_input_tokens": 3661,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 3661,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

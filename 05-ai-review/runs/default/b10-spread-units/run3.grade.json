@@ -1,0 +1,11 @@
+{
+  "comments": 4,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The blocking comment names the exact bug: geo.distance returns km while MAX_DETOUR is in metres, so the check never fires. It also gives the geo.distance_m fix. The other three points (shared constant, structure, tests) are suggestions, and the security/performance line just reports no concerns.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0177598
+}

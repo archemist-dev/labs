@@ -1,0 +1,11 @@
+{
+  "comments": 2,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The [BLOCKING] comment names the seeded bug. It says pick_courier makes a decision from the CourierView, which lags the store, which breaks the 'display only' rule. It also says a stale last order can chain a new order to a courier who isn't really going there, and attach_order succeeds because it only checks capacity. The review's other finding is a nit; since this is a bug PR, no comment counts as a false alarm.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0248848
+}

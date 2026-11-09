@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c03-promo-validate",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\n- **Discount base:** The discount is still computed on `order.subtotal_pence`, which excludes delivery and surge fees. That matches the promo terms in `money.py`. The total is still `subtotal + delivery_fee - discount`.\n- **Unknown code:** The new `ValueError` is raised before `store.save`, stock reservation and payment. A rejected code leaves nothing half-written and no stock held. The `ValueError` matches the other validation errors in `place_order` (kitchen closed, unknown zone).\n- **Rounding and range:** `percent_off` still uses integer pence, rounds down and checks the percent range, so none of that changed.\n- **Empty promo code:** An empty or `None` promo code still skips the promo silently. The diff didn't introduce this, and an empty value reasonably means no promo.",
+  "cost_usd": 0.0303366,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3611,
+    "cache_read_input_tokens": 6888,
+    "output_tokens": 544,
+    "output_tokens_details": {
+      "thinking_tokens": 108
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3611
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 386,
+        "cache_read_input_tokens": 2915,
+        "cache_creation_input_tokens": 2115,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 2115,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

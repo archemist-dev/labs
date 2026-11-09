@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b06-card-expired",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/payments.py` and `orders/service.py`: `CardExpired` subclasses `Exception`, not `PaymentError`. `place_order` only catches `PaymentError` around `charge`. This is the failure path.\n\n- **Trigger:** the provider returns 402 with `reason: \"card_expired\"`.\n- **Before this change:** that case raised `PaymentError`. The cleanup ran: stock was released and the order moved to `PAYMENT_FAILED`.\n- **After this change:** `CardExpired` skips the `except` block. The stock reserved for the items is never released. The order stays in `CREATED` and is never marked `PAYMENT_FAILED`.\n- **Why it is silent:** the app does see the exception. But nothing in the system records the leak. Inventory is held for an order that can never be paid, and the stuck `CREATED` order looks like it is still in progress.\n\nFix: make `CardExpired` subclass `PaymentError`, or catch `(PaymentError, CardExpired)` in `place_order`. Add a test that an expired card releases stock and sets `PAYMENT_FAILED`.",
+  "cost_usd": 0.037985000000000005,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 3970,
+    "cache_read_input_tokens": 12015,
+    "output_tokens": 785,
+    "output_tokens_details": {
+      "thinking_tokens": 98
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3970
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 380,
+        "cache_read_input_tokens": 4921,
+        "cache_creation_input_tokens": 468,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 468,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

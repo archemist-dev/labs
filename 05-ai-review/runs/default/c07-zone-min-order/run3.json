@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c07-zone-min-order",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Minimum order per zone**\n\nThe change is small and the check is in a sensible place. It runs before stock reservation and payment, so a rejected order has no side effects to undo. The `0 = no minimum` default also keeps existing zones working. I have a few points, one of them important.\n\n**Should fix**\n\n1. **No tests.** `tests/test_service.py` has nothing covering `min_order_pence`. Please add at least these cases:\n   - An order below the minimum is rejected, and nothing is saved, reserved or charged.\n   - An order exactly at the minimum is accepted. This pins down the `<` boundary.\n   - A zone with the default of 0 is unaffected.\n   - A promo case, described below.\n\n2. **Decide whether the minimum applies before or after the promo discount.** The check uses the pre-discount subtotal. With a minimum of \u00a315, a \u00a315 basket and a 50% promo, the guest is accepted but pays only \u00a37.50 plus delivery. Customers could use this to get under the intended basket size. If the minimum is meant to be about basket value, compare `subtotal - discount`. Per `money.py`, promos apply only to the item subtotal, so that is the natural figure to use. If the pre-discount check is intentional, please say so in a comment and cover it with a test. The promo is currently computed after the check, so the code would need reordering.\n\n**Should consider**\n\n3. **The error is a bare `ValueError` with the amount in pence.** That matches the existing style (\"kitchen closed\", \"unknown zone\"). But a caller who wants to show \"Add \u00a33.20 more\" has to parse the message. A dedicated `MinimumOrderError` carrying `minimum` and `subtotal` would be easier to use. It would still be a `ValueError` subclass, so nothing breaks. This is optional.\n\n4. **No validation of the config value.** `load_zones` passes the raw config straight to `Zone(**fields)`. A negative `min_order_pence` is harmless because the check never fires. A mistyped value, such as a string from the config service, would raise a `TypeError` on every order in that zone. A `__post_init__` check is cheap, but it isn't needed for this PR.\n\n5. **No zone uses the new field.** `ZONES` in `config.py` is unchanged, so the feature does nothing until the production config sets a value. That is fine if it is deliberate. Please mention it in the PR description, or add the value to a zone if one needs it now.\n\n**Other points**\n- Performance and security: no concerns. The check is an O(1) integer comparison on server-side values.\n- The check raises before the order is saved, so a rejection leaves no order record behind. That is the right behaviour.\n\nOverall this is a good change. I'd like the promo question settled (point 2) and the tests added (point 1) before merging.",
+  "cost_usd": 0.048177,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 4162,
+    "cache_read_input_tokens": 11375,
+    "output_tokens": 1253,
+    "output_tokens_details": {
+      "thinking_tokens": 51
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 4162
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 908,
+        "cache_read_input_tokens": 5011,
+        "cache_creation_input_tokens": 570,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 570,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

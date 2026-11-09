@@ -1,0 +1,11 @@
+{
+  "comments": 6,
+  "blocking": 1,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 1,
+  "false_alarms_blocking": 1,
+  "why": "The review's 'main issue' (#1) calls the PR unfinished because dispatch never tells timeouts apart in its logs, and asks for a fix before merge, but the change is correct as it stands. The other five comments are hedged suggestions about message format, the magic string, retry semantics, tests and docs.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0285798
+}

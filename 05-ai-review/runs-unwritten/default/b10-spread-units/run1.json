@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b10-spread-units",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: blocking bug in the new distance check**\n\n**Units bug (`orders/chain.py`, line 15).** `geo.distance` returns kilometres, and `MAX_DETOUR = 800` is in metres. The existing check correctly uses `geo.distance_m`. The new check compares km against 800, so it only rejects orders more than 800 km from the first order. In practice it never fires, and the PR doesn't fix the drift it describes. The fix is to use `geo.distance_m`:\n\n```python\nspread = geo.distance_m(first.address, order.address)\nif spread > MAX_DETOUR:\n    continue\n```\n\n**Design.**\n- Reusing `MAX_DETOUR` for the first-order limit means the whole chain has to stay within 800 m of its first order. That may be intended. If it is, a separate constant such as `MAX_SPREAD` would make the intent clear and let it be tuned on its own.\n- The check runs before the `detour` calculation and uses its own early `continue`. Folding both conditions into one `if` would be tidier. This is minor.\n- `store.get` for `first` is called even when `first` is the same order as `last` (a one-order chain). That's harmless, but you could skip the lookup when `len(order_ids) == 1`.\n- Update the docstring, which still describes only the last-order check.\n\n**Tests.** The PR adds no tests, and that is how the units bug got through. Please add:\n1. A case where the new order is within 800 m of the last order but more than 800 m from the first. `pick_courier` should return `None`, or choose another courier. This test would fail on the current code.\n2. A case just inside the limit, which should still chain.\n3. Ideally a boundary case at exactly the limit.\n\nPlease fix the units bug and add the tests before merging.",
+  "cost_usd": 0.0288396,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2115,
+    "cache_read_input_tokens": 6238,
+    "output_tokens": 795,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2115
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 582,
+        "cache_read_input_tokens": 2638,
+        "cache_creation_input_tokens": 896,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 896,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

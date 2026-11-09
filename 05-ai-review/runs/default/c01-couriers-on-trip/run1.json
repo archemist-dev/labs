@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c01-couriers-on-trip",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Only load couriers on a trip in pick_courier\"**\n\nThe change is correct and I don't see any blocking problems.\n\n**Correctness**\n- `couriers_on_trip()` uses the same predicate as the check it replaces in `pick_courier`, `not courier.order_ids`. The filter runs inside the lock, on the primary store, so it is no staler than the old `couriers()` snapshot.\n- Couriers with an empty chain were skipped before and are never returned now, so `pick_courier` picks the same courier as before.\n- The `if not courier.order_ids` check left in `pick_courier` is now redundant. I'd keep it as a cheap guard, since the snapshot could in principle change.\n- The deepcopy is applied only to couriers that pass the filter, so the saving is real.\n\n**Suggestions (non-blocking)**\n1. **Tests:** The diff adds no tests.\n   - `couriers_on_trip()` should have a unit test with one idle courier and one courier with a chain. It should assert that only the second is returned and that the result is a copy, so mutating it leaves the store unchanged.\n   - Add a `pick_courier` test where the idle courier is the nearest or only candidate, and check that it still returns `None`.\n   - I didn't find existing tests for `couriers()` beyond `tests/test_service.py`.\n2. **Naming and docs:** The docstring says \"at least one chained order\", which is accurate. The name `couriers_on_trip` is clear and matches the domain language.\n3. **Extra cost, minor:** `pick_courier` still calls `store.get(...)` per courier. That is a lock acquisition and an `Order` deepcopy for each courier on a trip. It is fine for now, but a later change could fetch the last orders in one locked call.\n4. **Other callers:** `couriers()` is still available, so other callers are unaffected. Check that nothing else loops over it only to skip idle couriers, since it could use the new method too.\n\nApprove once a test is added.",
+  "cost_usd": 0.0317568,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2714,
+    "cache_read_input_tokens": 6414,
+    "output_tokens": 844,
+    "output_tokens_details": {
+      "thinking_tokens": 50
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2714
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 653,
+        "cache_read_input_tokens": 2782,
+        "cache_creation_input_tokens": 1351,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1351,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

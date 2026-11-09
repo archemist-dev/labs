@@ -1,0 +1,11 @@
+{
+  "comments": 6,
+  "blocking": 2,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 1,
+  "false_alarms_blocking": 1,
+  "why": "The PR is clean. The review blocks on missing tests, which is a test request and not a false alarm. It also blocks on filtering by creation day instead of delivery day, which suggests the function counts orders on the wrong day. Under the answer key that is intended and matches daily_revenue, so it counts as a blocking false alarm. The remaining items are suggestions: input validation, duplicated logic, performance and nits.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0242698
+}

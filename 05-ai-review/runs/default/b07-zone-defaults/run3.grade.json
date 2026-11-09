@@ -1,0 +1,11 @@
+{
+  "comments": 4,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The blocking comment names the seeded bug directly. With a default of 0, delivery_fee's `is not None` check is always true, so CB4 and any other zone without an offer charges nothing on every order. The other three points (sentinel limitation, null from the config service, missing tests) are non-blocking suggestions.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0175748
+}

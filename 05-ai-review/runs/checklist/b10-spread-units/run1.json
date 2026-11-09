@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b10-spread-units",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/chain.py`, line 15: the new check calls `geo.distance`, which returns kilometres, and compares the result to `MAX_DETOUR`, which is in metres (800). The check therefore only rejects a new order when it is more than 800 km from the chain's first order. In practice it never rejects anything, so the spread limit does nothing. Chains can still drift across town, and no error is raised. A concrete case is a first order 5 km from the new one. The code computes 5 > 800, which is false, so the courier is accepted. Use `geo.distance_m(first.address, order.address)` instead.",
+  "cost_usd": 0.019397,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2124,
+    "cache_read_input_tokens": 6965,
+    "output_tokens": 368,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2124
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 204,
+        "cache_read_input_tokens": 3001,
+        "cache_creation_input_tokens": 542,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 542,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

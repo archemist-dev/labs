@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b07-zone-defaults",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/config.py` and `orders/money.py`: the default of 0 now means \"free delivery on every order\" in any zone that has no offer. `delivery_fee` still checks `zone.free_over_pence is not None and subtotal_pence >= zone.free_over_pence`. With the new default of 0, that check is true for every subtotal.\n\n- **Affected input:** CB4 in `ZONES` leaves out `free_over_pence`, so it now gets 0. Every CB4 order then returns a delivery fee of 0 instead of 349, or 499 with surge.\n- **Why it's silent:** nothing raises. The orders just undercharge, and the surge fee is skipped as well.\n- **Same problem from the config service:** it sends every numeric field as an int, so a zone with no offer may arrive as 0 and be treated as free delivery for everyone.\n- **Fix:** treat 0 as \"no offer\" in `delivery_fee`, for example `zone.free_over_pence > 0 and subtotal_pence >= zone.free_over_pence`. Alternatively, keep `None` as the sentinel and fix the mypy complaint another way.\n- **Test to add:** a test that CB4 is charged its full fee.",
+  "cost_usd": 0.0262516,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 2330,
+    "cache_read_input_tokens": 10248,
+    "output_tokens": 626,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2330
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 408,
+        "cache_read_input_tokens": 3391,
+        "cache_creation_input_tokens": 358,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 358,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

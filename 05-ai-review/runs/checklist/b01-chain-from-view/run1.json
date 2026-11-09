@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b01-chain-from-view",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/chain.py` `pick_courier` now takes each courier's chain from `CourierView`. The view's docstring says it is \"Eventually consistent: it lags the store by a few seconds\u2026 Display only; decisions read the store.\" Choosing a courier for an order is a decision, so it should not read from the view.\n\nA stale chain can make `pick_courier` pick the wrong courier, and the call still returns success. Here are three ways that can happen:\n\n- **Stale last order:** The view may show an old chain, so `chained[-1]` is not the courier's actual last order. The detour distance is then measured from the wrong address. The order can be chained to a courier who is more than `MAX_DETOUR` away, or a closer courier can be skipped.\n- **Missing chain:** A courier whose chain event has not yet reached the view returns `[]` from `view.chain`, because of the `.get(..., [])` default. The `not chained` check then skips that courier as if they had no trip. After a restart, `_position` is 0 and `_chains` is empty until `catch_up` runs. During that window `pick_courier` returns `None` for every order, and `chain` falls back to normal dispatch. No error or log line is produced.\n- **Capacity check:** `len(chained) >= courier.max_orders` is also computed from the stale chain. A courier who is actually full can look like they have room.\n\nThe `ConflictError` handler in `service.chain` catches only some of these cases. It does not help when the view looks fuller than the store, or when the wrong courier is picked and still has room. When the view looks emptier than the store, `attach_order` may or may not raise. That depends on whether it re-checks capacity, and I only saw the start of it. So the staleness is mostly hidden.\n\nThe code still calls `store.couriers()` and deep-copies every courier on each order. That means the primary-load saving may be smaller than intended.\n\nIf the read load needs to come down, one option is a cheaper store read, such as a replica or a short-TTL cache, that keeps the same consistency guarantee. The other is to treat the view as a prefilter only and re-check the chain from the store for the chosen courier.",
+  "cost_usd": 0.038817,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3881,
+    "cache_read_input_tokens": 7340,
+    "output_tokens": 896,
+    "output_tokens_details": {
+      "thinking_tokens": 20
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3881
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 699,
+        "cache_read_input_tokens": 3340,
+        "cache_creation_input_tokens": 1960,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1960,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

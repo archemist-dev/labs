@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c01-couriers-on-trip",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Only load couriers on a trip in pick_courier**\n\nThe change is correct and I'd approve it. I have a few small comments.\n\n**Correctness**\n- The filter `if c.order_ids` runs inside the same lock acquisition as the copy, so the snapshot is as consistent as before.\n- The behaviour of `pick_courier` is unchanged. It previously skipped couriers with empty `order_ids`, and the store now does that skipping.\n- `pick_courier` is only called from `service.py:79`, and `couriers()` has no other callers. Nothing else is affected.\n\n**Comments**\n1. **Redundant check (nit).** `chain.py` still has `if not courier.order_ids or ...`. The `not courier.order_ids` half can no longer be true. You could drop it, leaving `if len(courier.order_ids) >= courier.max_orders`. Alternatively, keep it as a cheap guard, since `courier.order_ids[-1]` would raise `IndexError` if the store contract ever changed. If you keep it, add a short comment saying so. Either choice is fine.\n2. **Pushing the full-courier filter into the store (optional).** Couriers at `max_orders` are still deep-copied and then skipped. You could fold that into the store too, for example with `couriers_with_room()` or a predicate. That would make the copy count equal to the number of candidates. It's a small gain, so it's fine as a follow-up.\n3. **Unused `couriers()`.** After this PR `couriers()` has no callers in the repo. Keep it if it's public API. Otherwise consider removing it.\n4. **Remaining cost.** `pick_courier` still calls `store.get(...)`, which takes the lock and deep-copies a whole order, once per candidate. That is the larger remaining cost. It's out of scope here, but a store method that returns just the last chained order's address would remove it.\n\n**Tests**\n- `tests/` only has `test_service.py`, and nothing covers `couriers_on_trip` or `pick_courier` directly. I'd add:\n  - a store test that `couriers_on_trip()` returns only couriers with a non-empty chain, and that the returned objects are copies (mutating them doesn't change the store);\n  - a `pick_courier` test with an idle courier, a full courier, a courier out of range, and two in-range couriers. It should assert that the nearest eligible one is chosen, and that `None` is returned when nobody qualifies.\n\n**Security:** no concerns.\n\n**Performance:** this is a real improvement. Per-order copying drops from every courier to only those on a trip, and the lock is held for less time because there are fewer deep-copies.",
+  "cost_usd": 0.041200200000000006,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 3195,
+    "cache_read_input_tokens": 10766,
+    "output_tokens": 1152,
+    "output_tokens_details": {
+      "thinking_tokens": 20
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3195
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 870,
+        "cache_read_input_tokens": 4358,
+        "cache_creation_input_tokens": 256,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 256,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

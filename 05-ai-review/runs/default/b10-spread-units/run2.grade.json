@@ -1,0 +1,11 @@
+{
+  "comments": 8,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The only blocking comment names the seeded bug exactly: geo.distance returns km but is compared to MAX_DETOUR in metres, so the check never fires and chains still drift. It also gives the fix, geo.distance_m. The other 7 comments (4 design, 1 performance, 2 tests) are suggestions, not blocking.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0212448
+}

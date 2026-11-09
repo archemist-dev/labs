@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c04-summary-london-day",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of `kitchen_summary`**\n\nThe logic is correct for what it does. It reuses `london_day`, so the London-time convention is applied and BST/GMT boundaries are handled properly. A few things to fix or confirm before merging.\n\n**1. Which day is an order counted on? (needs a decision)**\nThe summary filters on `created_at`, but the PR says \"delivered orders \u2026 for a given day\". An order created at 23:50 and delivered at 00:20 is reported on the day it was *ordered*, not the day it was *delivered*. `Order` has no `delivered_at`, so this may be the only option today. `daily_revenue` does the same thing, so the two are at least consistent. Please do one of these:\n- Confirm that \"day\" means order-creation day, and say so in the docstring and the summary's key names.\n- Or record a delivery timestamp and filter on that.\n\n**2. `day` is not validated**\n`day` must be a `datetime.date`. If a caller passes a `datetime`, `london_day(...) == day` is always `False`. The result is a quiet `{\"orders\": 0, \"revenue_pence\": 0}` with no error. Add a type annotation (`day: date`) and consider rejecting `datetime` explicitly. Nothing in the diff calls this function yet. If an HTTP view is added later, the date string needs to be parsed and validated there.\n\n**3. Duplicated logic**\nThe \"delivered and London day\" filter now exists here and in `daily_revenue`. Pull it into a small helper, or build the summary on top of `daily_revenue`. That way the two can't drift apart, for example if cancelled or refunded orders are treated differently later. Revenue also ignores refunds and discounts beyond `total_pence`. That is probably fine, but state it.\n\n**4. Performance**\nThis is an O(n) scan of every order, with a timezone conversion for each one, even though only one day is wanted. That is fine for in-memory data. If `orders` comes from `store.py`, filter by a UTC range first. Compute the London day's start and end in UTC, which are 23 or 25 hours apart on DST change days. Then query only that range instead of loading everything.\n\n**5. Tests (blocking)**\nThe PR adds no tests. `tests/test_service.py` only imports `daily_revenue`. Please add tests for:\n- Only `DELIVERED` orders are counted, with non-delivered statuses excluded.\n- A day with no orders returns zeros.\n- Timezone boundaries: an order at 23:30 UTC in summer is already the next day in London, and an order at 23:30 UTC in winter is not.\n- DST change days (the last Sundays of March and October).\n- An order just before and just after London midnight falls on different days.\n- Revenue is summed correctly across several orders.\n\n**6. Minor**\n- Add a docstring.\n- Annotate the return type more precisely, for example with a `TypedDict`, rather than a bare `dict`.\n- Splitting the long one-line return would make it easier to read.\n\n**Security:** no concerns. The function is pure and takes no external input.\n\n**Verdict:** request changes. The two blockers are the missing tests and a decision on creation-day versus delivery-day semantics.",
+  "cost_usd": 0.040112800000000004,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2409,
+    "cache_read_input_tokens": 6219,
+    "output_tokens": 1340,
+    "output_tokens_details": {
+      "thinking_tokens": 152
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2409
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1195,
+        "cache_read_input_tokens": 2629,
+        "cache_creation_input_tokens": 1199,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1199,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

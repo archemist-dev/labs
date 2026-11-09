@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c07-zone-min-order",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\n- **Units:** The new check compares `subtotal_pence` with `min_order_pence`. Both are integer pence, which matches the \"integer pence everywhere\" rule in `money.py`.\n- **Failure mode:** A below-minimum order raises `ValueError`, the same as the other validation failures in `place_order`. It happens before `store.save`, stock reservation and payment, so a rejected order leaves nothing half-written.\n- **Default:** The default of `0` means no minimum, and `0` never trips `subtotal < 0`. Neither zone in `ZONES` sets a minimum yet, so the feature does nothing until the config service supplies values. That is expected, because the default is documented as \"no minimum\".\n- **Promos:** The minimum is checked against the subtotal before any promo discount. A discounted basket can therefore land below the minimum and still be accepted. The promo docs say percentage promos apply to the item subtotal, so this looks like a product decision. I'm not flagging it.",
+  "cost_usd": 0.039107,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 4735,
+    "cache_read_input_tokens": 12900,
+    "output_tokens": 641,
+    "output_tokens_details": {
+      "thinking_tokens": 116
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 4735
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 331,
+        "cache_read_input_tokens": 5679,
+        "cache_creation_input_tokens": 475,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 475,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

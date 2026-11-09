@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b08-flag-rename",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Rename `surge_fee` flag to `dynamic_delivery_fee`**\n\n**Blocking bug: this change silently turns off surge pricing.**\n\nThe PR renames the flag lookup in `orders/service.py`. It doesn't rename the key in `orders/flags.py`, which is still `\"surge_fee\": True`. `flags.enabled()` returns `False` for unknown names, which is the documented fallback in that file. So `flags.enabled(\"dynamic_delivery_fee\")` is now always `False`.\n\nAs a result, `surge_pence` (100 in CB1, 150 in CB4) is never added to delivery fees. Customers are undercharged on every order, and nothing errors or logs, so it is easy to miss.\n\n**Fix:** rename the key in `FLAGS` in the same PR:\n```python\n\"dynamic_delivery_fee\": True,\n```\nAlso check for any external place that sets the flag, such as environment config, a remote flag service or deploy configs. These would need the new name too. If the flag is toggled outside this repo, deploy the new key before the code, or have the code accept both names briefly.\n\n**Smaller points**\n- **Stale references.** `orders/config.py:8` still says \"while the surge_fee flag is on\". Update that comment. The `surge` parameter and `surge_pence` field in `money.py` and `config.py` are fine to keep, but the mixed naming is worth a short note. If Pricing's term is now \"dynamic delivery fee\", consider renaming those too, perhaps in a follow-up.\n- **Tests.** No tests were added or changed, and none appear to cover this path. A test that sets a CB1 order's flag on and asserts the fee is 399 (299 + 100 surge) would have caught this bug. Add one. A test that every flag name used in code exists in `FLAGS` would also help.\n- **Design.** Because unknown flags read as off, a typo or a half-finished rename fails silently. For flags that gate revenue, consider a strict lookup that raises on unknown names, or a startup check. Use a constant for the flag name instead of repeating string literals.\n- **Style.** The changed line in `service.py` is now very long. Pull the flag into a local variable.\n\nPlease don't merge until the `FLAGS` key is renamed.",
+  "cost_usd": 0.028623799999999998,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1904,
+    "cache_read_input_tokens": 6599,
+    "output_tokens": 888,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1904
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 745,
+        "cache_read_input_tokens": 2987,
+        "cache_creation_input_tokens": 336,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 336,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

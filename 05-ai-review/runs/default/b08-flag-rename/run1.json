@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b08-flag-rename",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Request changes. This is a blocking bug.**\n\n**Blocking: the rename is incomplete, so it silently turns off surge pricing.**\nThe PR changes the lookup in `orders/service.py` to `flags.enabled(\"dynamic_delivery_fee\")`. The `FLAGS` dict in `orders/flags.py` still defines only `\"surge_fee\": True`. `flags.enabled` returns `False` for unknown names, as its docstring says. So `dynamic_delivery_fee` now always reads as off.\n\nThe effect is that `surge=False` is passed on every order. The surge amounts in the zone config (100p for CB1, 150p for CB4) are never charged. Nothing crashes and no test fails, so this would go unnoticed until someone compares revenue. It is a pricing regression for every order.\n\n**Fix:** rename the key in `orders/flags.py` to `\"dynamic_delivery_fee\": True` in the same PR. Then check that the flag isn't also set elsewhere, such as a deployment config, environment overrides or a flag store outside this repo. If it is, rename it there too, and do it before or together with the deploy. Pricing's docs describe the flag by the new name, so they may point at an external source.\n\n**Suggestions:**\n- **Fail loudly on unknown flags.** The \"unknown reads as off\" fallback is what hides this mistake. Consider logging a warning, or raising, when a name isn't in `FLAGS`. At minimum, add a test that every name passed to `flags.enabled(...)` exists in `FLAGS`.\n- **Test coverage.** There is no test that an order in a surge zone includes the surge fee when the flag is on. Add one for CB1 expecting 299+100, and one with the flag off. Either test would have caught this.\n- **Finish the rename for consistency.** These still say \"surge\":\n  - the comment in `config.py:8`\n  - the `surge_pence` field\n  - the `surge=` parameter of `money.delivery_fee`\n  - the docstring in `money.py`\n\n  Renaming them is optional. If you leave them, say so in the PR so the mismatch looks deliberate.\n- **Line length.** The changed line in `service.py` is now very long. Pull the flag check into a local variable.",
+  "cost_usd": 0.028546999999999996,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1905,
+    "cache_read_input_tokens": 6590,
+    "output_tokens": 884,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1905
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 741,
+        "cache_read_input_tokens": 2977,
+        "cache_creation_input_tokens": 347,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 347,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

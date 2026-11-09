@@ -1,0 +1,11 @@
+{
+  "comments": 2,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review correctly finds the rename consistent. It has two non-blocking notes: a stale comment in config.py, which is a docs nit, and a general warning about the flag defaulting to off, which it checked and found no stale lookup for. Neither note says the change is wrong.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0165498
+}

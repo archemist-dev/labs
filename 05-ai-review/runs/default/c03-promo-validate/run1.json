@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c03-promo-validate",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Reject unknown promo codes cleanly**\n\nThe change is correct and small. Two things I'd like addressed before merge, plus a few nits.\n\n**What's good**\n- The check runs before `self.store.save(order)`, before stock is reserved and before the charge. A bad code therefore leaves no partial state to clean up.\n- The discount is still `percent_off(order.subtotal_pence, ...)`, so it applies to the item subtotal only. That matches the promo terms in `money.py`, and delivery and surge fees are unaffected.\n- `ValueError` matches how the other validation failures (`kitchen closed`, `unknown zone`) are raised.\n\n**Issues**\n1. **No test.** The PR fixes a bug and adds no regression test. `tests/test_service.py` has a `TENOFF` promo in `make_service()`, but no test uses a promo code at all. Please add two tests:\n   - `place_order(..., promo_code=\"BOGUS\")` raises `ValueError`. It should also assert that nothing was saved, nothing was charged and no stock was reserved.\n   - `place_order(..., promo_code=\"TENOFF\")` gives the expected discount. This pins the \"item subtotal only\" rule. Use a subtotal below the free-delivery threshold so the delivery fee is non-zero and the total shows the discount isn't applied to it.\n2. **The 500 may still be a 500.** The description says the problem was a 500, but `ValueError` is only a clean rejection if the HTTP layer maps it to a 4xx. I looked at `orders/views.py` and `orders/app.py` and found no such mapping. Please check how `kitchen closed` and `unknown zone` reach the client. If a `ValueError` still surfaces as a 500, this change only swaps the exception type. A dedicated exception such as `InvalidPromo`, or a handler that maps `ValueError` to a 400/422, would fix it properly.\n\n**Nits**\n- The `if promo_code:` guard skips an empty string `\"\"` silently, so it is treated as \"no promo\". That is probably fine, but decide it on purpose.\n- Promo codes are case-sensitive, so `tenoff` is rejected. If users type codes by hand, consider normalising with `.strip().upper()` when the promos are loaded and when the code is looked up.\n- Echoing the user-supplied code in the error message is harmless here. Just make sure the API layer doesn't render it unescaped into HTML.\n- Performance and security: there is no concern. It's a single dict lookup.\n\nVerdict: request changes, for the missing tests and the unconfirmed HTTP status. The code itself is fine.",
+  "cost_usd": 0.0422516,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3809,
+    "cache_read_input_tokens": 6413,
+    "output_tokens": 1095,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3809
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 869,
+        "cache_read_input_tokens": 2802,
+        "cache_creation_input_tokens": 2426,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 2426,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

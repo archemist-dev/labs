@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b03-promo-on-total",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Apply the promo to what the guest pays\"**\n\nThe change is small and does what the description says. A 10% promo is now 10% of subtotal plus delivery, which matches the total the guest sees. The rounding is still floor, so the discount can't exceed the percentage. I have no blocking concerns, but there are a few things to fix or confirm before merging.\n\n**1. No tests (main gap)**\n`tests/test_service.py` already has a `TENOFF` promo fixture, but no test uses it. Nothing covers the new behaviour, or promos at all. Please add:\n- A promo order with a delivery fee. For example, subtotal 2000 and fee 300 gives a discount of 230 and a total of 2070. This is the case the PR is meant to fix.\n- A promo order with free delivery (subtotal at or above `free_over_pence`). The discount should equal 10% of the subtotal.\n- Surge on, so the surge fee is included in the discounted base.\n- A rounding case, such as a payable of 1999 giving a discount of 199.\n- An unknown promo code (see item 3).\n\n**2. Confirm the business rule**\nDiscounting delivery fees is a product decision, and finance and marketing should sign off on it. Promos now also reduce delivery revenue, and surge fees are discounted too. The old behaviour only reduced item revenue. If the promo copy says \"10% off your order\", this is consistent. If some promos are meant to be item-only, the promo config may need a field for that. A short comment in the code would record the intent, for example `# percent applies to subtotal + delivery, see support tickets about mismatched totals`.\n\n**3. Pre-existing issue: unknown promo code**\n`self.promos[promo_code]` raises a bare `KeyError` for an unknown code. This isn't new in this PR, but you're editing the line next to it. Consider raising `ValueError(f\"unknown promo: {promo_code}\")`, as is already done for an unknown zone, so the API layer can return a clean 4xx.\n\n**4. Minor points**\n- `payable` is a good name. Setting `order.total_pence = payable - order.discount_pence` would make the intent clearer and avoid computing the sum twice.\n- The discount is at most 100% of `payable`, so the total can't go negative. If a 100% promo is ever used, the total is 0 and `payments.charge` is called with 0. Check that the payment provider accepts that.\n- Refunds use `order.total_pence`, so they stay correct. The revenue report also uses `total_pence`, so it is unaffected apart from the new discount amounts.\n- There are no security or performance concerns.\n\nOverall this is good to merge once tests are added and the product rule is confirmed.",
+  "cost_usd": 0.04617740000000001,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 3829,
+    "cache_read_input_tokens": 11232,
+    "output_tokens": 1182,
+    "output_tokens_details": {
+      "thinking_tokens": 43
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3829
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 885,
+        "cache_read_input_tokens": 4896,
+        "cache_creation_input_tokens": 352,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 352,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

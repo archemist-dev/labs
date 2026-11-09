@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c04-summary-london-day",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Kitchen summary**\n\nThe timezone handling is correct. `kitchen_summary` converts to London time through `london_day`, the same as `daily_revenue`, so orders placed just after midnight BST are bucketed into the right day. The suggestions below are mostly about duplication and tests.\n\n**Issues / suggestions**\n\n1. **Tests are missing.** `tests/` only has `test_service.py`. Please add tests for `kitchen_summary`:\n   - An empty day returns 0 orders and 0 revenue.\n   - Non-delivered orders are excluded.\n   - A BST edge case, for example `2026-06-30 23:30Z`, which is 00:30 on 1 July in London. Check that it lands on 1 July and not 30 June.\n   - A GMT/BST transition day, which has 23 or 25 hours.\n   - The result for a day matches `daily_revenue(orders).get(day, 0)`.\n\n2. **Duplicated logic.** The delivered-and-London-day filter now exists in both `kitchen_summary` and `daily_revenue`. Pull it into a shared helper, or build the summary on top of the existing code. That way the two reports can't drift apart.\n\n3. **Which timestamp defines the day?** The code uses `created_at`, so an order created at 23:50 and delivered at 00:20 counts toward the earlier day. This is consistent with `daily_revenue`. But the description says \"delivered orders \u2026 for a given day\". If managers expect the delivery day, this is wrong. `Order` has no `delivered_at` field, so please confirm that `created_at` is the intended definition and note it in the docstring.\n\n4. **Input contract.**\n   - `day` must be a `datetime.date`. A `datetime` passed in never compares equal to a `date`, so the result is silently zero. Add a type hint (`day: date`) and a docstring.\n   - `created_at` must be timezone-aware. A naive datetime would be interpreted in the server's local time by `astimezone`. The model says it's aware, so this is fine, but it's worth knowing.\n\n5. **Performance.** The function is O(n) over all orders and converts timezones for every one, even though it only needs one day. That's fine for in-memory lists. If `orders` comes from the store, filter by a UTC range in the query instead. The range is `[london midnight, next london midnight)` converted to UTC. This also avoids loading everything.\n\n6. **Minor.**\n   - The one-line dict and comprehension are long, so split them for readability.\n   - The return type could be a `TypedDict` or dataclass.\n   - `revenue_pence` is clear. Make sure refunds and cancellations are intentionally excluded, which they are because only DELIVERED counts.\n\n**Security:** No concerns. It's a pure function with no I/O. If it gets exposed through a view, make sure kitchen-level authorization is applied. The function takes no kitchen identifier, so it will sum across all kitchens unless the caller pre-filters.\n\n**Verdict:** The logic is correct, but I'd like tests added. Please also confirm the created-vs-delivered day question (item 3) and the missing per-kitchen filter before merging.",
+  "cost_usd": 0.0335794,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1715,
+    "cache_read_input_tokens": 6102,
+    "output_tokens": 1188,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1715
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1040,
+        "cache_read_input_tokens": 2502,
+        "cache_creation_input_tokens": 632,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 632,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

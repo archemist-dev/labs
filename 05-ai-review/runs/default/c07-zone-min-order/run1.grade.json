@@ -1,0 +1,11 @@
+{
+  "comments": 6,
+  "blocking": 1,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review correctly says the 0 default leaves existing zones unchanged and that the logic is correct as written. Its one blocking item asks for tests before merge, which is not a false alarm. The other points are questions or minor suggestions, so none of them wrongly claims the change misbehaves.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0225648
+}

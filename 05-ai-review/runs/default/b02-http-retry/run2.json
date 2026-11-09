@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b02-http-retry",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Retry transient provider errors in Http.post**\n\n**Blocking: retrying refunds can double-refund.**\n`Http.post` is shared by every provider client, and this change retries all of them. `PaymentClient.refund` (`payments.py:44`) sends no idempotency key, and the module docstring says \"every POST /refunds creates a new refund.\" The `TransientError` docstring says a 5xx or timeout means the provider \"may or may not have applied the request.\"\n\nSuppose a refund is applied and the response then times out, or a gateway returns 502/504 after the provider processed it. The new loop re-POSTs, and the guest is refunded twice. Before this PR, `refund` returned `ok=False` with \"check the provider before refunding again.\" That was deliberate, and this change bypasses it. The 408 and 504 codes make this likely, because those are exactly the cases where the request may have gone through.\n\nSuggested fix: make retry opt-in, not the default for all POSTs.\n- Default `attempts=1` in `Http.post`. Have `charge` pass `attempts=3` because it sends an `Idempotency-Key`. `refund` keeps a single attempt.\n- Alternatively, retry only when an `Idempotency-Key` header is present. Either way, add a comment saying why.\n- Refunds could get retries later if the provider adds a key for them.\n\n**Other issues**\n- **Exceptions are not retried.** The description mentions timeouts, but `session.post` raising a timeout or connection exception isn't caught. Only the status codes are retried. If the session raises on timeout, those errors skip the retry loop entirely, and they also never become `TransientError`. Please check which behaviour the session has and handle it. The same idempotency rule applies to retrying those.\n- **Blocking sleep.** `time.sleep` adds 0.2s plus 0.4s, about 0.6s, per failing call. With `timeout=5` and 3 attempts, the worst case is about 15.6s inside `Http.post`. Check that this fits the request or worker budget, especially if `service.py` calls it synchronously. Consider adding jitter and honouring `Retry-After` on 503.\n- **Retry amplification.** If the provider is down, every call now sends 3 times the traffic. Consider a cap or circuit breaker if load becomes a concern.\n- **Naming.** `attempts=3` means \"retry twice\", which is fine but should be documented in a docstring. The sleep base and backoff are hard-coded, so make them constructor or class parameters so tests can set them to 0.\n- **Final error message.** It reports only the last status and loses the earlier ones. This is minor.\n\n**Tests**\nThis PR adds no tests. At minimum, please cover:\n- success after a 503 followed by a 200\n- exhaustion raising `TransientError` after exactly `attempts` calls\n- no retry on 4xx, including 402\n- no sleep after the last attempt\n- `refund` making exactly one POST on a 5xx (this guards the double-refund bug)\n- `charge` re-sending the same `Idempotency-Key` on each retry\n\nPatch `time.sleep` in these tests so they run fast.",
+  "cost_usd": 0.0425892,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 2798,
+    "cache_read_input_tokens": 9436,
+    "output_tokens": 1334,
+    "output_tokens_details": {
+      "thinking_tokens": 39
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2798
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1037,
+        "cache_read_input_tokens": 3040,
+        "cache_creation_input_tokens": 1177,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1177,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

@@ -1,0 +1,11 @@
+{
+  "comments": 1,
+  "blocking": 1,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The single [BLOCKING] comment names the seeded bug exactly. Refunds carry no idempotency key, so retrying a transient failure the provider already applied issues a duplicate refund and returns ok=True silently. It also notes that charges are safe because the provider dedupes them by key.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0170348
+}

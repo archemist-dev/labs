@@ -1,0 +1,11 @@
+{
+  "comments": 6,
+  "blocking": 2,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 1,
+  "false_alarms_blocking": 1,
+  "why": "The review flags #1 (timeout exceptions aren't retried) as a bug that must be fixed before merge, but the answer key says this PR has no defect, and the review admits the behaviour predates the PR, so I counted it as a blocking false alarm. #6 (missing tests) is also blocking but is a test request, not a false alarm; #4's attempts=0 crash is true and only a robustness suggestion, and the other comments are suggestions, nits or docs notes.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0312898
+}

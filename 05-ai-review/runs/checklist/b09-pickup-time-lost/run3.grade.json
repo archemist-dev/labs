@@ -1,0 +1,10 @@
+{
+  "comments": 3,
+  "blocking": 2,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "[BLOCKING] never saved, plus [BLOCKING] read-modify-write race.",
+  "judge_model": "manual (read by Claude, 2026-11-09)"
+}

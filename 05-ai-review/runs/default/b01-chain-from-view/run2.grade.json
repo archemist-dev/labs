@@ -1,0 +1,11 @@
+{
+  "comments": 8,
+  "blocking": 2,
+  "caught": true,
+  "caught_in_blocking": true,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The first blocking comment quotes the CourierView contract (\"Display only; decisions read the store\") and explains that a stale chain means `chained[-1]` can be the wrong last order, so the detour is measured from the wrong address and a courier is picked wrongly, which is the seeded bug. The review frames the lag as orders not yet showing up rather than the detached order that is still listed, but it names the same mechanism and the same effect.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.026409799999999997
+}

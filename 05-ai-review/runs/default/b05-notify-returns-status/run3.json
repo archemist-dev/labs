@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b05-notify-returns-status",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Blocking: this change breaks the retry path in `OrderService.dispatch`.**\n\n`dispatch` in `orders/service.py:93-97` still relies on the old contract:\n\n```python\ntry:\n    self.notifier.send(order.courier_id, text)\nexcept NotifyError:\n    log.warning(...)\n    self.outbox.add(order.courier_id, text)\n```\n\n`send` no longer raises, so the `except` branch is now dead code. A failed courier SMS is logged once by `Notifier` and then dropped. It never reaches `Outbox`, and the worker that retries every minute never sees it. Before this PR a failed pickup SMS was retried. After it, the courier is never told about the order, and nothing in the code shows that. That is a silent regression in the core dispatch flow.\n\nFix it in the same PR by changing `dispatch` to use the return value:\n\n```python\nif not self.notifier.send(order.courier_id, text):\n    self.outbox.add(order.courier_id, text)\n```\n\nThen remove the unused `NotifyError` import in `service.py`. Either delete the `NotifyError` class or keep it only if something else still uses it. I found no other users.\n\n**Tests**\n- `FakeNotifier.send` in `tests/test_service.py` returns `None`. That is falsy, so with the fix above every dispatch in the tests would be queued as a failure. Make it return `True`.\n- No test covers the failure path. Add one with a notifier that returns `False` and assert that `svc.outbox.pending == [(courier_id, text)]` after `dispatch`. A test like that would have caught this regression.\n- Add a `Notifier` unit test, with a fake `sms` returning `ok=False`. It should check that `send` returns `False` and logs a warning.\n\n**Smaller points**\n- `Notifier.send` logs the full phone number `to` at warning level. That is PII in logs, so consider masking it.\n- The `sms.send` call can itself raise on a timeout or a network error. The docstring says timeouts return `False`, but that only holds if the provider client returns `ok=False` rather than raising. Please confirm that. If it can raise, catch the exception in `Notifier.send` too, otherwise callers get a mix of a bool and an exception.\n- A bare `bool` is easy to ignore, and that is how this bug got through. It is worth deciding whether callers must handle failure. If so, the explicit exception was the safer API. If you keep the bool, check every call site. Today `dispatch` is the only one.\n- `dispatch` also logs \"queued for retry\" while `Notifier` logs a warning. After the fix you will have two log lines per failure, so keep just one.\n\nI'd request changes until `dispatch` is updated and has a test.",
+  "cost_usd": 0.0467942,
+  "usage": {
+    "input_tokens": 12,
+    "cache_creation_input_tokens": 3293,
+    "cache_read_input_tokens": 16706,
+    "output_tokens": 1347,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3293
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 895,
+        "cache_read_input_tokens": 3869,
+        "cache_creation_input_tokens": 843,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 843,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 6
+}

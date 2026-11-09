@@ -1,0 +1,11 @@
+{
+  "comments": 2,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review has two comments, both marked NIT. One suggests checking the type of `day` to protect future callers. The other asks the PR description to say which day orders are counted on, and it agrees the code matches `daily_revenue` and uses `london_day` correctly. Neither comment says the clean change is wrong, so neither counts as a false alarm.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0182498
+}

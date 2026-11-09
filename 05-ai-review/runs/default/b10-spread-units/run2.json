@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b10-spread-units",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Blocking: unit bug in the new check (`orders/chain.py`, line 15)**\n\n`geo.distance` returns kilometres, but `MAX_DETOUR` is 800 metres. The new line compares km to metres:\n\n```python\nif geo.distance(first.address, order.address) > MAX_DETOUR:\n```\n\nThe check only rejects an order that is more than 800 km from the first order. In practice it never fires, so the PR doesn't fix the drift it was meant to fix. Chains can still creep across town. Nothing will error, so the bug is easy to miss.\n\nFix: use `geo.distance_m`, as the line below it does.\n\n```python\nif geo.distance_m(first.address, order.address) > MAX_DETOUR:\n    continue\n```\n\n**Design and quality**\n- The new check reuses `MAX_DETOUR` (800 m) as the limit from the first order. That makes the first-order limit equal to the hop limit, so a chain can only grow as a cluster within 800 m of its first order. That may be what you want, but it's a large behaviour change. It would be clearer as a separate constant, for example `MAX_CHAIN_SPREAD`, so the two limits can be tuned independently. Update the `MAX_DETOUR` comment as well.\n- The first-order check runs before the cheaper-to-read `detour` computation, and the two checks are split across different styles (`continue` and an inline `and`). Compute both distances, then make one combined condition. This is a readability point only.\n- When a courier has exactly one order, `first` and `last` are the same order. The check is then redundant but harmless.\n- The `pick_courier` docstring should mention the new constraint.\n\n**Performance**\n- This adds one extra `store.get` and one haversine calculation per candidate courier. That's negligible. You could skip the `store.get` for `first` when `len(order_ids) == 1`.\n\n**Tests**\n- No tests were added. `tests/test_service.py` only covers the basic case, `test_chain_onto_nearby_courier`. A test would have caught the unit bug. Please add:\n  - A case where the new order is within 800 m of the last order but more than 800 m from the first. It should return `None`, or pick another courier.\n  - A case just inside the limit, to pin the boundary.\n  - A case where the first-order check rejects one courier and another valid courier is picked.\n- Build the test coordinates in metres-scale offsets, about 0.007\u00b0 of latitude per 800 m. That way a km/m mix-up shows up as a failure.\n\n**Security**\n- No concerns.",
+  "cost_usd": 0.0325652,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2167,
+    "cache_read_input_tokens": 6231,
+    "output_tokens": 1023,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2167
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 835,
+        "cache_read_input_tokens": 2634,
+        "cache_creation_input_tokens": 952,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 952,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

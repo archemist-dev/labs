@@ -1,0 +1,11 @@
+{
+  "comments": 8,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review confirms the units match (metres, like MAX_DETOUR) and says none of its points block the merge. Its comments are about style, docs, tests, a None case that already existed and product questions, so none claims the change is wrong.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0231798
+}

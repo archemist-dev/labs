@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c06-card-expired-subclass",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "Review of \"Tell the app when the card has expired\":\n\n**Correctness: the subclass works with existing handling.** `service.py:58` catches `PaymentError`. It releases stock, marks the order `PAYMENT_FAILED` and re-raises. `CardExpired` goes through that path unchanged, and the exception the app sees is still the specific type. That meets the stated goal.\n\n**Issue (minor): the exception message differs from `PaymentError`.**\n- `CardExpired(order_id)` puts the order id in the message. `PaymentError(reason)` puts the provider's reason there.\n- Nothing in the repo reads `str(e)` today, so nothing breaks now.\n- Anything that logs or displays the message for declines will see a bare UUID for expired cards and a reason for every other decline.\n- Suggest `CardExpired(reason)`, or a message like `\"card_expired\"`, so all `PaymentError` messages mean the same thing.\n\n**Suggestions**\n- **Magic string:** `\"card_expired\"` is the provider's reason code, hardcoded inline. Make it a module constant, so more codes (such as `insufficient_funds`) can be mapped in one place later.\n- **Missing or odd 402 body:** the existing `.get(\"reason\", \"declined\")` behaviour is preserved. If the body isn't JSON, `.json()` raises, but that was already true before this PR.\n\n**Tests: none were added, and they are needed.** `tests/test_service.py` has no coverage of this path. Please add:\n1. A `PaymentClient.charge` test where a 402 with `reason: \"card_expired\"` raises `CardExpired`.\n2. A test that a 402 with another reason raises plain `PaymentError`, and not `CardExpired`.\n3. A service-level test that an expired card still releases stock and sets `PAYMENT_FAILED`. This is the \"existing decline handling still runs\" claim in the description, and it should be locked in by a test.\n\n**Performance and security:** no concerns. Putting the order id in the exception message is low risk, but it is another reason to prefer the provider reason.\n\nOverall the change is small and correct. I'd approve once the message is fixed and tests are added.",
+  "cost_usd": 0.037836800000000004,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 2563,
+    "cache_read_input_tokens": 12209,
+    "output_tokens": 1127,
+    "output_tokens_details": {
+      "thinking_tokens": 52
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2563
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 715,
+        "cache_read_input_tokens": 3130,
+        "cache_creation_input_tokens": 852,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 852,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}

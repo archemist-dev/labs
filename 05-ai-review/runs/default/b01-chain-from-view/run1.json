@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b01-chain-from-view",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Read courier chains from the courier view in pick_courier\"**\n\n**1. Blocking: this uses a stale read model to make a decision.**\nThe `CourierView` docstring says it is \"Eventually consistent: it lags the store by a few seconds, more under load. Display only; decisions read the store.\" `pick_courier` is a decision, and it fails in these ways when the view lags:\n\n- **Wrong \"last order\" address.** `chained[-1]` can be an order that has since been detached or reassigned. Then `store.get(chained[-1])` measures the detour from the wrong address. The view can also be missing a recent attach, so the last stop is an older one.\n- **Wrong capacity check.** `len(chained) >= courier.max_orders` uses a stale length. A courier who is actually full can look free, and one with room can look full.\n- **Worst at dinner peak.** The view lags most under load, and that is when this code runs most often and when couriers fill up fastest. Several orders will pile onto the same \"nearest\" courier before the view catches up.\n- **Only partly caught by `attach_order`.** It raises `ConflictError` when the courier is full, and `chain()` then returns `None`. So a stale view mostly causes silently skipped chaining and worse routes, not over-assignment. It does not protect against a bad detour choice. It also gives no protection when the view shows a courier as full but the store shows room.\n- **Possible crash.** If the view returns an order id that no longer exists, `store.get(...)` may raise. I haven't traced this fully.\n\n**2. The change doesn't deliver the stated benefit.**\nThe loop still iterates `store.couriers()`, which deep-copies every courier from the primary on each order. Only the `order_ids` field is now read from the view. The primary read load that motivated the PR is unchanged. The loop also still calls `store.get(...)` per candidate. To cut the load you would have to iterate `view.courier_ids()`. But then `max_orders` is not in the view either, so the view would need to carry it or you'd need a separate cached lookup.\n\nSo the PR adds staleness risk and removes no load. It also mixes two sources inside one loop. A courier's `max_orders` and `id` come from the store, and its chain comes from the view. That is confusing.\n\n**3. Suggestions.**\n- Keep the decision on the store. If the load is the problem, add a narrow store method such as `couriers_with_capacity()`, which returns only the id, last order id and `max_orders`. Another option is to read from a replica, or to cache `couriers()` for a very short TTL, and rely on `attach_order`'s conflict check as the safety net.\n- If you really want the view here, change its contract deliberately. Give it a version or timestamp and bound the staleness. Have `pick_courier` verify the chosen courier against the store before returning. Update the docstring so the next person isn't misled.\n- Changing the `pick_courier` signature to `(store, view, order)` couples the function to the view. It makes sense only if the design is settled.\n\n**4. Tests.**\nThere are no test changes, and `tests/test_service.py` doesn't cover `chain`/`pick_courier` with a lagging view. At minimum, add tests for these cases:\n- a view that hasn't caught up after `attach_order`;\n- a view that hasn't caught up after `detach_order`;\n- a courier at capacity in the store but not in the view.\n\nI also recommend measuring the primary read load before and after. I expect the change to look much smaller than hoped, because of point 2.\n\n**Verdict:** Request changes.",
+  "cost_usd": 0.06407120000000001,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 6544,
+    "cache_read_input_tokens": 11096,
+    "output_tokens": 1455,
+    "output_tokens_details": {
+      "thinking_tokens": 52
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 6544
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1162,
+        "cache_read_input_tokens": 5975,
+        "cache_creation_input_tokens": 569,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 569,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

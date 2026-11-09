@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b04-summary-utc-day",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of `kitchen_summary`**\n\n**Bug (blocking): wrong day boundary.**\n`o.created_at.date()` takes the date in whatever timezone the timestamp carries. `london_day`'s docstring says that is UTC, and that kitchens report in London time. `daily_revenue` in the same file already uses `london_day(o.created_at)`.\n\n- During BST (late March to late October), an order placed between 00:00 and 01:00 London time has a UTC date of the previous day. It would be counted in the wrong day's summary.\n- The same applies to an order placed at 23:30 UTC. That is 00:30 London time on the next day, so it is counted a day early.\n- Because the summary and `daily_revenue` use different day boundaries, the two reports will disagree for the same day.\n\nSuggested fix:\n```python\nif o.status == DELIVERED and london_day(o.created_at) == day\n```\n\n**Design question.** Both reports bucket by `created_at`. \"Delivered orders for a day\" could instead mean the day of delivery. If so, an order placed at 23:50 and delivered at 00:20 lands on a different day. I'd confirm the intended definition with the kitchen managers. If created-day is intended, it's worth stating in a docstring, as `london_day` does.\n\n**Duplication.** `kitchen_summary` re-implements the filter and sum that `daily_revenue` does. It could reuse a shared helper, or `kitchen_summary` could be built on `daily_revenue`. That would keep the two from drifting apart again.\n\n**Minor:**\n- `day` has no type hint. Add `day: date` and say in the docstring that it is a London-local date. A `datetime` passed by mistake would never equal a `date` and would silently return zero results.\n- The function is O(n) over all orders for a single day. This is fine for now. If `orders` is a DB query result, filter by a London-day range in the query rather than loading everything.\n- The one-line dict return is dense. Splitting it across lines would read better.\n\n**Tests (blocking): none were added.** `tests/` only contains `test_service.py`. Please add tests for:\n- A delivered order and a non-delivered order on the same day. Only the delivered one should count.\n- A day with no orders, which should return 0 orders and 0 revenue.\n- Boundary cases: 23:30 UTC in summer (which is the next London day) and 00:30 BST (which is the previous UTC day). A winter case should be included too. The first test would have caught the bug above.\n- Consistency with `daily_revenue` for the same data.\n\n**Security:** no concerns.\n\nThe change can't be approved until the timezone bug is fixed and tests are added.",
+  "cost_usd": 0.030707200000000004,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1577,
+    "cache_read_input_tokens": 6091,
+    "output_tokens": 1079,
+    "output_tokens_details": {
+      "thinking_tokens": 54
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1577
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 873,
+        "cache_read_input_tokens": 2497,
+        "cache_creation_input_tokens": 499,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 499,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

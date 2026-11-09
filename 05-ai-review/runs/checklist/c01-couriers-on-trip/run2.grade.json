@@ -1,0 +1,11 @@
+{
+  "comments": 0,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review says the change is behavior-preserving, which matches the answer key, and it raises no defects. Its explanation is a summary, not a finding.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0131098
+}

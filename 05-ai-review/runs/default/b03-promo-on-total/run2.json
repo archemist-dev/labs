@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b03-promo-on-total",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Request changes.** This change contradicts the documented promo terms, and it has no tests.\n\n**1. It contradicts the documented promo terms (blocking).**\nThe module docstring in `orders/money.py` says: *\"a percentage promo applies to the item subtotal only, never to delivery or surge fees.\"* This PR applies the percentage to `subtotal + delivery_fee`, and that fee includes the surge fee. Two consequences:\n- The discount now covers delivery and surge fees, which the stated terms forbid.\n- Discounts get bigger whenever the `surge_fee` flag is on. That cuts revenue exactly when surge pricing is meant to raise it. Surge fees also change under the guest, so the discount would too.\n\nThe support-ticket problem is real, but the PR resolves it by changing the business rule in application code. If product has actually decided that promos should cover delivery, I'd want that confirmed. I'd also want the docstring updated in the same PR, and a decision on whether surge should be included. If not, the better fix is on the display side. The UI could say \"10% off your items\", or show the discount as a line next to the subtotal. The guest-facing copy would then match the rule as it stands.\n\n**2. No tests.**\n`tests/test_service.py` has no promo test at all. `TENOFF` is configured in `make_service` but never used. Whichever behaviour is chosen, please add tests for:\n- A promo order with a delivery fee. The existing `ITEMS` subtotal is 2695, so delivery is free in zone CB1. A cheaper basket is needed to exercise the fee.\n- A promo with the surge flag on and off.\n- Rounding. `percent_off` floors, so check that odd totals give the expected pence.\n- The edge where delivery is free at the threshold.\n\n**3. Smaller points.**\n- `self.promos[promo_code]` raises a bare `KeyError` for an unknown code. This isn't new, but it surfaces as a 500 rather than a clear validation error. It would be worth fixing while you're in this function.\n- The `percent_off` docstring says \"rounded down so the guest is never charged a fraction\". That is slightly misleading, because flooring the discount rounds the guest's total up. It's harmless, but it's worth knowing when comparing against \"10% of the total they see\". Flooring can still leave a 1p mismatch, so the tickets may not disappear entirely.\n- The order is saved before stock is reserved and payment is charged. That's existing behaviour and out of scope here.\n\nPerformance and security: nothing new. The change is one integer addition.",
+  "cost_usd": 0.043447,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4343,
+    "cache_read_input_tokens": 6340,
+    "output_tokens": 1022,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 4343
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 840,
+        "cache_read_input_tokens": 2718,
+        "cache_creation_input_tokens": 3044,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 3044,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

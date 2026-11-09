@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c02-retry-charges-only",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Retry transient errors on charges**\n\nThe core design is sound. Retries are opt-in (`attempts=1` by default), only `charge` passes `attempts=3`, and refunds stay single-attempt. That matters because refunds have no idempotency key, so a retry could create a second refund. The same `Idempotency-Key` header is reused on every attempt, so the provider dedupes. The refund path is unchanged.\n\n**Issues**\n\n1. **Timeouts are not retried (main gap).**\n   - The description says \"502/503 or a timeout\", and the `TransientError` docstring says \"Timeout or 5xx\".\n   - `Http.post` only raises `TransientError` for the status codes. A real timeout would come out of `session.post` as an exception (for example `requests.Timeout`) and propagate straight out of the loop. It would skip the retry, and `charge` wouldn't convert it to `PaymentTimeout`.\n   - Fix: catch the session's timeout and connection exceptions inside the loop and treat them like a transient status. Keep the last failure so the final `TransientError` is accurate.\n   - This may already be handled in the real session adapter. If so, please say where, and add a test.\n\n2. **The last `resp` is used after the loop.** `resp.status` in the final `raise` works only because `attempts >= 1`. With `attempts=0` it would raise `NameError` or `UnboundLocalError`. Validate `attempts >= 1` or restructure the loop.\n\n3. **Blocking sleep.** `time.sleep` is at most 0.2s then 0.4s, so it is fine for a sync path. The worst case is roughly 3 \u00d7 5s timeouts plus 0.6s, about 15.6s inside a request. Check that this fits the caller's or gateway's deadline. Consider a total deadline, and jitter if many requests can fail at once.\n\n4. **Retries on 500 and 408.** Retrying 500 is fine given idempotency, but a deterministic 500 will now take three tries. This is acceptable. The PR description only mentions 502/503, so it's worth confirming this is intended.\n\n5. **Idempotency-key lifetime.** Retrying relies on the provider's key retention and on callers passing a stable key per order. Confirm that `charge` callers don't generate a new key on each call. If the key is regenerated, the service-level retry would double-charge.\n\n**Tests**\n\n- The diff has no tests. `tests/test_service.py` is unchanged. Please add:\n  - 503 then 200 returns success, with two calls made.\n  - Three failures raise `PaymentTimeout`, with three calls made.\n  - The same `Idempotency-Key` is sent on every attempt.\n  - A 402 decline is not retried.\n  - `refund` makes exactly one call on a 503 and returns `ok=False`.\n  - A timeout exception is retried (see issue 1).\n  - Patch `time.sleep` in these tests so they stay fast.\n\n**Minor**\n\n- The final error message reports the last status only. That's fine, but logging each retry would help with debugging.\n- The docstring on `Http` still says \"One attempt per call\". Update it to say \"by default\".\n\nI'd request changes for the timeout handling and the tests.",
+  "cost_usd": 0.0404812,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2696,
+    "cache_read_input_tokens": 6586,
+    "output_tokens": 1283,
+    "output_tokens_details": {
+      "thinking_tokens": 74
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2696
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1055,
+        "cache_read_input_tokens": 2964,
+        "cache_creation_input_tokens": 1151,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1151,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

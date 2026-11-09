@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b08-flag-rename",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "[BLOCKING] `orders/service.py:48`: the flag was renamed at the call site, but `orders/flags.py` still defines only `surge_fee`. `flags.enabled(\"dynamic_delivery_fee\")` therefore hits the unknown-name default and returns `False`, as the `flags.py` docstring says it will. Nothing raises. `surge=False` is passed on every order, so the surge fee, currently on (`True`), is dropped from `delivery_fee_pence` and `total_pence`. Customers are undercharged with no error or log. To fix it, rename the key in `FLAGS` as well. Also check for any external flag override or config that still uses `surge_fee`. The `config.py:8` comment also still names the old flag.",
+  "cost_usd": 0.020582999999999997,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1975,
+    "cache_read_input_tokens": 7120,
+    "output_tokens": 463,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1975
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 244,
+        "cache_read_input_tokens": 3146,
+        "cache_creation_input_tokens": 248,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 248,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

@@ -1,0 +1,11 @@
+{
+  "comments": 2,
+  "blocking": 0,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "Both comments are NITs. The first asks the author to confirm and document whether the minimum applies before or after the discount, without calling the code wrong. The second says outright that the 0 default matches '0 = no minimum' and is not a defect, so neither counts as a false alarm on this clean PR.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0172348
+}

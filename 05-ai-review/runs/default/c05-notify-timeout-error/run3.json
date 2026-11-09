@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c05-notify-timeout-error",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Separate SMS timeouts from rejections\"**\n\nThe change is small and backward compatible. `NotifyTimeout` subclasses `NotifyError`, so the one existing caller, `OrderService.dispatch` in `orders/service.py:95`, still catches it and still queues the message in the outbox. I found no bugs in the diff itself. But it doesn't deliver what the description promises, and it has no tests.\n\n**1. The logs still don't distinguish timeouts from rejections (main issue)**\n- The only place that logs this failure is `dispatch`. It catches `NotifyError` and logs `\"courier sms failed for %s, queued for retry\"`, with no exception detail.\n- Both failure types therefore produce the same log line, and ops gets no new information.\n- Suggested fix: add a separate `except NotifyTimeout:` branch before `except NotifyError:` with its own message. Alternatively, log the cause with `log.warning(\"courier sms failed for %s (%s), queued for retry\", order.id, type(e).__name__)`. Either way, `service.py` needs to import `NotifyTimeout`.\n- If a timeout and a rejection should be handled differently, this is also the place to do it. For example, a rejected number probably shouldn't be retried every minute forever. A timeout is ambiguous, since the message may have been delivered, so a retry could send a duplicate. That's outside this PR, but it's the reason to have separate types.\n\n**2. Inconsistent exception messages**\n- `NotifyTimeout(to)` carries only the phone number. `NotifyError` carries `f\"{to}: {resp.error}\"`.\n- Anyone who logs `str(e)` will see different formats. Use `f\"{to}: timeout\"` or similar for consistency.\n- The phone number is PII in logs. That's already the case for `NotifyError`, but consider masking it for both.\n\n**3. Magic string**\n- `resp.error == \"timeout\"` depends on a provider-specific string. Define it as a constant, or have the SMS client expose a typed or boolean flag. Otherwise a change in the provider wrapper silently turns every timeout back into a plain `NotifyError`.\n\n**4. Docstring**\n- The `Notifier` docstring says `send` raises `NotifyError` \"when the provider rejects the message or times out\". Update it to say that timeouts raise the `NotifyTimeout` subclass.\n\n**5. Tests**\n- No tests were added. `FakeNotifier` in `tests/test_service.py` never raises, so the failure path isn't covered at all.\n- Please add:\n  - A `Notifier.send` test with a fake SMS client returning `ok=False, error=\"timeout\"`. It should assert `NotifyTimeout` is raised, and that `isinstance(e, NotifyError)` holds.\n  - A test with a different error. It should assert plain `NotifyError` is raised and is not a `NotifyTimeout`.\n  - A `dispatch` test where the notifier raises each exception type. It should assert the message lands in `outbox.pending` and the order still returns. Use `caplog` to assert the log differs once item 1 is fixed.\n\n**Performance and security:** no concerns beyond the PII note above.\n\nI'd request changes: fix item 1 so the PR does what it says, and add tests.",
+  "cost_usd": 0.0536298,
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 3518,
+    "cache_read_input_tokens": 13299,
+    "output_tokens": 1667,
+    "output_tokens_details": {
+      "thinking_tokens": 207
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3518
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1290,
+        "cache_read_input_tokens": 3746,
+        "cache_creation_input_tokens": 1191,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1191,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 6
+}

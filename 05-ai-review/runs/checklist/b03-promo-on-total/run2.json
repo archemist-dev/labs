@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "b03-promo-on-total",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "<br>\n\n[BLOCKING] `orders/service.py` line 50: the promo is now applied to subtotal plus delivery. That breaks the documented promo terms in the `orders/money.py` module docstring: \"a percentage promo applies to the item subtotal only, never to delivery or surge fees.\"\n\nTake an order with a \u00a320.00 subtotal, a \u00a33.00 delivery fee and a 10% promo.\n- Before this change the discount was \u00a32.00.\n- Now it is \u00a32.30.\n\nThe order is saved and charged with no error. The guest is undercharged and the business gives away delivery and surge money on every promo order. The `surge_fee` flag makes it worse, because surge pence now gets discounted too. The 10% promos in the code, and the payments charged against them, no longer match the stated terms.\n\nIf the business actually wants the discount to cover delivery, change the documented promo terms deliberately first. The ticket about the discount not matching 10% of the total is a display problem. Fix it by changing the wording the guest sees, for example \"10% off items\", not by changing what is charged.\n\n[NIT] The discount can never exceed the total, since `percent_off` caps the percent at 100. A 100% promo, though, now also waives delivery and gives a \u00a30 charge. Check that `payments.charge` handles a zero amount rather than failing or skipping silently.",
+  "cost_usd": 0.031980999999999996,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3749,
+    "cache_read_input_tokens": 7060,
+    "output_tokens": 590,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3749
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 435,
+        "cache_read_input_tokens": 3078,
+        "cache_creation_input_tokens": 2090,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 2090,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

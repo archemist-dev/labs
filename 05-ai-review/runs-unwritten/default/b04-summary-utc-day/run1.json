@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b04-summary-utc-day",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Kitchen summary: orders and revenue for one day\"**\n\n**Bug (blocking): wrong day boundary.**\n`kitchen_summary` filters on `o.created_at.date() == day`. That takes the date in whatever timezone `created_at` carries. `service.py` sets it from `now`, and I'd expect that to be UTC, but I didn't check. `reports.py` already has `london_day()`, and `daily_revenue` uses it. Kitchens operate on London business days, so this function will disagree with `daily_revenue` for the same day.\n- During BST (UTC+1), an order placed at 00:30 London time on the 5th is 23:30 UTC on the 4th. It would be counted on the wrong day.\n- The summary for a day and the `daily_revenue` entry for that day would then show different numbers.\n\nSuggested fix:\n```python\nif o.status == DELIVERED and london_day(o.created_at) == day\n```\nDocument that `day` is a London-local date. If `created_at` can be naive, `astimezone` will treat it as system-local time, so that needs to be settled too.\n\n**Design and quality**\n- This duplicates the filtering in `daily_revenue`. Consider building on a shared helper, or implement the summary as `daily_revenue` plus a count. That keeps the two from drifting apart again.\n- Filtering by day happens in Python over every order passed in. That is fine for small inputs. If `orders` comes from the store, filter by a London-day range in the query instead.\n- The function takes `day` as a `date`, and `day.isoformat()` will fail on anything else. A type hint (`day: date`) would make that clear. A `datetime` would also pass `isoformat()` but never equal a `date`, so it would silently return zero orders.\n- The one-line return is dense. Splitting it up would make it easier to read.\n- The status is `DELIVERED`, but the summary is bucketed by `created_at`. An order created at 23:50 and delivered at 00:20 counts toward the creation day. If managers mean \"delivered on that day\", this is wrong. Please confirm the intended semantics. If the model has no delivery timestamp, say so in the docstring.\n\n**Tests**\n- No tests were added. At minimum, please cover:\n  - an empty day, which should return 0 orders and 0 revenue;\n  - non-delivered statuses being excluded;\n  - orders on other days being excluded;\n  - a BST boundary case, such as 23:30 UTC on the previous day and 22:59 UTC on the same day;\n  - a GMT (winter) boundary case.\n- The boundary tests would have caught the bug above.\n\n**Security and performance**\n- No security concerns, because the function is pure and has no I/O.\n- Performance is fine apart from the point above about filtering in the store.\n\nPlease fix the timezone handling and add tests before merging.",
+  "cost_usd": 0.0338244,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1792,
+    "cache_read_input_tokens": 6092,
+    "output_tokens": 1127,
+    "output_tokens_details": {
+      "thinking_tokens": 48
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 1792
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 931,
+        "cache_read_input_tokens": 2496,
+        "cache_creation_input_tokens": 715,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 715,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

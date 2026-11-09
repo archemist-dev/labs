@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c07-zone-min-order",
+  "run": 3,
+  "model": "claude-sonnet-5-5",
+  "review": "- [NIT] `orders/config.py`: `min_order_pence` defaults to 0, which means \"no minimum\". A zone entry from the config service that omits the field, or misspells it (for example `min_order`), won't enforce a minimum. `Zone(**fields)` would raise on an unknown key, so a misspelling fails loudly. An omitted key does not. The seed `ZONES` set no minimums, so after this PR no zone enforces one until the config is updated. If a zone's minimum is lost in a config rollout, orders below it are accepted without any error.\n\n- [NIT] `orders/service.py`: the check compares the pre-discount `subtotal_pence` with the minimum. A promo can bring the charged amount below the zone minimum. For example, a 50% promo on a 1000p basket in a zone with a 1000p minimum is accepted and charges about 500p plus the fee. This is probably intended, since the promo rules in `money.py` talk about the item subtotal. Confirm that the minimum is meant to apply before discounts.\n\nThe rejection itself is a `ValueError` raised before `store.save` and before stock is reserved, so it leaves no partial state behind. It is the same error type the other validation failures in `place_order` use.",
+  "cost_usd": 0.0388298,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4572,
+    "cache_read_input_tokens": 7229,
+    "output_tokens": 725,
+    "output_tokens_details": {
+      "thinking_tokens": 175
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 4572
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 578,
+        "cache_read_input_tokens": 3274,
+        "cache_creation_input_tokens": 2717,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 2717,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

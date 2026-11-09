@@ -1,0 +1,11 @@
+{
+  "comments": 6,
+  "blocking": 1,
+  "caught": false,
+  "caught_in_blocking": false,
+  "false_alarms": 0,
+  "false_alarms_blocking": 0,
+  "why": "The review counts as six comments. Only point 1, missing tests, is labelled a blocker, and asking for tests isn't a false alarm. The other points are suggestions or hedged questions (the pre-discount minimum point says \"may be intended\"), and the review states the logic is correct, so it claims no real defect.",
+  "judge_model": "claude-opus-5-5",
+  "judge_cost_usd": 0.0269148
+}

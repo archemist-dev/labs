@@ -1,0 +1,6 @@
+{
+  "caught": true,
+  "caught_in_blocking": true,
+  "why": "Blocking: dispatch's except NotifyError is now dead, nothing is queued in the Outbox, courier never gets the SMS.",
+  "judge_model": "manual (read by Claude, 2026-11-09)"
+}

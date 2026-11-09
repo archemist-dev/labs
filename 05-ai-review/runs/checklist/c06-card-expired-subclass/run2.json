@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c06-card-expired-subclass",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\n`CardExpired` subclasses `PaymentError`, so the `except PaymentError` in `place_order` still catches it. That handler releases the stock, marks the order `PAYMENT_FAILED` and re-raises, so the exception still reaches the caller. No other code in the repo catches `PaymentError` or reads the decline reason.",
+  "cost_usd": 0.024959000000000002,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 3132,
+    "cache_read_input_tokens": 10435,
+    "output_tokens": 359,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 3132
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 119,
+        "cache_read_input_tokens": 3321,
+        "cache_creation_input_tokens": 1230,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1230,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 4
+}

@@ -1,0 +1,42 @@
+{
+  "reviewer": "checklist",
+  "pr": "c10-spread-metres",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "No silent failures found.\n\n- **Units:** `geo.distance_m` returns metres, and `MAX_DETOUR` is in metres. The new check compares like with like.\n- **Single-order chains:** `first` and `last` are the same order, so the new check repeats the existing one. Behaviour doesn't change for them.\n- **Missing orders:** `store.get` raises `KeyError` for an unknown id, so a missing first order fails loudly. It does not fall back to a default.\n- **Copies:** `store.get` returns a deep copy under a lock, so the check reads a copy, not a live view.\n- **Selection:** the `continue` only skips couriers that are too spread out. If none qualify, `pick_courier` returns `None`, which is the same result as when no courier is nearby.\n\nThe `MAX_DETOUR` comment and the `pick_courier` docstring still describe only the distance from the last order. That's a documentation gap, not a silent failure.",
+  "cost_usd": 0.026566999999999997,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2758,
+    "cache_read_input_tokens": 6965,
+    "output_tokens": 568,
+    "output_tokens_details": {
+      "thinking_tokens": 91
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2758
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 401,
+        "cache_read_input_tokens": 3003,
+        "cache_creation_input_tokens": 1174,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1174,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

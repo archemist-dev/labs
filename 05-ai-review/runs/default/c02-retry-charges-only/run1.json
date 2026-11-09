@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "c02-retry-charges-only",
+  "run": 1,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review: Retry transient errors on charges**\n\nThe design is sound. Charges carry an Idempotency-Key and refunds have no key, so retrying only charges and leaving refunds at one attempt (the default `attempts=1`) is correct. I have a few concerns, mostly about tests and the retry path itself.\n\n**1. No tests (blocking).**\n`tests/` only has `test_service.py`, and the diff adds none. Please add tests for:\n- 503 then 200 on a charge: it returns the charge and makes 2 calls.\n- Three 5xx responses: `charge` raises `PaymentTimeout` after exactly 3 calls.\n- Every attempt reuses the same Idempotency-Key. This is the property that makes the retry safe.\n- `refund` makes exactly one call on a 5xx and returns `ok=False`.\n- A 402 is not retried.\n- Patch `time.sleep` so the tests stay fast.\n\n**2. Real timeouts probably aren't retried.**\nThe description says \"502/503 or a timeout\", but the loop only retries on status codes. If `session.post` raises on a timeout (as `requests` does with `requests.Timeout` or `ConnectionError`), the exception escapes the loop. It is neither retried nor converted to `TransientError`. The `TransientError` docstring says \"Timeout or 5xx\", so a timeout was clearly meant to be covered.\n\nThat was already true before this PR. But now the retry only covers part of the failures it is meant to. Please catch the session's timeout and connection exceptions inside the loop and treat them as transient. I couldn't tell which session type is used, so check this against the real one.\n\n**3. Worst-case latency.**\nWith `timeout=5` and 3 attempts, plus 0.2s and 0.4s of sleep, `charge` can block for about 15.6s. That is a synchronous call, probably inside a request path. Check this against caller and upstream timeouts. Consider an overall deadline or a smaller per-attempt timeout. Adding jitter is optional.\n\n**4. Minor points.**\n- The final error message uses `resp`, which is only bound because `attempts >= 1`. `attempts=0` would raise `UnboundLocalError`. Validate `attempts >= 1`.\n- The `408` retry is fine. `429` is not retried, which seems intentional, but a short comment would help.\n- The `Http` class docstring still says \"One attempt per call\". Update it to say that the default is one attempt, and that callers opt in to retries.\n- The safety of retrying currently depends on callers remembering to pass `attempts` only for idempotent calls. That's acceptable for now. A named constant or a wrapper (for example `post_idempotent`) that requires an Idempotency-Key header would make misuse harder.\n\n**5. Idempotency-key lifetime.**\nConfirm that callers generate the key once per order or attempt, not per `charge()` call. The retries here reuse the key, so they are safe. Check that the provider's dedupe window comfortably exceeds the retry span, which is trivially true here.\n\nSecurity and performance have no other concerns.\n\nVerdict: request changes. The retry logic is correct for the status-code case, but it needs tests and the timeout handling needs a decision.",
+  "cost_usd": 0.0398758,
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2667,
+    "cache_read_input_tokens": 6584,
+    "output_tokens": 1260,
+    "output_tokens_details": {
+      "thinking_tokens": 46
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 2667
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1060,
+        "cache_read_input_tokens": 2963,
+        "cache_creation_input_tokens": 1123,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 1123,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 3
+}

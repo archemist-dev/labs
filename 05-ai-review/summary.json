@@ -1,0 +1,78 @@
+{
+  "checklist": {
+    "run3": {
+      "caught": 10,
+      "caught_blocking": 10,
+      "fa": 0,
+      "fa_blocking": 0,
+      "comments": 34,
+      "blocking": 11,
+      "cost": 0.6147482000000001,
+      "n": 20,
+      "bugs": 10,
+      "clean": 10
+    },
+    "run1": {
+      "caught": 10,
+      "caught_blocking": 10,
+      "fa": 0,
+      "fa_blocking": 0,
+      "comments": 27,
+      "blocking": 10,
+      "cost": 0.6115406,
+      "n": 20,
+      "bugs": 10,
+      "clean": 10
+    },
+    "run2": {
+      "caught": 10,
+      "caught_blocking": 10,
+      "fa": 0,
+      "fa_blocking": 0,
+      "comments": 36,
+      "blocking": 10,
+      "cost": 0.6016422,
+      "n": 20,
+      "bugs": 10,
+      "clean": 10
+    }
+  },
+  "default": {
+    "run3": {
+      "caught": 10,
+      "caught_blocking": 10,
+      "fa": 3,
+      "fa_blocking": 3,
+      "comments": 108,
+      "blocking": 25,
+      "cost": 0.8173844,
+      "n": 20,
+      "bugs": 10,
+      "clean": 10
+    },
+    "run1": {
+      "caught": 10,
+      "caught_blocking": 10,
+      "fa": 4,
+      "fa_blocking": 4,
+      "comments": 106,
+      "blocking": 25,
+      "cost": 0.8070986,
+      "n": 20,
+      "bugs": 10,
+      "clean": 10
+    },
+    "run2": {
+      "caught": 10,
+      "caught_blocking": 10,
+      "fa": 2,
+      "fa_blocking": 2,
+      "comments": 113,
+      "blocking": 26,
+      "cost": 0.8015796000000001,
+      "n": 20,
+      "bugs": 10,
+      "clean": 10
+    }
+  }
+}

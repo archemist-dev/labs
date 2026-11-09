@@ -1,0 +1,42 @@
+{
+  "reviewer": "default",
+  "pr": "b03-promo-on-total",
+  "run": 2,
+  "model": "claude-sonnet-5-5",
+  "review": "**Review of \"Apply the promo to what the guest pays\"**\n\nThe change is small and does what the description says: the discount is now `percent_off(subtotal + delivery)`. The arithmetic is safe. The discount can't exceed the payable amount, because `percent` is validated to 0\u2013100 and the result is floored. The total stays an integer number of pence. Nothing downstream is affected: `reports.daily_revenue` only reads `total_pence`.\n\n**Concerns**\n\n1. **Business decision to confirm: the promo now discounts delivery.**\n   - Previously \"10% off\" was food-only. Now every promo order gives away 10% of the delivery fee too, and that includes the surge fee when `surge_fee` is on.\n   - The discount is therefore no longer a function of the basket alone. Turning surge on or off changes the discount.\n   - The new behavior may be intended, since the PR is about matching the total the guest sees. Please get explicit product or finance sign-off, and put that in the PR description. Another option is to change the copy to \"10% off your food\". That fixes the support tickets without changing margins.\n\n2. **No tests.**\n   - `tests/test_service.py` has a `TENOFF` promo fixture, but no test uses it. This PR changes money behavior with zero coverage.\n   - Please add a test in a zone that charges delivery, such as CB4 or CB1 under the free-delivery threshold. Assert `discount_pence == 10% of (subtotal + fee)` and that `total_pence` and the amount passed to `payments.charge` agree.\n   - Add a test for a free-delivery order, where the discount should equal 10% of the subtotal.\n   - Add a test with surge on, and one that checks rounding. Rounding is floor, so an odd total like 2695 gives a discount of 269.\n   - Add a test for an unknown promo code (see item 3).\n\n3. **Existing issue, not introduced here:** `self.promos[promo_code]` raises a bare `KeyError` for an unknown code. This happens after the order is built but before it is saved, so nothing is persisted, but the guest gets a 500 rather than a clear validation error. Consider raising `ValueError(f\"unknown promo: ...\")`, as is done for zone and kitchen-closed.\n\n4. **Free-delivery interaction.** The free-delivery threshold is checked on the pre-discount subtotal, so a promo can push the guest's paid food amount below the threshold while delivery stays free. That is probably fine and arguably expected. Please document it so nobody \"fixes\" it later.\n\n5. **Minor:** `payable` is a slightly misleading name, since it is the pre-discount gross. `pre_discount_total` would be clearer. You could also compute it once and reuse it in the `total_pence` line.\n\n**Performance and security:** no concerns. The promo percent comes from server-side config, not client input.\n\n**Verdict:** request changes. The code is fine, but it needs tests and confirmation that discounting delivery is intended.",
+  "cost_usd": 0.0560368,
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 5133,
+    "cache_read_input_tokens": 12179,
+    "output_tokens": 1339,
+    "output_tokens_details": {
+      "thinking_tokens": 33
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 5133
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 976,
+        "cache_read_input_tokens": 5839,
+        "cache_creation_input_tokens": 713,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 713,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "num_turns": 5
+}
