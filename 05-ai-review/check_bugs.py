@@ -112,6 +112,10 @@ print(f"CB4 with surge on (349 + 150): delivery fee {order.delivery_fee_pence} p
     "09": '''
 svc = make_service()
 order = svc.place_order("guest_1", ITEMS, ADDRESS, "CB1", now=NOON)
+svc.store.save_courier(Courier("courier_7"))
+svc.store.attach_order(order.id, "courier_7")
+svc.advance(order.id, "PREPARING")
+svc.dispatch(order.id)
 returned = svc.pick_up(order.id, now=NOON)
 print(f"pick_up returned {returned.picked_up_at:%H:%M}; stored picked_up_at: {svc.store.get(order.id).picked_up_at}")
 ''',

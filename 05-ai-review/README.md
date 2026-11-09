@@ -10,6 +10,7 @@ The seeded bugs are not textbook ones (no bare `except: pass`, no missing lock i
 - `prs.py`: the 20 PRs as edits to `service/`, each with a title and description written the way a developer would. Each has an answer key (what breaks and where the rule lives, or why the twin is fine) and its twin. Reviewers never see the key; the judge does.
 - `check_bugs.py`: runs the same scenario on each bug and its twin, which proves every bug is real and every twin is not.
 - `review.py`: runs each reviewer on each PR, 3 times. Each run gets a fresh git repo (`main` plus branch `pr`). Claude Code runs headless with `--bare`, so no hooks, CLAUDE.md, memory or MCP, and with read-only tools (`Read`, `Grep`, `Glob`, `git diff/show/log`).
+- `rules.py`: the 18 docstrings and comments that state the rules the bugs break. With `RULES=unwritten`, `review.py` and `grade.py` remove them from both branches, so the code, the PRs and the behaviour stay the same and only the written rules are gone. Results go to `runs-unwritten/`.
 - `grade.py`: a judge model grades each review against the answer key, then prints the table. Grades are saved next to each review (`runs/<reviewer>/<pr>/run<k>.grade.json`) for spot-checking.
 
 ```bash
@@ -17,6 +18,7 @@ The seeded bugs are not textbook ones (no bare `except: pass`, no missing lock i
 python3 check_bugs.py      # each bug vs its twin, no API calls
 python3 review.py          # 2 reviewers x 20 PRs x 3 runs = 120 reviews; resumes if interrupted
 python3 grade.py           # judge + table, writes summary.json
+RULES=unwritten python3 review.py && RULES=unwritten python3 grade.py   # same PRs, rules not written down
 RUNS=1 PRS=b01-swallowed-notify,c09-guest-sms-best-effort python3 review.py   # quick try
 MODEL=... JUDGE_MODEL=... python3 review.py                                    # defaults: claude-sonnet-5-5, judge claude-opus-5-5
 ```
@@ -49,6 +51,11 @@ MODEL=... JUDGE_MODEL=... python3 review.py                                    #
 Measured per level: silent failures caught (of 10), false alarms per clean PR, comments per PR, cost per PR. Cost is also shown per month at 20, 100 and 500 PRs a week (review cost only, API list price as billed by Claude Code). Each is shown as the mean over 3 runs, with the range in brackets.
 
 **What counts.** A bug is caught when a comment names it or its concrete effect. A false alarm is a comment on a clean PR claiming a defect that isn't real; style and test suggestions don't count.
+
+## Two setups
+
+- **Rules written down** (default): each rule a bug breaks is stated next to the code, e.g. "display only, decisions read the store" on the view, or "refunds take no key" on the payment client.
+- **Rules not written down** (`RULES=unwritten`): the same code without those 18 docstrings and comments. Names stay, e.g. `distance_m` and `london_day`. This is closer to most codebases, where such rules live in people's heads, old threads or another repo.
 
 ## Limits
 

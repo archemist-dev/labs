@@ -207,6 +207,8 @@ class PaymentTimeout(Exception):"""),
         "edits": [("orders/service.py", DELIVER, DELIVER + """
     def pick_up(self, order_id, now=None) -> Order:
         order = self.store.get(order_id)
+        if order.status != OUT_FOR_DELIVERY or order.picked_up_at is not None:
+            raise ValueError(f"order {order_id} cannot be picked up in {order.status}")
         order.picked_up_at = now or datetime.now(timezone.utc)
         log.info("order %s picked up by %s", order.id, order.courier_id)
         return order
@@ -383,16 +385,28 @@ class PaymentTimeout(Exception):"""),
         "twin": "b09-pickup-time-lost",
         "kind": "clean",
         "title": "Record when the courier picks the order up",
-        "body": "Adds OrderService.pick_up so the courier app can record pickup time for ETA tracking.",
-        "note": "Reads, changes and writes the order back with store.save.",
-        "edits": [("orders/service.py", DELIVER, DELIVER + """
+        "body": "Adds OrderService.pick_up so the courier app can record pickup time for ETA tracking. The store sets "
+                "the field under its lock, only for an order out for delivery and not picked up yet.",
+        "note": "The check and the write happen together under the store lock and touch only picked_up_at, so no "
+                "concurrent change is overwritten and a repeat call fails instead of moving the time.",
+        "edits": [
+            ("orders/store.py", """    def save_courier(self, courier: Courier) -> None:""", """    def set_picked_up(self, order_id: str, at) -> Order:
+        \"\"\"Record pickup once, for an order out for delivery.\"\"\"
+        with self._lock:
+            order = self._orders[order_id]
+            if order.status != "OUT_FOR_DELIVERY" or order.picked_up_at is not None:
+                raise ConflictError(f"{order_id} cannot be picked up in {order.status}")
+            order.picked_up_at = at
+            return copy.deepcopy(order)
+
+    def save_courier(self, courier: Courier) -> None:"""),
+            ("orders/service.py", DELIVER, DELIVER + """
     def pick_up(self, order_id, now=None) -> Order:
-        order = self.store.get(order_id)
-        order.picked_up_at = now or datetime.now(timezone.utc)
-        self.store.save(order)
+        order = self.store.set_picked_up(order_id, now or datetime.now(timezone.utc))
         log.info("order %s picked up by %s", order.id, order.courier_id)
         return order
-""")],
+"""),
+        ],
     },
     {
         "id": "c10-spread-metres",

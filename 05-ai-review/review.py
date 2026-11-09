@@ -5,10 +5,11 @@ Claude Code runs with --bare (no hooks, no CLAUDE.md, no memory, no MCP), read-o
 Auth: ANTHROPIC_API_KEY from your environment (--bare reads nothing else). Never put the key in a file here.
 
     python3 review.py                     # all reviewers, all PRs, 3 runs
-    RUNS=1 PRS=b01-swallowed-notify,c09-guest-sms-best-effort python3 review.py   # quick try
+    RUNS=1 PRS=b01-chain-from-view,c01-couriers-on-trip python3 review.py   # quick try
     MODEL=claude-sonnet-5-5 python3 review.py
+    RULES=unwritten python3 review.py     # same PRs, rule docstrings and comments removed (rules.py)
 
-Raw outputs: runs/<reviewer>/<pr>/run<k>.json (skipped if present, so an interrupted run resumes).
+Raw outputs: runs/<reviewer>/<pr>/run<k>.json, or runs-unwritten/... (skipped if present, so a run resumes).
 """
 import json
 import os
@@ -19,10 +20,14 @@ import tempfile
 from pathlib import Path
 
 from prs import PRS
+from rules import STRIP
 
 HERE = Path(__file__).parent
 SERVICE = HERE / "service"
-RUNS_DIR = HERE / "runs"
+RULES = os.environ.get("RULES", "written")
+if RULES not in ("written", "unwritten"):
+    sys.exit(f"RULES must be written or unwritten, not {RULES}")
+RUNS_DIR = HERE / ("runs" if RULES == "written" else "runs-unwritten")
 
 MODEL = os.environ.get("MODEL", "claude-sonnet-5-5")
 RUNS = int(os.environ.get("RUNS", "3"))
@@ -90,14 +95,31 @@ def apply(root: Path, edits):
         f.write_text(text.replace(old, new))
 
 
+def strip_rules(root: Path, strict: bool):
+    """Remove the written rules. On the PR branch an edit may already have changed a line; skip those."""
+    for path, old, new, _ in STRIP:
+        f = root / path
+        text = f.read_text()
+        if old in text:
+            f.write_text(text.replace(old, new))
+        elif strict:
+            raise SystemExit(f"{path}: rule text not found in the base")
+
+
 def build_repo(pr) -> Path:
     root = Path(tempfile.mkdtemp(prefix=f"review-{pr['id']}-"))
     shutil.copytree(SERVICE, root, dirs_exist_ok=True, ignore=shutil.ignore_patterns("__pycache__"))
+    if RULES == "unwritten":
+        strip_rules(root, strict=True)
     git(root, "init", "-q", "-b", "main")
     git(root, "-c", "user.name=dev", "-c", "user.email=dev@example.com", "add", "-A")
     git(root, "-c", "user.name=dev", "-c", "user.email=dev@example.com", "commit", "-q", "-m", "order service")
     git(root, "checkout", "-q", "-b", "pr")
+    if RULES == "unwritten":
+        shutil.copytree(SERVICE, root, dirs_exist_ok=True, ignore=shutil.ignore_patterns("__pycache__"))
     apply(root, pr["edits"])
+    if RULES == "unwritten":
+        strip_rules(root, strict=False)
     git(root, "-c", "user.name=dev", "-c", "user.email=dev@example.com", "add", "-A")
     git(root, "-c", "user.name=dev", "-c", "user.email=dev@example.com", "commit", "-q", "-m", pr["title"])
     return root

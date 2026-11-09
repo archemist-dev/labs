@@ -4,6 +4,7 @@ The judge sees the diff, the review, and the answer key from prs.py (the seeded 
 Grades are saved next to each run as run<k>.grade.json so a person can spot-check them; delete one to re-grade.
 
     python3 grade.py
+    RULES=unwritten python3 grade.py     # grades runs-unwritten/
     JUDGE_MODEL=claude-opus-5-5 python3 grade.py
 """
 import json
@@ -15,7 +16,7 @@ from pathlib import Path
 from statistics import mean
 
 from prs import PRS
-from review import RUNS_DIR, build_repo
+from review import RULES, RUNS_DIR, build_repo
 
 JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "claude-opus-5-5")
 BY_ID = {p["id"]: p for p in PRS}
@@ -64,6 +65,9 @@ def diff_of(pr) -> str:
 
 def judge(pr, review_text) -> dict:
     key = f"seeded bug: {pr['bug']}" if pr["kind"] == "bug" else f"no defect; intended: {pr['note']}"
+    if RULES == "unwritten":
+        key += (" (In this run the docstrings and comments that state these rules were removed from the code. "
+                "Judge only whether the review names the bug or its effect, not whether it cites a docstring.)")
     prompt = JUDGE.format(kind=pr["kind"], key=key, diff=diff_of(pr), review=review_text)
     cmd = [
         "claude", "-p", prompt,

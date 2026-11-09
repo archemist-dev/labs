@@ -1,2 +1,2 @@
 # Standard library only (Python 3.12+). Also needs the Claude Code CLI (`claude`) on PATH,
-# and pytest only if you want to run the order service's own tests.
+# and pytest for check_bugs.py and the order service's own tests.
