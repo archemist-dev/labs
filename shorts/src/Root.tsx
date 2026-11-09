@@ -20,6 +20,9 @@ import { Thumbnail as uuidThumb1 } from "./shorts/03-uuid-keys/Thumbnail";
 import { Thumbnail2 as uuidThumb2 } from "./shorts/03-uuid-keys/Thumbnail2";
 import { SCENES_A as uuidProtoA } from "./shorts/03-uuid-keys/ProtoA";
 import { SCENES_B as uuidProtoB } from "./shorts/03-uuid-keys/ProtoB";
+import { short1 as rtShort1 } from "./shorts/04-response-time/script";
+import { SCENES1 as rtScenes1 } from "./shorts/04-response-time/Short1";
+import { Thumbnail as rtThumb1 } from "./shorts/04-response-time/Thumbnail";
 
 // One entry per Short; each language becomes its own composition, e.g. "02-short1-uz".
 const LIST: { id: string; scripts: Record<string, Beat[]>; scenes: Record<string, React.FC> }[] = [
@@ -28,6 +31,7 @@ const LIST: { id: string; scripts: Record<string, Beat[]>; scenes: Record<string
   { id: "02-short1", scripts: extractShort1, scenes: extractScenes1 },
   { id: "03-short1", scripts: uuidShort1, scenes: uuidScenes1 },
   { id: "03-short2", scripts: uuidShort2, scenes: uuidScenes2 },
+  { id: "04-short1", scripts: rtShort1, scenes: rtScenes1 },
   // Visual prototypes for week 3 "The 14x cliff" opening: A = 2D upgraded, B = 3D.
   { id: "03-protoA", scripts: uuidOpening, scenes: uuidProtoA },
   { id: "03-protoB", scripts: uuidOpening, scenes: uuidProtoB },
@@ -56,5 +60,6 @@ export const Root: React.FC = () => (
     <Still id="02-short1-thumb" component={extractThumb1} width={W} height={H} />
     <Still id="03-short1-thumb" component={uuidThumb1} width={W} height={H} />
     <Still id="03-short2-thumb" component={uuidThumb2} width={W} height={H} />
+    <Still id="04-short1-thumb" component={rtThumb1} width={W} height={H} />
   </>
 );

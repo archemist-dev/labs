@@ -9,9 +9,7 @@ export type Word = { text: string; start: number; end: number }; // seconds
 export type TimedBeat = { scene: string; start: number; end: number; words: Word[]; cues: Record<string, number> };
 export type Track = { beats: TimedBeat[]; duration: number; estimated: boolean };
 
-const WPS = 2.6; // words per second, calm pace
 const LEAD = 0.4;
-const GAP = 0.45; // pause between beats when estimating
 const TAIL = 2.0; // hold after the last word: the end card needs reading time
 const SWITCH = 0.3; // a new scene appears this long before its first word, inside the pause
 
@@ -39,18 +37,36 @@ export function wordsFromTranscript(json: any): Word[] {
     .filter((w: Word) => w.text);
 }
 
+// Mirrors the real pipeline, so a silent draft runs as long as the voiced Short will: words at the paced take's
+// length (0.3 s, weeks 2-3), the pauses tools/pace.py sets (PHRASE, SENTENCE, BEAT, SCENE), and before a scene change
+// the pause tools/beats.ts asks for, so the scene's last element stays up `hold` seconds after its last cue.
+const WORD = 0.3;
+const PHRASE = 0.24;
+const SENTENCE = 0.38;
+const BEAT = 0.6;
+const SCENE = 0.85;
+
 function estimate(script: Beat[]): Track {
   let t = LEAD;
-  const beats = script.map((b) => {
+  let lastCue = 0;
+  const beats = script.map((b, k) => {
     const { words, cues } = parse(b.text);
     const start = t;
-    const timed = words.map((text) => {
-      const w = { text, start: t, end: t + 1 / WPS };
-      t += 1 / WPS + (/[.?!]$/.test(text) ? 0.3 : /[,:]$/.test(text) ? 0.12 : 0);
+    const timed = words.map((text, i) => {
+      const w = { text, start: t, end: t + WORD };
+      const last = i === words.length - 1;
+      t += WORD + (last ? 0 : /[.?!]$/.test(text) ? SENTENCE : /[,:]$/.test(text) ? PHRASE : 0.04);
       return w;
     });
-    t += GAP;
-    return { scene: b.scene, start, end: t, words: timed, cues: cueTimes(cues, timed, start) };
+    const at = cueTimes(cues, timed, start);
+    lastCue = Math.max(lastCue, ...(Object.keys(at).length ? Object.values(at) : [timed[timed.length - 1].start]));
+    const change = !script[k + 1] || script[k + 1].scene !== b.scene;
+    if (change) {
+      const need = lastCue + (b.hold ?? 1.5) + SWITCH - t;
+      t += Math.max(SCENE, need);
+      lastCue = 0;
+    } else t += BEAT;
+    return { scene: b.scene, start, end: t, words: timed, cues: at };
   });
   beats[0].start = 0;
   beats[beats.length - 1].end += TAIL;

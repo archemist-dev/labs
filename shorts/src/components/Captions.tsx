@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { spring, useCurrentFrame, useVideoConfig } from "remotion";
 import type { Word } from "../lib/track";
-import { FG, MUTED, SANS } from "../theme";
+import { FG, MUTED, SAFE, SANS } from "../theme";
 
 const MAX_WORDS = 3;
 
@@ -26,7 +26,7 @@ export const Captions: React.FC<{ words: Word[] }> = ({ words }) => {
   const chunk = chunks.find((c, i) => t >= c[0].start && t < Math.min(c[c.length - 1].end + 0.5, chunks[i + 1]?.[0].start ?? Infinity));
   if (!chunk) return null;
   return (
-    <div style={{ position: "absolute", top: 1330, left: 60, right: 60, textAlign: "center", fontFamily: SANS, fontWeight: 800, fontSize: 70, lineHeight: 1.15 }}>
+    <div style={{ position: "absolute", top: SAFE.captionTop, left: SAFE.left, right: 1080 - SAFE.lowRight, textAlign: "center", fontFamily: SANS, fontWeight: 800, fontSize: 70, lineHeight: 1.15 }}>
       {chunk.map((w, i) => {
         const said = t >= w.start;
         const active = said && (i === chunk.length - 1 || t < chunk[i + 1].start);
