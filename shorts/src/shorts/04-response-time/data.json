@@ -1,0 +1,31 @@
+{
+ "client": {
+  "city": "Sydney",
+  "lat": -33.87,
+  "lon": 151.21,
+  "region": "ap-southeast-2"
+ },
+ "server": {
+  "city": "Frankfurt",
+  "lat": 50.11,
+  "lon": 8.68,
+  "region": "eu-central-1"
+ },
+ "instance": "t3.micro",
+ "new": {
+  "dns": 0.4,
+  "tcp": 293.3,
+  "tls": 294.9,
+  "wait": 298.5,
+  "app": 4.8,
+  "total": 887.2
+ },
+ "reused": {
+  "wait": 298.8,
+  "app": 4.8,
+  "total": 298.8
+ },
+ "header": "Server-Timing: app;dur=4.837",
+ "body_bytes": 462,
+ "setup": 588.2
+}
