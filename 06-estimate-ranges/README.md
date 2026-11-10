@@ -5,6 +5,7 @@ Someone asks "when will it be done?", the team adds up its task estimates and gi
 ```bash
 python3 simulate.py          # sigma 0.5 (default), plus the sensitivity table
 python3 simulate.py 1.0      # wilder blow-ups as the main run
+python3 diagrams.py OUT_DIR  # article PNGs (needs Google Chrome)
 ```
 
 Standard library only (Python 3.12+). Fixed seeds and no timings: the output is deterministic, so the machine doesn't matter and two runs must match exactly ([results-mac-2026-11-10.txt](results-mac-2026-11-10.txt)). GitHub Actions re-runs it and fails if two runs differ.
