@@ -1,0 +1,26 @@
+{
+  "feature": "Scheduled orders: the guest picks a delivery slot up to 7 days ahead",
+  "team": "2 developers, 10 dev-days a week",
+  "tasks": [
+    {"title": "Slot model and migration", "estimate_days": 2},
+    {"title": "Slot capacity per kitchen", "estimate_days": 3},
+    {"title": "Slots API: list free slots", "estimate_days": 2},
+    {"title": "Slots API: reserve and release", "estimate_days": 3},
+    {"title": "Checkout: slot picker", "estimate_days": 3},
+    {"title": "Checkout: show slot in summary", "estimate_days": 1},
+    {"title": "Payment: charge at order time, not at slot", "estimate_days": 2},
+    {"title": "Kitchen screen: hold until prep time", "estimate_days": 5},
+    {"title": "Courier dispatch at slot minus travel time", "estimate_days": 5},
+    {"title": "Cancel and reschedule a slot", "estimate_days": 3},
+    {"title": "Refund rules for cancelled slots", "estimate_days": 2},
+    {"title": "Reminder SMS one hour before", "estimate_days": 1},
+    {"title": "Slot times in the guest's time zone", "estimate_days": 2},
+    {"title": "Order history shows scheduled orders", "estimate_days": 1},
+    {"title": "Admin: close slots for a holiday", "estimate_days": 2},
+    {"title": "Feature flag and gradual rollout", "estimate_days": 1},
+    {"title": "Load test: slot reservation at peak", "estimate_days": 2},
+    {"title": "Analytics events", "estimate_days": 2},
+    {"title": "End-to-end tests", "estimate_days": 3},
+    {"title": "Kitchen closes early: move booked slots", "estimate_days": 5}
+  ]
+}

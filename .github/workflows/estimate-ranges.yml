@@ -1,0 +1,24 @@
+name: estimate-ranges
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "06-estimate-ranges/**"
+      - ".github/workflows/estimate-ranges.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: 06-estimate-ranges
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Twice, runs must match
+        run: |
+          python simulate.py | tee run1.txt
+          python simulate.py | diff run1.txt -
