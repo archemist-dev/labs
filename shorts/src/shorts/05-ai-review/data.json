@@ -1,0 +1,17 @@
+{
+  "_source": "05-ai-review README (results 2026-11-09), prs.py b03, rules.py, runs/default/b03-promo-on-total and runs-unwritten/default/b03-promo-on-total grade files",
+  "rule": "Promo terms: a percentage promo applies to the item subtotal only, never to delivery or surge fees.",
+  "item": { "name": "Cheeseburger", "pence": 1199 },
+  "delivery_pence": 499,
+  "percent": 10,
+  "off_right": 119,
+  "off_bug": 169,
+  "written": { "caught": 3, "runs": 3 },
+  "unwritten": { "caught": 0, "runs": 3 },
+  "quote_title": "Business decision: the discount now covers delivery",
+  "quote_verdict": "none blocking",
+  "quote_merge": "good to merge",
+  "prs": 20,
+  "diff_before": "order.discount_pence = money.percent_off(order.subtotal_pence, percent)",
+  "diff_after": "payable = order.subtotal_pence + order.delivery_fee_pence"
+}
