@@ -1,0 +1,770 @@
+{
+ "segments": [
+  {
+   "text": " Most teams trust a P99 from one load test.",
+   "start": 0.0,
+   "end": 3.1,
+   "words": [
+    {
+     "word": " Most",
+     "start": 0.0,
+     "end": 0.4
+    },
+    {
+     "word": " teams",
+     "start": 0.4,
+     "end": 0.64
+    },
+    {
+     "word": " trust",
+     "start": 0.64,
+     "end": 1.04
+    },
+    {
+     "word": " a",
+     "start": 1.04,
+     "end": 1.22
+    },
+    {
+     "word": " P99",
+     "start": 1.22,
+     "end": 1.84
+    },
+    {
+     "word": " from",
+     "start": 1.84,
+     "end": 2.22
+    },
+    {
+     "word": " one",
+     "start": 2.22,
+     "end": 2.48
+    },
+    {
+     "word": " load",
+     "start": 2.48,
+     "end": 2.7
+    },
+    {
+     "word": " test.",
+     "start": 2.7,
+     "end": 3.1
+    }
+   ]
+  },
+  {
+   "text": " Mine took 56 milliseconds in one run and 270 in the next.",
+   "start": 3.6,
+   "end": 7.78,
+   "words": [
+    {
+     "word": " Mine",
+     "start": 3.6,
+     "end": 3.74
+    },
+    {
+     "word": " took",
+     "start": 3.74,
+     "end": 3.98
+    },
+    {
+     "word": " 56",
+     "start": 3.98,
+     "end": 4.62
+    },
+    {
+     "word": " milliseconds",
+     "start": 4.62,
+     "end": 5.02
+    },
+    {
+     "word": " in",
+     "start": 5.02,
+     "end": 5.36
+    },
+    {
+     "word": " one",
+     "start": 5.36,
+     "end": 5.56
+    },
+    {
+     "word": " run",
+     "start": 5.56,
+     "end": 5.82
+    },
+    {
+     "word": " and",
+     "start": 5.82,
+     "end": 6.24
+    },
+    {
+     "word": " 270",
+     "start": 6.24,
+     "end": 6.94
+    },
+    {
+     "word": " in",
+     "start": 6.94,
+     "end": 7.32
+    },
+    {
+     "word": " the",
+     "start": 7.32,
+     "end": 7.46
+    },
+    {
+     "word": " next.",
+     "start": 7.46,
+     "end": 7.78
+    }
+   ]
+  },
+  {
+   "text": " The work itself never changed. 4.8 milliseconds at every load.",
+   "start": 8.78,
+   "end": 12.78,
+   "words": [
+    {
+     "word": " The",
+     "start": 8.78,
+     "end": 8.9
+    },
+    {
+     "word": " work",
+     "start": 8.9,
+     "end": 9.08
+    },
+    {
+     "word": " itself",
+     "start": 9.08,
+     "end": 9.5
+    },
+    {
+     "word": " never",
+     "start": 9.5,
+     "end": 9.76
+    },
+    {
+     "word": " changed.",
+     "start": 9.76,
+     "end": 10.26
+    },
+    {
+     "word": " 4",
+     "start": 10.62,
+     "end": 10.76
+    },
+    {
+     "word": ".8",
+     "start": 10.76,
+     "end": 11.16
+    },
+    {
+     "word": " milliseconds",
+     "start": 11.16,
+     "end": 11.64
+    },
+    {
+     "word": " at",
+     "start": 11.64,
+     "end": 12.08
+    },
+    {
+     "word": " every",
+     "start": 12.08,
+     "end": 12.38
+    },
+    {
+     "word": " load.",
+     "start": 12.38,
+     "end": 12.78
+    }
+   ]
+  },
+  {
+   "text": " Requests waited in line. Past 70 percent busy,",
+   "start": 13.18,
+   "end": 16.38,
+   "words": [
+    {
+     "word": " Requests",
+     "start": 13.18,
+     "end": 13.66
+    },
+    {
+     "word": " waited",
+     "start": 13.66,
+     "end": 14.0
+    },
+    {
+     "word": " in",
+     "start": 14.0,
+     "end": 14.26
+    },
+    {
+     "word": " line.",
+     "start": 14.26,
+     "end": 14.5
+    },
+    {
+     "word": " Past",
+     "start": 15.18,
+     "end": 15.38
+    },
+    {
+     "word": " 70",
+     "start": 15.38,
+     "end": 15.76
+    },
+    {
+     "word": " percent",
+     "start": 15.76,
+     "end": 16.06
+    },
+    {
+     "word": " busy,",
+     "start": 16.06,
+     "end": 16.38
+    }
+   ]
+  },
+  {
+   "text": " the line grows faster than the traffic. One short stall,",
+   "start": 16.7,
+   "end": 19.58,
+   "words": [
+    {
+     "word": " the",
+     "start": 16.7,
+     "end": 16.82
+    },
+    {
+     "word": " line",
+     "start": 16.82,
+     "end": 16.98
+    },
+    {
+     "word": " grows",
+     "start": 16.98,
+     "end": 17.24
+    },
+    {
+     "word": " faster",
+     "start": 17.24,
+     "end": 17.66
+    },
+    {
+     "word": " than",
+     "start": 17.66,
+     "end": 17.84
+    },
+    {
+     "word": " the",
+     "start": 17.84,
+     "end": 18.0
+    },
+    {
+     "word": " traffic.",
+     "start": 18.0,
+     "end": 18.3
+    },
+    {
+     "word": " One",
+     "start": 18.8,
+     "end": 18.98
+    },
+    {
+     "word": " short",
+     "start": 18.98,
+     "end": 19.22
+    },
+    {
+     "word": " stall,",
+     "start": 19.22,
+     "end": 19.58
+    }
+   ]
+  },
+  {
+   "text": " one lost packet, and everything behind it waits.",
+   "start": 19.88,
+   "end": 22.32,
+   "words": [
+    {
+     "word": " one",
+     "start": 19.88,
+     "end": 20.04
+    },
+    {
+     "word": " lost",
+     "start": 20.04,
+     "end": 20.26
+    },
+    {
+     "word": " packet,",
+     "start": 20.26,
+     "end": 20.6
+    },
+    {
+     "word": " and",
+     "start": 20.88,
+     "end": 21.02
+    },
+    {
+     "word": " everything",
+     "start": 21.02,
+     "end": 21.42
+    },
+    {
+     "word": " behind",
+     "start": 21.42,
+     "end": 21.78
+    },
+    {
+     "word": " it",
+     "start": 21.78,
+     "end": 22.0
+    },
+    {
+     "word": " waits.",
+     "start": 22.0,
+     "end": 22.32
+    }
+   ]
+  },
+  {
+   "text": " Now a page calls 50 services and waits for the slowest.",
+   "start": 24.06,
+   "end": 27.92,
+   "words": [
+    {
+     "word": " Now",
+     "start": 24.06,
+     "end": 24.46
+    },
+    {
+     "word": " a",
+     "start": 24.46,
+     "end": 24.68
+    },
+    {
+     "word": " page",
+     "start": 24.68,
+     "end": 24.92
+    },
+    {
+     "word": " calls",
+     "start": 24.92,
+     "end": 25.22
+    },
+    {
+     "word": " 50",
+     "start": 25.22,
+     "end": 25.72
+    },
+    {
+     "word": " services",
+     "start": 25.72,
+     "end": 26.26
+    },
+    {
+     "word": " and",
+     "start": 26.26,
+     "end": 26.76
+    },
+    {
+     "word": " waits",
+     "start": 26.76,
+     "end": 27.0
+    },
+    {
+     "word": " for",
+     "start": 27.0,
+     "end": 27.2
+    },
+    {
+     "word": " the",
+     "start": 27.2,
+     "end": 27.38
+    },
+    {
+     "word": " slowest.",
+     "start": 27.38,
+     "end": 27.92
+    }
+   ]
+  },
+  {
+   "text": " Every service is fast and the page isn't.",
+   "start": 28.8,
+   "end": 31.8,
+   "words": [
+    {
+     "word": " Every",
+     "start": 28.8,
+     "end": 29.32
+    },
+    {
+     "word": " service",
+     "start": 29.32,
+     "end": 29.66
+    },
+    {
+     "word": " is",
+     "start": 29.66,
+     "end": 29.9
+    },
+    {
+     "word": " fast",
+     "start": 29.9,
+     "end": 30.32
+    },
+    {
+     "word": " and",
+     "start": 30.32,
+     "end": 30.84
+    },
+    {
+     "word": " the",
+     "start": 30.84,
+     "end": 31.02
+    },
+    {
+     "word": " page",
+     "start": 31.02,
+     "end": 31.22
+    },
+    {
+     "word": " isn't.",
+     "start": 31.22,
+     "end": 31.8
+    }
+   ]
+  },
+  {
+   "text": " If one percent of calls are slow, 39 percent of pages are slow.",
+   "start": 32.58,
+   "end": 36.18,
+   "words": [
+    {
+     "word": " If",
+     "start": 32.58,
+     "end": 32.64
+    },
+    {
+     "word": " one",
+     "start": 32.64,
+     "end": 32.88
+    },
+    {
+     "word": " percent",
+     "start": 32.88,
+     "end": 33.12
+    },
+    {
+     "word": " of",
+     "start": 33.12,
+     "end": 33.32
+    },
+    {
+     "word": " calls",
+     "start": 33.32,
+     "end": 33.54
+    },
+    {
+     "word": " are",
+     "start": 33.54,
+     "end": 33.68
+    },
+    {
+     "word": " slow,",
+     "start": 33.68,
+     "end": 34.0
+    },
+    {
+     "word": " 39",
+     "start": 34.4,
+     "end": 34.78
+    },
+    {
+     "word": " percent",
+     "start": 34.78,
+     "end": 35.14
+    },
+    {
+     "word": " of",
+     "start": 35.14,
+     "end": 35.34
+    },
+    {
+     "word": " pages",
+     "start": 35.34,
+     "end": 35.6
+    },
+    {
+     "word": " are",
+     "start": 35.6,
+     "end": 35.8
+    },
+    {
+     "word": " slow.",
+     "start": 35.8,
+     "end": 36.18
+    }
+   ]
+  },
+  {
+   "text": " So find the load where your server starts to queue and stay below it.",
+   "start": 36.96,
+   "end": 40.38,
+   "words": [
+    {
+     "word": " So",
+     "start": 36.96,
+     "end": 37.06
+    },
+    {
+     "word": " find",
+     "start": 37.06,
+     "end": 37.36
+    },
+    {
+     "word": " the",
+     "start": 37.36,
+     "end": 37.54
+    },
+    {
+     "word": " load",
+     "start": 37.54,
+     "end": 37.74
+    },
+    {
+     "word": " where",
+     "start": 37.74,
+     "end": 37.92
+    },
+    {
+     "word": " your",
+     "start": 37.92,
+     "end": 38.12
+    },
+    {
+     "word": " server",
+     "start": 38.12,
+     "end": 38.34
+    },
+    {
+     "word": " starts",
+     "start": 38.34,
+     "end": 38.68
+    },
+    {
+     "word": " to",
+     "start": 38.68,
+     "end": 38.88
+    },
+    {
+     "word": " queue",
+     "start": 38.88,
+     "end": 39.14
+    },
+    {
+     "word": " and",
+     "start": 39.14,
+     "end": 39.52
+    },
+    {
+     "word": " stay",
+     "start": 39.52,
+     "end": 39.82
+    },
+    {
+     "word": " below",
+     "start": 39.82,
+     "end": 40.08
+    },
+    {
+     "word": " it.",
+     "start": 40.08,
+     "end": 40.38
+    }
+   ]
+  },
+  {
+   "text": " Make fewer calls per page and measure the slowest one percent more than once.",
+   "start": 40.64,
+   "end": 44.78,
+   "words": [
+    {
+     "word": " Make",
+     "start": 40.64,
+     "end": 40.8
+    },
+    {
+     "word": " fewer",
+     "start": 40.8,
+     "end": 41.16
+    },
+    {
+     "word": " calls",
+     "start": 41.16,
+     "end": 41.52
+    },
+    {
+     "word": " per",
+     "start": 41.52,
+     "end": 41.72
+    },
+    {
+     "word": " page",
+     "start": 41.72,
+     "end": 42.12
+    },
+    {
+     "word": " and",
+     "start": 42.12,
+     "end": 42.56
+    },
+    {
+     "word": " measure",
+     "start": 42.56,
+     "end": 42.82
+    },
+    {
+     "word": " the",
+     "start": 42.82,
+     "end": 43.02
+    },
+    {
+     "word": " slowest",
+     "start": 43.02,
+     "end": 43.38
+    },
+    {
+     "word": " one",
+     "start": 43.38,
+     "end": 43.52
+    },
+    {
+     "word": " percent",
+     "start": 43.52,
+     "end": 43.84
+    },
+    {
+     "word": " more",
+     "start": 43.84,
+     "end": 44.16
+    },
+    {
+     "word": " than",
+     "start": 44.16,
+     "end": 44.32
+    },
+    {
+     "word": " once.",
+     "start": 44.32,
+     "end": 44.78
+    }
+   ]
+  },
+  {
+   "text": " Measure where the user waits, not where the server works.",
+   "start": 46.38,
+   "end": 49.08,
+   "words": [
+    {
+     "word": " Measure",
+     "start": 46.38,
+     "end": 46.68
+    },
+    {
+     "word": " where",
+     "start": 46.68,
+     "end": 46.9
+    },
+    {
+     "word": " the",
+     "start": 46.9,
+     "end": 47.04
+    },
+    {
+     "word": " user",
+     "start": 47.04,
+     "end": 47.34
+    },
+    {
+     "word": " waits,",
+     "start": 47.34,
+     "end": 47.7
+    },
+    {
+     "word": " not",
+     "start": 47.94,
+     "end": 48.08
+    },
+    {
+     "word": " where",
+     "start": 48.08,
+     "end": 48.26
+    },
+    {
+     "word": " the",
+     "start": 48.26,
+     "end": 48.44
+    },
+    {
+     "word": " server",
+     "start": 48.44,
+     "end": 48.64
+    },
+    {
+     "word": " works.",
+     "start": 48.64,
+     "end": 49.08
+    }
+   ]
+  },
+  {
+   "text": " The full test is in the article.",
+   "start": 49.5,
+   "end": 50.72,
+   "words": [
+    {
+     "word": " The",
+     "start": 49.5,
+     "end": 49.6
+    },
+    {
+     "word": " full",
+     "start": 49.6,
+     "end": 49.74
+    },
+    {
+     "word": " test",
+     "start": 49.74,
+     "end": 50.02
+    },
+    {
+     "word": " is",
+     "start": 50.02,
+     "end": 50.18
+    },
+    {
+     "word": " in",
+     "start": 50.18,
+     "end": 50.3
+    },
+    {
+     "word": " the",
+     "start": 50.3,
+     "end": 50.44
+    },
+    {
+     "word": " article.",
+     "start": 50.44,
+     "end": 50.72
+    }
+   ]
+  }
+ ]
+}

@@ -23,6 +23,9 @@ import { SCENES_B as uuidProtoB } from "./shorts/03-uuid-keys/ProtoB";
 import { short1 as rtShort1 } from "./shorts/04-response-time/script";
 import { SCENES1 as rtScenes1 } from "./shorts/04-response-time/Short1";
 import { Thumbnail as rtThumb1 } from "./shorts/04-response-time/Thumbnail";
+import { short2 as rtShort2 } from "./shorts/04-response-time/script2";
+import { SCENES2 as rtScenes2 } from "./shorts/04-response-time/Short2";
+import { Thumbnail2 as rtThumb2 } from "./shorts/04-response-time/Thumbnail2";
 import { short1 as aiShort1 } from "./shorts/05-ai-review/script";
 import { SCENES1 as aiScenes1 } from "./shorts/05-ai-review/Short1";
 import { Thumbnail as aiThumb1 } from "./shorts/05-ai-review/Thumbnail";
@@ -35,6 +38,7 @@ const LIST: { id: string; scripts: Record<string, Beat[]>; scenes: Record<string
   { id: "03-short1", scripts: uuidShort1, scenes: uuidScenes1 },
   { id: "03-short2", scripts: uuidShort2, scenes: uuidScenes2 },
   { id: "04-short1", scripts: rtShort1, scenes: rtScenes1 },
+  { id: "04-short2", scripts: rtShort2, scenes: rtScenes2 },
   { id: "05-short1", scripts: aiShort1, scenes: aiScenes1 },
   // Visual prototypes for week 3 "The 14x cliff" opening: A = 2D upgraded, B = 3D.
   { id: "03-protoA", scripts: uuidOpening, scenes: uuidProtoA },
@@ -65,6 +69,7 @@ export const Root: React.FC = () => (
     <Still id="03-short1-thumb" component={uuidThumb1} width={W} height={H} />
     <Still id="03-short2-thumb" component={uuidThumb2} width={W} height={H} />
     <Still id="04-short1-thumb" component={rtThumb1} width={W} height={H} />
+    <Still id="04-short2-thumb" component={rtThumb2} width={W} height={H} />
     <Still id="05-short1-thumb" component={aiThumb1} width={W} height={H} />
   </>
 );
