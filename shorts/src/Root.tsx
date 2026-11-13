@@ -33,6 +33,7 @@ import { Thumbnail as aiThumb1 } from "./shorts/05-ai-review/Thumbnail";
 import { HOOK_FRAMES, LH, LongHook, LW } from "./long/03-uuid-keys/Hook";
 import { LongThumb, TH, TW } from "./long/03-uuid-keys/Thumb";
 import { TH3, ThumbA, ThumbB, TW3 } from "./long/03-uuid-keys/Thumb3D";
+import { TH2, ThumbC, ThumbD, TW2 } from "./long/03-uuid-keys/Thumb2D";
 import { G1_COMPS } from "./long/03-uuid-keys/g1";
 import { G2_COMPS } from "./long/03-uuid-keys/g2";
 import { G3_COMPS } from "./long/03-uuid-keys/g3";
@@ -78,6 +79,8 @@ export const Root: React.FC = () => (
     <Still id="long-03-thumb" component={LongThumb} width={TW} height={TH} />
     <Composition id="long-03-thumbA" component={ThumbA} width={TW3} height={TH3} fps={FPS} durationInFrames={300} />
     <Composition id="long-03-thumbB" component={ThumbB} width={TW3} height={TH3} fps={FPS} durationInFrames={300} />
+    <Still id="long-03-thumbC" component={ThumbC} width={TW2} height={TH2} />
+    <Still id="long-03-thumbD" component={ThumbD} width={TW2} height={TH2} />
     <Still id="01-short1-thumb" component={payloadThumb1} width={W} height={H} />
     <Still id="01-short2-thumb" component={payloadThumb2} width={W} height={H} />
     <Still id="02-short1-thumb" component={extractThumb1} width={W} height={H} />
