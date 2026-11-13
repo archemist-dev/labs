@@ -1,0 +1,42 @@
+{
+  "Charge, then call once": {
+    "orphaned_charges": 3997,
+    "duplicate_orders": 0,
+    "refunds": 0,
+    "orders": 361003,
+    "orphaned_pounds": 77822,
+    "duplicate_pounds": 0
+  },
+  "Retry on timeout": {
+    "orphaned_charges": 2182,
+    "duplicate_orders": 1869,
+    "refunds": 0,
+    "orders": 362818,
+    "orphaned_pounds": 42484,
+    "duplicate_pounds": 36389
+  },
+  "Retry + idempotency key": {
+    "orphaned_charges": 2182,
+    "duplicate_orders": 0,
+    "refunds": 0,
+    "orders": 362818,
+    "orphaned_pounds": 42484,
+    "duplicate_pounds": 0
+  },
+  "Saga, state in memory": {
+    "orphaned_charges": 378,
+    "duplicate_orders": 0,
+    "refunds": 1804,
+    "orders": 362818,
+    "orphaned_pounds": 7360,
+    "duplicate_pounds": 0
+  },
+  "Saga, durable state": {
+    "orphaned_charges": 0,
+    "duplicate_orders": 0,
+    "refunds": 1806,
+    "orders": 363194,
+    "orphaned_pounds": 0,
+    "duplicate_pounds": 0
+  }
+}
