@@ -185,31 +185,31 @@ def buffer(data):
 
 
 def nobody_sized(data):
-    """The story as a timeline in weeks: the estimate, the date set, what happened."""
+    """The story as a timeline in working days: the estimate, the date set, what happened."""
     left, right = 420, 1500
-    wk = (right - left) / 8
+    day = (right - left) / 10
 
-    def xs(w):
-        return left + w * wk
+    def xs(d):
+        return left + d * day
 
     b = []
-    for w in range(0, 9, 2):
-        b += [line(xs(w), 300, xs(w), 760, GRID, 2), text(xs(w), 800, f"{w}", 30, MUTED, MONO, 400, "middle")]
-    b.append(text(right, 846, "weeks", 28, MUTED, MONO, 400, "end"))
-    b += [line(xs(4), 300, xs(4), 628, LIGHT, 4, "12 10"),
-          text(xs(4), 288, "release date", 30, LIGHT, MONO, 700, "middle"),
+    for d in range(0, 11):
+        b += [line(xs(d), 300, xs(d), 760, GRID, 2), text(xs(d), 800, f"{d}", 30, MUTED, MONO, 400, "middle")]
+    b.append(text(right, 846, "working days", 28, MUTED, MONO, 400, "end"))
+    b += [line(xs(5), 300, xs(5), 628, LIGHT, 4, "12 10"),
+          text(xs(5), 288, "release date", 30, LIGHT, MONO, 700, "middle"),
           text(80, 395, "estimate", 44, FG, SANS, 800),
-          rect(xs(0), 340, 2 * wk, 90, GRAY, rx=12), text(xs(1), 398, "coding", 34, FG, MONO, 800, "middle"),
+          rect(xs(0), 340, 2.5 * day, 90, GRAY, rx=12), text(xs(1.25), 398, "coding", 34, FG, MONO, 800, "middle"),
           text(80, 545, "date set", 44, FG, SANS, 800),
-          rect(xs(0), 490, 4 * wk, 90, "none", LIGHT, rx=12, dash="12 10", sw=4),
-          text(xs(2), 548, "2× estimate", 34, LIGHT, MONO, 800, "middle"),
+          rect(xs(0), 490, 5 * day, 90, "none", LIGHT, rx=12, dash="12 10", sw=4),
+          text(xs(2.5), 548, "2× estimate", 34, LIGHT, MONO, 800, "middle"),
           text(80, 695, "actual", 44, FG, SANS, 800),
-          rect(xs(0), 640, 2 * wk, 90, GRAY, rx=12), text(xs(1), 698, "coding", 34, FG, MONO, 800, "middle"),
-          rect(xs(2) + 8, 640, 6 * wk - 8, 90, "url(#hatch)", rx=12),
-          text(xs(5), 680, "another team's priorities", 30, FG, MONO, 800, "middle"),
-          text(xs(5), 716, "QA edge cases", 30, FG, MONO, 800, "middle"),
-          text(xs(8), 290, "4×", 56, RED, MONO, 800, "end")]
-    return frame("The work nobody sized.", "one-sprint estimate · the release took four", "".join(b))
+          rect(xs(0), 640, 2.5 * day, 90, GRAY, rx=12), text(xs(1.25), 698, "coding", 34, FG, MONO, 800, "middle"),
+          rect(xs(2.5) + 8, 640, 7.5 * day - 8, 90, "url(#hatch)", rx=12),
+          text(xs(6.25), 680, "another team's priorities", 30, FG, MONO, 800, "middle"),
+          text(xs(6.25), 716, "QA edge cases", 30, FG, MONO, 800, "middle"),
+          text(xs(10), 290, "4×", 56, RED, MONO, 800, "end")]
+    return frame("The work nobody sized.", "half-week estimate · the release took four", "".join(b))
 
 
 DIAGRAMS = {"Estimates - Cover": cover, "Estimates - 1 Lopsided": lopsided,
