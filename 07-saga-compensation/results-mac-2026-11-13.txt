@@ -1,0 +1,10 @@
+1,000 checkouts a day for 365 days (365,000 in total), basket £19.47. Create-order: 1.0% time out (50% of those created anyway), 0.5% rejected. Process crash after the charge: 0.1%. Refund fails 2% per attempt.
+
+Totals for the year:
+Strategy                    Orphaned charges  Duplicate orders  Refunds  Orphaned £  Duplicate £  Failed refund tries
+Charge, then call once                 3,997                 0        0      77,822            0                    0
+Retry on timeout                       2,182             1,869        0      42,484       36,389                    0
+Retry + idempotency key                2,182                 0        0      42,484            0                    0
+Saga, state in memory                    378                 0    1,804       7,360            0                   34
+Saga, durable state                        0                 0    1,806           0            0                   32
+Order first, then charge                   0                 0        0           0            0                    0
