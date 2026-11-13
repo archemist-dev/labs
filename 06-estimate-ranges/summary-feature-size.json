@@ -1,0 +1,128 @@
+{
+  "0.25": {
+    "1": {
+      "tasks": 4,
+      "estimate_dev_days": 10,
+      "deadline_workdays": 5,
+      "sum_on_time_pct": 43.9,
+      "sum_plus_20_on_time_pct": 89.3,
+      "late_median_workdays": 1
+    },
+    "2": {
+      "tasks": 8,
+      "estimate_dev_days": 21,
+      "deadline_workdays": 11,
+      "sum_on_time_pct": 58.5,
+      "sum_plus_20_on_time_pct": 97.3,
+      "late_median_workdays": 1
+    },
+    "5": {
+      "tasks": 20,
+      "estimate_dev_days": 50,
+      "deadline_workdays": 25,
+      "sum_on_time_pct": 32.1,
+      "sum_plus_20_on_time_pct": 98.9,
+      "late_median_workdays": 2
+    },
+    "10": {
+      "tasks": 40,
+      "estimate_dev_days": 100,
+      "deadline_workdays": 50,
+      "sum_on_time_pct": 24.5,
+      "sum_plus_20_on_time_pct": 100.0,
+      "late_median_workdays": 3
+    },
+    "20": {
+      "tasks": 80,
+      "estimate_dev_days": 200,
+      "deadline_workdays": 100,
+      "sum_on_time_pct": 16.0,
+      "sum_plus_20_on_time_pct": 100.0,
+      "late_median_workdays": 4
+    }
+  },
+  "0.5": {
+    "1": {
+      "tasks": 4,
+      "estimate_dev_days": 10,
+      "deadline_workdays": 5,
+      "sum_on_time_pct": 36.0,
+      "sum_plus_20_on_time_pct": 63.7,
+      "late_median_workdays": 2
+    },
+    "2": {
+      "tasks": 8,
+      "estimate_dev_days": 21,
+      "deadline_workdays": 11,
+      "sum_on_time_pct": 39.7,
+      "sum_plus_20_on_time_pct": 71.8,
+      "late_median_workdays": 2
+    },
+    "5": {
+      "tasks": 20,
+      "estimate_dev_days": 50,
+      "deadline_workdays": 25,
+      "sum_on_time_pct": 19.0,
+      "sum_plus_20_on_time_pct": 69.9,
+      "late_median_workdays": 4
+    },
+    "10": {
+      "tasks": 40,
+      "estimate_dev_days": 100,
+      "deadline_workdays": 50,
+      "sum_on_time_pct": 9.6,
+      "sum_plus_20_on_time_pct": 75.5,
+      "late_median_workdays": 7
+    },
+    "20": {
+      "tasks": 80,
+      "estimate_dev_days": 200,
+      "deadline_workdays": 100,
+      "sum_on_time_pct": 2.9,
+      "sum_plus_20_on_time_pct": 81.1,
+      "late_median_workdays": 14
+    }
+  },
+  "1.0": {
+    "1": {
+      "tasks": 4,
+      "estimate_dev_days": 10,
+      "deadline_workdays": 5,
+      "sum_on_time_pct": 28.7,
+      "sum_plus_20_on_time_pct": 41.0,
+      "late_median_workdays": 4
+    },
+    "2": {
+      "tasks": 8,
+      "estimate_dev_days": 21,
+      "deadline_workdays": 11,
+      "sum_on_time_pct": 21.6,
+      "sum_plus_20_on_time_pct": 34.6,
+      "late_median_workdays": 7
+    },
+    "5": {
+      "tasks": 20,
+      "estimate_dev_days": 50,
+      "deadline_workdays": 25,
+      "sum_on_time_pct": 5.5,
+      "sum_plus_20_on_time_pct": 17.9,
+      "late_median_workdays": 15
+    },
+    "10": {
+      "tasks": 40,
+      "estimate_dev_days": 100,
+      "deadline_workdays": 50,
+      "sum_on_time_pct": 1.1,
+      "sum_plus_20_on_time_pct": 8.2,
+      "late_median_workdays": 31
+    },
+    "20": {
+      "tasks": 80,
+      "estimate_dev_days": 200,
+      "deadline_workdays": 100,
+      "sum_on_time_pct": 0.0,
+      "sum_plus_20_on_time_pct": 2.1,
+      "late_median_workdays": 62
+    }
+  }
+}

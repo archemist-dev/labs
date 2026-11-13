@@ -48,6 +48,18 @@ Late by = working days past the deadline, among late runs only.
 
 **Throughput forecast** (sigma 0.5): example history `[4, 3, 3, 4, 4, 5, 5, 1, 5, 4, 5, 4]` items a week gives P50 5 weeks, P85 6 weeks for the 20 items. Over 1,000 fresh projects, the P50 date was met 66.3% of the time and the P85 date 89.7%.
 
+**Feature size** (`python3 feature_size.py`, 2026-11-13, two identical runs on the Mac): the same backlog cut or repeated to 1 to 20 weeks of work for the team of 2 (2 weeks = one sprint). On time for the single-number date (sum of estimates):
+
+| Size | Familiar (0.25) | Default (0.5) | New domain (1.0) | Late by, median (0.5) |
+|---|---|---|---|---|
+| 1 week | 43.9% | 36.0% | 28.7% | 2 d |
+| 2 weeks (one sprint) | 58.5% | 39.7% | 21.6% | 2 d |
+| 5 weeks | 32.1% | 19.0% | 5.5% | 4 d |
+| 10 weeks | 24.5% | 9.6% | 1.1% | 7 d |
+| 20 weeks | 16.0% | 2.9% | 0.0% | 14 d |
+
+The 2-week row sums to 21 dev-days, so its deadline rounds up to 11 days; that half day of slack is why it beats the 1-week row. Sum + 20% moves the other way on familiar and default work (71.8% at 2 weeks, 81.1% at 20) and collapses on new work (34.6% to 2.1%): full table in `results-feature-size-mac-2026-11-13.txt`.
+
 ## What it shows
 
 - Honest estimates still make a late plan. With no task padded or lowballed, the sum is met 1 time in 5 (19.1%). Blow-ups only go one way: a task can't finish in minus 3 days, but it can take 3x.
@@ -56,6 +68,7 @@ Late by = working days past the deadline, among late runs only.
 - A P85 date holds close to 85% at every spread, because it's built from the spread.
 - A range is only as good as its spread. Guess blow-ups at half their size and the "85%" date is a coin flip (49.6%). The spread has to come from history, not from a feeling.
 - Counting finished items per week needs no estimates and gives a calibrated date: P85 met 89.7%.
+- The bigger the feature, the less often its single-number date holds and the further it slips: one sprint 39.7% on time (2 days late at the median), 20 weeks 2.9% (14 days late). Splitting into sprint-sized slices keeps each promise small and each miss short; it doesn't shrink the total.
 
 ## Limits
 
