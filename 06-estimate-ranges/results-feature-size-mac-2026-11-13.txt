@@ -2,25 +2,25 @@ Single-number date by feature size. Team of 2, 10,000 runs per row.
 
 sigma 0.25
      Size  Tasks  Deadline  Sum on time  Sum + 20%  Late by (median)
-     1 wk      4       5 d        43.9%      89.3%               1 d
-     2 wk      8      11 d        58.5%      97.3%               1 d
-     5 wk     20      25 d        32.1%      98.9%               2 d
-    10 wk     40      50 d        24.5%     100.0%               3 d
-    20 wk     80     100 d        16.0%     100.0%               4 d
+     1 wk      4       5 d        43.9%      89.0%               1 d
+     2 wk      9      10 d        38.4%      95.9%               1 d
+     5 wk     22      25 d        30.0%      99.6%               2 d
+    10 wk     45      50 d        21.2%     100.0%               3 d
+    20 wk     90     100 d        13.3%     100.0%               4 d
 
 sigma 0.5
      Size  Tasks  Deadline  Sum on time  Sum + 20%  Late by (median)
-     1 wk      4       5 d        36.0%      63.7%               2 d
-     2 wk      8      11 d        39.7%      71.8%               2 d
-     5 wk     20      25 d        19.0%      69.9%               4 d
-    10 wk     40      50 d         9.6%      75.5%               7 d
-    20 wk     80     100 d         2.9%      81.1%              14 d
+     1 wk      4       5 d        36.2%      63.8%               2 d
+     2 wk      9      10 d        28.4%      66.5%               2 d
+     5 wk     22      25 d        16.2%      71.1%               4 d
+    10 wk     45      50 d         7.6%      76.5%               7 d
+    20 wk     90     100 d         1.6%      84.0%              14 d
 
 sigma 1.0
      Size  Tasks  Deadline  Sum on time  Sum + 20%  Late by (median)
-     1 wk      4       5 d        28.7%      41.0%               4 d
-     2 wk      8      11 d        21.6%      34.6%               7 d
-     5 wk     20      25 d         5.5%      17.9%              15 d
-    10 wk     40      50 d         1.1%       8.2%              31 d
-    20 wk     80     100 d         0.0%       2.1%              62 d
+     1 wk      4       5 d        28.7%      40.5%               4 d
+     2 wk      9      10 d        16.1%      30.3%               7 d
+     5 wk     22      25 d         4.1%      15.6%              15 d
+    10 wk     45      50 d         0.4%       5.7%              31 d
+    20 wk     90     100 d         0.0%       0.9%              63 d
 

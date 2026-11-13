@@ -22,3 +22,5 @@ jobs:
         run: |
           python simulate.py | tee run1.txt
           python simulate.py | diff run1.txt -
+          python feature_size.py | tee size1.txt
+          python feature_size.py | diff size1.txt -
