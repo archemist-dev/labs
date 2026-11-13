@@ -2,189 +2,237 @@
   "sigma": 0.5,
   "main": {
     "sigma": 0.5,
-    "tasks": 20,
-    "estimate_days": 50,
-    "actual_days_p50": 56.1,
-    "actual_days_p85": 64.3,
-    "actual_days_p95": 69.8,
-    "project_over_estimate_p50_pct": 12.1,
+    "tasks": 9,
+    "estimate_days": 20,
+    "actual_days_p50": 22.2,
+    "actual_days_p85": 27.0,
+    "actual_days_p95": 30.3,
+    "project_over_estimate_p50_pct": 11.0,
     "plans": {
       "sum of estimates": {
-        "deadline_workdays": 25,
-        "on_time_pct": 19.1,
-        "late_median_workdays": 4,
-        "late_p90_workdays": 9
+        "deadline_workdays": 10,
+        "on_time_pct": 28.0,
+        "late_median_workdays": 2,
+        "late_p90_workdays": 5
       },
       "sum + 20%": {
-        "deadline_workdays": 30,
-        "on_time_pct": 70.2,
-        "late_median_workdays": 3,
-        "late_p90_workdays": 7
+        "deadline_workdays": 12,
+        "on_time_pct": 65.8,
+        "late_median_workdays": 2,
+        "late_p90_workdays": 4
       },
       "Monte Carlo P50": {
-        "deadline_workdays": 29,
-        "on_time_pct": 60.5,
-        "late_median_workdays": 3,
-        "late_p90_workdays": 7
+        "deadline_workdays": 12,
+        "on_time_pct": 65.8,
+        "late_median_workdays": 2,
+        "late_p90_workdays": 4
       },
       "Monte Carlo P85": {
-        "deadline_workdays": 33,
+        "deadline_workdays": 14,
         "on_time_pct": 88.9,
         "late_median_workdays": 2,
-        "late_p90_workdays": 6
+        "late_p90_workdays": 4
       },
       "P85, spread too narrow": {
-        "deadline_workdays": 28,
-        "on_time_pct": 49.6,
-        "late_median_workdays": 3,
-        "late_p90_workdays": 7
+        "deadline_workdays": 12,
+        "on_time_pct": 65.8,
+        "late_median_workdays": 2,
+        "late_p90_workdays": 4
       }
     }
   },
   "sensitivity": {
     "0.25": {
       "sigma": 0.25,
-      "tasks": 20,
-      "estimate_days": 50,
-      "actual_days_p50": 51.5,
-      "actual_days_p85": 55.0,
-      "actual_days_p95": 57.1,
+      "tasks": 9,
+      "estimate_days": 20,
+      "actual_days_p50": 20.6,
+      "actual_days_p85": 22.6,
+      "actual_days_p95": 23.8,
       "project_over_estimate_p50_pct": 3.0,
       "plans": {
         "sum of estimates": {
-          "deadline_workdays": 25,
-          "on_time_pct": 32.2,
-          "late_median_workdays": 2,
-          "late_p90_workdays": 4
+          "deadline_workdays": 10,
+          "on_time_pct": 37.3,
+          "late_median_workdays": 1,
+          "late_p90_workdays": 2
         },
         "sum + 20%": {
-          "deadline_workdays": 30,
-          "on_time_pct": 99.2,
+          "deadline_workdays": 12,
+          "on_time_pct": 95.8,
           "late_median_workdays": 1,
           "late_p90_workdays": 2
         },
         "Monte Carlo P50": {
-          "deadline_workdays": 26,
-          "on_time_pct": 56.7,
-          "late_median_workdays": 2,
-          "late_p90_workdays": 3
+          "deadline_workdays": 11,
+          "on_time_pct": 77.7,
+          "late_median_workdays": 1,
+          "late_p90_workdays": 2
         },
         "Monte Carlo P85": {
-          "deadline_workdays": 28,
-          "on_time_pct": 90.8,
+          "deadline_workdays": 12,
+          "on_time_pct": 95.8,
           "late_median_workdays": 1,
           "late_p90_workdays": 2
         },
         "P85, spread too narrow": {
-          "deadline_workdays": 26,
-          "on_time_pct": 56.7,
-          "late_median_workdays": 2,
-          "late_p90_workdays": 3
+          "deadline_workdays": 11,
+          "on_time_pct": 77.7,
+          "late_median_workdays": 1,
+          "late_p90_workdays": 2
         }
       }
     },
     "0.5": {
       "sigma": 0.5,
-      "tasks": 20,
-      "estimate_days": 50,
-      "actual_days_p50": 56.1,
-      "actual_days_p85": 64.3,
-      "actual_days_p95": 69.8,
-      "project_over_estimate_p50_pct": 12.1,
+      "tasks": 9,
+      "estimate_days": 20,
+      "actual_days_p50": 22.2,
+      "actual_days_p85": 27.0,
+      "actual_days_p95": 30.3,
+      "project_over_estimate_p50_pct": 11.0,
       "plans": {
         "sum of estimates": {
-          "deadline_workdays": 25,
-          "on_time_pct": 19.1,
-          "late_median_workdays": 4,
-          "late_p90_workdays": 9
+          "deadline_workdays": 10,
+          "on_time_pct": 28.0,
+          "late_median_workdays": 2,
+          "late_p90_workdays": 5
         },
         "sum + 20%": {
-          "deadline_workdays": 30,
-          "on_time_pct": 70.2,
-          "late_median_workdays": 3,
-          "late_p90_workdays": 7
+          "deadline_workdays": 12,
+          "on_time_pct": 65.8,
+          "late_median_workdays": 2,
+          "late_p90_workdays": 4
         },
         "Monte Carlo P50": {
-          "deadline_workdays": 29,
-          "on_time_pct": 60.5,
-          "late_median_workdays": 3,
-          "late_p90_workdays": 7
+          "deadline_workdays": 12,
+          "on_time_pct": 65.8,
+          "late_median_workdays": 2,
+          "late_p90_workdays": 4
         },
         "Monte Carlo P85": {
-          "deadline_workdays": 33,
+          "deadline_workdays": 14,
           "on_time_pct": 88.9,
           "late_median_workdays": 2,
-          "late_p90_workdays": 6
+          "late_p90_workdays": 4
         },
         "P85, spread too narrow": {
-          "deadline_workdays": 28,
-          "on_time_pct": 49.6,
-          "late_median_workdays": 3,
-          "late_p90_workdays": 7
+          "deadline_workdays": 12,
+          "on_time_pct": 65.8,
+          "late_median_workdays": 2,
+          "late_p90_workdays": 4
         }
       }
     },
     "1.0": {
       "sigma": 1.0,
-      "tasks": 20,
-      "estimate_days": 50,
-      "actual_days_p50": 77.4,
-      "actual_days_p85": 106.7,
-      "actual_days_p95": 130.4,
-      "project_over_estimate_p50_pct": 54.9,
+      "tasks": 9,
+      "estimate_days": 20,
+      "actual_days_p50": 29.6,
+      "actual_days_p85": 46.3,
+      "actual_days_p95": 61.1,
+      "project_over_estimate_p50_pct": 48.1,
       "plans": {
         "sum of estimates": {
-          "deadline_workdays": 25,
-          "on_time_pct": 5.3,
-          "late_median_workdays": 15,
-          "late_p90_workdays": 34
+          "deadline_workdays": 10,
+          "on_time_pct": 16.1,
+          "late_median_workdays": 7,
+          "late_p90_workdays": 17
         },
         "sum + 20%": {
-          "deadline_workdays": 30,
-          "on_time_pct": 18.4,
-          "late_median_workdays": 12,
-          "late_p90_workdays": 31
+          "deadline_workdays": 12,
+          "on_time_pct": 29.9,
+          "late_median_workdays": 6,
+          "late_p90_workdays": 17
         },
         "Monte Carlo P50": {
-          "deadline_workdays": 39,
-          "on_time_pct": 51.0,
-          "late_median_workdays": 9,
-          "late_p90_workdays": 27
+          "deadline_workdays": 15,
+          "on_time_pct": 51.3,
+          "late_median_workdays": 5,
+          "late_p90_workdays": 16
         },
         "Monte Carlo P85": {
-          "deadline_workdays": 54,
-          "on_time_pct": 85.8,
-          "late_median_workdays": 8,
-          "late_p90_workdays": 27
+          "deadline_workdays": 23,
+          "on_time_pct": 84.6,
+          "late_median_workdays": 5,
+          "late_p90_workdays": 16
         },
         "P85, spread too narrow": {
-          "deadline_workdays": 33,
-          "on_time_pct": 28.9,
-          "late_median_workdays": 11,
-          "late_p90_workdays": 29
+          "deadline_workdays": 14,
+          "on_time_pct": 44.3,
+          "late_median_workdays": 5,
+          "late_p90_workdays": 16
         }
       }
     }
   },
   "throughput": {
     "history_example": [
-      4,
-      3,
-      3,
-      4,
-      4,
-      5,
-      5,
       1,
-      5,
-      4,
-      5,
-      4
+      1,
+      1,
+      0,
+      3,
+      0,
+      1,
+      0,
+      2,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      1,
+      1,
+      2,
+      0,
+      0,
+      0,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      1,
+      0,
+      2,
+      1,
+      1,
+      1,
+      2,
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      1,
+      0,
+      1,
+      1,
+      1,
+      0,
+      1,
+      0,
+      2,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      1
     ],
-    "forecast_example_p50_weeks": 5,
-    "forecast_example_p85_weeks": 6,
-    "p50_hit_pct": 66.3,
-    "p85_hit_pct": 89.7,
-    "p85_weeks_median": 7
+    "forecast_example_p50_workdays": 11,
+    "forecast_example_p85_workdays": 14,
+    "p50_hit_pct": 52.5,
+    "p85_hit_pct": 90.0,
+    "p85_workdays_median": 15
   }
 }
