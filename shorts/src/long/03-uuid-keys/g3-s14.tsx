@@ -1,6 +1,7 @@
 // Scene 14 (73 s): the decision path, the trade-off balance (3D), the status page from the story, the principle.
 import React from "react";
 import { Chip, FG, GOLD, GREEN, GRAYC, LIGHT, MONO, MUTED, RED, SANS, Scene, Show, Stage, Title, clamp, lerp, ramp, useSec } from "./g3-kit";
+import { warp14 } from "./g3-s14-warp";
 import { interpolate } from "remotion";
 
 // ---- Part 1: the decision path ------------------------------------------------------------------------------------
@@ -171,7 +172,7 @@ const StatusPage: React.FC<{ t: number }> = ({ t }) => {
 // ---- the scene --------------------------------------------------------------------------------------------------
 
 export const Scene14: React.FC = () => {
-  const t = useSec();
+  const t = warp14(useSec());
   return (
     <Scene id="14">
       {t >= 41.8 && t < 58.6 ? (
