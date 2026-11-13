@@ -31,6 +31,7 @@ import { SCENES1 as aiScenes1 } from "./shorts/05-ai-review/Short1";
 import { Thumbnail as aiThumb1 } from "./shorts/05-ai-review/Thumbnail";
 
 import { HOOK_FRAMES, LH, LongHook, LW } from "./long/03-uuid-keys/Hook";
+import { LongThumb, TH, TW } from "./long/03-uuid-keys/Thumb";
 import { G1_COMPS } from "./long/03-uuid-keys/g1";
 import { G2_COMPS } from "./long/03-uuid-keys/g2";
 import { G3_COMPS } from "./long/03-uuid-keys/g3";
@@ -73,6 +74,7 @@ export const Root: React.FC = () => (
     {[...G1_COMPS, ...G2_COMPS, ...G3_COMPS].map((c) => (
       <Composition key={c.id} id={c.id} component={c.component} width={LW} height={LH} fps={FPS} durationInFrames={c.frames} />
     ))}
+    <Still id="long-03-thumb" component={LongThumb} width={TW} height={TH} />
     <Still id="01-short1-thumb" component={payloadThumb1} width={W} height={H} />
     <Still id="01-short2-thumb" component={payloadThumb2} width={W} height={H} />
     <Still id="02-short1-thumb" component={extractThumb1} width={W} height={H} />
