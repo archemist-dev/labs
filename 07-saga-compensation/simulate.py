@@ -5,6 +5,8 @@ then the order service creates the order. This lab replays a day of checkouts wi
 and counts what each strategy leaves behind: orphaned charges (money taken, no order, no refund),
 duplicate orders, refunds, and orders still unresolved at the end of the day.
 
+The payment provider itself never fails here: only the order side, the process and refunds do.
+
 Usage: python3 simulate.py
 Standard library only, fixed seeds: two runs print the same output on any machine.
 """
@@ -102,12 +104,30 @@ def saga(w, cid, crashed, durable):
                 return
 
 
+def order_first(w, cid, crashed):
+    """Write the order as PENDING first (with the checkout id as its key), charge only once it exists.
+    A rejection or an order that can't be confirmed stops before any money moves. A crash after the
+    charge leaves a PENDING order that a sweeper job confirms against the provider."""
+    outcome = None
+    for _ in range(RETRIES):
+        r = w.create_order(cid, key=cid)
+        if r != "timeout":
+            outcome = r
+            break
+    if outcome is None and w.orders.get(cid, 0) > 0:
+        outcome = "ok"           # unknown, but asking again by key finds the order
+    if outcome != "ok":
+        return                   # no order, no charge: the customer sees an error, nothing is taken
+    w.charge(cid)                # a crash here leaves a PENDING order; the sweeper confirms it
+
+
 STRATEGIES = {
     "Charge, then call once": lambda w, c, x: naive(w, c, x),
     "Retry on timeout": lambda w, c, x: retry(w, c, x, key=False),
     "Retry + idempotency key": lambda w, c, x: retry(w, c, x, key=True),
     "Saga, state in memory": lambda w, c, x: saga(w, c, x, durable=False),
     "Saga, durable state": lambda w, c, x: saga(w, c, x, durable=True),
+    "Order first, then charge": lambda w, c, x: order_first(w, c, x),
 }
 
 

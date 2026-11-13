@@ -7,3 +7,4 @@ Retry on timeout                       2,182             1,869        0      42,
 Retry + idempotency key                2,182                 0        0      42,484            0
 Saga, state in memory                    378                 0    1,804       7,360            0
 Saga, durable state                        0                 0    1,806           0            0
+Order first, then charge                   0                 0        0           0            0

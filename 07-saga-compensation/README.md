@@ -22,6 +22,7 @@ Standard library only (Python 3.12+). Fixed seeds, no timings: the output is det
   3. **Retry + idempotency key**: the same, every attempt carries the checkout id, so a repeat returns the existing order.
   4. **Saga, state in memory**: idempotent retries forward; a rejection, or retries that end in "unknown" with no order found, triggers a refund (compensation), retried up to 3 times. If the process dies, the saga dies with it.
   5. **Saga, durable state**: the same, but the saga's state is stored before each step, so after a crash or a failed refund it is resumed (up to 5 times in the day). A still-unknown outcome waits for the next run instead of refunding.
+  6. **Order first, then charge**: write the order as PENDING with the checkout id as its key, charge only once it exists, then confirm. A rejection stops before any money moves; a crash after the charge leaves a PENDING order that a sweeper job confirms against the provider.
 - **Counted**: orphaned charges (charged, no order, no refund), duplicate orders (the customer gets two), refunds.
 
 ## Results (2026-11-13)
@@ -35,6 +36,7 @@ Totals for the year, 365,000 checkouts:
 | Retry + idempotency key | 2,182 | 0 | 0 | 42,484 | 0 |
 | Saga, state in memory | 378 | 0 | 1,804 | 7,360 | 0 |
 | Saga, durable state | **0** | 0 | 1,806 | **0** | 0 |
+| Order first, then charge | **0** | 0 | **0** | **0** | 0 |
 
 ## What it shows
 
@@ -43,6 +45,7 @@ Totals for the year, 365,000 checkouts:
 - The idempotency key removes the duplicates. It doesn't help rejections or crashes: a retry can't fix "no".
 - Compensation (refund on rejection) removes most of the rest. What's left are the crashes: the saga's memory dies with the process.
 - Durable saga state closes the last hole: zero orphaned charges in a year.
+- Order first gets the same zero with no refunds at all: a rejection happens before the charge, and the PENDING order is the durable state. It moves the problem rather than removing it: a PENDING order has to be confirmed or cancelled against the provider.
 - Each fix closes one hole. The orphan count is set by the fault rates assumed above; the order in which they disappear is the point.
 
 ## Limits
@@ -50,6 +53,7 @@ Totals for the year, 365,000 checkouts:
 - Synthetic: the fault rates are chosen, not measured. Real rates differ by provider and system; plug in your own.
 - One forward step. Real checkouts have more (kitchen, courier), and each one adds a compensation.
 - Refunds are assumed to succeed eventually; a refund that never succeeds needs a person.
+- The payment provider never fails or times out here. With order first, a charge timeout is the new "unknown": retry the charge with the same key, or ask the provider, before cancelling the order.
 - No customer behaviour: a customer who sees an error and pays again is not modelled (it would add double charges to the first three rows).
 
 ## Sources

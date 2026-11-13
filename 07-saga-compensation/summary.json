@@ -38,5 +38,13 @@
     "orders": 363194,
     "orphaned_pounds": 0,
     "duplicate_pounds": 0
+  },
+  "Order first, then charge": {
+    "orphaned_charges": 0,
+    "duplicate_orders": 0,
+    "refunds": 0,
+    "orders": 363194,
+    "orphaned_pounds": 0,
+    "duplicate_pounds": 0
   }
 }
