@@ -23,20 +23,20 @@ Standard library only (Python 3.12+). Fixed seeds, no timings: the output is det
   4. **Saga, state in memory**: idempotent retries forward; a rejection, or retries that end in "unknown" with no order found, triggers a refund (compensation), retried up to 3 times. If the process dies, the saga dies with it.
   5. **Saga, durable state**: the same, but the saga's state is stored before each step, so after a crash or a failed refund it is resumed (up to 5 times in the day). A still-unknown outcome waits for the next run instead of refunding.
   6. **Order first, then charge**: write the order as PENDING with the checkout id as its key, charge only once it exists, then confirm. A rejection stops before any money moves; a crash after the charge leaves a PENDING order that a sweeper job confirms against the provider.
-- **Counted**: orphaned charges (charged, no order, no refund), duplicate orders (the customer gets two), refunds.
+- **Counted**: orphaned charges (charged, no order, no refund), duplicate orders (the customer gets two), refunds, and refund attempts that failed and were retried.
 
 ## Results (2026-11-13)
 
 Totals for the year, 365,000 checkouts:
 
-| Strategy | Orphaned charges | Duplicate orders | Refunds | Orphaned £ | Duplicate £ |
-|---|---|---|---|---|---|
-| Charge, then call once | 3,997 | 0 | 0 | 77,822 | 0 |
-| Retry on timeout | 2,182 | 1,869 | 0 | 42,484 | 36,389 |
-| Retry + idempotency key | 2,182 | 0 | 0 | 42,484 | 0 |
-| Saga, state in memory | 378 | 0 | 1,804 | 7,360 | 0 |
-| Saga, durable state | **0** | 0 | 1,806 | **0** | 0 |
-| Order first, then charge | **0** | 0 | **0** | **0** | 0 |
+| Strategy | Orphaned charges | Duplicate orders | Refunds | Failed refund tries | Orphaned £ | Duplicate £ |
+|---|---|---|---|---|---|---|
+| Charge, then call once | 3,997 | 0 | 0 | 0 | 77,822 | 0 |
+| Retry on timeout | 2,182 | 1,869 | 0 | 0 | 42,484 | 36,389 |
+| Retry + idempotency key | 2,182 | 0 | 0 | 0 | 42,484 | 0 |
+| Saga, state in memory | 378 | 0 | 1,804 | 34 | 7,360 | 0 |
+| Saga, durable state | **0** | 0 | 1,806 | 32 | **0** | 0 |
+| Order first, then charge | **0** | 0 | **0** | 0 | **0** | 0 |
 
 ## What it shows
 

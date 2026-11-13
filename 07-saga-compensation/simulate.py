@@ -36,6 +36,7 @@ class World:
         self.orders = {}         # checkout id -> number of orders created
         self.charged = set()
         self.refunded = set()
+        self.refund_failures = 0
 
     def charge(self, cid):
         self.charged.add(cid)
@@ -55,6 +56,7 @@ class World:
 
     def refund(self, cid):
         if self.rng.random() < P_REFUND_FAIL:
+            self.refund_failures += 1
             return False
         self.refunded.add(cid)
         return True
@@ -132,7 +134,7 @@ STRATEGIES = {
 
 
 def run(name, fn):
-    totals = {"orphaned_charges": 0, "duplicate_orders": 0, "refunds": 0, "orders": 0}
+    totals = {"orphaned_charges": 0, "duplicate_orders": 0, "refunds": 0, "failed_refund_attempts": 0, "orders": 0}
     for day in range(DAYS):
         rng = random.Random(f"{name}-{day}")
         faults = random.Random(f"faults-{day}")  # same checkouts, same rejections and crashes for every strategy
@@ -148,6 +150,7 @@ def run(name, fn):
             totals["duplicate_orders"] += max(0, n - 1)
             totals["orders"] += min(n, 1)
         totals["refunds"] += len(w.refunded)
+        totals["failed_refund_attempts"] += w.refund_failures
     year = dict(totals)
     year["orphaned_pounds"] = round(totals["orphaned_charges"] * BASKET_PENCE / 100)
     year["duplicate_pounds"] = round(totals["duplicate_orders"] * BASKET_PENCE / 100)
@@ -161,12 +164,12 @@ def main():
           f"Refund fails {P_REFUND_FAIL:.0%} per attempt.\n")
     print("Totals for the year:")
     print(f"{'Strategy':<26} {'Orphaned charges':>17} {'Duplicate orders':>17} {'Refunds':>8} "
-          f"{'Orphaned £':>11} {'Duplicate £':>12}")
+          f"{'Orphaned £':>11} {'Duplicate £':>12} {'Failed refund tries':>20}")
     out = {}
     for name, fn in STRATEGIES.items():
         r = out[name] = run(name, fn)
         print(f"{name:<26} {r['orphaned_charges']:>17,} {r['duplicate_orders']:>17,} {r['refunds']:>8,} "
-              f"{r['orphaned_pounds']:>11,} {r['duplicate_pounds']:>12,}")
+              f"{r['orphaned_pounds']:>11,} {r['duplicate_pounds']:>12,} {r['failed_refund_attempts']:>20,}")
     (HERE / "summary.json").write_text(json.dumps(out, indent=2) + "\n")
 
 
