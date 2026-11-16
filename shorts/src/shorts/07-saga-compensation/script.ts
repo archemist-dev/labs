@@ -18,7 +18,7 @@ export const short1: Record<"en", Beat[]> = {
     {
       scene: "year",
       text: "I replayed a {year}year of checkouts, a {thousand}thousand a day, one percent {timing}timing out. About {money}£36,000 of food, sent {twice}twice.",
-      hold: 2.2,
+      hold: 1.3, // Javlon 2026-11-16: the pause after this scene was "a bit long" at 2.2
     },
     {
       scene: "key",

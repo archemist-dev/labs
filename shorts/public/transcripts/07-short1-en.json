@@ -381,243 +381,243 @@
    ]
   },
   {
-   "text": " of food sent twice. The fix is an item potency key. Send the checkout ID on every",
+   "text": " of food sent twice. The fix is an item potency key. Send a checkout ID on every",
    "start": 28.78,
-   "end": 36.7,
+   "end": 35.8,
    "words": [
     {
      "word": " of",
      "start": 28.78,
-     "end": 28.96
+     "end": 28.94
     },
     {
      "word": " food",
-     "start": 28.96,
-     "end": 29.28
+     "start": 28.94,
+     "end": 29.3
     },
     {
      "word": " sent",
-     "start": 29.28,
+     "start": 29.3,
      "end": 29.74
     },
     {
      "word": " twice.",
      "start": 29.74,
-     "end": 30.32
+     "end": 30.28
     },
     {
      "word": " The",
-     "start": 32.42,
-     "end": 32.64
+     "start": 31.56,
+     "end": 31.74
     },
     {
      "word": " fix",
-     "start": 32.64,
-     "end": 32.86
+     "start": 31.74,
+     "end": 32.0
     },
     {
      "word": " is",
-     "start": 32.86,
-     "end": 33.2
+     "start": 32.0,
+     "end": 32.3
     },
     {
      "word": " an",
-     "start": 33.2,
-     "end": 33.48
+     "start": 32.3,
+     "end": 32.58
     },
     {
      "word": " item",
-     "start": 33.48,
-     "end": 33.68
+     "start": 32.58,
+     "end": 32.76
     },
     {
      "word": " potency",
-     "start": 33.68,
-     "end": 34.2
+     "start": 32.76,
+     "end": 33.3
     },
     {
      "word": " key.",
-     "start": 34.2,
-     "end": 34.6
+     "start": 33.3,
+     "end": 33.7
     },
     {
      "word": " Send",
-     "start": 35.04,
-     "end": 35.2
+     "start": 34.16,
+     "end": 34.3
     },
     {
-     "word": " the",
-     "start": 35.2,
-     "end": 35.36
+     "word": " a",
+     "start": 34.3,
+     "end": 34.46
     },
     {
      "word": " checkout",
-     "start": 35.36,
-     "end": 35.62
+     "start": 34.46,
+     "end": 34.7
     },
     {
      "word": " ID",
-     "start": 35.62,
-     "end": 36.0
+     "start": 34.7,
+     "end": 35.12
     },
     {
      "word": " on",
-     "start": 36.0,
-     "end": 36.28
+     "start": 35.12,
+     "end": 35.38
     },
     {
      "word": " every",
-     "start": 36.28,
-     "end": 36.7
+     "start": 35.38,
+     "end": 35.8
     }
    ]
   },
   {
-   "text": " attempt. A repeat returns the same order. Double orders, zero. A timeout means I",
-   "start": 36.7,
-   "end": 44.62,
+   "text": " attempt. A repeat returns the same order. Double orders, 0. A timeout means I don't",
+   "start": 35.8,
+   "end": 43.86,
    "words": [
     {
      "word": " attempt.",
-     "start": 36.7,
-     "end": 37.18
+     "start": 35.8,
+     "end": 36.28
     },
     {
      "word": " A",
-     "start": 37.6,
-     "end": 37.72
+     "start": 36.72,
+     "end": 36.82
     },
     {
      "word": " repeat",
-     "start": 37.72,
-     "end": 38.02
+     "start": 36.82,
+     "end": 37.14
     },
     {
      "word": " returns",
-     "start": 38.02,
-     "end": 38.52
+     "start": 37.14,
+     "end": 37.62
     },
     {
      "word": " the",
-     "start": 38.52,
-     "end": 38.74
+     "start": 37.62,
+     "end": 37.82
     },
     {
      "word": " same",
-     "start": 38.74,
-     "end": 39.02
+     "start": 37.82,
+     "end": 38.12
     },
     {
      "word": " order.",
-     "start": 39.02,
-     "end": 39.34
+     "start": 38.12,
+     "end": 38.42
     },
     {
      "word": " Double",
-     "start": 39.8,
-     "end": 39.96
+     "start": 38.92,
+     "end": 39.06
     },
     {
      "word": " orders,",
-     "start": 39.96,
-     "end": 40.32
+     "start": 39.06,
+     "end": 39.42
     },
     {
-     "word": " zero.",
-     "start": 40.82,
-     "end": 41.04
+     "word": " 0.",
+     "start": 39.92,
+     "end": 40.12
     },
     {
      "word": " A",
-     "start": 43.22,
-     "end": 43.42
+     "start": 42.3,
+     "end": 42.52
     },
     {
      "word": " timeout",
-     "start": 43.42,
-     "end": 43.68
+     "start": 42.52,
+     "end": 42.78
     },
     {
      "word": " means",
-     "start": 43.68,
-     "end": 44.16
+     "start": 42.78,
+     "end": 43.26
     },
     {
      "word": " I",
-     "start": 44.16,
-     "end": 44.62
+     "start": 43.26,
+     "end": 43.72
+    },
+    {
+     "word": " don't",
+     "start": 43.72,
+     "end": 43.86
     }
    ]
   },
   {
-   "text": " don't know. Ask again with the same key. Full article in my profile.",
-   "start": 44.62,
-   "end": 48.94,
+   "text": " know. Ask again with the same key. Full article in my profile.",
+   "start": 43.86,
+   "end": 48.06,
    "words": [
     {
-     "word": " don't",
-     "start": 44.62,
-     "end": 44.78
-    },
-    {
      "word": " know.",
-     "start": 44.78,
-     "end": 45.06
+     "start": 43.86,
+     "end": 44.16
     },
     {
      "word": " Ask",
-     "start": 45.46,
-     "end": 45.66
+     "start": 44.58,
+     "end": 44.76
     },
     {
      "word": " again",
-     "start": 45.66,
-     "end": 46.02
+     "start": 44.76,
+     "end": 45.12
     },
     {
      "word": " with",
-     "start": 46.02,
-     "end": 46.38
+     "start": 45.12,
+     "end": 45.48
     },
     {
      "word": " the",
-     "start": 46.38,
-     "end": 46.52
+     "start": 45.48,
+     "end": 45.66
     },
     {
      "word": " same",
-     "start": 46.52,
-     "end": 46.8
+     "start": 45.66,
+     "end": 45.9
     },
     {
      "word": " key.",
-     "start": 46.8,
-     "end": 47.14
+     "start": 45.9,
+     "end": 46.24
     },
     {
      "word": " Full",
-     "start": 47.66,
-     "end": 47.78
+     "start": 46.76,
+     "end": 46.9
     },
     {
      "word": " article",
-     "start": 47.78,
-     "end": 48.16
+     "start": 46.9,
+     "end": 47.26
     },
     {
      "word": " in",
-     "start": 48.16,
-     "end": 48.4
+     "start": 47.26,
+     "end": 47.5
     },
     {
      "word": " my",
-     "start": 48.4,
-     "end": 48.58
+     "start": 47.5,
+     "end": 47.7
     },
     {
      "word": " profile.",
-     "start": 48.58,
-     "end": 48.94
+     "start": 47.7,
+     "end": 48.06
     }
    ]
   }
