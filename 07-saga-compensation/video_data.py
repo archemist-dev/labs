@@ -1,6 +1,6 @@
 """Write the data for week 6 Short "The retry that doubled orders".
 
-Usage: python3 video_data.py ../shorts/src/shorts/07-saga-compensation/data.json
+Usage: python3 video_data.py ../shorts/src/shorts/06-saga-compensation/data.json
 Asserts the numbers the Short speaks ("1,869 double orders a year", "a thousand a day", "one percent timing out",
 "about £36,000 of food", "double orders: zero" with the key) hold in the published summary. Standard library only.
 """
