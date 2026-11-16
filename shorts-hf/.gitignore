@@ -15,3 +15,15 @@ w2s2/renders/
 *.log
 thumb2/.hyperframes/
 node_modules/
+long-hook/assets/
+long-hook/.hyperframes/
+long-hook/snaps/
+long-video/*/s*/assets/
+long-video/*/s*/.hyperframes/
+long-video/*/s*/snaps/
+long-video/*/s*/check.json
+long-video/*/node_modules/
+long-video/*/*/assets/
+long-video/*/*/.hyperframes/
+long-video/*/*/snaps/
+long-video/*/*/check.json

@@ -11,7 +11,7 @@ const pounds = (pence: number) => `£${(pence / 100).toFixed(2)}`;
 
 const Receipt: React.FC<{ n: number; dup?: boolean; left: number }> = ({ n, dup, left }) => (
   <div style={{ position: "absolute", left, top: 820, width: 440, padding: "26px 30px", borderRadius: 18, background: dup ? HATCH : "#22262c", border: `5px solid ${dup ? RED : GRAY}` }}>
-    <div style={{ fontFamily: MONO, fontWeight: 800, fontSize: 48, color: dup ? RED : FG }}>ORDER #{n}</div>
+    <div style={{ fontFamily: MONO, fontWeight: 800, fontSize: 48, color: dup ? RED : FG }}>ORDER #{1040 + n}</div>
     <div style={{ fontFamily: MONO, fontSize: 32, color: MUTED, marginBottom: 14 }}>checkout c42</div>
     {[
       ["2 items", pounds(data.basket_pence - 299)],
