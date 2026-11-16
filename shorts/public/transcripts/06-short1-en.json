@@ -1,0 +1,625 @@
+{
+ "segments": [
+  {
+   "text": " A retry fixes a failed call. After a payment, it gave me 1,869 double orders a year.",
+   "start": 0.0,
+   "end": 7.54,
+   "words": [
+    {
+     "word": " A",
+     "start": 0.0,
+     "end": 0.26
+    },
+    {
+     "word": " retry",
+     "start": 0.26,
+     "end": 0.76
+    },
+    {
+     "word": " fixes",
+     "start": 0.76,
+     "end": 1.18
+    },
+    {
+     "word": " a",
+     "start": 1.18,
+     "end": 1.48
+    },
+    {
+     "word": " failed",
+     "start": 1.48,
+     "end": 1.74
+    },
+    {
+     "word": " call.",
+     "start": 1.74,
+     "end": 2.16
+    },
+    {
+     "word": " After",
+     "start": 2.68,
+     "end": 2.92
+    },
+    {
+     "word": " a",
+     "start": 2.92,
+     "end": 3.14
+    },
+    {
+     "word": " payment,",
+     "start": 3.14,
+     "end": 3.5
+    },
+    {
+     "word": " it",
+     "start": 3.84,
+     "end": 3.9
+    },
+    {
+     "word": " gave",
+     "start": 3.9,
+     "end": 4.08
+    },
+    {
+     "word": " me",
+     "start": 4.08,
+     "end": 4.34
+    },
+    {
+     "word": " 1",
+     "start": 4.34,
+     "end": 4.68
+    },
+    {
+     "word": ",869",
+     "start": 4.68,
+     "end": 6.24
+    },
+    {
+     "word": " double",
+     "start": 6.24,
+     "end": 6.72
+    },
+    {
+     "word": " orders",
+     "start": 6.72,
+     "end": 7.0
+    },
+    {
+     "word": " a",
+     "start": 7.0,
+     "end": 7.24
+    },
+    {
+     "word": " year.",
+     "start": 7.24,
+     "end": 7.54
+    }
+   ]
+  },
+  {
+   "text": " The order call timed out, but the order was already created, only the reply was",
+   "start": 8.8,
+   "end": 13.48,
+   "words": [
+    {
+     "word": " The",
+     "start": 8.8,
+     "end": 8.96
+    },
+    {
+     "word": " order",
+     "start": 8.96,
+     "end": 9.16
+    },
+    {
+     "word": " call",
+     "start": 9.16,
+     "end": 9.46
+    },
+    {
+     "word": " timed",
+     "start": 9.46,
+     "end": 9.78
+    },
+    {
+     "word": " out,",
+     "start": 9.78,
+     "end": 10.28
+    },
+    {
+     "word": " but",
+     "start": 10.36,
+     "end": 10.74
+    },
+    {
+     "word": " the",
+     "start": 10.74,
+     "end": 10.9
+    },
+    {
+     "word": " order",
+     "start": 10.9,
+     "end": 11.06
+    },
+    {
+     "word": " was",
+     "start": 11.06,
+     "end": 11.22
+    },
+    {
+     "word": " already",
+     "start": 11.22,
+     "end": 11.54
+    },
+    {
+     "word": " created,",
+     "start": 11.54,
+     "end": 12.1
+    },
+    {
+     "word": " only",
+     "start": 12.5,
+     "end": 12.74
+    },
+    {
+     "word": " the",
+     "start": 12.74,
+     "end": 12.92
+    },
+    {
+     "word": " reply",
+     "start": 12.92,
+     "end": 13.24
+    },
+    {
+     "word": " was",
+     "start": 13.24,
+     "end": 13.48
+    }
+   ]
+  },
+  {
+   "text": " lost, so the retry created it again.",
+   "start": 13.48,
+   "end": 16.18,
+   "words": [
+    {
+     "word": " lost,",
+     "start": 13.48,
+     "end": 13.86
+    },
+    {
+     "word": " so",
+     "start": 14.16,
+     "end": 14.42
+    },
+    {
+     "word": " the",
+     "start": 14.42,
+     "end": 14.64
+    },
+    {
+     "word": " retry",
+     "start": 14.64,
+     "end": 15.06
+    },
+    {
+     "word": " created",
+     "start": 15.06,
+     "end": 15.52
+    },
+    {
+     "word": " it",
+     "start": 15.52,
+     "end": 15.7
+    },
+    {
+     "word": " again.",
+     "start": 15.7,
+     "end": 16.18
+    }
+   ]
+  },
+  {
+   "text": " A timeout isn't a no, it's a maybe with a deadline.",
+   "start": 17.96,
+   "end": 21.5,
+   "words": [
+    {
+     "word": " A",
+     "start": 17.96,
+     "end": 18.1
+    },
+    {
+     "word": " timeout",
+     "start": 18.1,
+     "end": 18.5
+    },
+    {
+     "word": " isn't",
+     "start": 18.5,
+     "end": 18.96
+    },
+    {
+     "word": " a",
+     "start": 18.96,
+     "end": 19.26
+    },
+    {
+     "word": " no,",
+     "start": 19.26,
+     "end": 19.48
+    },
+    {
+     "word": " it's",
+     "start": 19.74,
+     "end": 20.08
+    },
+    {
+     "word": " a",
+     "start": 20.08,
+     "end": 20.32
+    },
+    {
+     "word": " maybe",
+     "start": 20.32,
+     "end": 20.56
+    },
+    {
+     "word": " with",
+     "start": 20.56,
+     "end": 21.0
+    },
+    {
+     "word": " a",
+     "start": 21.0,
+     "end": 21.14
+    },
+    {
+     "word": " deadline.",
+     "start": 21.14,
+     "end": 21.5
+    }
+   ]
+  },
+  {
+   "text": " I replayed a year of checkouts, a thousand a day, 1% timing out. About 36,000 pounds",
+   "start": 22.46,
+   "end": 28.78,
+   "words": [
+    {
+     "word": " I",
+     "start": 22.46,
+     "end": 22.58
+    },
+    {
+     "word": " replayed",
+     "start": 22.58,
+     "end": 22.94
+    },
+    {
+     "word": " a",
+     "start": 22.94,
+     "end": 23.2
+    },
+    {
+     "word": " year",
+     "start": 23.2,
+     "end": 23.38
+    },
+    {
+     "word": " of",
+     "start": 23.38,
+     "end": 23.64
+    },
+    {
+     "word": " checkouts,",
+     "start": 23.64,
+     "end": 24.12
+    },
+    {
+     "word": " a",
+     "start": 24.54,
+     "end": 24.62
+    },
+    {
+     "word": " thousand",
+     "start": 24.62,
+     "end": 24.86
+    },
+    {
+     "word": " a",
+     "start": 24.86,
+     "end": 25.06
+    },
+    {
+     "word": " day,",
+     "start": 25.06,
+     "end": 25.34
+    },
+    {
+     "word": " 1",
+     "start": 25.68,
+     "end": 25.84
+    },
+    {
+     "word": "%",
+     "start": 25.84,
+     "end": 26.2
+    },
+    {
+     "word": " timing",
+     "start": 26.2,
+     "end": 26.54
+    },
+    {
+     "word": " out.",
+     "start": 26.54,
+     "end": 26.9
+    },
+    {
+     "word": " About",
+     "start": 27.2,
+     "end": 27.5
+    },
+    {
+     "word": " 36",
+     "start": 27.5,
+     "end": 27.96
+    },
+    {
+     "word": ",000",
+     "start": 27.96,
+     "end": 28.58
+    },
+    {
+     "word": " pounds",
+     "start": 28.58,
+     "end": 28.78
+    }
+   ]
+  },
+  {
+   "text": " of food sent twice. The fix is an item potency key. Send a checkout ID on every",
+   "start": 28.78,
+   "end": 35.8,
+   "words": [
+    {
+     "word": " of",
+     "start": 28.78,
+     "end": 28.94
+    },
+    {
+     "word": " food",
+     "start": 28.94,
+     "end": 29.3
+    },
+    {
+     "word": " sent",
+     "start": 29.3,
+     "end": 29.74
+    },
+    {
+     "word": " twice.",
+     "start": 29.74,
+     "end": 30.28
+    },
+    {
+     "word": " The",
+     "start": 31.56,
+     "end": 31.74
+    },
+    {
+     "word": " fix",
+     "start": 31.74,
+     "end": 32.0
+    },
+    {
+     "word": " is",
+     "start": 32.0,
+     "end": 32.3
+    },
+    {
+     "word": " an",
+     "start": 32.3,
+     "end": 32.58
+    },
+    {
+     "word": " item",
+     "start": 32.58,
+     "end": 32.76
+    },
+    {
+     "word": " potency",
+     "start": 32.76,
+     "end": 33.3
+    },
+    {
+     "word": " key.",
+     "start": 33.3,
+     "end": 33.7
+    },
+    {
+     "word": " Send",
+     "start": 34.16,
+     "end": 34.3
+    },
+    {
+     "word": " a",
+     "start": 34.3,
+     "end": 34.46
+    },
+    {
+     "word": " checkout",
+     "start": 34.46,
+     "end": 34.7
+    },
+    {
+     "word": " ID",
+     "start": 34.7,
+     "end": 35.12
+    },
+    {
+     "word": " on",
+     "start": 35.12,
+     "end": 35.38
+    },
+    {
+     "word": " every",
+     "start": 35.38,
+     "end": 35.8
+    }
+   ]
+  },
+  {
+   "text": " attempt. A repeat returns the same order. Double orders, 0. A timeout means I don't",
+   "start": 35.8,
+   "end": 43.86,
+   "words": [
+    {
+     "word": " attempt.",
+     "start": 35.8,
+     "end": 36.28
+    },
+    {
+     "word": " A",
+     "start": 36.72,
+     "end": 36.82
+    },
+    {
+     "word": " repeat",
+     "start": 36.82,
+     "end": 37.14
+    },
+    {
+     "word": " returns",
+     "start": 37.14,
+     "end": 37.62
+    },
+    {
+     "word": " the",
+     "start": 37.62,
+     "end": 37.82
+    },
+    {
+     "word": " same",
+     "start": 37.82,
+     "end": 38.12
+    },
+    {
+     "word": " order.",
+     "start": 38.12,
+     "end": 38.42
+    },
+    {
+     "word": " Double",
+     "start": 38.92,
+     "end": 39.06
+    },
+    {
+     "word": " orders,",
+     "start": 39.06,
+     "end": 39.42
+    },
+    {
+     "word": " 0.",
+     "start": 39.92,
+     "end": 40.12
+    },
+    {
+     "word": " A",
+     "start": 42.3,
+     "end": 42.52
+    },
+    {
+     "word": " timeout",
+     "start": 42.52,
+     "end": 42.78
+    },
+    {
+     "word": " means",
+     "start": 42.78,
+     "end": 43.26
+    },
+    {
+     "word": " I",
+     "start": 43.26,
+     "end": 43.72
+    },
+    {
+     "word": " don't",
+     "start": 43.72,
+     "end": 43.86
+    }
+   ]
+  },
+  {
+   "text": " know. Ask again with the same key. Full article in my profile.",
+   "start": 43.86,
+   "end": 48.06,
+   "words": [
+    {
+     "word": " know.",
+     "start": 43.86,
+     "end": 44.16
+    },
+    {
+     "word": " Ask",
+     "start": 44.58,
+     "end": 44.76
+    },
+    {
+     "word": " again",
+     "start": 44.76,
+     "end": 45.12
+    },
+    {
+     "word": " with",
+     "start": 45.12,
+     "end": 45.48
+    },
+    {
+     "word": " the",
+     "start": 45.48,
+     "end": 45.66
+    },
+    {
+     "word": " same",
+     "start": 45.66,
+     "end": 45.9
+    },
+    {
+     "word": " key.",
+     "start": 45.9,
+     "end": 46.24
+    },
+    {
+     "word": " Full",
+     "start": 46.76,
+     "end": 46.9
+    },
+    {
+     "word": " article",
+     "start": 46.9,
+     "end": 47.26
+    },
+    {
+     "word": " in",
+     "start": 47.26,
+     "end": 47.5
+    },
+    {
+     "word": " my",
+     "start": 47.5,
+     "end": 47.7
+    },
+    {
+     "word": " profile.",
+     "start": 47.7,
+     "end": 48.06
+    }
+   ]
+  }
+ ]
+}
