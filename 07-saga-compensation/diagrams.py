@@ -3,13 +3,14 @@ solid red = silent failure). Usage: python3 diagrams.py OUT_DIR
 Numbers come from summary.json (run python3 simulate.py first). Needs Google Chrome; fonts from Google Fonts.
 """
 import json
+import os
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
 
 HERE = Path(__file__).parent
-CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+CHROME = os.environ.get("CHROME", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
 W, H = 1600, 900
 BG, FG, MUTED, GRAY, LIGHT = "#1b1d21", "#f2efe9", "#8a8f98", "#5c6370", "#9aa1ab"
 GREEN, RED, AMBER = "#34c77b", "#e5484d", "#d4a017"
@@ -121,21 +122,49 @@ def bars(data, rows, left, top, step, span, label_size, num_size, bar_h):
     return b
 
 
-def cover(data):
-    """1920x1080: paid with no order and duplicate orders, call once vs retry vs order first."""
+def cover_frame(b):
     cw, ch = 1920, 1080
-    rows = (ROWS[0], ROWS[1], ROWS[5])
-    b = [text(120, 190, "Retry after payment:", 96, FG, SANS, 800),
-         text(120, 300, f'<tspan fill="{RED}">1,869</tspan> double orders.', 96, FG, SANS, 800),
-         rect(122, 340, 160, 10, AMBER, rx=5),
-         rect(600, 400, 26, 26, "url(#gRed)", rx=6), text(640, 423, "paid, no order", 30, LIGHT, MONO, 400),
-         rect(1000, 400, 26, 26, "url(#hatch)", rx=6), text(1040, 423, "double order", 30, LIGHT, MONO, 400)]
-    b += bars(data, rows, 600, 490, 150, 760, 52, 40, 80)
     return (f'<svg viewBox="0 0 {cw} {ch}" width="{cw}" height="{ch}" xmlns="http://www.w3.org/2000/svg">{DEFS}'
             f'{rect(0, 0, cw, ch, BG, rx=0)}{"".join(b)}'
             f'<svg x="120" y="975" width="72" height="72" viewBox="0 0 512 512">{LOGO}</svg>'
             f'{text(208, 1024, "ARCHEMIST", 30, AMBER, MONO, 800, extra=SPACED)}'
-            f'{text(1800, 1024, "1,000 checkouts a day · one year · archemist.dev", 28, MUTED, MONO, 400, "end")}</svg>')
+            f'{text(1800, 1024, "archemist.dev", 28, MUTED, MONO, 400, "end")}</svg>')
+
+
+def flow_lane(y, label, steps, h=110, size=40):
+    """One labelled lane of boxes joined by arrows; steps = (width, label, fill, color, stroke, note)."""
+    b = [text(120, y + h / 2 + 18, label, 52, FG, SANS, 800)]
+    x = 480
+    for i, (w, lab, fill, color, stroke, note) in enumerate(steps):
+        if i:
+            b.append(arrow(x - 70, y + h / 2, x - 4, y + h / 2))
+        b.append(box(x, y, w, h, lab, fill, color, size, stroke=stroke))
+        if note:
+            b.append(text(x + w / 2, y + h + 44, note[0], 28, note[1], MONO, 700, "middle"))
+        x += w + 70
+    return b
+
+
+def cover(data, three=False):
+    """1920x1080: what happens to one checkout, the failure lanes vs order first."""
+    b = [text(120, 190, "Paid once.", 104, FG, SANS, 800),
+         text(120, 310, f'Ordered <tspan fill="{RED}">twice.</tspan>', 104, FG, SANS, 800),
+         rect(122, 350, 160, 10, AMBER, rx=5)]
+    paid = (300, "paid £11.99", PANEL, FG, LIGHT, None)
+    lanes = []
+    if three:
+        lanes.append(("call once", [paid, (330, "order ✗", RED, FG, "none", ("timeout, no retry", MUTED)),
+                                    (420, "paid, no order", "none", RED, RED, ("lost order", RED))]))
+    lanes.append(("retry", [paid, (250, "order #1", GRAY, FG, "none", ("reply lost", MUTED)),
+                            (190, "retry", GRAY, FG, "none", None),
+                            (260, "order #2", RED, FG, "none", ("double order", RED))]))
+    lanes.append(("order first", [(300, "PENDING", PANEL, AMBER, AMBER, None),
+                                  (320, "charge + key", GRAY, FG, "none", None),
+                                  (380, "CONFIRMED", "url(#gGreen)", BG, "none", ("one order, 0 refunds", GREEN))]))
+    top, step = (420, 180) if three else (450, 230)
+    for i, (label, steps) in enumerate(lanes):
+        b += flow_lane(top + i * step, label, steps, h=100 if three else 110, size=36 if three else 40)
+    return cover_frame(b)
 
 
 def holes(data):
@@ -201,7 +230,7 @@ if __name__ == "__main__":
         for name, fn in DIAGRAMS.items():
             page = Path(tmp) / "d.html"
             page.write_text(f'<!doctype html><html><head><meta charset="utf-8">{fonts}'
-                            f'<style>html,body{{margin:0;background:{BG}}}</style></head><body>{fn(data)}</body></html>')
+                            f'<style>html,body{{margin:0;background:{BG}}}</style></head><body>{fn(data)}</body></html>', encoding="utf-8")
             w, h = SIZES.get(name, (W, H))
             subprocess.run([CHROME, "--headless=new", "--hide-scrollbars", f"--window-size={w},{h}",
                             f"--force-device-scale-factor={1 if name in SIZES else 2}", "--virtual-time-budget=8000",
