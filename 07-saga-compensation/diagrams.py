@@ -149,7 +149,8 @@ def cover(data, three=False):
     """1920x1080: what happens to one checkout, the failure lanes vs order first."""
     b = [text(120, 190, "Paid once.", 104, FG, SANS, 800),
          text(120, 310, f'Ordered <tspan fill="{RED}">twice.</tspan>', 104, FG, SANS, 800),
-         rect(122, 350, 160, 10, AMBER, rx=5)]
+         rect(122, 350, 160, 10, AMBER, rx=5),
+         text(120, 430, "The Saga pattern, in plain words", 40, LIGHT, MONO, 700)]
     paid = (300, "paid £11.99", PANEL, FG, LIGHT, None)
     lanes = []
     if three:
@@ -161,7 +162,7 @@ def cover(data, three=False):
     lanes.append(("order first", [(300, "PENDING", PANEL, AMBER, AMBER, None),
                                   (320, "charge + key", GRAY, FG, "none", None),
                                   (380, "CONFIRMED", "url(#gGreen)", BG, "none", ("one order, 0 refunds", GREEN))]))
-    top, step = (420, 180) if three else (450, 230)
+    top, step = (500, 170) if three else (530, 220)
     for i, (label, steps) in enumerate(lanes):
         b += flow_lane(top + i * step, label, steps, h=100 if three else 110, size=36 if three else 40)
     return cover_frame(b)
