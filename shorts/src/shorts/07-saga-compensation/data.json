@@ -1,0 +1,11 @@
+{
+ "per_day": 1000,
+ "days": 365,
+ "checkouts": 365000,
+ "timeout_pct": 1,
+ "lost_reply_pct": 50,
+ "basket_pence": 1947,
+ "duplicates": 1869,
+ "duplicate_pounds": 36389,
+ "duplicates_with_key": 0
+}
