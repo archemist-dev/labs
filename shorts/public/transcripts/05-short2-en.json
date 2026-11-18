@@ -1,0 +1,649 @@
+{
+ "segments": [
+  {
+   "text": " Can you spot the real bugs in this review?",
+   "start": 0.0,
+   "end": 2.06,
+   "words": [
+    {
+     "word": " Can",
+     "start": 0.0,
+     "end": 0.2
+    },
+    {
+     "word": " you",
+     "start": 0.2,
+     "end": 0.36
+    },
+    {
+     "word": " spot",
+     "start": 0.36,
+     "end": 0.64
+    },
+    {
+     "word": " the",
+     "start": 0.64,
+     "end": 0.96
+    },
+    {
+     "word": " real",
+     "start": 0.96,
+     "end": 1.16
+    },
+    {
+     "word": " bugs",
+     "start": 1.16,
+     "end": 1.42
+    },
+    {
+     "word": " in",
+     "start": 1.42,
+     "end": 1.62
+    },
+    {
+     "word": " this",
+     "start": 1.62,
+     "end": 1.82
+    },
+    {
+     "word": " review?",
+     "start": 1.82,
+     "end": 2.06
+    }
+   ]
+  },
+  {
+   "text": " There are 10 hidden in about 110 comments.",
+   "start": 2.68,
+   "end": 5.66,
+   "words": [
+    {
+     "word": " There",
+     "start": 2.68,
+     "end": 2.74
+    },
+    {
+     "word": " are",
+     "start": 2.74,
+     "end": 3.02
+    },
+    {
+     "word": " 10",
+     "start": 3.02,
+     "end": 3.26
+    },
+    {
+     "word": " hidden",
+     "start": 3.26,
+     "end": 3.78
+    },
+    {
+     "word": " in",
+     "start": 3.78,
+     "end": 4.02
+    },
+    {
+     "word": " about",
+     "start": 4.02,
+     "end": 4.26
+    },
+    {
+     "word": " 110",
+     "start": 4.26,
+     "end": 5.0
+    },
+    {
+     "word": " comments.",
+     "start": 5.0,
+     "end": 5.66
+    }
+   ]
+  },
+  {
+   "text": " 20 pull requests, 10 with a silent bug.",
+   "start": 6.2,
+   "end": 9.22,
+   "words": [
+    {
+     "word": " 20",
+     "start": 6.2,
+     "end": 6.5
+    },
+    {
+     "word": " pull",
+     "start": 6.5,
+     "end": 6.84
+    },
+    {
+     "word": " requests,",
+     "start": 6.84,
+     "end": 7.42
+    },
+    {
+     "word": " 10",
+     "start": 7.88,
+     "end": 8.1
+    },
+    {
+     "word": " with",
+     "start": 8.1,
+     "end": 8.34
+    },
+    {
+     "word": " a",
+     "start": 8.34,
+     "end": 8.62
+    },
+    {
+     "word": " silent",
+     "start": 8.62,
+     "end": 8.88
+    },
+    {
+     "word": " bug.",
+     "start": 8.88,
+     "end": 9.22
+    }
+   ]
+  },
+  {
+   "text": " The code returns success and quietly does the wrong thing.",
+   "start": 9.64,
+   "end": 12.82,
+   "words": [
+    {
+     "word": " The",
+     "start": 9.64,
+     "end": 9.74
+    },
+    {
+     "word": " code",
+     "start": 9.74,
+     "end": 9.94
+    },
+    {
+     "word": " returns",
+     "start": 9.94,
+     "end": 10.3
+    },
+    {
+     "word": " success",
+     "start": 10.3,
+     "end": 10.8
+    },
+    {
+     "word": " and",
+     "start": 10.8,
+     "end": 11.24
+    },
+    {
+     "word": " quietly",
+     "start": 11.24,
+     "end": 11.84
+    },
+    {
+     "word": " does",
+     "start": 11.84,
+     "end": 12.1
+    },
+    {
+     "word": " the",
+     "start": 12.1,
+     "end": 12.3
+    },
+    {
+     "word": " wrong",
+     "start": 12.3,
+     "end": 12.44
+    },
+    {
+     "word": " thing.",
+     "start": 12.44,
+     "end": 12.82
+    }
+   ]
+  },
+  {
+   "text": " With the default prompt, the reviewer flagged names,",
+   "start": 13.24,
+   "end": 15.7,
+   "words": [
+    {
+     "word": " With",
+     "start": 13.24,
+     "end": 13.34
+    },
+    {
+     "word": " the",
+     "start": 13.34,
+     "end": 13.48
+    },
+    {
+     "word": " default",
+     "start": 13.48,
+     "end": 13.8
+    },
+    {
+     "word": " prompt,",
+     "start": 13.8,
+     "end": 14.18
+    },
+    {
+     "word": " the",
+     "start": 14.44,
+     "end": 14.52
+    },
+    {
+     "word": " reviewer",
+     "start": 14.52,
+     "end": 14.8
+    },
+    {
+     "word": " flagged",
+     "start": 14.8,
+     "end": 15.16
+    },
+    {
+     "word": " names,",
+     "start": 15.16,
+     "end": 15.7
+    }
+   ]
+  },
+  {
+   "text": " style, and 25 blocking comments for those 10 bugs.",
+   "start": 16.04,
+   "end": 19.32,
+   "words": [
+    {
+     "word": " style,",
+     "start": 16.04,
+     "end": 16.34
+    },
+    {
+     "word": " and",
+     "start": 16.54,
+     "end": 16.72
+    },
+    {
+     "word": " 25",
+     "start": 16.72,
+     "end": 17.28
+    },
+    {
+     "word": " blocking",
+     "start": 17.28,
+     "end": 17.74
+    },
+    {
+     "word": " comments",
+     "start": 17.74,
+     "end": 18.18
+    },
+    {
+     "word": " for",
+     "start": 18.18,
+     "end": 18.38
+    },
+    {
+     "word": " those",
+     "start": 18.38,
+     "end": 18.58
+    },
+    {
+     "word": " 10",
+     "start": 18.58,
+     "end": 18.84
+    },
+    {
+     "word": " bugs.",
+     "start": 18.84,
+     "end": 19.32
+    }
+   ]
+  },
+  {
+   "text": " 110 comments, approved.",
+   "start": 19.7,
+   "end": 21.82,
+   "words": [
+    {
+     "word": " 110",
+     "start": 19.7,
+     "end": 20.2
+    },
+    {
+     "word": " comments,",
+     "start": 20.2,
+     "end": 21.12
+    },
+    {
+     "word": " approved.",
+     "start": 21.48,
+     "end": 21.82
+    }
+   ]
+  },
+  {
+   "text": " The fix is one prompt.",
+   "start": 22.86,
+   "end": 24.42,
+   "words": [
+    {
+     "word": " The",
+     "start": 22.86,
+     "end": 23.0
+    },
+    {
+     "word": " fix",
+     "start": 23.0,
+     "end": 23.28
+    },
+    {
+     "word": " is",
+     "start": 23.28,
+     "end": 23.6
+    },
+    {
+     "word": " one",
+     "start": 23.6,
+     "end": 23.92
+    },
+    {
+     "word": " prompt.",
+     "start": 23.92,
+     "end": 24.42
+    }
+   ]
+  },
+  {
+   "text": " Ask only for silent failures,",
+   "start": 24.84,
+   "end": 26.38,
+   "words": [
+    {
+     "word": " Ask",
+     "start": 24.84,
+     "end": 25.04
+    },
+    {
+     "word": " only",
+     "start": 25.04,
+     "end": 25.36
+    },
+    {
+     "word": " for",
+     "start": 25.36,
+     "end": 25.62
+    },
+    {
+     "word": " silent",
+     "start": 25.62,
+     "end": 25.9
+    },
+    {
+     "word": " failures,",
+     "start": 25.9,
+     "end": 26.38
+    }
+   ]
+  },
+  {
+   "text": " read the callers and config first,",
+   "start": 26.76,
+   "end": 28.42,
+   "words": [
+    {
+     "word": " read",
+     "start": 26.76,
+     "end": 26.96
+    },
+    {
+     "word": " the",
+     "start": 26.96,
+     "end": 27.16
+    },
+    {
+     "word": " callers",
+     "start": 27.16,
+     "end": 27.46
+    },
+    {
+     "word": " and",
+     "start": 27.46,
+     "end": 27.6
+    },
+    {
+     "word": " config",
+     "start": 27.6,
+     "end": 27.88
+    },
+    {
+     "word": " first,",
+     "start": 27.88,
+     "end": 28.42
+    }
+   ]
+  },
+  {
+   "text": " and post only the blocking ones.",
+   "start": 28.42,
+   "end": 30.88,
+   "words": [
+    {
+     "word": " and",
+     "start": 28.42,
+     "end": 28.82
+    },
+    {
+     "word": " post",
+     "start": 28.82,
+     "end": 29.12
+    },
+    {
+     "word": " only",
+     "start": 29.12,
+     "end": 29.52
+    },
+    {
+     "word": " the",
+     "start": 29.52,
+     "end": 29.7
+    },
+    {
+     "word": " blocking",
+     "start": 29.7,
+     "end": 29.98
+    },
+    {
+     "word": " ones.",
+     "start": 29.98,
+     "end": 30.88
+    }
+   ]
+  },
+  {
+   "text": " Same 10 bugs caught, a tenth of the comments.",
+   "start": 32.5,
+   "end": 35.08,
+   "words": [
+    {
+     "word": " Same",
+     "start": 32.5,
+     "end": 32.66
+    },
+    {
+     "word": " 10",
+     "start": 32.66,
+     "end": 32.92
+    },
+    {
+     "word": " bugs",
+     "start": 32.92,
+     "end": 33.2
+    },
+    {
+     "word": " caught,",
+     "start": 33.2,
+     "end": 33.58
+    },
+    {
+     "word": " a",
+     "start": 33.96,
+     "end": 34.1
+    },
+    {
+     "word": " tenth",
+     "start": 34.1,
+     "end": 34.42
+    },
+    {
+     "word": " of",
+     "start": 34.42,
+     "end": 34.58
+    },
+    {
+     "word": " the",
+     "start": 34.58,
+     "end": 34.74
+    },
+    {
+     "word": " comments.",
+     "start": 34.74,
+     "end": 35.08
+    }
+   ]
+  },
+  {
+   "text": " Almost everyone is a bug.",
+   "start": 35.48,
+   "end": 36.92,
+   "words": [
+    {
+     "word": " Almost",
+     "start": 35.48,
+     "end": 35.72
+    },
+    {
+     "word": " everyone",
+     "start": 35.72,
+     "end": 36.26
+    },
+    {
+     "word": " is",
+     "start": 36.26,
+     "end": 36.48
+    },
+    {
+     "word": " a",
+     "start": 36.48,
+     "end": 36.68
+    },
+    {
+     "word": " bug.",
+     "start": 36.68,
+     "end": 36.92
+    }
+   ]
+  },
+  {
+   "text": " When every comment is a bug, people read every comment.",
+   "start": 38.76,
+   "end": 42.04,
+   "words": [
+    {
+     "word": " When",
+     "start": 38.76,
+     "end": 39.16
+    },
+    {
+     "word": " every",
+     "start": 39.16,
+     "end": 39.48
+    },
+    {
+     "word": " comment",
+     "start": 39.48,
+     "end": 39.76
+    },
+    {
+     "word": " is",
+     "start": 39.76,
+     "end": 39.94
+    },
+    {
+     "word": " a",
+     "start": 39.94,
+     "end": 40.12
+    },
+    {
+     "word": " bug,",
+     "start": 40.12,
+     "end": 40.32
+    },
+    {
+     "word": " people",
+     "start": 40.58,
+     "end": 40.82
+    },
+    {
+     "word": " read",
+     "start": 40.82,
+     "end": 41.18
+    },
+    {
+     "word": " every",
+     "start": 41.18,
+     "end": 41.58
+    },
+    {
+     "word": " comment.",
+     "start": 41.58,
+     "end": 42.04
+    }
+   ]
+  },
+  {
+   "text": " The full test is in the article.",
+   "start": 42.46,
+   "end": 43.76,
+   "words": [
+    {
+     "word": " The",
+     "start": 42.46,
+     "end": 42.58
+    },
+    {
+     "word": " full",
+     "start": 42.58,
+     "end": 42.74
+    },
+    {
+     "word": " test",
+     "start": 42.74,
+     "end": 43.02
+    },
+    {
+     "word": " is",
+     "start": 43.02,
+     "end": 43.18
+    },
+    {
+     "word": " in",
+     "start": 43.18,
+     "end": 43.3
+    },
+    {
+     "word": " the",
+     "start": 43.3,
+     "end": 43.44
+    },
+    {
+     "word": " article.",
+     "start": 43.44,
+     "end": 43.76
+    }
+   ]
+  }
+ ]
+}
