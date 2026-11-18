@@ -33,6 +33,7 @@ import { opening2 as aiOpening2 } from "./shorts/05-ai-review/script2";
 import { SCENES_A as aiProtoA, SCENES_B as aiProtoB } from "./shorts/05-ai-review/Short2";
 import { SCENES_C as aiProtoC, SCENES2 as aiScenes2 } from "./shorts/05-ai-review/ShortC";
 import { short2 as aiShort2 } from "./shorts/05-ai-review/script2";
+import { Thumbnail2 as aiThumb2 } from "./shorts/05-ai-review/Thumbnail2";
 import { short1 as sagaShort1 } from "./shorts/06-saga-compensation/script";
 import { SCENES1 as sagaScenes1 } from "./shorts/06-saga-compensation/Short1";
 import { Thumbnail as sagaThumb1 } from "./shorts/06-saga-compensation/Thumbnail";
@@ -102,6 +103,7 @@ export const Root: React.FC = () => (
     <Still id="04-short1-thumb" component={rtThumb1} width={W} height={H} />
     <Still id="04-short2-thumb" component={rtThumb2} width={W} height={H} />
     <Still id="05-short1-thumb" component={aiThumb1} width={W} height={H} />
+    <Still id="05-short2-thumb" component={aiThumb2} width={W} height={H} />
     <Still id="06-short1-thumb" component={sagaThumb1} width={W} height={H} />
   </>
 );
