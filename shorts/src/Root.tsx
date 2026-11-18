@@ -29,6 +29,11 @@ import { Thumbnail2 as rtThumb2 } from "./shorts/04-response-time/Thumbnail2";
 import { short1 as aiShort1 } from "./shorts/05-ai-review/script";
 import { SCENES1 as aiScenes1 } from "./shorts/05-ai-review/Short1";
 import { Thumbnail as aiThumb1 } from "./shorts/05-ai-review/Thumbnail";
+import { opening2 as aiOpening2 } from "./shorts/05-ai-review/script2";
+import { SCENES_A as aiProtoA, SCENES_B as aiProtoB } from "./shorts/05-ai-review/Short2";
+import { SCENES_C as aiProtoC, SCENES2 as aiScenes2 } from "./shorts/05-ai-review/ShortC";
+import { short2 as aiShort2 } from "./shorts/05-ai-review/script2";
+import { Thumbnail2 as aiThumb2 } from "./shorts/05-ai-review/Thumbnail2";
 import { short1 as sagaShort1 } from "./shorts/06-saga-compensation/script";
 import { SCENES1 as sagaScenes1 } from "./shorts/06-saga-compensation/Short1";
 import { Thumbnail as sagaThumb1 } from "./shorts/06-saga-compensation/Thumbnail";
@@ -51,10 +56,15 @@ const LIST: { id: string; scripts: Record<string, Beat[]>; scenes: Record<string
   { id: "04-short1", scripts: rtShort1, scenes: rtScenes1 },
   { id: "04-short2", scripts: rtShort2, scenes: rtScenes2 },
   { id: "05-short1", scripts: aiShort1, scenes: aiScenes1 },
+  { id: "05-short2", scripts: aiShort2, scenes: aiScenes2 },
   { id: "06-short1", scripts: sagaShort1, scenes: sagaScenes1 },
   // Visual prototypes for week 3 "The 14x cliff" opening: A = 2D upgraded, B = 3D.
   { id: "03-protoA", scripts: uuidOpening, scenes: uuidProtoA },
   { id: "03-protoB", scripts: uuidOpening, scenes: uuidProtoB },
+  // Week 5 "The checklist fix" opening (Lessons rule 14): A = PR stacks, B = review feed.
+  { id: "05-protoA", scripts: aiOpening2, scenes: aiProtoA },
+  { id: "05-protoB", scripts: aiOpening2, scenes: aiProtoB },
+  { id: "05-protoC", scripts: aiOpening2, scenes: aiProtoC },
 ];
 const SHORTS = LIST.map((s) => ({ ...s, component: (props: ShortProps) => <Shell {...props} scenes={s.scenes} /> }));
 
@@ -93,6 +103,7 @@ export const Root: React.FC = () => (
     <Still id="04-short1-thumb" component={rtThumb1} width={W} height={H} />
     <Still id="04-short2-thumb" component={rtThumb2} width={W} height={H} />
     <Still id="05-short1-thumb" component={aiThumb1} width={W} height={H} />
+    <Still id="05-short2-thumb" component={aiThumb2} width={W} height={H} />
     <Still id="06-short1-thumb" component={sagaThumb1} width={W} height={H} />
   </>
 );

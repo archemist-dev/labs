@@ -1,0 +1,640 @@
+{
+ "_source": "05-ai-review runs/*/<pr>/run<k>.grade.json, checked against summary.json",
+ "shown_run": 1,
+ "default": {
+  "prs": [
+   {
+    "pr": "b01-chain-from-view",
+    "bug": true,
+    "comments": 4,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b02-http-retry",
+    "bug": true,
+    "comments": 7,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b03-promo-on-total",
+    "bug": true,
+    "comments": 6,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b04-summary-utc-day",
+    "bug": true,
+    "comments": 7,
+    "blocking": 2,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b05-notify-returns-status",
+    "bug": true,
+    "comments": 5,
+    "blocking": 2,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b06-card-expired",
+    "bug": true,
+    "comments": 4,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b07-zone-defaults",
+    "bug": true,
+    "comments": 3,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b08-flag-rename",
+    "bug": true,
+    "comments": 5,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b09-pickup-time-lost",
+    "bug": true,
+    "comments": 4,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b10-spread-units",
+    "bug": true,
+    "comments": 4,
+    "blocking": 2,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c01-couriers-on-trip",
+    "bug": false,
+    "comments": 4,
+    "blocking": 0,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c02-retry-charges-only",
+    "bug": false,
+    "comments": 8,
+    "blocking": 2,
+    "caught": false,
+    "false_alarms": 1
+   },
+   {
+    "pr": "c03-promo-validate",
+    "bug": false,
+    "comments": 6,
+    "blocking": 2,
+    "caught": false,
+    "false_alarms": 1
+   },
+   {
+    "pr": "c04-summary-london-day",
+    "bug": false,
+    "comments": 5,
+    "blocking": 2,
+    "caught": false,
+    "false_alarms": 1
+   },
+   {
+    "pr": "c05-notify-timeout-error",
+    "bug": false,
+    "comments": 6,
+    "blocking": 1,
+    "caught": false,
+    "false_alarms": 1
+   },
+   {
+    "pr": "c06-card-expired-subclass",
+    "bug": false,
+    "comments": 5,
+    "blocking": 2,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c07-zone-min-order",
+    "bug": false,
+    "comments": 6,
+    "blocking": 1,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c08-flag-rename-both",
+    "bug": false,
+    "comments": 4,
+    "blocking": 1,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c09-pickup-time-saved",
+    "bug": false,
+    "comments": 5,
+    "blocking": 1,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c10-spread-metres",
+    "bug": false,
+    "comments": 8,
+    "blocking": 0,
+    "caught": false,
+    "false_alarms": 0
+   }
+  ],
+  "runs": [
+   {
+    "comments": 106,
+    "blocking": 25,
+    "caught": 10
+   },
+   {
+    "comments": 113,
+    "blocking": 26,
+    "caught": 10
+   },
+   {
+    "comments": 108,
+    "blocking": 25,
+    "caught": 10
+   }
+  ]
+ },
+ "checklist": {
+  "prs": [
+   {
+    "pr": "b01-chain-from-view",
+    "bug": true,
+    "comments": 3,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b02-http-retry",
+    "bug": true,
+    "comments": 1,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b03-promo-on-total",
+    "bug": true,
+    "comments": 2,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b04-summary-utc-day",
+    "bug": true,
+    "comments": 2,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b05-notify-returns-status",
+    "bug": true,
+    "comments": 2,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b06-card-expired",
+    "bug": true,
+    "comments": 1,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b07-zone-defaults",
+    "bug": true,
+    "comments": 1,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b08-flag-rename",
+    "bug": true,
+    "comments": 1,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b09-pickup-time-lost",
+    "bug": true,
+    "comments": 2,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "b10-spread-units",
+    "bug": true,
+    "comments": 1,
+    "blocking": 1,
+    "caught": true,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c01-couriers-on-trip",
+    "bug": false,
+    "comments": 1,
+    "blocking": 0,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c02-retry-charges-only",
+    "bug": false,
+    "comments": 0,
+    "blocking": 0,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c03-promo-validate",
+    "bug": false,
+    "comments": 1,
+    "blocking": 0,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c04-summary-london-day",
+    "bug": false,
+    "comments": 2,
+    "blocking": 0,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c05-notify-timeout-error",
+    "bug": false,
+    "comments": 1,
+    "blocking": 0,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c06-card-expired-subclass",
+    "bug": false,
+    "comments": 1,
+    "blocking": 0,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c07-zone-min-order",
+    "bug": false,
+    "comments": 2,
+    "blocking": 0,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c08-flag-rename-both",
+    "bug": false,
+    "comments": 1,
+    "blocking": 0,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c09-pickup-time-saved",
+    "bug": false,
+    "comments": 1,
+    "blocking": 0,
+    "caught": false,
+    "false_alarms": 0
+   },
+   {
+    "pr": "c10-spread-metres",
+    "bug": false,
+    "comments": 1,
+    "blocking": 0,
+    "caught": false,
+    "false_alarms": 0
+   }
+  ],
+  "runs": [
+   {
+    "comments": 27,
+    "blocking": 10,
+    "caught": 10
+   },
+   {
+    "comments": 36,
+    "blocking": 10,
+    "caught": 10
+   },
+   {
+    "comments": 34,
+    "blocking": 11,
+    "caught": 10
+   }
+  ]
+ },
+ "cards": [
+  {
+   "pr": "b01-chain-from-view",
+   "text": "Blocking: this uses a stale read model to make a decision",
+   "kind": "bug",
+   "title": "Read courier chains from the courier view in pick_courier",
+   "path": "orders/chain.py",
+   "code": "def pick_courier(store, view, order):"
+  },
+  {
+   "pr": "b02-http-retry",
+   "text": "Blocking: retrying `/refunds` can issue duplicate refunds",
+   "kind": "bug",
+   "title": "Retry transient provider errors in Http.post",
+   "path": "orders/http.py",
+   "code": "def post(self, path, json, headers=None, timeout=5, attempts=3):"
+  },
+  {
+   "pr": "b03-promo-on-total",
+   "text": "The change contradicts the documented promo terms (blocking)",
+   "kind": "bug",
+   "title": "Apply the promo to what the guest pays",
+   "path": "orders/service.py",
+   "code": "payable = order.subtotal_pence + order.delivery_fee_pence"
+  },
+  {
+   "pr": "b04-summary-utc-day",
+   "text": "Bug (blocking): wrong day boundary",
+   "kind": "bug",
+   "title": "Kitchen summary: orders and revenue for one day",
+   "path": "orders/reports.py",
+   "code": "def kitchen_summary(orders, day) -> dict:"
+  },
+  {
+   "pr": "b05-notify-returns-status",
+   "text": "Blocking: this change breaks the retry path in `OrderService.dispatch`",
+   "kind": "bug",
+   "title": "Notifier.send returns a status instead of raising",
+   "path": "orders/notify.py",
+   "code": "log = logging.getLogger(__name__)"
+  },
+  {
+   "pr": "b06-card-expired",
+   "text": "Blocking: `CardExpired` bypasses the cleanup in `place_order`",
+   "kind": "bug",
+   "title": "Tell the app when the card has expired",
+   "path": "orders/payments.py",
+   "code": "class CardExpired(Exception):"
+  },
+  {
+   "pr": "b07-zone-defaults",
+   "text": "Every zone without an offer now gets free delivery",
+   "kind": "bug",
+   "title": "Zone config: plain int fields",
+   "path": "orders/config.py",
+   "code": "free_over_pence: int = 0  # free delivery once the subtotal reaches this"
+  },
+  {
+   "pr": "b08-flag-rename",
+   "text": "Blocking: the rename is incomplete, so it silently turns off surge pricing",
+   "kind": "bug",
+   "title": "Rename the surge_fee flag to dynamic_delivery_fee",
+   "path": "orders/service.py",
+   "code": "surge=flags.enabled(\"dynamic_delivery_fee\"))"
+  },
+  {
+   "pr": "b09-pickup-time-lost",
+   "text": "Blocking: `pick_up` never persists anything",
+   "kind": "bug",
+   "title": "Record when the courier picks the order up",
+   "path": "orders/service.py",
+   "code": "def pick_up(self, order_id, now=None) -> Order:"
+  },
+  {
+   "pr": "b10-spread-units",
+   "text": "Blocking: unit mismatch in the new check (`orders/chain.py`)",
+   "kind": "bug",
+   "title": "Don't let a chain spread too far from its first order",
+   "path": "orders/chain.py",
+   "code": "first = store.get(courier.order_ids[0])"
+  },
+  {
+   "pr": "c02-retry-charges-only",
+   "text": "No tests (blocking)",
+   "kind": "block",
+   "title": "Retry transient errors on charges",
+   "path": "orders/http.py",
+   "code": "def post(self, path, json, headers=None, timeout=5, attempts=1):"
+  },
+  {
+   "pr": "c04-summary-london-day",
+   "text": "Day is chosen by `created_at`, not delivery time",
+   "kind": "block",
+   "title": "Kitchen summary: orders and revenue for one day",
+   "path": "orders/reports.py",
+   "code": "def kitchen_summary(orders, day) -> dict:"
+  },
+  {
+   "pr": "c04-summary-london-day",
+   "text": "No tests (main issue)",
+   "kind": "block",
+   "title": "Kitchen summary: orders and revenue for one day",
+   "path": "orders/reports.py",
+   "code": "def kitchen_summary(orders, day) -> dict:"
+  },
+  {
+   "pr": "c05-notify-timeout-error",
+   "text": "The logs still can't tell timeouts from rejections (main issue)",
+   "kind": "block",
+   "title": "Separate SMS timeouts from rejections",
+   "path": "orders/notify.py",
+   "code": "class NotifyTimeout(NotifyError):"
+  },
+  {
+   "pr": "b04-summary-utc-day",
+   "text": "Tests (blocking): none were added",
+   "kind": "block",
+   "title": "Kitchen summary: orders and revenue for one day",
+   "path": "orders/reports.py",
+   "code": "def kitchen_summary(orders, day) -> dict:"
+  },
+  {
+   "pr": "c07-zone-min-order",
+   "text": "No tests (should fix before merge)",
+   "kind": "block",
+   "title": "Minimum order per zone",
+   "path": "orders/config.py",
+   "code": "min_order_pence: int = 0  # 0 = no minimum"
+  },
+  {
+   "pr": "c09-pickup-time-saved",
+   "text": "No tests (main blocker)",
+   "kind": "block",
+   "title": "Record when the courier picks the order up",
+   "path": "orders/store.py",
+   "code": "def set_picked_up(self, order_id: str, at) -> Order:"
+  },
+  {
+   "pr": "c02-retry-charges-only",
+   "text": "Real timeouts probably aren't retried",
+   "kind": "block",
+   "title": "Retry transient errors on charges",
+   "path": "orders/http.py",
+   "code": "def post(self, path, json, headers=None, timeout=5, attempts=1):"
+  },
+  {
+   "pr": "c05-notify-timeout-error",
+   "text": "Magic string",
+   "kind": "nit",
+   "title": "Separate SMS timeouts from rejections",
+   "path": "orders/notify.py",
+   "code": "class NotifyTimeout(NotifyError):"
+  },
+  {
+   "pr": "c05-notify-timeout-error",
+   "text": "Inconsistent exception messages",
+   "kind": "nit",
+   "title": "Separate SMS timeouts from rejections",
+   "path": "orders/notify.py",
+   "code": "class NotifyTimeout(NotifyError):"
+  },
+  {
+   "pr": "c02-retry-charges-only",
+   "text": "Worst-case latency",
+   "kind": "nit",
+   "title": "Retry transient errors on charges",
+   "path": "orders/http.py",
+   "code": "def post(self, path, json, headers=None, timeout=5, attempts=1):"
+  },
+  {
+   "pr": "c04-summary-london-day",
+   "text": "Duplicated logic with `daily_revenue`",
+   "kind": "nit",
+   "title": "Kitchen summary: orders and revenue for one day",
+   "path": "orders/reports.py",
+   "code": "def kitchen_summary(orders, day) -> dict:"
+  },
+  {
+   "pr": "c08-flag-rename-both",
+   "text": "Leftover \"surge\" naming",
+   "kind": "nit",
+   "title": "Rename the surge_fee flag to dynamic_delivery_fee",
+   "path": "orders/service.py",
+   "code": "surge=flags.enabled(\"dynamic_delivery_fee\"))"
+  },
+  {
+   "pr": "c08-flag-rename-both",
+   "text": "Line length",
+   "kind": "nit",
+   "title": "Rename the surge_fee flag to dynamic_delivery_fee",
+   "path": "orders/service.py",
+   "code": "surge=flags.enabled(\"dynamic_delivery_fee\"))"
+  },
+  {
+   "pr": "b02-http-retry",
+   "text": "Error context is lost",
+   "kind": "nit",
+   "title": "Retry transient provider errors in Http.post",
+   "path": "orders/http.py",
+   "code": "def post(self, path, json, headers=None, timeout=5, attempts=3):"
+  },
+  {
+   "pr": "b02-http-retry",
+   "text": "Backoff",
+   "kind": "nit",
+   "title": "Retry transient provider errors in Http.post",
+   "path": "orders/http.py",
+   "code": "def post(self, path, json, headers=None, timeout=5, attempts=3):"
+  },
+  {
+   "pr": "b05-notify-returns-status",
+   "text": "PII in logs",
+   "kind": "nit",
+   "title": "Notifier.send returns a status instead of raising",
+   "path": "orders/notify.py",
+   "code": "log = logging.getLogger(__name__)"
+  },
+  {
+   "pr": "b09-pickup-time-lost",
+   "text": "Race condition",
+   "kind": "nit",
+   "title": "Record when the courier picks the order up",
+   "path": "orders/service.py",
+   "code": "def pick_up(self, order_id, now=None) -> Order:"
+  },
+  {
+   "pr": "c07-zone-min-order",
+   "text": "The feature does nothing yet",
+   "kind": "nit",
+   "title": "Minimum order per zone",
+   "path": "orders/config.py",
+   "code": "min_order_pence: int = 0  # 0 = no minimum"
+  },
+  {
+   "pr": "c07-zone-min-order",
+   "text": "Config validation (minor)",
+   "kind": "nit",
+   "title": "Minimum order per zone",
+   "path": "orders/config.py",
+   "code": "min_order_pence: int = 0  # 0 = no minimum"
+  },
+  {
+   "pr": "c10-spread-metres",
+   "text": "Redundant check",
+   "kind": "nit",
+   "title": "Don't let a chain spread too far from its first order",
+   "path": "orders/chain.py",
+   "code": "first = store.get(courier.order_ids[0])"
+  },
+  {
+   "pr": "c04-summary-london-day",
+   "text": "Performance",
+   "kind": "nit",
+   "title": "Kitchen summary: orders and revenue for one day",
+   "path": "orders/reports.py",
+   "code": "def kitchen_summary(orders, day) -> dict:"
+  },
+  {
+   "pr": "b01-chain-from-view",
+   "text": "The change doesn't deliver the stated benefit",
+   "kind": "nit",
+   "title": "Read courier chains from the courier view in pick_courier",
+   "path": "orders/chain.py",
+   "code": "def pick_courier(store, view, order):"
+  },
+  {
+   "pr": "c09-pickup-time-saved",
+   "text": "Unknown order id",
+   "kind": "nit",
+   "title": "Record when the courier picks the order up",
+   "path": "orders/store.py",
+   "code": "def set_picked_up(self, order_id: str, at) -> Order:"
+  }
+ ]
+}
