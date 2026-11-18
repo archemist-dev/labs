@@ -50,6 +50,7 @@ const kinds = (p: Pr): Kind[] => {
 const STACKS = DEFAULT.map(kinds);
 const TOTAL = DEFAULT.reduce((s, p) => s + p.comments, 0); // 106
 const BLOCKING = DEFAULT.reduce((s, p) => s + p.blocking, 0); // 25
+const RUNS = (() => { const c = data.default.runs.map((r) => r.comments); return `${Math.min(...c)}–${Math.max(...c)}`; })(); // 106–113
 const BUGS = DEFAULT.filter((p) => p.bug && p.caught).length; // 10
 const jit = (i: number, j: number) => (((i * 73 + j * 37) % 11) - 5) / 5; // -1..1, deterministic
 
@@ -118,11 +119,12 @@ export const HookText: React.FC<{ cues: { ten: number; comments: number } }> = (
   return (
     <>
       <Header text="One AI review" sub={`${data.default.prs.length} pull requests`} />
-      <div style={{ position: "absolute", left: 70, top: 410, fontFamily: MONO, fontWeight: 800, fontSize: 64, color: RED, opacity: fade(frame, cues.ten - 3) }}>
+      <div style={{ position: "absolute", left: 70, top: 360, fontFamily: MONO, fontWeight: 800, fontSize: 64, color: RED, opacity: fade(frame, cues.ten - 3) }}>
         {BUGS} real bugs
       </div>
-      <div style={{ position: "absolute", left: 70, top: 490, fontFamily: MONO, fontWeight: 800, fontSize: 64, color: FG, opacity: fade(frame, cues.comments - 14, 6) }}>
-        {steps(TOTAL, p, 10)} <span style={{ fontSize: 40, color: MUTED, fontWeight: 400 }}>comments (run 1 of 3)</span>
+      <div style={{ position: "absolute", left: 70, top: 435, fontFamily: MONO, fontWeight: 800, fontSize: 64, color: FG, opacity: fade(frame, cues.comments - 14, 6) }}>
+        ≈{steps(110, p, 10)} <span style={{ fontSize: 40, color: MUTED, fontWeight: 400 }}>comments</span>
+        <div style={{ fontFamily: MONO, fontSize: 28, fontWeight: 400, color: MUTED }}>{RUNS} over 3 runs</div>
       </div>
       <Sfx name="reveal" at={cues.ten} volume={0.3} />
     </>

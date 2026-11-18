@@ -191,8 +191,6 @@ const ProductionC: React.FC = () => {
   const z = interpolate(frame, [0, 60], [13, 12], clamp);
   return (
     <>
-      <Field red={1} dimRest={1} hiBlock={0} push={130} drift={0} />
-      <div style={{ position: "absolute", inset: 0, background: "rgba(27,29,33,0.72)" }} />
       <Canvas pos={[0.6, 2.4, z]} look={[0.85, 1.2, 0]}>
         <pointLight position={[0.5, 2.2, 4]} intensity={18} distance={12} color="#ffffff" />
         <group scale={interpolate(frame, [0, 8], [0.6, 1], { ...clamp, easing: ease })}>
@@ -202,7 +200,7 @@ const ProductionC: React.FC = () => {
       <div style={{ position: "absolute", left: 90, width: 460, top: 480, textAlign: "center", fontFamily: MONO, fontWeight: 800, fontSize: 36, color: LIGHT }}>PRODUCTION</div>
       <Pop at={3} sfx="reveal" style={{ left: 560, top: 300 }}>
         <div style={{ position: "relative", width: 430, padding: "26px 30px", borderRadius: 26, background: "#262a30", border: `4px solid ${LIGHT}` }}>
-          <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: 44, color: FG }}>A hundred and ten comments.</div>
+          <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: 44, color: FG }}>110 comments.</div>
           <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: 44, color: GREEN, opacity: fade(frame, approved - 2, 6) }}>Approved.</div>
           <div style={{ position: "absolute", left: -2, bottom: -40, width: 0, height: 0, borderTop: `40px solid ${LIGHT}`, borderRight: "40px solid transparent" }} />
         </div>
@@ -230,7 +228,8 @@ const FixC: React.FC = () => {
   const silent = useCue("silent", 40);
   const callers = useCue("callers", 75);
   const blocking = useCue("blocking", 110);
-  const drop = interpolate(frame, [blocking - 4, blocking + 40], [0, 1], clamp);
+  // The noise falls when the prompt asks for silent failures only; the bugs stay.
+  const drop = interpolate(frame, [silent - 2, silent + 40], [0, 1], clamp);
   return (
     <>
       <Field red={1} dimRest={1} hiBlock={0} push={130 + frame * 0.15} drift={0} drop={drop} />
@@ -304,21 +303,21 @@ const EndC: React.FC = () => {
   return (
     <>
       <Header text="Every comment read" />
-      <div style={{ position: "absolute", left: 90, top: 420, width: 900, perspective: 1600 }}>
+      <div style={{ position: "absolute", left: 70, top: 520, width: 940, perspective: 1800, transform: "scale(1.0)" }}>
         <div style={{ transform: `rotateY(${flip * 180}deg)`, transformStyle: "preserve-3d" }}>
           <div style={{ transform: back ? "rotateY(180deg)" : "none" }}>
             {back ? (
               <div style={{ padding: "28px 32px", borderRadius: 18, border: `4px solid ${GREEN}`, background: "#16191d" }}>
-                <div style={{ fontFamily: MONO, fontSize: 26, color: MUTED, marginBottom: 12 }}>orders/money.py · the rule it caught</div>
-                <div style={{ fontFamily: MONO, fontSize: 34, lineHeight: 1.4, color: FG }}>"{rule}"</div>
+                <div style={{ fontFamily: MONO, fontSize: 30, color: MUTED, marginBottom: 16 }}>orders/money.py · the rule it caught</div>
+                <div style={{ fontFamily: MONO, fontSize: 42, lineHeight: 1.4, color: FG }}>"{rule}"</div>
               </div>
             ) : (
-              <Card c={PROMO} w={900} red={1} dim={0} hi={0} />
+              <div style={{ zoom: 1.3 }}><Card c={PROMO} w={723} red={1} dim={0} hi={0} /></div>
             )}
           </div>
         </div>
       </div>
-      <Pop at={article} style={{ left: 90, top: 860 }}>
+      <Pop at={article} style={{ left: 70, top: 1080 }}>
         <div style={{ fontFamily: SANS, fontWeight: 700, fontSize: 46, color: LIGHT }}>
           Full article: <span style={{ color: FG }}>link in profile</span>
         </div>
