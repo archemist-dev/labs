@@ -16,7 +16,7 @@ from pathlib import Path
 RUNS = 10_000            # simulated projects per plan
 DEVELOPERS = 2
 CAPACITY = 5 * DEVELOPERS  # dev-days per week
-HISTORY_WEEKS = 12       # past weeks of throughput the team has
+HISTORY_DAYS = 60        # past working days of throughput the team has (12 weeks)
 CALIBRATION_TRIALS = 1_000
 FORECAST_RUNS = 2_000    # resamples per throughput forecast
 BUFFER = 1.2             # "add 20%"
@@ -37,29 +37,25 @@ def workdays(dev_days):
     return math.ceil(dev_days / DEVELOPERS - 1e-9)
 
 
-def weeks(dev_days):
-    return math.ceil(dev_days / CAPACITY - 1e-9)
-
-
 def actual_days(rng, sigma):
     return sum(e * rng.lognormvariate(0, sigma) for e in ESTIMATES)
 
 
 def throughput_history(rng, sigma):
-    """Items finished per week over HISTORY_WEEKS, for a team pulling tasks like these ones."""
-    done, clock, week_end = [0] * HISTORY_WEEKS, 0.0, CAPACITY
-    week = 0
-    while week < HISTORY_WEEKS:
+    """Items finished per working day over HISTORY_DAYS, for a team pulling tasks like these ones."""
+    done, clock, day_end = [0] * HISTORY_DAYS, 0.0, DEVELOPERS
+    day = 0
+    while day < HISTORY_DAYS:
         clock += rng.choice(ESTIMATES) * rng.lognormvariate(0, sigma)
-        while clock > week_end and week < HISTORY_WEEKS:
-            week, week_end = week + 1, week_end + CAPACITY
-        if week < HISTORY_WEEKS:
-            done[week] += 1
+        while clock > day_end and day < HISTORY_DAYS:
+            day, day_end = day + 1, day_end + DEVELOPERS
+        if day < HISTORY_DAYS:
+            done[day] += 1
     return done
 
 
 def throughput_forecast(rng, history, items):
-    """Weeks to finish `items`, resampling past weekly throughput (Vacanti, Magennis)."""
+    """Working days to finish `items`, resampling past daily throughput (Vacanti, Magennis)."""
     out = []
     for _ in range(FORECAST_RUNS):
         left, w = items, 0
@@ -119,7 +115,7 @@ def calibrate(sigma):
     for _ in range(CALIBRATION_TRIALS):
         history = throughput_history(rng, sigma)
         p50, p85 = throughput_forecast(rng, history, len(ESTIMATES))
-        real = weeks(actual_days(rng, sigma))
+        real = workdays(actual_days(rng, sigma))
         hit50 += real <= p50
         hit85 += real <= p85
         p85s.append(p85)
@@ -127,11 +123,11 @@ def calibrate(sigma):
     ex50, ex85 = throughput_forecast(random.Random(f"example-fc-{sigma}"), example, len(ESTIMATES))
     return {
         "history_example": example,
-        "forecast_example_p50_weeks": ex50,
-        "forecast_example_p85_weeks": ex85,
+        "forecast_example_p50_workdays": ex50,
+        "forecast_example_p85_workdays": ex85,
         "p50_hit_pct": round(100 * hit50 / CALIBRATION_TRIALS, 1),
         "p85_hit_pct": round(100 * hit85 / CALIBRATION_TRIALS, 1),
-        "p85_weeks_median": pct(p85s, 50),
+        "p85_workdays_median": pct(p85s, 50),
     }
 
 
@@ -163,12 +159,12 @@ def main():
             for p in r["plans"].values()))
 
     cal = calibrate(sigma)
-    print(f"\nThroughput forecast (no estimates, only items finished per week, {HISTORY_WEEKS} weeks of history)")
+    print(f"\nThroughput forecast (no estimates, only items finished per day, {HISTORY_DAYS} working days of history)")
     print(f"Example history: {cal['history_example']}")
-    print(f"Example forecast for {len(ESTIMATES)} items: P50 {cal['forecast_example_p50_weeks']} wk, "
-          f"P85 {cal['forecast_example_p85_weeks']} wk")
+    print(f"Example forecast for {len(ESTIMATES)} items: P50 {cal['forecast_example_p50_workdays']} d, "
+          f"P85 {cal['forecast_example_p85_workdays']} d")
     print(f"Over {CALIBRATION_TRIALS:,} fresh projects: P50 met {cal['p50_hit_pct']}%, "
-          f"P85 met {cal['p85_hit_pct']}% (median P85 {cal['p85_weeks_median']} wk)")
+          f"P85 met {cal['p85_hit_pct']}% (median P85 {cal['p85_workdays_median']} d)")
 
     out = {"sigma": sigma, "main": main_run, "sensitivity": sens, "throughput": cal}
     (HERE / f"summary-sigma{sigma}.json").write_text(json.dumps(out, indent=2) + "\n")

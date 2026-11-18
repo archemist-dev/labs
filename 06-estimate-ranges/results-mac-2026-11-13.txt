@@ -1,0 +1,23 @@
+Backlog: 9 tasks, 20 dev-days estimated, team 10 dev-days/week. Blow-up log-normal, median 1, sigma 0.5. 10,000 simulated projects.
+
+Actual dev-days: P50 22.2, P85 27.0, P95 30.3 (estimate 20)
+Each task finishes on its estimate at the median. The project: median 11.0% over.
+
+Deadlines and lateness in working days (the team works on 2 tasks at a time).
+Plan                      Deadline  On time  Late by (median)  Late by (P90)
+sum of estimates              10 d    28.0%               2 d            5 d
+sum + 20%                     12 d    65.8%               2 d            4 d
+Monte Carlo P50               12 d    65.8%               2 d            4 d
+Monte Carlo P85               14 d    88.9%               2 d            4 d
+P85, spread too narrow        12 d    65.8%               2 d            4 d
+
+Sensitivity: on time, by how wild the blow-ups are
+sigma          sum of estimates               sum + 20%         Monte Carlo P50         Monte Carlo P85  P85, spread too narrow
+0.25                 10 d 37.3%              12 d 95.8%              11 d 77.7%              12 d 95.8%              11 d 77.7%
+0.5                  10 d 28.0%              12 d 65.8%              12 d 65.8%              14 d 88.9%              12 d 65.8%
+1.0                  10 d 16.1%              12 d 29.9%              15 d 51.3%              23 d 84.6%              14 d 44.3%
+
+Throughput forecast (no estimates, only items finished per day, 60 working days of history)
+Example history: [1, 1, 1, 0, 3, 0, 1, 0, 2, 1, 1, 1, 1, 1, 0, 0, 1, 1, 2, 0, 0, 0, 1, 1, 2, 1, 1, 1, 1, 0, 2, 1, 1, 1, 2, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 2, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1]
+Example forecast for 9 items: P50 11 d, P85 14 d
+Over 1,000 fresh projects: P50 met 52.5%, P85 met 90.0% (median P85 15 d)

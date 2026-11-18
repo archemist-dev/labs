@@ -94,7 +94,7 @@ def cover(data):
     left = 640
     span = 1080
     b = [text(120, 190, "Honest estimates.", 96, FG, SANS, 800),
-         text(120, 300, f'On time up to <tspan fill="{RED}">~32%</tspan>.', 96, FG, SANS, 800),
+         text(120, 300, f'On time up to <tspan fill="{RED}">~37%</tspan>.', 96, FG, SANS, 800),
          rect(122, 340, 160, 10, AMBER, rx=5),
          rect(left, 392, 26, 26, RED, rx=6), text(left + 40, 415, "sum of estimates", 30, LIGHT, MONO, 400),
          rect(left + 420, 392, 26, 26, GREEN, rx=6), text(left + 460, 415, "P85 date", 30, LIGHT, MONO, 400)]
@@ -114,12 +114,12 @@ def cover(data):
             f'{rect(0, 0, cw, ch, BG, rx=0)}{"".join(b)}'
             f'<svg x="120" y="975" width="72" height="72" viewBox="0 0 512 512">{LOGO}</svg>'
             f'{text(208, 1024, "ARCHEMIST", 30, AMBER, MONO, 800, extra=SPACED)}'
-            f'{text(1800, 1024, "20 tasks · 10,000 simulated projects · archemist.dev", 28, MUTED, MONO, 400, "end")}</svg>')
+            f'{text(1800, 1024, "one sprint · 9 tasks · 10,000 simulated projects · archemist.dev", 28, MUTED, MONO, 400, "end")}</svg>')
 
 
 def lopsided(data):
     """Histogram of project length in working days, with the single number and the P85 date."""
-    lo, hi = 18, 46
+    lo, hi = 6, 22
     left, right = 140, 1520
     top_y, base_y = 440, 740
     plans = data["main"]["plans"]
@@ -141,7 +141,7 @@ def lopsided(data):
         day = lo + i
         h = (base_y - top_y) * c / peak
         b.append(rect(xs(day) + 4, base_y - h, bw - 8, h, "url(#vGreen)" if day < plan else "url(#vRed)", rx=6))
-    for day in range(20, hi + 1, 5):
+    for day in range(6, hi + 1, 2):
         b.append(text(xs(day), base_y + 46, str(day), 28, MUTED, MONO, 400, "middle"))
     b.append(text(right, base_y + 92, "working days", 28, MUTED, MONO, 400, "end"))
     ok = plans["sum of estimates"]["on_time_pct"]
@@ -181,35 +181,35 @@ def buffer(data):
             b.append(circle(xs(v), y, 20, color, BG, 5))
             ty = y - 34 if j == 2 else y + 58
             b.append(text(xs(v), ty, f"{v:.0f}%", 34, color, MONO, 800, "middle"))
-    return frame("A flat 20% is right by luck.", "share of 10,000 projects on time · same 20 tasks", "".join(b))
+    return frame("A flat 20% is right by luck.", "share of 10,000 projects on time · same 9 tasks", "".join(b))
 
 
 def nobody_sized(data):
-    """The story as a timeline in weeks: the estimate, the date set, what happened."""
+    """The story as a timeline in working days: the estimate, the date set, what happened."""
     left, right = 420, 1500
-    wk = (right - left) / 8
+    day = (right - left) / 10
 
-    def xs(w):
-        return left + w * wk
+    def xs(d):
+        return left + d * day
 
     b = []
-    for w in range(0, 9, 2):
-        b += [line(xs(w), 300, xs(w), 760, GRID, 2), text(xs(w), 800, f"{w}", 30, MUTED, MONO, 400, "middle")]
-    b.append(text(right, 846, "weeks", 28, MUTED, MONO, 400, "end"))
-    b += [line(xs(4), 300, xs(4), 628, LIGHT, 4, "12 10"),
-          text(xs(4), 288, "release date", 30, LIGHT, MONO, 700, "middle"),
+    for d in range(0, 11):
+        b += [line(xs(d), 300, xs(d), 760, GRID, 2), text(xs(d), 800, f"{d}", 30, MUTED, MONO, 400, "middle")]
+    b.append(text(right, 846, "working days", 28, MUTED, MONO, 400, "end"))
+    b += [line(xs(5), 300, xs(5), 628, LIGHT, 4, "12 10"),
+          text(xs(5), 288, "release date", 30, LIGHT, MONO, 700, "middle"),
           text(80, 395, "estimate", 44, FG, SANS, 800),
-          rect(xs(0), 340, 2 * wk, 90, GRAY, rx=12), text(xs(1), 398, "coding", 34, FG, MONO, 800, "middle"),
+          rect(xs(0), 340, 2.5 * day, 90, GRAY, rx=12), text(xs(1.25), 398, "development", 34, FG, MONO, 800, "middle"),
           text(80, 545, "date set", 44, FG, SANS, 800),
-          rect(xs(0), 490, 4 * wk, 90, "none", LIGHT, rx=12, dash="12 10", sw=4),
-          text(xs(2), 548, "2× estimate", 34, LIGHT, MONO, 800, "middle"),
+          rect(xs(0), 490, 5 * day, 90, "none", LIGHT, rx=12, dash="12 10", sw=4),
+          text(xs(2.5), 548, "2× estimate", 34, LIGHT, MONO, 800, "middle"),
           text(80, 695, "actual", 44, FG, SANS, 800),
-          rect(xs(0), 640, 2 * wk, 90, GRAY, rx=12), text(xs(1), 698, "coding", 34, FG, MONO, 800, "middle"),
-          rect(xs(2) + 8, 640, 6 * wk - 8, 90, "url(#hatch)", rx=12),
-          text(xs(5), 680, "another team's priorities", 30, FG, MONO, 800, "middle"),
-          text(xs(5), 716, "QA edge cases", 30, FG, MONO, 800, "middle"),
-          text(xs(8), 290, "4×", 56, RED, MONO, 800, "end")]
-    return frame("The work nobody sized.", "one-sprint estimate · the release took four", "".join(b))
+          rect(xs(0), 640, 2.5 * day, 90, GRAY, rx=12), text(xs(1.25), 698, "development", 34, FG, MONO, 800, "middle"),
+          rect(xs(2.5) + 8, 640, 7.5 * day - 8, 90, "url(#hatch)", rx=12),
+          text(xs(6.25), 680, "another team's priorities", 30, FG, MONO, 800, "middle"),
+          text(xs(6.25), 716, "QA edge cases", 30, FG, MONO, 800, "middle"),
+          text(xs(10), 290, "4×", 56, RED, MONO, 800, "end")]
+    return frame("The work nobody sized.", "half-week estimate · the release took four", "".join(b))
 
 
 DIAGRAMS = {"Estimates - Cover": cover, "Estimates - 1 Lopsided": lopsided,
