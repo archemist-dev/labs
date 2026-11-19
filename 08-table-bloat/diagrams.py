@@ -151,7 +151,7 @@ def cover(data):
     """1920x1080: the hour-long chart behind one claim."""
     start, end = data["hour"]["long_report"][1]["table"]
     cw, ch = 1920, 1080
-    b = [text(120, 190, "Nobody wrote.", 104, FG, SANS, 800),
+    b = [text(120, 190, "Nobody inserted.", 104, FG, SANS, 800),
          text(120, 310, f'The table grew <tspan fill="{RED}">{end / start:.1f}x.</tspan>', 104, FG, SANS, 800),
          rect(122, 350, 160, 10, AMBER, rx=5),
          text(120, 430, "one slow read · Postgres · 60 min", 40, LIGHT, MONO, 700)]
