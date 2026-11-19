@@ -164,22 +164,36 @@ def cover(data):
 
 
 def versions(data):
-    """One order row, four status changes: three dead versions, one live."""
-    steps = ((270, "PLACED"), (310, "PREPARING"), (390, "OUT_FOR_DELIVERY"), (310, "DELIVERED"))
-    b, x, y = [], 80, 380
-    for i, (w, label) in enumerate(steps):
-        live = i == len(steps) - 1
+    """One order row through three UPDATEs (statuses from the lab), then when vacuum can and can't free the old copies."""
+    steps = ("PLACED", "COOKING", "PICKED_UP", "DELIVERED")
+    w, gap, h, y = 290, 90, 120, 290
+    b = []
+    for i, label in enumerate(steps):
+        x = 80 + i * (w + gap)
+        current = i == len(steps) - 1
         if i:
-            b.append(arrow(x - 44, y + 55, x - 4, y + 55))
-        b.append(box(x, y, w, 110, label, "url(#gGreen)" if live else PANEL, BG if live else LIGHT, 30,
-                     stroke="none" if live else GRAY, dash=None if live else "12 10"))
-        b.append(text(x + w / 2, y + 160, "live" if live else "dead", 34, GREEN if live else MUTED, MONO, 800, "middle"))
-        x += w + 44
-    b += [line(80, 600, 1170, 600, GRAY, 3),
-          box(80, 650, 300, 100, "vacuum", GRAY, FG, 38),
-          arrow(380, 700, 520, 700),
-          text(550, 715, "removes dead versions", 40, LIGHT, SANS, 700)]
-    return frame("Every update leaves a copy.", "one order row · 4 status changes · 4 versions on disk", "".join(b))
+            b += [arrow(x - gap + 6, y + h / 2, x - 6, y + h / 2),
+                  text(x - gap / 2, y + h / 2 - 18, "UPDATE", 18, MUTED, MONO, 700, "middle")]
+        b += [rect(x, y, w, h, "url(#gGreen)" if current else PANEL, "none" if current else GRAY,
+                   dash=None if current else "12 10"),
+              text(x + 24, y + 38, f"v{i + 1}", 24, BG if current else MUTED, MONO, 700),
+              text(x + w / 2, y + 92, label, 34, BG if current else LIGHT, MONO, 800, "middle"),
+              text(x + w / 2, y + h + 50, "current" if current else "old copy", 34,
+                   GREEN if current else LIGHT, MONO, 800, "middle")]
+    old_end = 80 + 3 * w + 2 * gap
+    b += [line(80, y + h + 80, old_end, y + h + 80, GRAY, 3),
+          text((80 + old_end) / 2, y + h + 122, "dead rows · still on disk", 30, MUTED, MONO, 400, "middle")]
+
+    def lane(ly, first, first_fill, first_color, outcome, color):
+        return [box(80, ly, 380, 90, first, first_fill, first_color, 30),
+                arrow(460, ly + 45, 560, ly + 45),
+                box(560, ly, 240, 90, "vacuum", GRAY, FG, 34),
+                arrow(800, ly + 45, 900, ly + 45),
+                text(930, ly + 58, outcome, 40, color, SANS, 800)]
+
+    b += lane(590, "no query running", PANEL, LIGHT, "old copies freed", GREEN)
+    b += lane(705, "slow report running", "url(#gRed)", FG, "nothing freed", RED)
+    return frame("Every update leaves an old copy.", "orders table · one order · 3 status UPDATEs", "".join(b))
 
 
 def growth(data):
