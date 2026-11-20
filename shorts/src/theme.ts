@@ -24,5 +24,9 @@ export const FPS = 30;
 // Safe zones on a 1080x1920 Short (YouTube Shorts and Instagram Reels overlays, 2026-11-09, Javlon: "eyes hurt";
 // text and visuals in the right zones). The top bar (search, camera) covers y < 180; the action column (like,
 // comment, share, remix) covers the right edge from about y 950; title, channel and music cover y > 1500.
-// Content: x 70..1010 above y 950, x 70..930 below it, and nothing below y 1300 except the captions.
-export const SAFE = { top: 200, left: 70, right: 1010, lowRight: 930, lowFrom: 950, bottom: 1300, captionTop: 1330 };
+// Content: x 80..1000 above y 900, x 80..890 below it, and nothing below y 1300 except the captions.
+// 2026-11-20 (Javlon: text too close to the borders and under the app buttons on Instagram and YouTube): the Shell
+// scaled every scene by up to 1.05, which pushed content laid out at x 80 to x 57 and the title up to y 188, and few
+// scenes read SAFE at all. The Shell no longer scales; tools/safezone.py checks every render against these zones
+// (keep ZONES there in step with SAFE). Full-bleed 3D backgrounds may cross the zones; text, numbers and cards may not.
+export const SAFE = { top: 220, left: 80, right: 1000, lowRight: 890, lowFrom: 900, bottom: 1300, captionTop: 1330 };
