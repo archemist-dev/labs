@@ -6,7 +6,7 @@
 import React from "react";
 import { interpolate, useCurrentFrame } from "remotion";
 import { Pop } from "../../components/parts";
-import { Sfx, useCue } from "../../components/Shell";
+import { type SceneFC, Sfx, useCue } from "../../components/Shell";
 import { Canvas, Rack } from "../03-uuid-keys/Short1";
 import { Header } from "../04-response-time/Short1";
 import short1 from "./data.json";
@@ -150,7 +150,7 @@ const TopShade: React.FC = () => (
   <div style={{ position: "absolute", left: 0, right: 0, top: 0, height: 700, background: "linear-gradient(#1b1d21 0%, #1b1d21 80%, rgba(27,29,33,0) 100%)" }} />
 );
 
-const HookC: React.FC = () => {
+const HookC: SceneFC = () => {
   const frame = useCurrentFrame();
   const ten = useCue("ten", 45);
   const comments = useCue("comments", 75);
@@ -168,7 +168,7 @@ const HookC: React.FC = () => {
   );
 };
 
-const NoiseC: React.FC = () => {
+const NoiseC: SceneFC = () => {
   const frame = useCurrentFrame();
   const blocking = useCue("blocking", 170);
   const hi = interpolate(frame, [blocking - 2, blocking + 10], [0, 1], clamp);
@@ -222,7 +222,7 @@ const PromptLine: React.FC<{ at: number; text: string }> = ({ at, text }) => {
   );
 };
 
-const FixC: React.FC = () => {
+const FixC: SceneFC = () => {
   const frame = useCurrentFrame();
   const prompt = useCue("prompt", 15);
   const silent = useCue("silent", 40);
@@ -325,6 +325,9 @@ const EndC: React.FC = () => {
     </>
   );
 };
+
+// These scenes push and drift their own 3D field, so the Shell adds no zoom on top.
+HookC.ownCamera = NoiseC.ownCamera = FixC.ownCamera = true;
 
 export const SCENES_C: Record<string, React.FC> = { hook: HookC, noise: NoiseC };
 export const SCENES2: Record<string, React.FC> = { hook: HookC, noise: NoiseC, production: ProductionC, fix: FixC, result: ResultC, end: EndC };
