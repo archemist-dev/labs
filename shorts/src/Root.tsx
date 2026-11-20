@@ -38,6 +38,7 @@ import { short1 as sagaShort1 } from "./shorts/06-saga-compensation/script";
 import { SCENES1 as sagaScenes1 } from "./shorts/06-saga-compensation/Short1";
 import { Thumbnail as sagaThumb1 } from "./shorts/06-saga-compensation/Thumbnail";
 
+import { Follow } from "./components/Follow";
 import { HOOK_FRAMES, LH, LongHook, LW } from "./long/03-uuid-keys/Hook";
 import { LongThumb, TH, TW } from "./long/03-uuid-keys/Thumb";
 import { TH3, ThumbA, ThumbB, TW3 } from "./long/03-uuid-keys/Thumb3D";
@@ -85,6 +86,8 @@ export const Root: React.FC = () => (
         />
       )),
     )}
+    {/* The closing follow scene on its own, for checking it. */}
+    <Composition id="follow-card" component={Follow} width={W} height={H} fps={FPS} durationInFrames={90} />
     {/* Long-form trial (16:9, 2560x1440): the UUIDv7 long video's cold hook. */}
     <Composition id="long-03-hook" component={LongHook} width={LW} height={LH} fps={FPS} durationInFrames={HOOK_FRAMES} />
     {[...G1_COMPS, ...G2_COMPS, ...G3_COMPS].map((c) => (

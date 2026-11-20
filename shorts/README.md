@@ -36,6 +36,7 @@ Drop free files (not committed) into `public/sfx/` named after the playbook's ta
 
 1. `src/shorts/<NN-topic>/script.ts`: beats for each language, with markers.
 2. `src/shorts/<NN-topic>/ShortN.tsx`: one component per scene, using `components/parts.tsx` (`Title`, `Bar`, `Stamp`, `Pop`, `Box`, `Mark`) and `useCue("name")`. Numbers come from the topic's README. Show the real thing (the payload, the bytes, the calculation), not boxes standing in for it.
+   No continuous camera motion: the Shell never scales a scene, and a scene doesn't push, orbit or drift for its whole length (whole-frame motion read as swinging and broke up text edges, and it costs up to 3.6 times the bits). Things in the scene move; a camera move, if one is needed, is one short eased move that then holds. The last beat uses the shared closing scene: `follow: Follow` from `components/Follow` in SCENES and `scene: "follow"` on the beat (preview: `npx remotion still follow-card out/follow.png --frame=60`).
 3. Byte-level data comes from the lab, never typed by hand: e.g. `01-payload-encoding/video_data.py src/shorts/01-payload-encoding/data.json` (run from the lab's venv) writes the real JSON and Protobuf bytes and asserts they match the published sizes.
 4. Register it in `SHORTS` in `src/Root.tsx`.
 
