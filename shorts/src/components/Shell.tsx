@@ -34,10 +34,12 @@ export const Sfx: React.FC<{ name: string; at: number; volume?: number }> = ({ n
   );
 };
 
-// Quick fade and rise on entry, fade on exit. The scene is never scaled (Javlon, 2026-11-20): the old 1.05 push-in and
-// 1.06 zoom punch made the video swing and pushed content laid out at the margins out of the safe zones (x 80 became
-// x 57, the title rose to y 188). The opening scene starts with an impact hit, and no flash: the first frame is what a paused, unstarted video shows, so it must be the
-// content, never a white page (Javlon, 2026-11-04). Every later scene gets a short, faint flash on the cut.
+// Quick fade and rise on entry, fade on exit, and nothing else: the Shell never scales a scene. It used to add a slow
+// push-in to every scene and a zoom punch on the first one; both move every pixel on every frame, which read as the
+// video swinging and broke up text edges (Javlon, 2026-11-20: the clips with no camera motion were the good ones).
+// Motion comes from the scene's own elements. The opening scene gets an impact hit and no flash: the first frame is
+// what a paused, unstarted video shows, so it must be the content, never a white page (Javlon, 2026-11-04). Every
+// later scene gets a short, faint flash on the cut.
 const Camera: React.FC<{ first: boolean; children: React.ReactNode }> = ({ first, children }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
@@ -47,9 +49,7 @@ const Camera: React.FC<{ first: boolean; children: React.ReactNode }> = ({ first
   const flash = first ? 0 : interpolate(frame, [0, 5], [0.12, 0], clamp);
   return (
     <>
-      <AbsoluteFill style={{ opacity, transform: `translateY(${rise}px)` }}>
-        {children}
-      </AbsoluteFill>
+      <AbsoluteFill style={{ opacity, transform: rise ? `translateY(${rise}px)` : undefined }}>{children}</AbsoluteFill>
       <AbsoluteFill style={{ background: FG, opacity: flash, pointerEvents: "none" }} />
       {first ? <Sfx name="impact" at={0} volume={0.7} /> : null}
     </>
