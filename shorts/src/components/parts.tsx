@@ -1,6 +1,6 @@
 import React from "react";
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { FG, GOLD, GRAY, GREEN, MONO, MUTED, SANS } from "../theme";
+import { FG, GOLD, GRAY, GREEN, MONO, MUTED, SAFE, SANS } from "../theme";
 import { Sfx } from "./Shell";
 
 // 0 -> 1 spring that starts at frame `at` of the scene.
@@ -19,7 +19,7 @@ export const useDraw = (at: number, frames = 12) => {
 export const Title: React.FC<{ text: string; sub?: string }> = ({ text, sub }) => {
   const line = useSpring(4);
   return (
-    <div style={{ position: "absolute", top: 220, left: 80, right: 80 }}>
+    <div style={{ position: "absolute", top: SAFE.top, left: SAFE.left, right: 1080 - SAFE.right }}>
       <div style={{ fontFamily: SANS, fontWeight: 800, fontSize: 72, color: FG, lineHeight: 1.05 }}>{text}</div>
       <div style={{ marginTop: 22, width: 120 * line, height: 8, borderRadius: 4, background: GOLD }} />
       {sub ? <div style={{ marginTop: 22, fontFamily: MONO, fontSize: 32, color: MUTED }}>{sub}</div> : null}

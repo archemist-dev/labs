@@ -8,6 +8,8 @@ Vertical Shorts (1080x1920, 30 fps) rendered with [Remotion](https://www.remotio
 
 Convert the take to wav, then `python tools/trim_head.py take.wav trimmed.wav`: v4 sometimes opens with a breath or cough before the first word, and levelling lifts it (week 4 Short 1 was posted with one). Clean takes are copied unchanged.
 
+Safe zones: `.venv/Scripts/python -I tools/safezone.py out/<id>-<lang>.mp4` (or a cover PNG) reports text under the YouTube Shorts and Instagram Reels interface or too close to the borders, and writes `out/<id>-<lang>-safe.png` with the zones drawn on a frame every 2 s. Its `ZONES` mirror `SAFE` in `src/theme.ts`; scenes position from `SAFE`. Run it after every render.
+
 Sound effects: `python tools/sfx.py` synthesizes them into `public/sfx/` (impact, whoosh, stamp, reveal, buzz, alarm, type, cricket, slap). Reading time: give a beat a `hold` in `script.ts`; `tools/beats.ts` turns it into the pause before the next scene, so its last element stays readable.
 1. Record the voice. Save it (not committed) as `public/audio/<id>-<lang>.wav` (or `.m4a`, `.mp3`), e.g. `02-short1-uz.wav`.
 2. Transcribe it with word timings, locally with Whisper. On Windows (no `whisper` on the path), use the venv and faster-whisper instead, same JSON shape: `py -3.13 -m venv .venv`, `.venv/Scripts/python -m pip install numpy scipy noisereduce faster-whisper praat-parselmouth pillow`, then `.venv/Scripts/python tools/transcribe.py IN.wav OUT.json` (medium.en; the audio tools run from the same venv). With openai-whisper:
