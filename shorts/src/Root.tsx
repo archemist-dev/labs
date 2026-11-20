@@ -37,6 +37,9 @@ import { Thumbnail2 as aiThumb2 } from "./shorts/05-ai-review/Thumbnail2";
 import { short1 as sagaShort1 } from "./shorts/06-saga-compensation/script";
 import { SCENES1 as sagaScenes1 } from "./shorts/06-saga-compensation/Short1";
 import { Thumbnail as sagaThumb1 } from "./shorts/06-saga-compensation/Thumbnail";
+import { short2 as sagaShort2 } from "./shorts/06-saga-compensation/script2";
+import { SCENES2 as sagaScenes2 } from "./shorts/06-saga-compensation/Short2";
+import { Thumbnail2 as sagaThumb2 } from "./shorts/06-saga-compensation/Thumbnail2";
 
 import { Follow } from "./components/Follow";
 import { HOOK_FRAMES, LH, LongHook, LW } from "./long/03-uuid-keys/Hook";
@@ -59,6 +62,7 @@ const LIST: { id: string; scripts: Record<string, Beat[]>; scenes: Record<string
   { id: "05-short1", scripts: aiShort1, scenes: aiScenes1 },
   { id: "05-short2", scripts: aiShort2, scenes: aiScenes2 },
   { id: "06-short1", scripts: sagaShort1, scenes: sagaScenes1 },
+  { id: "06-short2", scripts: sagaShort2, scenes: sagaScenes2 },
   // Visual prototypes for week 3 "The 14x cliff" opening: A = 2D upgraded, B = 3D.
   { id: "03-protoA", scripts: uuidOpening, scenes: uuidProtoA },
   { id: "03-protoB", scripts: uuidOpening, scenes: uuidProtoB },
@@ -108,5 +112,6 @@ export const Root: React.FC = () => (
     <Still id="05-short1-thumb" component={aiThumb1} width={W} height={H} />
     <Still id="05-short2-thumb" component={aiThumb2} width={W} height={H} />
     <Still id="06-short1-thumb" component={sagaThumb1} width={W} height={H} />
+    <Still id="06-short2-thumb" component={sagaThumb2} width={W} height={H} />
   </>
 );

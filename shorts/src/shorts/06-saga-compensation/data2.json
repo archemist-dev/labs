@@ -1,0 +1,12 @@
+{
+ "per_day": 1000,
+ "days": 365,
+ "basket_pence": 1947,
+ "orphaned_once": 3997,
+ "orphaned_once_per_day": 11,
+ "orphaned_key": 2182,
+ "orphaned_refund_step": 378,
+ "refunds_durable": 1806,
+ "orphaned_order_first": 0,
+ "refunds_order_first": 0
+}
