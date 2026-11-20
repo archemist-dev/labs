@@ -34,35 +34,22 @@ export const Sfx: React.FC<{ name: string; at: number; volume?: number }> = ({ n
   );
 };
 
-// A scene that moves its own camera (three.js, CSS 3D with its own push or drift) sets `ownCamera = true`, so the Shell
-// adds no zoom on top: two zooms at once read as a swing, and scaling a 3D layer resamples it and breaks its edges.
-export type SceneFC = React.FC & { ownCamera?: boolean };
-
-// Push-in speed is the same in every scene (per second, not per scene: a short scene used to zoom three times faster
-// than a long one) and stops at PUSH_MAX.
-const PUSH_PER_S = 0.004;
-const PUSH_MAX = 1.03;
-
-// Slow push-in for a flat scene, quick fade and rise on entry, fade on exit. The opening scene starts with a zoom
-// punch and an impact hit, and no flash: the first frame is what a paused, unstarted video shows, so it must be the
-// content, never a white page (Javlon, 2026-11-04). Every later scene gets a short, faint flash on the cut.
-// `willChange` keeps the scene on one layer that is scaled as a picture; without it Chrome snaps every glyph and thin
-// line to whole pixels on each frame, so text swims and edges shimmer during the zoom (Javlon, 2026-11-20).
-const Camera: React.FC<{ first: boolean; own: boolean; children: React.ReactNode }> = ({ first, own, children }) => {
+// Quick fade and rise on entry, fade on exit, and nothing else: the Shell never scales a scene. It used to add a slow
+// push-in to every scene and a zoom punch on the first one; both move every pixel on every frame, which read as the
+// video swinging and broke up text edges (Javlon, 2026-11-20: the clips with no camera motion were the good ones).
+// Motion comes from the scene's own elements. The opening scene gets an impact hit and no flash: the first frame is
+// what a paused, unstarted video shows, so it must be the content, never a white page (Javlon, 2026-11-04). Every
+// later scene gets a short, faint flash on the cut.
+const Camera: React.FC<{ first: boolean; children: React.ReactNode }> = ({ first, children }) => {
   const frame = useCurrentFrame();
-  const { durationInFrames, fps } = useVideoConfig();
+  const { durationInFrames } = useVideoConfig();
   const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
   const opacity = interpolate(frame, [0, first ? 1 : 6, durationInFrames - 5, durationInFrames], [first ? 1 : 0, 1, 1, 0], clamp);
   const rise = first ? 0 : interpolate(frame, [0, 8], [40, 0], clamp);
-  const punch = first ? interpolate(frame, [0, 10], [1.06, 1], { ...clamp, easing: (t) => 1 - (1 - t) ** 3 }) : 1;
-  const push = own ? 1 : Math.min(PUSH_MAX, 1 + (PUSH_PER_S * frame) / fps);
-  const scale = punch * push;
   const flash = first ? 0 : interpolate(frame, [0, 5], [0.12, 0], clamp);
   return (
     <>
-      <AbsoluteFill style={{ opacity, transform: `translateY(${rise}px) scale(${scale})`, transformOrigin: "50% 45%", willChange: own ? undefined : "transform" }}>
-        {children}
-      </AbsoluteFill>
+      <AbsoluteFill style={{ opacity, transform: rise ? `translateY(${rise}px)` : undefined }}>{children}</AbsoluteFill>
       <AbsoluteFill style={{ background: FG, opacity: flash, pointerEvents: "none" }} />
       {first ? <Sfx name="impact" at={0} volume={0.7} /> : null}
     </>
@@ -77,7 +64,7 @@ const Progress: React.FC = () => {
   );
 };
 
-export const Shell: React.FC<ShortProps & { scenes: Record<string, SceneFC> }> = ({ track, audio, sfx, scenes }) => {
+export const Shell: React.FC<ShortProps & { scenes: Record<string, React.FC> }> = ({ track, audio, sfx, scenes }) => {
   const { fps } = useVideoConfig();
   if (!track) return null;
   // Consecutive beats with the same scene play as one scene, so its elements stay on screen.
@@ -98,7 +85,7 @@ export const Shell: React.FC<ShortProps & { scenes: Record<string, SceneFC> }> =
         return (
           <Sequence key={i} from={f(g.start)} durationInFrames={Math.max(1, f(g.end) - f(g.start))} name={g.scene}>
             <SceneCtx.Provider value={{ cues, sfx }}>
-              <Camera first={i === 0} own={Scene?.ownCamera === true}>{Scene ? <Scene /> : null}</Camera>
+              <Camera first={i === 0}>{Scene ? <Scene /> : null}</Camera>
             </SceneCtx.Provider>
           </Sequence>
         );
