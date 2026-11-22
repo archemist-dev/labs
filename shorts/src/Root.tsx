@@ -49,6 +49,8 @@ import { TH2, ThumbC, ThumbD, TW2 } from "./long/03-uuid-keys/Thumb2D";
 import { G1_COMPS } from "./long/03-uuid-keys/g1";
 import { G2_COMPS } from "./long/03-uuid-keys/g2";
 import { G3_COMPS } from "./long/03-uuid-keys/g3";
+import { L01_SCENES, L01_TOTAL, LongFull as L01Full } from "./long/01-payload";
+import { Thumb as L01Thumb, TH as L01TH, TW as L01TW } from "./long/01-payload/Thumb";
 
 // One entry per Short; each language becomes its own composition, e.g. "02-short1-uz".
 const LIST: { id: string; scripts: Record<string, Beat[]>; scenes: Record<string, React.FC> }[] = [
@@ -97,6 +99,11 @@ export const Root: React.FC = () => (
     {[...G1_COMPS, ...G2_COMPS, ...G3_COMPS].map((c) => (
       <Composition key={c.id} id={c.id} component={c.component} width={LW} height={LH} fps={FPS} durationInFrames={c.frames} />
     ))}
+    {L01_SCENES.map((c) => (
+      <Composition key={c.id} id={c.id} component={c.component} width={LW} height={LH} fps={FPS} durationInFrames={c.frames} />
+    ))}
+    <Still id="long-01-thumb" component={L01Thumb} width={L01TW} height={L01TH} />
+    <Composition id="long-01-full" component={L01Full} width={LW} height={LH} fps={FPS} durationInFrames={L01_TOTAL} />
     <Still id="long-03-thumb" component={LongThumb} width={TW} height={TH} />
     <Composition id="long-03-thumbA" component={ThumbA} width={TW3} height={TH3} fps={FPS} durationInFrames={300} />
     <Composition id="long-03-thumbB" component={ThumbB} width={TW3} height={TH3} fps={FPS} durationInFrames={300} />

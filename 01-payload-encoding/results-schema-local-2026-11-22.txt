@@ -1,0 +1,32 @@
+== machine (local, schema change only: results do not depend on the machine; timings from this run are not published)
+Windows 11, Python 3.13.0
+== run 1
+Schema change: v2 removes `notes`, adds `tip`
+JSON
+  FAIL  old reader, new data (strict d['notes']): KeyError: 'notes'
+  FAIL  new reader, old data (strict d['tip']): KeyError: 'tip'
+  OK    new reader, old data (d.get('tip', 0)): 0
+Protobuf
+  OK    old reader, new data: order_id=48213377, notes='' (default), tip skipped
+  OK    new reader, old data: order_id=48213377, tip=0 (default)
+  OK    BAD: tip reuses notes' field number 8: tip=0, no error raised
+Avro
+  OK    new reader, old data (writer schema known): 0
+  FAIL  old reader, new data (writer schema known): SchemaResolutionError: No default value for field notes in Order
+  FAIL  new reader, old data, tip has NO default: SchemaResolutionError: No default value for field tip in Order
+  OK    reader guesses writer schema wrong (no registry): 46
+== run 2
+Schema change: v2 removes `notes`, adds `tip`
+JSON
+  FAIL  old reader, new data (strict d['notes']): KeyError: 'notes'
+  FAIL  new reader, old data (strict d['tip']): KeyError: 'tip'
+  OK    new reader, old data (d.get('tip', 0)): 0
+Protobuf
+  OK    old reader, new data: order_id=48213377, notes='' (default), tip skipped
+  OK    new reader, old data: order_id=48213377, tip=0 (default)
+  OK    BAD: tip reuses notes' field number 8: tip=0, no error raised
+Avro
+  OK    new reader, old data (writer schema known): 0
+  FAIL  old reader, new data (writer schema known): SchemaResolutionError: No default value for field notes in Order
+  FAIL  new reader, old data, tip has NO default: SchemaResolutionError: No default value for field tip in Order
+  OK    reader guesses writer schema wrong (no registry): 46
