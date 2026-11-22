@@ -1,0 +1,34 @@
+{
+ "machine": "t3.micro \u00b7 eu-central-1 \u00b7 Xeon 8259CL \u00b7 Python 3.14.4",
+ "size": [
+  "JSON          1076     516    100%       12.7       12.2",
+  "Protobuf       470     416     44%        0.9        1.4",
+  "Avro           417     369     39%       26.6       19.1",
+  "(dict->proto build)                      13.1",
+  "(gzip JSON)                              19.4        7.2",
+  "JSON field names: 461 of 1076 bytes (43%)",
+  "Note: field names inside the bytes -> {'JSON': True, 'Protobuf': False, 'Avro': False}",
+  "0 untrimmed JSON        2672    100%       25.3",
+  "1 trimmed JSON          1076     40%       12.9",
+  "2 + compact              989     37%       13.4",
+  "3 + gzip                 510     19%       32.9",
+  "4 Protobuf               470     18%        0.9",
+  "4 Protobuf + gzip        416     16%       17.0"
+ ],
+ "schema": [
+  "Schema change: v2 removes `notes`, adds `tip`",
+  "JSON",
+  "  FAIL  old reader, new data (strict d['notes']): KeyError: 'notes'",
+  "  FAIL  new reader, old data (strict d['tip']): KeyError: 'tip'",
+  "  OK    new reader, old data (d.get('tip', 0)): 0",
+  "Protobuf",
+  "  OK    old reader, new data: order_id=48213377, notes='' (default), tip skipped",
+  "  OK    new reader, old data: order_id=48213377, tip=0 (default)",
+  "  OK    BAD: tip reuses notes' field number 8: tip=0, no error raised",
+  "Avro",
+  "  OK    new reader, old data (writer schema known): 0",
+  "  FAIL  old reader, new data (writer schema known): SchemaResolutionError: No default value for field notes in Order",
+  "  FAIL  new reader, old data, tip has NO default: SchemaResolutionError: No default value for field tip in Order",
+  "  OK    reader guesses writer schema wrong (no registry): 46"
+ ]
+}
