@@ -196,6 +196,18 @@ def cover_medium(data):
     return page[:-len("</svg>")] + badge + "</svg>"
 
 
+def cover_medium_light(data):
+    """The Medium cover in light mode (charcoal swapped for paper), to compare on Medium's white page."""
+    g = globals()
+    dark = {k: g[k] for k in ("BG", "FG", "LIGHT", "MUTED", "GRAY", "RED")}
+    g.update(BG="#f7f5f0", FG="#1b1d21", LIGHT="#3f444d", MUTED="#6b717b", GRAY="#a3a9b3", RED="#d1343a")
+    try:
+        # the flask's outline is light-on-dark; draw it dark on paper
+        return cover_medium(data).replace('stroke="#f2efe9"', 'stroke="#1b1d21"').replace('fill="#f2efe9"', 'fill="#1b1d21"')
+    finally:
+        g.update(dark)
+
+
 def versions(data):
     """Dead row versions per minute over the hour: removed before the report's snapshot, kept after it."""
     rep = data["hour"]["long_report"][0]
@@ -342,8 +354,10 @@ def after(data):
 
 
 DIAGRAMS = {"Bloat - Cover": cover, "Bloat - 1 Versions": versions, "Bloat - 2 Growth": growth,
-            "Bloat - 3 Fixes": fixes, "Bloat - 4 After": after, "Bloat - Cover Medium": cover_medium}
-SIZES = {"Bloat - Cover": (1920, 1080), "Bloat - Cover Medium": (1920, 1080)}
+            "Bloat - 3 Fixes": fixes, "Bloat - 4 After": after, "Bloat - Cover Medium": cover_medium,
+            "Bloat - Cover Medium Light": cover_medium_light}
+SIZES = {"Bloat - Cover": (1920, 1080), "Bloat - Cover Medium": (1920, 1080),
+         "Bloat - Cover Medium Light": (1920, 1080)}
 
 if __name__ == "__main__":
     out = Path(sys.argv[1])
