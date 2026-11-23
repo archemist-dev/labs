@@ -186,13 +186,13 @@ def versions(data):
     b += [line(x0, base_y + 18, right, base_y + 18, GRAY, 3),
           line(mx, 300, mx, base_y + 40, RED, 5, "14 10"),
           text(mx + 18, 300, "report starts", 32, RED, MONO, 800),
-          text(mx + 18, 340, "its snapshot", 26, LIGHT, MONO, 400),
-          text((x0 + mx) / 2, base_y - 60, "removed", 36, GREEN, SANS, 800, "middle"),
+          text(mx + 18, 340, "and keeps reading", 26, LIGHT, MONO, 400),
+          text((x0 + mx) / 2, base_y - 60, "cleaned", 36, GREEN, SANS, 800, "middle"),
           text(mx + 18, 470, "kept", 52, RED, SANS, 800),
           text(mx + 18, 512, "until the report ends", 26, LIGHT, MONO, 400),
-          text(x0, base_y + 76, f"1 column = 1 minute · 1 block ≈ {per_min / 1000:.0f}k dead row versions", 28, MUTED, MONO, 400),
+          text(x0, base_y + 76, f"1 column = 1 minute · 1 block ≈ {per_min / 1000:.0f}k old row versions", 28, MUTED, MONO, 400),
           text(right, base_y + 76, "time →", 28, MUTED, MONO, 400, "end")]
-    return frame("Vacuum stops at the report's start.", "dead row versions · what vacuum may remove", "".join(b))
+    return frame("The report runs. Cleanup stops.", "old row versions left by updates · cleanup (vacuum) per minute", "".join(b))
 
 
 def growth(data):
@@ -214,8 +214,8 @@ def growth(data):
     bp = " ".join(f"{x0 + w * r['t_s'] / t_max:.1f},{y0 + h - h * r['dead'] / d_max:.1f}"
                   for r in base if r["t_s"] <= t_max)
     b.append(f'<polyline points="{bp}" fill="none" stroke="{GRAY}" stroke-width="6" stroke-linejoin="round"/>')
-    b += [text(rp[-1][0] - 10, rp[-1][1] - 24, f"{d_max / 1e6:.1f}M dead rows", 40, RED, MONO, 800, "end"),
-          text(x0 + w, y0 + h - 18, "nothing held: steady", 26, LIGHT, MONO, 400, "end")]
+    b += [text(rp[-1][0] - 10, rp[-1][1] - 24, f"{d_max / 1e6:.1f}M old row versions", 40, RED, MONO, 800, "end"),
+          text(x0 + w, y0 + h - 18, "no long report: steady", 26, LIGHT, MONO, 400, "end")]
     runs = int(max(r["autovacuums"] for r in hold))
     ty = y0 + h + 40
     prev = hold[0]
@@ -226,47 +226,45 @@ def growth(data):
             x = x0 + w * t / t_max
             b.append(line(x, ty, x, ty + 50, LIGHT, 2))
         prev = r
-    b += [text(x0, ty + 110, f"autovacuum runs: {runs}", 36, FG, MONO, 800),
-          text(x0 + w, ty + 110, "rows removed: 0", 36, RED, MONO, 800, "end")]
-    return frame(f"{runs} vacuum runs. Nothing removed.", "one report held open 60 min · 500 status updates/s", "".join(b))
+    b += [text(x0, ty + 110, f"each line = 1 cleanup run · {runs} runs", 36, FG, MONO, 800),
+          text(x0 + w, ty + 110, "cleaned: 0", 36, RED, MONO, 800, "end")]
+    return frame(f"{runs} cleanups. Nothing cleaned.", "one report open for 60 min · 500 order updates/s", "".join(b))
 
 
-HOLDS = (("long_report", "slow report on the primary", "url(#gRed)"),
-         ("idle_tx", "idle open transaction", RED),
-         ("replica_feedback", "report on replica, feedback on", "url(#gRed)"))
-STOPS = (("idle_timeout", "idle timeout 60 s", "url(#gGreen)", ""),
-         ("report_timeout", "statement timeout 60 s", "url(#gGreen)", ""),
-         ("replica_no_feedback", "report on replica, feedback off", "url(#gGreen)", "report cancelled"))
+HOLDS = (("long_report", "slow report on the primary", "url(#gRed)", "one query running for 10 min"),
+         ("idle_tx", "forgotten open transaction", RED, "BEGIN, one read, then idle"),
+         ("replica_feedback", "report moved to a replica", "url(#gRed)", "feedback on: the primary keeps old rows for it"))
+STOPS = (("idle_timeout", "end idle transactions after 60 s", "url(#gGreen)", "idle_in_transaction_session_timeout"),
+         ("report_timeout", "end slow queries after 60 s", "url(#gGreen)", "statement_timeout"),
+         ("replica_no_feedback", "report moved to a replica", "url(#gGreen)", "feedback off: the replica cancels the report"))
 
 
 def fixes(data):
     """Table growth after 10 minutes held: what holds cleanup back vs what stops it."""
     grow = {n: v[1]["table"][1] - v[1]["table"][0] for n, v in data["ten"].items()}
-    left, span, bar_h, step = 760, 640, 50, 66
-    peak = max(grow[n] for n, _, _ in HOLDS)
+    left, span, bar_h, step = 880, 560, 48, 76
+    peak = max(grow[n] for n, *_ in HOLDS)
     base_x = left + span * grow["baseline"] / peak
     b = []
 
     def rows(items, top, color):
         out = []
-        for i, item in enumerate(items):
-            name, label, fill = item[:3]
+        for i, (name, label, fill, sub) in enumerate(items):
             y = top + i * step
             g = grow[name]
             bw = max(span * g / peak, 14)
-            out += [text(left - 28, y + bar_h * 0.72, label, 32, FG, SANS, 700, "end"),
+            out += [text(left - 28, y + 24, label, 32, FG, SANS, 700, "end"),
+                    text(left - 28, y + 58, sub, 22, MUTED, MONO, 400, "end"),
                     rect(left, y, bw, bar_h, fill, rx=10),
                     text(left + bw + 20, y + bar_h * 0.74, f"+{g} MB", 32, color, MONO, 800)]
-            if len(item) > 3 and item[3]:
-                out.append(text(left + bw + 160, y + bar_h * 0.74, item[3], 26, LIGHT, MONO, 400))
         return out
 
-    b += [text(80, 300, "holds cleanup back", 34, RED, MONO, 800)]
-    b += rows(HOLDS, 326, RED)
-    b += [text(80, 580, "stops it · cheapest first", 34, GREEN, MONO, 800)]
-    b += rows(STOPS, 606, GREEN)
-    b += [line(base_x, 290, base_x, 810, LIGHT, 2, "6 8"),
-          text(base_x + 10, 845, f"nothing held: +{grow['baseline']} MB", 24, LIGHT, MONO, 400)]
+    b += [text(80, 290, "grows the table", 34, RED, MONO, 800)]
+    b += rows(HOLDS, 312, RED)
+    b += [text(80, 578, "stops it · cheapest first", 34, GREEN, MONO, 800)]
+    b += rows(STOPS, 600, GREEN)
+    b += [line(base_x, 300, base_x, 812, LIGHT, 2, "6 8"),
+          text(base_x + 10, 284, f"no long report: +{grow['baseline']} MB", 24, LIGHT, MONO, 400)]
     return frame("A timeout stops it. A replica may not.", "table growth in 10 min · start 120 MB", "".join(b))
 
 
@@ -295,18 +293,18 @@ def after(data):
         return out
 
     right = x0 + per_row * (cell + gap) - gap
-    b += [text(x0, 290, f"nothing held · {size_base} MB", 30, LIGHT, MONO, 800)]
+    b += [text(x0, 290, f"no long report · {size_base} MB", 30, LIGHT, MONO, 800)]
     b += grid(n_base, 310, set())
-    b += [text(right, 290, f"{p_base:,.0f} pages read", 30, LIGHT, MONO, 800, "end")]
+    b += [text(right, 290, f"a scan reads {p_base:,.0f} pages", 30, LIGHT, MONO, 800, "end")]
     top2 = 310 + ((n_base - 1) // per_row + 1) * (cell + gap) + 80
     b += [text(x0, top2 - 20, f"after the report · {size_rep} MB, {free} MB empty", 30, RED, MONO, 800)]
     b += grid(n_rep, top2, empty)
-    b += [text(right, top2 - 20, f"{p_rep:,.0f} pages read", 30, RED, MONO, 800, "end")]
+    b += [text(right, top2 - 20, f"a scan reads {p_rep:,.0f} pages", 30, RED, MONO, 800, "end")]
     rows_rep = (n_rep - 1) // per_row + 1
     ly = top2 + rows_rep * (cell + gap) + 40
-    b += [rect(x0, ly - 22, cell, cell * 0.6, GRAY, rx=4), text(x0 + cell + 16, ly, "rows", 26, LIGHT, MONO, 400),
-          rect(x0 + 170, ly - 22, cell, cell * 0.6, "none", RED, rx=4, dash="6 5", sw=3),
-          text(x0 + 170 + cell + 16, ly, f"empty · still scanned · each box ≈ {per} MB", 26, LIGHT, MONO, 400)]
+    b += [rect(x0, ly - 22, cell, cell * 0.6, GRAY, rx=4), text(x0 + cell + 16, ly, "pages with rows", 26, LIGHT, MONO, 400),
+          rect(x0 + 360, ly - 22, cell, cell * 0.6, "none", RED, rx=4, dash="6 5", sw=3),
+          text(x0 + 360 + cell + 16, ly, f"empty pages, still read · 1 box ≈ {per} MB", 26, LIGHT, MONO, 400)]
     return frame("The report ended. The space stayed.", "orders table file · after the 60 min report", "".join(b))
 
 
