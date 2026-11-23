@@ -55,7 +55,7 @@ Sizes and outcomes matched exactly between runs (within 1 MB). Query times varie
 
 ## Reading it
 
-- **One slow read on the primary held cleanup for its whole duration.** Autovacuum ran 35 times in the 10-minute hold and about 240 times in the hour, and could not remove a row version newer than the report's snapshot. The idle transaction did exactly the same as the running report.
+- **One slow read on the primary held cleanup for its whole duration.** Autovacuum ran 35 times in the 10-minute hold and about 235 times during the hour, and could not remove a row version newer than the report's snapshot. The idle transaction did exactly the same as the running report.
 - **The table nearly tripled in an hour** (120 to 337 MB, 2.8x; baseline 122 MB), and the indexes grew 2.2x (baseline 1.24x).
 - **The bloat stays after the report ends.** Within a minute of the release autovacuum removed the dead rows, but the space is only reusable inside the table file: 210 MB free, the file stays 337 MB, and a full scan reads 2.8x the pages of the baseline (43,080 against 15,589). Shrinking it takes `VACUUM FULL` (locks the table) or `pg_repack`.
 - **Timeouts fix it.** A 60 s `statement_timeout` or `idle_in_transaction_session_timeout` kept the table at 124 MB, close to baseline.
