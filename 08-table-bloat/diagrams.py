@@ -148,14 +148,30 @@ def growth_chart(data, x0, y0, w, h, label_size=30, show_axis=True):
 
 
 def cover(data):
-    """1920x1080: the hour-long chart behind one claim."""
-    start, end = data["hour"]["long_report"][1]["table"]
+    """1920x1080: the table file before and after one slow read, and where it ended in production."""
+    import random
+    rep = data["hour"]["long_report"][1]
+    start, end, free = rep["table"][0], rep["table"][1], rep["free_mb"]
     cw, ch = 1920, 1080
     b = [text(120, 190, "Nobody inserted.", 104, FG, SANS, 800),
          text(120, 310, f'The table grew <tspan fill="{RED}">{end / start:.1f}x.</tspan>', 104, FG, SANS, 800),
          rect(122, 350, 160, 10, AMBER, rx=5),
-         text(120, 430, "one slow read · Postgres · 60 min", 40, LIGHT, MONO, 700)]
-    b += growth_chart(data, 300, 580, 1300, 340, 34)
+         text(120, 430, f'one slow read · 60 min <tspan fill="{RED}">→ disk full → database read-only</tspan>',
+              40, LIGHT, MONO, 700)]
+    per, cell, gap = 4, 54, 10
+    n_s, n_e, n_free = round(start / per), round(end / per), round(free / per)
+    empty = set(random.Random(8).sample(range(n_e), n_free))
+
+    def grid(n, x0, y0, cols, empt):
+        out = []
+        for i in range(n):
+            x, y = x0 + (i % cols) * (cell + gap), y0 + (i // cols) * (cell + gap)
+            out.append(rect(x, y, cell, cell, "none", RED, rx=6, dash="7 6", sw=3) if i in empt
+                       else rect(x, y, cell, cell, GRAY, rx=6))
+        return out
+
+    b += [text(120, 530, f"before · {start} MB", 34, LIGHT, MONO, 800)] + grid(n_s, 120, 560, 6, set())
+    b += [text(600, 530, f"after · {end} MB, {free} MB empty", 34, RED, MONO, 800)] + grid(n_e, 600, 560, 17, empty)
     return (f'<svg viewBox="0 0 {cw} {ch}" width="{cw}" height="{ch}" xmlns="http://www.w3.org/2000/svg">{DEFS}'
             f'{rect(0, 0, cw, ch, BG, rx=0)}{"".join(b)}'
             f'<svg x="120" y="975" width="72" height="72" viewBox="0 0 512 512">{LOGO}</svg>'
