@@ -19,8 +19,8 @@ GREEN, RED, AMBER = "#34c77b", "#e5484d", "#d4a017"
 PANEL, GRID = "#24272c", "#2c3036"
 SANS, MONO = "Inter", "JetBrains Mono"
 DEFS = f"""<defs>
-<linearGradient id="gRed" x1="0" x2="1"><stop offset="0" stop-color="{RED}" stop-opacity="0.75"/><stop offset="1" stop-color="{RED}"/></linearGradient>
-<linearGradient id="gGreen" x1="0" x2="1"><stop offset="0" stop-color="{GREEN}" stop-opacity="0.75"/><stop offset="1" stop-color="{GREEN}"/></linearGradient>
+<linearGradient id="gRed" x1="0" x2="1"><stop offset="0" stop-color="{RED}"/><stop offset="1" stop-color="{RED}"/></linearGradient>
+<linearGradient id="gGreen" x1="0" x2="1"><stop offset="0" stop-color="{GREEN}"/><stop offset="1" stop-color="{GREEN}"/></linearGradient>
 <linearGradient id="aRed" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="{RED}" stop-opacity="0.35"/><stop offset="1" stop-color="{RED}" stop-opacity="0"/></linearGradient>
 </defs>"""
 SPACED = ' letter-spacing="6"'
@@ -65,7 +65,8 @@ def frame(title, subtitle, body):
     return (f'<svg viewBox="0 0 {W} {H}" width="{W}" height="{H}" xmlns="http://www.w3.org/2000/svg">{DEFS}'
             f'{rect(0, 0, W, H, BG, rx=0)}{text(80, 120, title, 72, weight=800)}'
             f'{rect(80, 146, 120, 8, AMBER, rx=4)}{text(80, 210, subtitle, 30, MUTED, MONO, 400)}{body}'
-            f'{text(80, H - 40, "ARCHEMIST", 24, MUTED, MONO, 800, extra=SPACED)}</svg>')
+            f'<svg x="80" y="{H - 78}" width="48" height="48" viewBox="0 0 512 512">{LOGO}</svg>'
+            f'{text(138, H - 40, "ARCHEMIST", 24, MUTED, MONO, 800, extra=SPACED)}</svg>')
 
 
 LOGO = """<g transform="translate(0,-13)"><defs><clipPath id="liquid"><rect x="0" y="232" width="512" height="280"/></clipPath></defs>
@@ -198,7 +199,7 @@ def cover_medium(data):
 
 # Light mode (Javlon 2026-11-23): one color map over the finished SVG, so every diagram matches.
 # White page with a thin border (Medium, LinkedIn and the site's light theme are white), darker gray boxes,
-# solid red and green bars (gradients fade to pink on white), and the flask next to ARCHEMIST in the footer.
+# solid red and green bars and the flask in the footer (both now in the dark versions too).
 LIGHT_MAP = {"#1b1d21": "#ffffff", "#f2efe9": "#1b1d21", "#9aa1ab": "#3f444d", "#8a8f98": "#6b717b",
              "#5c6370": "#868e9c", "#e5484d": "#d1343a", "#34c77b": "#1f9d5c", "#24272c": "#f1efea",
              "#2c3036": "#e3e1dc"}
@@ -213,10 +214,6 @@ def light(fn):
         svg = fn(data).replace(LOGO, "@@LOGO@@").replace("url(#gRed)", RED).replace("url(#gGreen)", GREEN)
         svg = re.sub("|".join(LIGHT_MAP), lambda m: LIGHT_MAP[m.group(0)], svg)
         svg = svg.replace("@@LOGO@@", logo)
-        # in-text diagrams (frame): flask before the ARCHEMIST footer
-        svg = svg.replace(f'<text x="80" y="{H - 40}"',
-                          f'<svg x="80" y="{H - 78}" width="48" height="48" viewBox="0 0 512 512">{logo}</svg>'
-                          f'<text x="138" y="{H - 40}"', 1)
         w, h = re.search(r'viewBox="0 0 (\d+) (\d+)"', svg).groups()
         border = (f'<rect x="1" y="1" width="{int(w) - 2}" height="{int(h) - 2}" fill="none" '
                   f'stroke="{LIGHT_BORDER}" stroke-width="2"/>')
