@@ -196,17 +196,22 @@ def cover_medium(data):
     return page[:-len("</svg>")] + badge + "</svg>"
 
 
-def cover_medium_light(data):
-    """The Medium cover in light mode (charcoal swapped for paper), to compare on Medium's white page."""
-    g = globals()
-    dark = {k: g[k] for k in ("BG", "FG", "LIGHT", "MUTED", "GRAY", "RED")}
-    g.update(BG="#f7f5f0", FG="#1b1d21", LIGHT="#3f444d", MUTED="#6b717b", GRAY="#a3a9b3", RED="#d1343a")
-    try:
-        # the flask's outline is light-on-dark; draw it dark on paper
-        return cover_medium(data).replace('stroke="#f2efe9"', 'stroke="#1b1d21"').replace('fill="#f2efe9"', 'fill="#1b1d21"')
-    finally:
-        g.update(dark)
+# Light mode (Medium, Javlon 2026-11-23): one color map over the finished SVG, so every diagram matches.
+LIGHT_MAP = {"#1b1d21": "#f7f5f0", "#f2efe9": "#1b1d21", "#9aa1ab": "#3f444d", "#8a8f98": "#6b717b",
+             "#5c6370": "#a3a9b3", "#e5484d": "#d1343a", "#34c77b": "#1f9d5c", "#24272c": "#ebe7df",
+             "#2c3036": "#dcd8d0"}
 
+
+def light(fn):
+    """Wrap a diagram: same drawing, paper background. The flask keeps its dark details; only its light outline turns dark."""
+    def draw(data):
+        svg = fn(data).replace(LOGO, "@@LOGO@@")
+        svg = re.sub("|".join(LIGHT_MAP), lambda m: LIGHT_MAP[m.group(0)], svg)
+        return svg.replace("@@LOGO@@", LOGO.replace("#f2efe9", "#1b1d21"))
+    return draw
+
+
+cover_medium_light = light(cover_medium)
 
 def versions(data):
     """Dead row versions per minute over the hour: removed before the report's snapshot, kept after it."""
@@ -355,7 +360,9 @@ def after(data):
 
 DIAGRAMS = {"Bloat - Cover": cover, "Bloat - 1 Versions": versions, "Bloat - 2 Growth": growth,
             "Bloat - 3 Fixes": fixes, "Bloat - 4 After": after, "Bloat - Cover Medium": cover_medium,
-            "Bloat - Cover Medium Light": cover_medium_light}
+            "Bloat - Cover Medium Light": cover_medium_light,
+            "Bloat - 1 Versions Light": light(versions), "Bloat - 2 Growth Light": light(growth),
+            "Bloat - 3 Fixes Light": light(fixes), "Bloat - 4 After Light": light(after)}
 SIZES = {"Bloat - Cover": (1920, 1080), "Bloat - Cover Medium": (1920, 1080),
          "Bloat - Cover Medium Light": (1920, 1080)}
 
