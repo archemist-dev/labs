@@ -179,6 +179,23 @@ def cover(data):
             f'{text(1800, 1024, "archemist.dev", 28, MUTED, MONO, 400, "end")}</svg>')
 
 
+def tech_icon(name, x, y, size):
+    """An official tech logo (public SVG next to this script), nested at (x, y), size px tall."""
+    svg = (HERE / f"{name}.svg").read_text(encoding="utf-8")
+    svg = svg[svg.index("<svg"):]
+    head, body = svg.split(">", 1)
+    vb = re.search(r'viewBox="([^"]+)"', head).group(1)
+    return f'<svg x="{x}" y="{y}" width="{size}" height="{size}" viewBox="{vb}">{body}'
+
+
+def cover_medium(data):
+    """The cover with the PostgreSQL logo and name, for Medium (Lessons, week 8 cover experiment, tried early)."""
+    page = cover(data)
+    badge = (tech_icon("postgresql", 1510, 50, 240) +
+             text(1630, 345, "PostgreSQL", 36, FG, MONO, 800, "middle"))
+    return page[:-len("</svg>")] + badge + "</svg>"
+
+
 def versions(data):
     """Dead row versions per minute over the hour: removed before the report's snapshot, kept after it."""
     rep = data["hour"]["long_report"][0]
@@ -325,8 +342,8 @@ def after(data):
 
 
 DIAGRAMS = {"Bloat - Cover": cover, "Bloat - 1 Versions": versions, "Bloat - 2 Growth": growth,
-            "Bloat - 3 Fixes": fixes, "Bloat - 4 After": after}
-SIZES = {"Bloat - Cover": (1920, 1080)}
+            "Bloat - 3 Fixes": fixes, "Bloat - 4 After": after, "Bloat - Cover Medium": cover_medium}
+SIZES = {"Bloat - Cover": (1920, 1080), "Bloat - Cover Medium": (1920, 1080)}
 
 if __name__ == "__main__":
     out = Path(sys.argv[1])
