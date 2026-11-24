@@ -58,15 +58,18 @@ def connect():
 
 
 def build(kind, conn=None):
-    """Run the uncached build and record when it ran. kind: reader, background or publish."""
+    """Run the uncached build and record when it started, got a database connection and ended.
+    kind: reader, background or publish."""
     start = time.time()
     if conn is None:
         with pool.connection() as c:
+            got = time.time()
             version, body = menu.build(c)
     else:
+        got = start
         version, body = menu.build(conn)
-    cache.rpush(BUILDS, json.dumps({"kind": kind, "start": start, "end": time.time(), "version": version,
-                                    "pid": os.getpid()}))
+    cache.rpush(BUILDS, json.dumps({"kind": kind, "start": start, "conn": got, "end": time.time(),
+                                    "version": version, "pid": os.getpid()}))
     return version, body
 
 

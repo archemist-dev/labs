@@ -1,0 +1,160 @@
+== machine
+Ubuntu 26.04.1 LTS
+CPU(s):                                  2
+Model name:                              Intel(R) Xeon(R) Platinum 8259CL CPU @ 2.50GHz
+               total        used        free      shared  buff/cache   available
+Mem:           1.9Gi       523Mi       471Mi       2.8Mi       1.1Gi       1.3Gi
+Python 3.14.4
+images: postgres@sha256:eece53c7c4410fb9c6556a19b8e0f2d61708a5893e2aa0a1e3c716661374ab18 redis@sha256:ace7d4c03a63942082252ac7fbcd507d3e76347a79ea1dbc754894beedc5fc21 
+== build orm, run 1
+sudo: preserving the entire environment is not supported, '-E' is ignored
+{
+ "settings": {
+  "rps": 200,
+  "warm_s": 20,
+  "edits": 5,
+  "every_s": 20,
+  "client_timeout_s": 10.0,
+  "workers": 4,
+  "pool_max": 20,
+  "pg_cpus": "1",
+  "redis_cpus": "0.5",
+  "build": "orm",
+  "items": 220,
+  "stores": 50,
+  "pg_version": "postgres (PostgreSQL) 18.7 (Debian 18.7-1.pgdg13+5)",
+  "redis_version": "v=8.12.0"
+ },
+ "build_alone": {
+  "build_ms_p50": 295.8,
+  "build_ms_min": 285.6,
+  "build_ms_max": 469.7,
+  "menu_json_bytes": 356101,
+  "menu_gzip_bytes": 23418
+ }
+}
+{"strategy": "delete", "edits": 5, "ms_before_first_edit": {"p50": 2.2, "p99": 42.7}, "rebuilds": {"median": 42, "min": 40, "max": 42}, "peak_parallel_rebuilds": {"median": 41, "min": 40, "max": 42}, "waited": {"median": 41, "min": 40, "max": 42}, "failed": {"median": 748, "min": 688, "max": 850}, "paid": {"median": 789, "min": 728, "max": 891}, "cold_window_s": {"median": 10.63, "min": 10.08, "max": 10.94}, "paid_ms_p50": {"median": 5067.7, "min": 5049.3, "max": 5131.1}, "paid_ms_max": {"median": 9872.3, "min": 9698.3, "max": 10018.8}, "stale": {"median": 1, "min": 0, "max": 1}, "stale_window_s": {"median": 0.0, "min": 0.0, "max": 0.0}, "edit_ms": {"median": 5.1, "min": 3.4, "max": 8.8}, "rebuild_ms_p50": {"median": 6875.8, "min": 6207.0, "max": 8868.4}, "db_active_peak": {"median": 9, "min": 8, "max": 11}, "db_xact": {"median": 2718, "min": 2576, "max": 2778}, "p99_first_5s": {"median": 9691.0, "min": 9466.4, "max": 9800.8}, "stale_stuck_edits": 0}
+{"strategy": "single_flight", "edits": 5, "ms_before_first_edit": {"p50": 2.2, "p99": 111.9}, "rebuilds": {"median": 1, "min": 1, "max": 1}, "peak_parallel_rebuilds": {"median": 1, "min": 1, "max": 1}, "waited": {"median": 81, "min": 78, "max": 83}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 81, "min": 78, "max": 83}, "cold_window_s": {"median": 0.43, "min": 0.42, "max": 0.45}, "paid_ms_p50": {"median": 215.1, "min": 212.9, "max": 221.3}, "paid_ms_max": {"median": 412.6, "min": 394.7, "max": 422.5}, "stale": {"median": 1, "min": 0, "max": 1}, "stale_window_s": {"median": 0, "min": 0, "max": 0}, "edit_ms": {"median": 4.7, "min": 3.6, "max": 6.0}, "rebuild_ms_p50": {"median": 400.2, "min": 385.5, "max": 409.5}, "db_active_peak": {"median": 1, "min": 0, "max": 1}, "db_xact": {"median": 3545, "min": 3163, "max": 3581}, "p99_first_5s": {"median": 367.0, "min": 352.6, "max": 388.7}, "stale_stuck_edits": 0}
+{"strategy": "swr", "edits": 5, "ms_before_first_edit": {"p50": 2.4, "p99": 122.7}, "rebuilds": {"median": 1, "min": 1, "max": 1}, "peak_parallel_rebuilds": {"median": 1, "min": 1, "max": 1}, "waited": {"median": 0, "min": 0, "max": 0}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 0, "min": 0, "max": 0}, "cold_window_s": {"median": 0, "min": 0, "max": 0}, "paid_ms_p50": null, "paid_ms_max": null, "stale": {"median": 88, "min": 82, "max": 105}, "stale_window_s": {"median": 0.44, "min": 0.41, "max": 0.52}, "edit_ms": {"median": 6.0, "min": 3.5, "max": 6.3}, "rebuild_ms_p50": {"median": 434.3, "min": 401.8, "max": 514.6}, "db_active_peak": {"median": 1, "min": 0, "max": 1}, "db_xact": {"median": 3558, "min": 3389, "max": 3569}, "p99_first_5s": {"median": 4.2, "min": 3.8, "max": 9.0}, "stale_stuck_edits": 0}
+{"strategy": "publish", "edits": 5, "ms_before_first_edit": {"p50": 2.2, "p99": 64.3}, "rebuilds": {"median": 1, "min": 1, "max": 1}, "peak_parallel_rebuilds": {"median": 1, "min": 1, "max": 1}, "waited": {"median": 0, "min": 0, "max": 0}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 0, "min": 0, "max": 0}, "cold_window_s": {"median": 0, "min": 0, "max": 0}, "paid_ms_p50": null, "paid_ms_max": null, "stale": {"median": 87, "min": 77, "max": 95}, "stale_window_s": {"median": 0.43, "min": 0.38, "max": 0.47}, "edit_ms": {"median": 434.7, "min": 387.6, "max": 476.8}, "rebuild_ms_p50": {"median": 427.4, "min": 383.4, "max": 470.2}, "db_active_peak": {"median": 1, "min": 1, "max": 1}, "db_xact": {"median": 3537, "min": 3379, "max": 3553}, "p99_first_5s": {"median": 4.0, "min": 3.4, "max": 6.8}, "stale_stuck_edits": 0}
+
+median (min-max) over 5 edits, build orm, 200 reads/s
+strategy      rebuilds                at once                 paid                    failed                  cold s                  paid p50 ms             stale                   stale s                 
+delete        42 (40-42)              41 (40-42)              789 (728-891)           748 (688-850)           10.63 (10.08-10.94)     5067.7 (5049.3-5131.1)  1 (0-1)                 0                       
+single_flight 1                       1                       81 (78-83)              0                       0.43 (0.42-0.45)        215.1 (212.9-221.3)     1 (0-1)                 0                       
+swr           1                       1                       0                       0                       0                       -                       88 (82-105)             0.44 (0.41-0.52)        
+publish       1                       1                       0                       0                       0                       -                       87 (77-95)              0.43 (0.38-0.47)        
+== build orm, run 2
+sudo: preserving the entire environment is not supported, '-E' is ignored
+{
+ "settings": {
+  "rps": 200,
+  "warm_s": 20,
+  "edits": 5,
+  "every_s": 20,
+  "client_timeout_s": 10.0,
+  "workers": 4,
+  "pool_max": 20,
+  "pg_cpus": "1",
+  "redis_cpus": "0.5",
+  "build": "orm",
+  "items": 220,
+  "stores": 50,
+  "pg_version": "postgres (PostgreSQL) 18.7 (Debian 18.7-1.pgdg13+5)",
+  "redis_version": "v=8.12.0"
+ },
+ "build_alone": {
+  "build_ms_p50": 295.9,
+  "build_ms_min": 280.1,
+  "build_ms_max": 1474.3,
+  "menu_json_bytes": 356101,
+  "menu_gzip_bytes": 23418
+ }
+}
+{"strategy": "delete", "edits": 5, "ms_before_first_edit": {"p50": 2.3, "p99": 4.1}, "rebuilds": {"median": 41, "min": 40, "max": 46}, "peak_parallel_rebuilds": {"median": 41, "min": 40, "max": 44}, "waited": {"median": 41, "min": 40, "max": 46}, "failed": {"median": 685, "min": 623, "max": 813}, "paid": {"median": 725, "min": 664, "max": 859}, "cold_window_s": {"median": 10.42, "min": 9.84, "max": 11.26}, "paid_ms_p50": {"median": 5055.7, "min": 5033.4, "max": 5088.1}, "paid_ms_max": {"median": 9805.9, "min": 9333.1, "max": 9978.7}, "stale": {"median": 0, "min": 0, "max": 1}, "stale_window_s": {"median": 0, "min": 0.0, "max": 0.0}, "edit_ms": {"median": 4.2, "min": 2.8, "max": 6.0}, "rebuild_ms_p50": {"median": 6896.6, "min": 6589.4, "max": 8773.9}, "db_active_peak": {"median": 10, "min": 7, "max": 12}, "db_xact": {"median": 2686, "min": 2602, "max": 2756}, "p99_first_5s": {"median": 9446.9, "min": 9125.3, "max": 9688.5}, "stale_stuck_edits": 0}
+{"strategy": "single_flight", "edits": 5, "ms_before_first_edit": {"p50": 2.1, "p99": 3.4}, "rebuilds": {"median": 1, "min": 1, "max": 1}, "peak_parallel_rebuilds": {"median": 1, "min": 1, "max": 1}, "waited": {"median": 84, "min": 79, "max": 97}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 84, "min": 79, "max": 97}, "cold_window_s": {"median": 0.45, "min": 0.44, "max": 0.53}, "paid_ms_p50": {"median": 230.8, "min": 219.4, "max": 254.6}, "paid_ms_max": {"median": 441.6, "min": 421.9, "max": 513.9}, "stale": {"median": 0, "min": 0, "max": 1}, "stale_window_s": {"median": 0, "min": 0.0, "max": 0.0}, "edit_ms": {"median": 4.3, "min": 2.8, "max": 7.0}, "rebuild_ms_p50": {"median": 417.6, "min": 394.1, "max": 484.1}, "db_active_peak": {"median": 1, "min": 0, "max": 1}, "db_xact": {"median": 3408, "min": 3382, "max": 3575}, "p99_first_5s": {"median": 392.2, "min": 360.2, "max": 459.2}, "stale_stuck_edits": 0}
+{"strategy": "swr", "edits": 5, "ms_before_first_edit": {"p50": 2.3, "p99": 3.9}, "rebuilds": {"median": 1, "min": 1, "max": 1}, "peak_parallel_rebuilds": {"median": 1, "min": 1, "max": 1}, "waited": {"median": 0, "min": 0, "max": 0}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 0, "min": 0, "max": 0}, "cold_window_s": {"median": 0, "min": 0, "max": 0}, "paid_ms_p50": null, "paid_ms_max": null, "stale": {"median": 88, "min": 82, "max": 93}, "stale_window_s": {"median": 0.44, "min": 0.41, "max": 0.46}, "edit_ms": {"median": 3.8, "min": 2.8, "max": 6.2}, "rebuild_ms_p50": {"median": 436.9, "min": 407.3, "max": 461.0}, "db_active_peak": {"median": 1, "min": 0, "max": 1}, "db_xact": {"median": 3446, "min": 3272, "max": 3554}, "p99_first_5s": {"median": 3.8, "min": 3.8, "max": 4.4}, "stale_stuck_edits": 0}
+{"strategy": "publish", "edits": 5, "ms_before_first_edit": {"p50": 2.2, "p99": 4.7}, "rebuilds": {"median": 1, "min": 1, "max": 1}, "peak_parallel_rebuilds": {"median": 1, "min": 1, "max": 1}, "waited": {"median": 0, "min": 0, "max": 0}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 0, "min": 0, "max": 0}, "cold_window_s": {"median": 0, "min": 0, "max": 0}, "paid_ms_p50": null, "paid_ms_max": null, "stale": {"median": 87, "min": 80, "max": 90}, "stale_window_s": {"median": 0.43, "min": 0.4, "max": 0.45}, "edit_ms": {"median": 437.7, "min": 404.0, "max": 451.5}, "rebuild_ms_p50": {"median": 431.4, "min": 400.5, "max": 444.7}, "db_active_peak": {"median": 1, "min": 1, "max": 1}, "db_xact": {"median": 3405, "min": 3352, "max": 3541}, "p99_first_5s": {"median": 3.9, "min": 3.6, "max": 7.3}, "stale_stuck_edits": 0}
+
+median (min-max) over 5 edits, build orm, 200 reads/s
+strategy      rebuilds                at once                 paid                    failed                  cold s                  paid p50 ms             stale                   stale s                 
+delete        41 (40-46)              41 (40-44)              725 (664-859)           685 (623-813)           10.42 (9.84-11.26)      5055.7 (5033.4-5088.1)  0 (0-1)                 0                       
+single_flight 1                       1                       84 (79-97)              0                       0.45 (0.44-0.53)        230.8 (219.4-254.6)     0 (0-1)                 0                       
+swr           1                       1                       0                       0                       0                       -                       88 (82-93)              0.44 (0.41-0.46)        
+publish       1                       1                       0                       0                       0                       -                       87 (80-90)              0.43 (0.4-0.45)         
+== build batched, run 1
+sudo: preserving the entire environment is not supported, '-E' is ignored
+{
+ "settings": {
+  "rps": 200,
+  "warm_s": 20,
+  "edits": 5,
+  "every_s": 20,
+  "client_timeout_s": 10.0,
+  "workers": 4,
+  "pool_max": 20,
+  "pg_cpus": "1",
+  "redis_cpus": "0.5",
+  "build": "batched",
+  "items": 220,
+  "stores": 50,
+  "pg_version": "postgres (PostgreSQL) 18.7 (Debian 18.7-1.pgdg13+5)",
+  "redis_version": "v=8.12.0"
+ },
+ "build_alone": {
+  "build_ms_p50": 36.4,
+  "build_ms_min": 33.1,
+  "build_ms_max": 67.0,
+  "menu_json_bytes": 356101,
+  "menu_gzip_bytes": 23418
+ }
+}
+{"strategy": "delete", "edits": 5, "ms_before_first_edit": {"p50": 2.2, "p99": 4.3}, "rebuilds": {"median": 89, "min": 46, "max": 93}, "peak_parallel_rebuilds": {"median": 88, "min": 46, "max": 91}, "waited": {"median": 74, "min": 46, "max": 95}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 74, "min": 46, "max": 95}, "cold_window_s": {"median": 4.33, "min": 1.87, "max": 22.66}, "paid_ms_p50": {"median": 2084.7, "min": 1104.6, "max": 3044.1}, "paid_ms_max": {"median": 3570.6, "min": 1642.9, "max": 4179.1}, "stale": {"median": 0, "min": 0, "max": 1}, "stale_window_s": {"median": 0, "min": 0.0, "max": 0.0}, "edit_ms": {"median": 5.6, "min": 4.0, "max": 35.6}, "rebuild_ms_p50": {"median": 1948.3, "min": 1028.7, "max": 2371.5}, "db_active_peak": {"median": 17, "min": 13, "max": 20}, "db_xact": {"median": 3279, "min": 3196, "max": 3501}, "p99_first_5s": {"median": 3345.6, "min": 1351.7, "max": 4072.8}, "stale_stuck_edits": 0}
+{"strategy": "single_flight", "edits": 5, "ms_before_first_edit": {"p50": 2.2, "p99": 7.1}, "rebuilds": {"median": 1, "min": 1, "max": 1}, "peak_parallel_rebuilds": {"median": 1, "min": 1, "max": 1}, "waited": {"median": 14, "min": 9, "max": 15}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 14, "min": 9, "max": 15}, "cold_window_s": {"median": 0.1, "min": 0.08, "max": 0.11}, "paid_ms_p50": {"median": 54.4, "min": 32.7, "max": 60.1}, "paid_ms_max": {"median": 81.9, "min": 58.1, "max": 83.8}, "stale": {"median": 1, "min": 0, "max": 1}, "stale_window_s": {"median": 0.0, "min": 0.0, "max": 0.0}, "edit_ms": {"median": 5.8, "min": 3.3, "max": 5.8}, "rebuild_ms_p50": {"median": 65.6, "min": 44.5, "max": 69.2}, "db_active_peak": {"median": 1, "min": 1, "max": 1}, "db_xact": {"median": 3551, "min": 3312, "max": 3564}, "p99_first_5s": {"median": 40.0, "min": 9.1, "max": 42.9}, "stale_stuck_edits": 0}
+{"strategy": "swr", "edits": 5, "ms_before_first_edit": {"p50": 2.2, "p99": 5.5}, "rebuilds": {"median": 1, "min": 1, "max": 1}, "peak_parallel_rebuilds": {"median": 1, "min": 1, "max": 1}, "waited": {"median": 0, "min": 0, "max": 0}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 0, "min": 0, "max": 0}, "cold_window_s": {"median": 0, "min": 0, "max": 0}, "paid_ms_p50": null, "paid_ms_max": null, "stale": {"median": 14, "min": 11, "max": 16}, "stale_window_s": {"median": 0.07, "min": 0.05, "max": 0.08}, "edit_ms": {"median": 5.7, "min": 3.9, "max": 6.2}, "rebuild_ms_p50": {"median": 66.8, "min": 46.5, "max": 73.0}, "db_active_peak": {"median": 1, "min": 1, "max": 1}, "db_xact": {"median": 3571, "min": 3148, "max": 3591}, "p99_first_5s": {"median": 3.9, "min": 3.4, "max": 9.7}, "stale_stuck_edits": 0}
+{"strategy": "publish", "edits": 5, "ms_before_first_edit": {"p50": 2.2, "p99": 8.3}, "rebuilds": {"median": 1, "min": 1, "max": 1}, "peak_parallel_rebuilds": {"median": 1, "min": 1, "max": 1}, "waited": {"median": 0, "min": 0, "max": 0}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 0, "min": 0, "max": 0}, "cold_window_s": {"median": 0, "min": 0, "max": 0}, "paid_ms_p50": null, "paid_ms_max": null, "stale": {"median": 9, "min": 9, "max": 14}, "stale_window_s": {"median": 0.04, "min": 0.04, "max": 0.07}, "edit_ms": {"median": 49.6, "min": 46.4, "max": 71.8}, "rebuild_ms_p50": {"median": 43.7, "min": 40.4, "max": 67.0}, "db_active_peak": {"median": 1, "min": 1, "max": 1}, "db_xact": {"median": 3537, "min": 3230, "max": 3579}, "p99_first_5s": {"median": 4.3, "min": 3.3, "max": 5.0}, "stale_stuck_edits": 0}
+
+median (min-max) over 5 edits, build batched, 200 reads/s
+strategy      rebuilds                at once                 paid                    failed                  cold s                  paid p50 ms             stale                   stale s                 
+delete        89 (46-93)              88 (46-91)              74 (46-95)              0                       4.33 (1.87-22.66)       2084.7 (1104.6-3044.1)  0 (0-1)                 0                       
+single_flight 1                       1                       14 (9-15)               0                       0.1 (0.08-0.11)         54.4 (32.7-60.1)        1 (0-1)                 0                       
+swr           1                       1                       0                       0                       0                       -                       14 (11-16)              0.07 (0.05-0.08)        
+publish       1                       1                       0                       0                       0                       -                       9 (9-14)                0.04 (0.04-0.07)        
+== build batched, run 2
+sudo: preserving the entire environment is not supported, '-E' is ignored
+{
+ "settings": {
+  "rps": 200,
+  "warm_s": 20,
+  "edits": 5,
+  "every_s": 20,
+  "client_timeout_s": 10.0,
+  "workers": 4,
+  "pool_max": 20,
+  "pg_cpus": "1",
+  "redis_cpus": "0.5",
+  "build": "batched",
+  "items": 220,
+  "stores": 50,
+  "pg_version": "postgres (PostgreSQL) 18.7 (Debian 18.7-1.pgdg13+5)",
+  "redis_version": "v=8.12.0"
+ },
+ "build_alone": {
+  "build_ms_p50": 34.2,
+  "build_ms_min": 31.6,
+  "build_ms_max": 53.4,
+  "menu_json_bytes": 356101,
+  "menu_gzip_bytes": 23418
+ }
+}
+{"strategy": "delete", "edits": 5, "ms_before_first_edit": {"p50": 2.2, "p99": 8.6}, "rebuilds": {"median": 40, "min": 28, "max": 57}, "peak_parallel_rebuilds": {"median": 39, "min": 28, "max": 56}, "waited": {"median": 40, "min": 28, "max": 57}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 40, "min": 28, "max": 57}, "cold_window_s": {"median": 1.54, "min": 1.24, "max": 2.22}, "paid_ms_p50": {"median": 1022.2, "min": 924.7, "max": 1339.0}, "paid_ms_max": {"median": 1379.3, "min": 1120.0, "max": 1958.5}, "stale": {"median": 0, "min": 0, "max": 1}, "stale_window_s": {"median": 0.0, "min": 0.0, "max": 0.0}, "edit_ms": {"median": 3.5, "min": 2.9, "max": 6.3}, "rebuild_ms_p50": {"median": 945.6, "min": 834.9, "max": 1181.2}, "db_active_peak": {"median": 17, "min": 13, "max": 19}, "db_xact": {"median": 3408, "min": 3325, "max": 3531}, "p99_first_5s": {"median": 1160.2, "min": 1024.7, "max": 1687.5}, "stale_stuck_edits": 0}
+{"strategy": "single_flight", "edits": 5, "ms_before_first_edit": {"p50": 2.2, "p99": 7.9}, "rebuilds": {"median": 1, "min": 1, "max": 1}, "peak_parallel_rebuilds": {"median": 1, "min": 1, "max": 1}, "waited": {"median": 14, "min": 10, "max": 17}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 14, "min": 10, "max": 17}, "cold_window_s": {"median": 0.1, "min": 0.07, "max": 0.1}, "paid_ms_p50": {"median": 52.0, "min": 31.2, "max": 58.7}, "paid_ms_max": {"median": 82.0, "min": 54.6, "max": 87.5}, "stale": {"median": 1, "min": 0, "max": 1}, "stale_window_s": {"median": 0.0, "min": 0.0, "max": 0.0}, "edit_ms": {"median": 5.0, "min": 3.1, "max": 6.0}, "rebuild_ms_p50": {"median": 67.5, "min": 45.0, "max": 75.8}, "db_active_peak": {"median": 1, "min": 1, "max": 1}, "db_xact": {"median": 3513, "min": 2975, "max": 3578}, "p99_first_5s": {"median": 52.5, "min": 6.2, "max": 76.2}, "stale_stuck_edits": 0}
+{"strategy": "swr", "edits": 5, "ms_before_first_edit": {"p50": 2.2, "p99": 7.7}, "rebuilds": {"median": 1, "min": 1, "max": 2}, "peak_parallel_rebuilds": {"median": 1, "min": 1, "max": 1}, "waited": {"median": 0, "min": 0, "max": 0}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 0, "min": 0, "max": 0}, "cold_window_s": {"median": 0, "min": 0, "max": 0}, "paid_ms_p50": null, "paid_ms_max": null, "stale": {"median": 12, "min": 11, "max": 16}, "stale_window_s": {"median": 0.06, "min": 0.05, "max": 0.08}, "edit_ms": {"median": 5.6, "min": 3.2, "max": 6.5}, "rebuild_ms_p50": {"median": 51.7, "min": 48.7, "max": 73.2}, "db_active_peak": {"median": 1, "min": 1, "max": 1}, "db_xact": {"median": 3526, "min": 3216, "max": 3584}, "p99_first_5s": {"median": 12.8, "min": 3.7, "max": 202.1}, "stale_stuck_edits": 0}
+{"strategy": "publish", "edits": 5, "ms_before_first_edit": {"p50": 2.2, "p99": 6.9}, "rebuilds": {"median": 1, "min": 1, "max": 1}, "peak_parallel_rebuilds": {"median": 1, "min": 1, "max": 1}, "waited": {"median": 0, "min": 0, "max": 0}, "failed": {"median": 0, "min": 0, "max": 0}, "paid": {"median": 0, "min": 0, "max": 0}, "cold_window_s": {"median": 0, "min": 0, "max": 0}, "paid_ms_p50": null, "paid_ms_max": null, "stale": {"median": 13, "min": 9, "max": 13}, "stale_window_s": {"median": 0.06, "min": 0.04, "max": 0.06}, "edit_ms": {"median": 67.4, "min": 47.6, "max": 70.0}, "rebuild_ms_p50": {"median": 61.9, "min": 43.4, "max": 65.6}, "db_active_peak": {"median": 1, "min": 1, "max": 1}, "db_xact": {"median": 3551, "min": 3276, "max": 3585}, "p99_first_5s": {"median": 11.9, "min": 3.2, "max": 53.4}, "stale_stuck_edits": 0}
+
+median (min-max) over 5 edits, build batched, 200 reads/s
+strategy      rebuilds                at once                 paid                    failed                  cold s                  paid p50 ms             stale                   stale s                 
+delete        40 (28-57)              39 (28-56)              40 (28-57)              0                       1.54 (1.24-2.22)        1022.2 (924.7-1339)     0 (0-1)                 0                       
+single_flight 1                       1                       14 (10-17)              0                       0.1 (0.07-0.1)          52 (31.2-58.7)          1 (0-1)                 0                       
+swr           1 (1-2)                 1                       0                       0                       0                       -                       12 (11-16)              0.06 (0.05-0.08)        
+publish       1                       1                       0                       0                       0                       -                       13 (9-13)               0.06 (0.04-0.06)        

@@ -214,6 +214,7 @@ def one_edit(records, builds, samples, edit, end):
         "rebuilds": len(rebuilds),
         "rebuilds_by_kind": {k: sum(b["kind"] == k for b in rebuilds) for k in ("reader", "background", "publish")},
         "peak_parallel_rebuilds": peak_parallel([(b["start"], b["end"]) for b in rebuilds]),
+        "building_at_once": peak_parallel([(b["conn"], b["end"]) for b in rebuilds]),
         "rebuild_ms_p50": pct([(b["end"] - b["start"]) * 1000 for b in rebuilds], 50),
         "rebuild_ms_max": pct([(b["end"] - b["start"]) * 1000 for b in rebuilds], 100),
         "db_active_peak": max((s["active"] for s in window), default=0),
@@ -247,7 +248,7 @@ def summarize(strategy, records, builds, edits, samples, start):
     ends = [e["t_edit"] for e in edits[1:]] + [records[-1]["t"] + 1]
     per_edit = [one_edit(records, builds, samples, e, end) for e, end in zip(edits, ends)]
     before = [r["ms"] for r in records if start + 5 <= r["t"] < edits[0]["t_edit"]]
-    keys = ("rebuilds", "peak_parallel_rebuilds", "waited", "failed", "paid", "cold_window_s", "paid_ms_p50",
+    keys = ("rebuilds", "peak_parallel_rebuilds", "building_at_once", "waited", "failed", "paid", "cold_window_s", "paid_ms_p50",
             "paid_ms_max", "stale", "stale_window_s", "edit_ms", "rebuild_ms_p50", "db_active_peak", "db_xact")
     return {"strategy": strategy, "edits": len(per_edit),
             "ms_before_first_edit": {"p50": pct(before, 50), "p99": pct(before, 99)},
