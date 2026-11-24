@@ -2,10 +2,12 @@
 
 Usage: python3 cold_cache_test.py [strategy ...|all]
   delete, single_flight, swr, publish (see server.py)
-Environment: RPS (menu reads per second, 200), WARM (s before the edit, 20), AFTER (s after it, 40),
+Environment: RPS (menu reads per second, 200), WARM (s before the first edit, 20), EDITS (edits per run, 5),
+EVERY (s between edits, 20),
 CLIENT_TIMEOUT (s, 10), PG_CPUS (1), REDIS_CPUS (0.5), PG_IMAGE (postgres:18), REDIS_IMAGE (redis:8),
 OUT (summary file, summary.json), plus BUILD and the menu size (menu.py) and the API settings (server.py).
-Each strategy runs on a fresh API process and an empty cache, against the same database. The load is open-loop:
+Each strategy runs on a fresh API and an empty cache, against the same database. Every edit is measured in its
+own window (until the next edit); the summary gives the median and the range over the edits. The load is open-loop:
 requests go out on schedule whether or not earlier ones came back, and latency counts from the scheduled time.
 Counts (rebuilds, requests that waited) depend on the load and the build time; times depend on the machine.
 """
@@ -15,6 +17,7 @@ import json
 import os
 import resource
 import secrets
+import signal
 import statistics
 import subprocess
 import sys
@@ -29,7 +32,8 @@ import menu
 STRATEGIES = ("delete", "single_flight", "swr", "publish")
 RPS = int(os.environ.get("RPS", 200))
 WARM = int(os.environ.get("WARM", 20))
-AFTER = int(os.environ.get("AFTER", 40))
+EDITS = int(os.environ.get("EDITS", 5))
+EVERY = int(os.environ.get("EVERY", 20))
 CLIENT_TIMEOUT = float(os.environ.get("CLIENT_TIMEOUT", 10))
 PG_IMAGE = os.environ.get("PG_IMAGE", "postgres:18")
 REDIS_IMAGE = os.environ.get("REDIS_IMAGE", "redis:8")
@@ -86,7 +90,8 @@ def http(method, path, timeout=30):
 
 def start_api(strategy, env):
     proc = subprocess.Popen([sys.executable, os.path.join(HERE, "server.py"), strategy, str(API_PORT)],
-                            env=env, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
+                            env=env, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True,
+                            start_new_session=True)  # its own process group, so one signal stops every worker
     for _ in range(100):
         time.sleep(0.2)
         if proc.poll() is not None:
@@ -101,11 +106,12 @@ def start_api(strategy, env):
 
 
 def stop_api(proc):
-    proc.terminate()
+    os.killpg(proc.pid, signal.SIGTERM)
     try:
         proc.wait(10)
     except subprocess.TimeoutExpired:
-        proc.kill()
+        os.killpg(proc.pid, signal.SIGKILL)
+        proc.wait()
 
 
 def pct(values, p):
@@ -138,26 +144,25 @@ async def one_request(scheduled, records):
     records.append(rec)
 
 
-async def run_load(records, edit_result):
-    """Open-loop GET /menu at RPS for WARM + AFTER seconds; the menu edit goes out at WARM."""
+async def run_load(records, edits):
+    """Open-loop GET /menu at RPS; EDITS menu edits go out EVERY seconds, the first one after WARM seconds."""
     loop = asyncio.get_running_loop()
     start = time.time() + 0.5
-    tasks, total = [], RPS * (WARM + AFTER)
-    edit_at = start + WARM
+    edit_times = [start + WARM + k * EVERY for k in range(EDITS)]
+    tasks, total, pending = [], RPS * (WARM + EDITS * EVERY), []
 
     def do_edit():
         _, body = http("POST", "/admin/edit")
-        edit_result.update(json.loads(body))
+        edits.append(json.loads(body))
 
-    edit_task = None
     for i in range(total):
         due = start + i / RPS
-        if edit_task is None and due >= edit_at:
-            edit_task = loop.run_in_executor(None, do_edit)
+        if edit_times and due >= edit_times[0]:
+            edit_times.pop(0)
+            pending.append(loop.run_in_executor(None, do_edit))
         await asyncio.sleep(max(0.0, due - time.time()))
         tasks.append(asyncio.create_task(one_request(due, records)))
-    await asyncio.gather(*tasks)
-    await edit_task
+    await asyncio.gather(*tasks, *pending)
     return start
 
 
@@ -181,54 +186,75 @@ def peak_parallel(intervals):
     return peak
 
 
-def summarize(strategy, records, builds, edit, samples, start):
+def one_edit(records, builds, samples, edit, end):
+    """What happened between this edit and the next one."""
     t_edit, version = edit["t_edit"], edit["version"]
-    before = [r for r in records if start + 5 <= r["t"] < t_edit]
-    after = [r for r in records if r["t"] >= t_edit]
+    after = [r for r in records if t_edit <= r["t"] < end]
     counts = {k: sum(r["cache"] == k for r in after) for k in ("hit", "miss", "wait", "stale", "error", "timeout")}
     waited = [r for r in after if r["cache"] in ("miss", "wait")]
+    failed = [r for r in after if r["cache"] in ("error", "timeout")]
+    paid = waited + failed
     stale = [r for r in after if r["version"] is not None and r["version"] < version]
-    rebuilds = [b for b in builds if b["start"] >= t_edit - 0.001]
-    window = [s for s in samples if t_edit <= s["t"] <= t_edit + 10]
-    base_x = [s for s in samples if s["t"] < t_edit]
+    rebuilds = [b for b in builds if t_edit - 0.001 <= b["start"] < end]
+    window = [s for s in samples if t_edit <= s["t"] < end]
     first_5s = [r["ms"] for r in after if r["t"] < t_edit + 5]
     series = []
-    for sec in range(-5, 15):
+    for sec in range(-2, 12):
         lo, hi = t_edit + sec, t_edit + sec + 1
         rs = [r for r in records if lo <= r["t"] < hi]
         series.append({"s": sec, "requests": len(rs), "p99_ms": pct([r["ms"] for r in rs], 99),
                        "waited": sum(r["cache"] in ("miss", "wait") for r in rs),
-                       "stale": sum(r["version"] is not None and r["version"] < version for r in rs),
+                       "stale": sum(r["t"] >= t_edit and r["version"] is not None and r["version"] < version
+                                    for r in rs),
                        "failed": sum(r["cache"] in ("error", "timeout") for r in rs),
                        "builds_running": sum(b["start"] < hi and b["end"] > lo for b in rebuilds),
                        "db_active_max": max((s["active"] for s in samples if lo <= s["t"] < hi), default=0)})
     return {
-        "strategy": strategy,
         "edit_ms": round((edit["t_done"] - t_edit) * 1000, 1),
-        "rebuilds_after_edit": len(rebuilds),
+        "rebuilds": len(rebuilds),
         "rebuilds_by_kind": {k: sum(b["kind"] == k for b in rebuilds) for k in ("reader", "background", "publish")},
         "peak_parallel_rebuilds": peak_parallel([(b["start"], b["end"]) for b in rebuilds]),
         "rebuild_ms_p50": pct([(b["end"] - b["start"]) * 1000 for b in rebuilds], 50),
         "rebuild_ms_max": pct([(b["end"] - b["start"]) * 1000 for b in rebuilds], 100),
         "db_active_peak": max((s["active"] for s in window), default=0),
-        "db_xact_per_s_before": round((base_x[-1]["xact"] - base_x[0]["xact"]) / (base_x[-1]["t"] - base_x[0]["t"]), 1)
-        if len(base_x) > 1 else None,
-        "db_xact_first_10s": (window[-1]["xact"] - window[0]["xact"]) if len(window) > 1 else None,
-        "requests_after_edit": len(after),
-        "served_after_edit": counts,
-        "waited_for_rebuild": len(waited),
-        "cold_window_s": round(max(r["t"] + r["ms"] / 1000 for r in waited) - t_edit, 2) if waited else 0,
-        "waited_ms_p50": pct([r["ms"] for r in waited], 50),
-        "waited_ms_max": pct([r["ms"] for r in waited], 100),
-        "stale_responses": len(stale),
+        "db_xact": (window[-1]["xact"] - window[0]["xact"]) if len(window) > 1 else None,
+        "requests": len(after),
+        "served": counts,
+        "waited": len(waited),
+        "failed": len(failed),
+        "paid": len(paid),
+        "cold_window_s": round(max(r["t"] + r["ms"] / 1000 for r in paid) - t_edit, 2) if paid else 0,
+        "paid_ms_p50": pct([r["ms"] for r in paid], 50),
+        "paid_ms_max": pct([r["ms"] for r in paid], 100),
+        "stale": len(stale),
         "stale_window_s": round(max(r["t"] for r in stale) - t_edit, 2) if stale else 0,
-        "stale_at_end": any(r["version"] is not None and r["version"] < version
-                            for r in records if r["t"] > records[-1]["t"] - 1),
-        "ms_before_edit": {"p50": pct([r["ms"] for r in before], 50), "p99": pct([r["ms"] for r in before], 99)},
-        "ms_first_5s_after": {"p50": pct(first_5s, 50), "p95": pct(first_5s, 95), "p99": pct(first_5s, 99),
-                              "max": pct(first_5s, 100)},
+        "stale_at_end": any(r["version"] is not None and r["version"] < version for r in after if r["t"] >= end - 2),
+        "ms_first_5s": {"p50": pct(first_5s, 50), "p95": pct(first_5s, 95), "p99": pct(first_5s, 99),
+                        "max": pct(first_5s, 100)},
         "series": series,
     }
+
+
+def spread(values):
+    values = [v for v in values if v is not None]
+    if not values:
+        return None
+    return {"median": statistics.median(values), "min": min(values), "max": max(values)}
+
+
+def summarize(strategy, records, builds, edits, samples, start):
+    edits = sorted(edits, key=lambda e: e["t_edit"])
+    ends = [e["t_edit"] for e in edits[1:]] + [records[-1]["t"] + 1]
+    per_edit = [one_edit(records, builds, samples, e, end) for e, end in zip(edits, ends)]
+    before = [r["ms"] for r in records if start + 5 <= r["t"] < edits[0]["t_edit"]]
+    keys = ("rebuilds", "peak_parallel_rebuilds", "waited", "failed", "paid", "cold_window_s", "paid_ms_p50",
+            "paid_ms_max", "stale", "stale_window_s", "edit_ms", "rebuild_ms_p50", "db_active_peak", "db_xact")
+    return {"strategy": strategy, "edits": len(per_edit),
+            "ms_before_first_edit": {"p50": pct(before, 50), "p99": pct(before, 99)},
+            **{k: spread([e[k] for e in per_edit]) for k in keys},
+            "p99_first_5s": spread([e["ms_first_5s"]["p99"] for e in per_edit]),
+            "stale_stuck_edits": sum(e["stale_at_end"] for e in per_edit),
+            "per_edit": per_edit}
 
 
 def run_strategy(strategy, env):
@@ -237,10 +263,10 @@ def run_strategy(strategy, env):
     try:
         http("GET", "/menu")  # warm the cache once before the load starts
         http("GET", "/stats")
-        records, edit, samples, stop = [], {}, [], threading.Event()
+        records, edits, samples, stop = [], [], [], threading.Event()
         sampler = threading.Thread(target=sample_db, args=(env, stop, samples), daemon=True)
         sampler.start()
-        start = asyncio.run(run_load(records, edit))
+        start = asyncio.run(run_load(records, edits))
         stop.set()
         sampler.join()
         _, body = http("GET", "/stats")
@@ -248,7 +274,7 @@ def run_strategy(strategy, env):
     finally:
         stop_api(api)
     records.sort(key=lambda r: r["t"])
-    return summarize(strategy, records, builds, edit, samples, start)
+    return summarize(strategy, records, builds, edits, samples, start)
 
 
 def measure_build(env):
@@ -285,7 +311,8 @@ def main():
     try:
         with psycopg.connect(**pg_args(env)) as c:
             menu.seed(c)
-        result = {"settings": {"rps": RPS, "warm_s": WARM, "after_s": AFTER, "client_timeout_s": CLIENT_TIMEOUT,
+        result = {"settings": {"rps": RPS, "warm_s": WARM, "edits": EDITS, "every_s": EVERY,
+                               "client_timeout_s": CLIENT_TIMEOUT, "workers": int(os.environ.get("WORKERS", 4)),
                                "pool_max": int(os.environ.get("POOL_MAX", 20)), "pg_cpus": PG_CPUS,
                                "redis_cpus": REDIS_CPUS, "build": menu.BUILD, "items": menu.ITEMS, "stores": menu.STORES,
                                "pg_version": sh("docker", "exec", PG_NAME, "postgres", "--version").stdout.strip(),
@@ -296,18 +323,23 @@ def main():
         for s in strategies:
             summary = run_strategy(s, env)
             result["strategies"].append(summary)
-            print(json.dumps({k: v for k, v in summary.items() if k != "series"}, indent=1), flush=True)
+            print(json.dumps({k: v for k, v in summary.items() if k != "per_edit"}), flush=True)
     finally:
         stop_containers()
 
-    print(f"\n{'strategy':<14}{'rebuilds':>9}{'peak':>6}{'waited':>8}{'cold s':>8}{'wait p50':>10}{'wait max':>10}"
-          f"{'stale':>7}{'stale s':>9}{'failed':>8}{'p99 5s':>9}")
+    def cell(v):
+        if v is None:
+            return "-"
+        m = f"{v['median']:g}"
+        return m if v["min"] == v["max"] else f"{m} ({v['min']:g}-{v['max']:g})"
+
+    cols = ("rebuilds", "peak_parallel_rebuilds", "paid", "failed", "cold_window_s", "paid_ms_p50", "stale",
+            "stale_window_s")
+    print(f"\nmedian (min-max) over {EDITS} edits, build {menu.BUILD}, {RPS} reads/s")
+    heads = ("rebuilds", "at once", "paid", "failed", "cold s", "paid p50 ms", "stale", "stale s")
+    print("strategy".ljust(14) + "".join(h.ljust(24) for h in heads))
     for s in result["strategies"]:
-        failed = s["served_after_edit"]["error"] + s["served_after_edit"]["timeout"]
-        print(f"{s['strategy']:<14}{s['rebuilds_after_edit']:>9}{s['peak_parallel_rebuilds']:>6}"
-              f"{s['waited_for_rebuild']:>8}{s['cold_window_s']:>8}{str(s['waited_ms_p50']):>10}"
-              f"{str(s['waited_ms_max']):>10}{s['stale_responses']:>7}{s['stale_window_s']:>9}{failed:>8}"
-              f"{str(s['ms_first_5s_after']['p99']):>9}")
+        print(s["strategy"].ljust(14) + "".join(cell(s[c]).ljust(24) for c in cols))
     with open(OUT, "w") as f:
         json.dump(result, f, indent=1)
 
