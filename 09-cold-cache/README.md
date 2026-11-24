@@ -37,4 +37,4 @@ Counts (rebuilds, requests that waited) depend on the read rate and the build ti
 
 ## Results
 
-Pending: AWS EC2 t3.medium, eu-central-1, two runs per build.
+Pending: AWS EC2 t3.small, eu-central-1, two runs per build.

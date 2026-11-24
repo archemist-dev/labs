@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run the cold-cache lab on a fresh Ubuntu LTS VM (t3.medium): both builds, every strategy, twice, and print the machine.
+# Run the cold-cache lab on a fresh Ubuntu LTS VM (t3.small): both builds, every strategy, twice, and print the machine.
 # Usage on the VM: curl -fsSL https://raw.githubusercontent.com/archemist-dev/labs/main/09-cold-cache/run-on-vm.sh | bash
 # Or copy the folder to the VM and run ./run-on-vm.sh inside it (uses the local copy, no clone).
 set -euo pipefail
