@@ -1,0 +1,1928 @@
+{
+ "settings": {
+  "rps": 200,
+  "warm_s": 20,
+  "edits": 10,
+  "every_s": 20,
+  "client_timeout_s": 10.0,
+  "workers": 4,
+  "pool_max": 20,
+  "pg_cpus": "1",
+  "redis_cpus": "0.5",
+  "build": "batched",
+  "items": 220,
+  "stores": 50,
+  "pg_version": "postgres (PostgreSQL) 18.7 (Debian 18.7-1.pgdg13+5)",
+  "redis_version": "v=8.12.0"
+ },
+ "build_alone": {
+  "build_ms_p50": 34.5,
+  "build_ms_min": 32.0,
+  "build_ms_max": 51.8,
+  "menu_json_bytes": 356101,
+  "menu_gzip_bytes": 23418
+ },
+ "strategies": [
+  {
+   "strategy": "delete",
+   "edits": 10,
+   "ms_before_first_edit": {
+    "p50": 2.1,
+    "p99": 14.0
+   },
+   "rebuilds": {
+    "median": 38.5,
+    "min": 32,
+    "max": 77
+   },
+   "peak_parallel_rebuilds": {
+    "median": 37.5,
+    "min": 31,
+    "max": 76
+   },
+   "building_at_once": {
+    "median": 20.0,
+    "min": 18,
+    "max": 20
+   },
+   "waited": {
+    "median": 38.5,
+    "min": 32,
+    "max": 77
+   },
+   "failed": {
+    "median": 0.0,
+    "min": 0,
+    "max": 0
+   },
+   "paid": {
+    "median": 38.5,
+    "min": 32,
+    "max": 77
+   },
+   "cold_window_s": {
+    "median": 1.465,
+    "min": 1.21,
+    "max": 3.11
+   },
+   "paid_ms_p50": {
+    "median": 889.6,
+    "min": 716.6,
+    "max": 1669.2
+   },
+   "paid_ms_max": {
+    "median": 1296.15,
+    "min": 1045.8,
+    "max": 2812.4
+   },
+   "stale": {
+    "median": 0.0,
+    "min": 0,
+    "max": 1
+   },
+   "stale_window_s": {
+    "median": 0.0,
+    "min": 0.0,
+    "max": 0.0
+   },
+   "edit_ms": {
+    "median": 4.2,
+    "min": 3.2,
+    "max": 5.6
+   },
+   "rebuild_ms_p50": {
+    "median": 845.45,
+    "min": 652.4,
+    "max": 1595.4
+   },
+   "db_active_peak": {
+    "median": 15.0,
+    "min": 11,
+    "max": 17
+   },
+   "db_xact": {
+    "median": 3476.0,
+    "min": 3240,
+    "max": 3527
+   },
+   "p99_first_5s": {
+    "median": 1152.4,
+    "min": 849.2,
+    "max": 2554.5
+   },
+   "stale_stuck_edits": 0,
+   "per_edit": [
+    {
+     "edit_ms": 5.4,
+     "rebuilds": 77,
+     "rebuilds_by_kind": {
+      "reader": 77,
+      "background": 0,
+      "publish": 0
+     },
+     "peak_parallel_rebuilds": 76,
+     "building_at_once": 20,
+     "rebuild_ms_p50": 1595.4,
+     "rebuild_ms_max": 2800.9,
+     "db_active_peak": 12,
+     "db_xact": 3240,
+     "requests": 4000,
+     "served": {
+      "hit": 3923,
+      "miss": 77,
+      "wait": 0,
+      "stale": 0,
+      "error": 0,
+      "timeout": 0
+     },
+     "waited": 77,
+     "failed": 0,
+     "paid": 77,
+     "cold_window_s": 3.11,
+     "paid_ms_p50": 1669.2,
+     "paid_ms_max": 2812.4,
+     "stale": 1,
+     "stale_window_s": 0.0,
+     "stale_at_end": false,
+     "ms_first_5s": {
+      "p50": 13.4,
+      "p95": 1538.5,
+      "p99": 2554.5,
+      "max": 2812.4
+     },
+     "series": [
+      {
+       "s": -2,
+       "requests": 200,
+       "p99_ms": 3.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": -1,
+       "requests": 200,
+       "p99_ms": 2.9,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 0,
+       "requests": 200,
+       "p99_ms": 2810.8,
+       "waited": 77,
+       "stale": 1,
+       "failed": 0,
+       "builds_running": 77,
+       "db_active_max": 12
+      },
+      {
+       "s": 1,
+       "requests": 200,
+       "p99_ms": 573.8,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 64,
+       "db_active_max": 10
+      },
+      {
+       "s": 2,
+       "requests": 200,
+       "p99_ms": 110.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 35,
+       "db_active_max": 5
+      },
+      {
+       "s": 3,
+       "requests": 200,
+       "p99_ms": 13.9,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 4,
+       "db_active_max": 3
+      },
+      {
+       "s": 4,
+       "requests": 200,
+       "p99_ms": 72.6,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 5,
+       "requests": 200,
+       "p99_ms": 58.8,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 6,
+       "requests": 200,
+       "p99_ms": 345.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 7,
+       "requests": 200,
+       "p99_ms": 238.9,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 8,
+       "requests": 200,
+       "p99_ms": 8.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 9,
+       "requests": 200,
+       "p99_ms": 3.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 10,
+       "requests": 200,
+       "p99_ms": 3.4,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 11,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      }
+     ]
+    },
+    {
+     "edit_ms": 4.2,
+     "rebuilds": 54,
+     "rebuilds_by_kind": {
+      "reader": 54,
+      "background": 0,
+      "publish": 0
+     },
+     "peak_parallel_rebuilds": 53,
+     "building_at_once": 20,
+     "rebuild_ms_p50": 1100.8,
+     "rebuild_ms_max": 1846.4,
+     "db_active_peak": 14,
+     "db_xact": 3511,
+     "requests": 4000,
+     "served": {
+      "hit": 3946,
+      "miss": 54,
+      "wait": 0,
+      "stale": 0,
+      "error": 0,
+      "timeout": 0
+     },
+     "waited": 54,
+     "failed": 0,
+     "paid": 54,
+     "cold_window_s": 2.11,
+     "paid_ms_p50": 1177.9,
+     "paid_ms_max": 1862.8,
+     "stale": 0,
+     "stale_window_s": 0,
+     "stale_at_end": false,
+     "ms_first_5s": {
+      "p50": 2.6,
+      "p95": 587.1,
+      "p99": 1620.0,
+      "max": 1862.8
+     },
+     "series": [
+      {
+       "s": -2,
+       "requests": 200,
+       "p99_ms": 2.9,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": -1,
+       "requests": 200,
+       "p99_ms": 12.8,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 0,
+       "requests": 200,
+       "p99_ms": 1836.1,
+       "waited": 54,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 54,
+       "db_active_max": 14
+      },
+      {
+       "s": 1,
+       "requests": 200,
+       "p99_ms": 387.5,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 36,
+       "db_active_max": 4
+      },
+      {
+       "s": 2,
+       "requests": 200,
+       "p99_ms": 26.6,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 3,
+       "db_active_max": 3
+      },
+      {
+       "s": 3,
+       "requests": 200,
+       "p99_ms": 3.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 4,
+       "requests": 200,
+       "p99_ms": 3.5,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 5,
+       "requests": 200,
+       "p99_ms": 8.6,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 6,
+       "requests": 200,
+       "p99_ms": 5.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 7,
+       "requests": 200,
+       "p99_ms": 3.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 8,
+       "requests": 200,
+       "p99_ms": 18.7,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 9,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 10,
+       "requests": 200,
+       "p99_ms": 3.7,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 11,
+       "requests": 200,
+       "p99_ms": 3.7,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      }
+     ]
+    },
+    {
+     "edit_ms": 4.2,
+     "rebuilds": 34,
+     "rebuilds_by_kind": {
+      "reader": 34,
+      "background": 0,
+      "publish": 0
+     },
+     "peak_parallel_rebuilds": 33,
+     "building_at_once": 18,
+     "rebuild_ms_p50": 755.1,
+     "rebuild_ms_max": 1150.1,
+     "db_active_peak": 17,
+     "db_xact": 3352,
+     "requests": 4000,
+     "served": {
+      "hit": 3966,
+      "miss": 34,
+      "wait": 0,
+      "stale": 0,
+      "error": 0,
+      "timeout": 0
+     },
+     "waited": 34,
+     "failed": 0,
+     "paid": 34,
+     "cold_window_s": 1.32,
+     "paid_ms_p50": 796.3,
+     "paid_ms_max": 1180.0,
+     "stale": 0,
+     "stale_window_s": 0,
+     "stale_at_end": false,
+     "ms_first_5s": {
+      "p50": 2.3,
+      "p95": 135.6,
+      "p99": 982.6,
+      "max": 1180.0
+     },
+     "series": [
+      {
+       "s": -2,
+       "requests": 200,
+       "p99_ms": 3.6,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": -1,
+       "requests": 200,
+       "p99_ms": 3.8,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 0,
+       "requests": 200,
+       "p99_ms": 1154.8,
+       "waited": 34,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 34,
+       "db_active_max": 17
+      },
+      {
+       "s": 1,
+       "requests": 200,
+       "p99_ms": 37.8,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 14,
+       "db_active_max": 2
+      },
+      {
+       "s": 2,
+       "requests": 200,
+       "p99_ms": 4.7,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 3,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 4,
+       "requests": 200,
+       "p99_ms": 3.4,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 5,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 6,
+       "requests": 200,
+       "p99_ms": 8.6,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 7,
+       "requests": 200,
+       "p99_ms": 3.7,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 8,
+       "requests": 200,
+       "p99_ms": 3.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 9,
+       "requests": 200,
+       "p99_ms": 13.5,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 10,
+       "requests": 200,
+       "p99_ms": 4.6,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 11,
+       "requests": 200,
+       "p99_ms": 3.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      }
+     ]
+    },
+    {
+     "edit_ms": 5.6,
+     "rebuilds": 42,
+     "rebuilds_by_kind": {
+      "reader": 42,
+      "background": 0,
+      "publish": 0
+     },
+     "peak_parallel_rebuilds": 41,
+     "building_at_once": 18,
+     "rebuild_ms_p50": 913.2,
+     "rebuild_ms_max": 1402.0,
+     "db_active_peak": 15,
+     "db_xact": 3441,
+     "requests": 4000,
+     "served": {
+      "hit": 3958,
+      "miss": 42,
+      "wait": 0,
+      "stale": 0,
+      "error": 0,
+      "timeout": 0
+     },
+     "waited": 42,
+     "failed": 0,
+     "paid": 42,
+     "cold_window_s": 1.61,
+     "paid_ms_p50": 958.6,
+     "paid_ms_max": 1412.3,
+     "stale": 0,
+     "stale_window_s": 0,
+     "stale_at_end": false,
+     "ms_first_5s": {
+      "p50": 2.4,
+      "p95": 182.5,
+      "p99": 1275.6,
+      "max": 1412.3
+     },
+     "series": [
+      {
+       "s": -2,
+       "requests": 200,
+       "p99_ms": 3.8,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": -1,
+       "requests": 200,
+       "p99_ms": 6.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 0,
+       "requests": 200,
+       "p99_ms": 1407.8,
+       "waited": 42,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 42,
+       "db_active_max": 15
+      },
+      {
+       "s": 1,
+       "requests": 200,
+       "p99_ms": 100.5,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 21,
+       "db_active_max": 2
+      },
+      {
+       "s": 2,
+       "requests": 200,
+       "p99_ms": 2.9,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 3,
+       "requests": 200,
+       "p99_ms": 3.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 4,
+       "requests": 200,
+       "p99_ms": 69.9,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 5,
+       "requests": 200,
+       "p99_ms": 29.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 6,
+       "requests": 200,
+       "p99_ms": 26.4,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 7,
+       "requests": 200,
+       "p99_ms": 142.4,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 8,
+       "requests": 200,
+       "p99_ms": 6.4,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 9,
+       "requests": 200,
+       "p99_ms": 3.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 10,
+       "requests": 200,
+       "p99_ms": 13.5,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 11,
+       "requests": 200,
+       "p99_ms": 3.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      }
+     ]
+    },
+    {
+     "edit_ms": 3.6,
+     "rebuilds": 33,
+     "rebuilds_by_kind": {
+      "reader": 33,
+      "background": 0,
+      "publish": 0
+     },
+     "peak_parallel_rebuilds": 33,
+     "building_at_once": 20,
+     "rebuild_ms_p50": 737.1,
+     "rebuild_ms_max": 1078.1,
+     "db_active_peak": 15,
+     "db_xact": 3527,
+     "requests": 4000,
+     "served": {
+      "hit": 3967,
+      "miss": 33,
+      "wait": 0,
+      "stale": 0,
+      "error": 0,
+      "timeout": 0
+     },
+     "waited": 33,
+     "failed": 0,
+     "paid": 33,
+     "cold_window_s": 1.26,
+     "paid_ms_p50": 797.9,
+     "paid_ms_max": 1113.1,
+     "stale": 0,
+     "stale_window_s": 0,
+     "stale_at_end": false,
+     "ms_first_5s": {
+      "p50": 2.3,
+      "p95": 150.4,
+      "p99": 892.9,
+      "max": 1113.1
+     },
+     "series": [
+      {
+       "s": -2,
+       "requests": 200,
+       "p99_ms": 2.9,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": -1,
+       "requests": 200,
+       "p99_ms": 14.4,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 0,
+       "requests": 200,
+       "p99_ms": 1084.3,
+       "waited": 33,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 33,
+       "db_active_max": 15
+      },
+      {
+       "s": 1,
+       "requests": 200,
+       "p99_ms": 38.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 10,
+       "db_active_max": 2
+      },
+      {
+       "s": 2,
+       "requests": 200,
+       "p99_ms": 3.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 3,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 4,
+       "requests": 200,
+       "p99_ms": 3.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 5,
+       "requests": 200,
+       "p99_ms": 3.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 6,
+       "requests": 200,
+       "p99_ms": 3.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 7,
+       "requests": 200,
+       "p99_ms": 3.9,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 8,
+       "requests": 200,
+       "p99_ms": 4.5,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 9,
+       "requests": 200,
+       "p99_ms": 3.6,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 10,
+       "requests": 200,
+       "p99_ms": 3.6,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 11,
+       "requests": 200,
+       "p99_ms": 3.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      }
+     ]
+    },
+    {
+     "edit_ms": 4.1,
+     "rebuilds": 35,
+     "rebuilds_by_kind": {
+      "reader": 35,
+      "background": 0,
+      "publish": 0
+     },
+     "peak_parallel_rebuilds": 34,
+     "building_at_once": 19,
+     "rebuild_ms_p50": 726.4,
+     "rebuild_ms_max": 1113.6,
+     "db_active_peak": 16,
+     "db_xact": 3517,
+     "requests": 4000,
+     "served": {
+      "hit": 3965,
+      "miss": 35,
+      "wait": 0,
+      "stale": 0,
+      "error": 0,
+      "timeout": 0
+     },
+     "waited": 35,
+     "failed": 0,
+     "paid": 35,
+     "cold_window_s": 1.29,
+     "paid_ms_p50": 799.4,
+     "paid_ms_max": 1134.4,
+     "stale": 0,
+     "stale_window_s": 0,
+     "stale_at_end": false,
+     "ms_first_5s": {
+      "p50": 2.3,
+      "p95": 120.3,
+      "p99": 1029.2,
+      "max": 1134.4
+     },
+     "series": [
+      {
+       "s": -2,
+       "requests": 200,
+       "p99_ms": 3.7,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": -1,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 0,
+       "requests": 200,
+       "p99_ms": 1132.2,
+       "waited": 35,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 35,
+       "db_active_max": 16
+      },
+      {
+       "s": 1,
+       "requests": 200,
+       "p99_ms": 46.4,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 15,
+       "db_active_max": 3
+      },
+      {
+       "s": 2,
+       "requests": 200,
+       "p99_ms": 3.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 3,
+       "requests": 200,
+       "p99_ms": 3.4,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 4,
+       "requests": 200,
+       "p99_ms": 3.5,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 5,
+       "requests": 200,
+       "p99_ms": 3.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 6,
+       "requests": 200,
+       "p99_ms": 17.4,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 7,
+       "requests": 200,
+       "p99_ms": 11.9,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 8,
+       "requests": 200,
+       "p99_ms": 3.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 9,
+       "requests": 200,
+       "p99_ms": 14.4,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 10,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 11,
+       "requests": 200,
+       "p99_ms": 3.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      }
+     ]
+    },
+    {
+     "edit_ms": 4.8,
+     "rebuilds": 51,
+     "rebuilds_by_kind": {
+      "reader": 51,
+      "background": 0,
+      "publish": 0
+     },
+     "peak_parallel_rebuilds": 50,
+     "building_at_once": 20,
+     "rebuild_ms_p50": 973.0,
+     "rebuild_ms_max": 1640.0,
+     "db_active_peak": 11,
+     "db_xact": 3337,
+     "requests": 4000,
+     "served": {
+      "hit": 3949,
+      "miss": 51,
+      "wait": 0,
+      "stale": 0,
+      "error": 0,
+      "timeout": 0
+     },
+     "waited": 51,
+     "failed": 0,
+     "paid": 51,
+     "cold_window_s": 1.87,
+     "paid_ms_p50": 1038.1,
+     "paid_ms_max": 1658.5,
+     "stale": 1,
+     "stale_window_s": 0.0,
+     "stale_at_end": false,
+     "ms_first_5s": {
+      "p50": 2.5,
+      "p95": 470.2,
+      "p99": 1469.4,
+      "max": 1658.5
+     },
+     "series": [
+      {
+       "s": -2,
+       "requests": 200,
+       "p99_ms": 3.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": -1,
+       "requests": 200,
+       "p99_ms": 3.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 0,
+       "requests": 200,
+       "p99_ms": 1656.8,
+       "waited": 51,
+       "stale": 1,
+       "failed": 0,
+       "builds_running": 51,
+       "db_active_max": 11
+      },
+      {
+       "s": 1,
+       "requests": 200,
+       "p99_ms": 154.7,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 30,
+       "db_active_max": 4
+      },
+      {
+       "s": 2,
+       "requests": 200,
+       "p99_ms": 2.9,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 3,
+       "requests": 200,
+       "p99_ms": 3.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 4,
+       "requests": 200,
+       "p99_ms": 142.9,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 5,
+       "requests": 200,
+       "p99_ms": 23.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 6,
+       "requests": 200,
+       "p99_ms": 208.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 7,
+       "requests": 200,
+       "p99_ms": 165.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 8,
+       "requests": 200,
+       "p99_ms": 13.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 9,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 10,
+       "requests": 200,
+       "p99_ms": 3.5,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 11,
+       "requests": 200,
+       "p99_ms": 3.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      }
+     ]
+    },
+    {
+     "edit_ms": 4.6,
+     "rebuilds": 61,
+     "rebuilds_by_kind": {
+      "reader": 61,
+      "background": 0,
+      "publish": 0
+     },
+     "peak_parallel_rebuilds": 59,
+     "building_at_once": 20,
+     "rebuild_ms_p50": 1118.2,
+     "rebuild_ms_max": 2019.9,
+     "db_active_peak": 12,
+     "db_xact": 3527,
+     "requests": 4000,
+     "served": {
+      "hit": 3939,
+      "miss": 61,
+      "wait": 0,
+      "stale": 0,
+      "error": 0,
+      "timeout": 0
+     },
+     "waited": 61,
+     "failed": 0,
+     "paid": 61,
+     "cold_window_s": 2.27,
+     "paid_ms_p50": 1178.8,
+     "paid_ms_max": 2043.8,
+     "stale": 1,
+     "stale_window_s": 0.0,
+     "stale_at_end": false,
+     "ms_first_5s": {
+      "p50": 2.6,
+      "p95": 755.6,
+      "p99": 1832.8,
+      "max": 2043.8
+     },
+     "series": [
+      {
+       "s": -2,
+       "requests": 200,
+       "p99_ms": 3.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": -1,
+       "requests": 200,
+       "p99_ms": 6.8,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 0,
+       "requests": 200,
+       "p99_ms": 2029.2,
+       "waited": 61,
+       "stale": 1,
+       "failed": 0,
+       "builds_running": 61,
+       "db_active_max": 12
+      },
+      {
+       "s": 1,
+       "requests": 200,
+       "p99_ms": 160.5,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 41,
+       "db_active_max": 3
+      },
+      {
+       "s": 2,
+       "requests": 200,
+       "p99_ms": 16.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 8,
+       "db_active_max": 3
+      },
+      {
+       "s": 3,
+       "requests": 200,
+       "p99_ms": 3.5,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 4,
+       "requests": 200,
+       "p99_ms": 6.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 5,
+       "requests": 200,
+       "p99_ms": 3.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 6,
+       "requests": 200,
+       "p99_ms": 3.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 7,
+       "requests": 200,
+       "p99_ms": 3.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 8,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 9,
+       "requests": 200,
+       "p99_ms": 3.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 10,
+       "requests": 200,
+       "p99_ms": 3.6,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 11,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      }
+     ]
+    },
+    {
+     "edit_ms": 3.2,
+     "rebuilds": 33,
+     "rebuilds_by_kind": {
+      "reader": 33,
+      "background": 0,
+      "publish": 0
+     },
+     "peak_parallel_rebuilds": 33,
+     "building_at_once": 20,
+     "rebuild_ms_p50": 777.7,
+     "rebuild_ms_max": 1070.1,
+     "db_active_peak": 17,
+     "db_xact": 3522,
+     "requests": 4000,
+     "served": {
+      "hit": 3967,
+      "miss": 33,
+      "wait": 0,
+      "stale": 0,
+      "error": 0,
+      "timeout": 0
+     },
+     "waited": 33,
+     "failed": 0,
+     "paid": 33,
+     "cold_window_s": 1.24,
+     "paid_ms_p50": 820.6,
+     "paid_ms_max": 1098.1,
+     "stale": 0,
+     "stale_window_s": 0,
+     "stale_at_end": false,
+     "ms_first_5s": {
+      "p50": 2.3,
+      "p95": 237.0,
+      "p99": 896.3,
+      "max": 1098.1
+     },
+     "series": [
+      {
+       "s": -2,
+       "requests": 200,
+       "p99_ms": 3.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": -1,
+       "requests": 200,
+       "p99_ms": 3.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 0,
+       "requests": 200,
+       "p99_ms": 1078.3,
+       "waited": 33,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 33,
+       "db_active_max": 17
+      },
+      {
+       "s": 1,
+       "requests": 200,
+       "p99_ms": 36.7,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 10,
+       "db_active_max": 2
+      },
+      {
+       "s": 2,
+       "requests": 200,
+       "p99_ms": 2.9,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 3,
+       "requests": 200,
+       "p99_ms": 3.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 4,
+       "requests": 200,
+       "p99_ms": 3.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 5,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 6,
+       "requests": 200,
+       "p99_ms": 13.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 7,
+       "requests": 200,
+       "p99_ms": 8.6,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 8,
+       "requests": 200,
+       "p99_ms": 3.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 9,
+       "requests": 200,
+       "p99_ms": 19.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 10,
+       "requests": 200,
+       "p99_ms": 3.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 11,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      }
+     ]
+    },
+    {
+     "edit_ms": 3.3,
+     "rebuilds": 32,
+     "rebuilds_by_kind": {
+      "reader": 32,
+      "background": 0,
+      "publish": 0
+     },
+     "peak_parallel_rebuilds": 31,
+     "building_at_once": 20,
+     "rebuild_ms_p50": 652.4,
+     "rebuild_ms_max": 1039.4,
+     "db_active_peak": 15,
+     "db_xact": 3330,
+     "requests": 4000,
+     "served": {
+      "hit": 3968,
+      "miss": 32,
+      "wait": 0,
+      "stale": 0,
+      "error": 0,
+      "timeout": 0
+     },
+     "waited": 32,
+     "failed": 0,
+     "paid": 32,
+     "cold_window_s": 1.21,
+     "paid_ms_p50": 716.6,
+     "paid_ms_max": 1045.8,
+     "stale": 0,
+     "stale_window_s": 0,
+     "stale_at_end": false,
+     "ms_first_5s": {
+      "p50": 3.1,
+      "p95": 144.3,
+      "p99": 849.2,
+      "max": 1045.8
+     },
+     "series": [
+      {
+       "s": -2,
+       "requests": 200,
+       "p99_ms": 4.6,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": -1,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 0,
+       "requests": 200,
+       "p99_ms": 1033.9,
+       "waited": 32,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 32,
+       "db_active_max": 15
+      },
+      {
+       "s": 1,
+       "requests": 200,
+       "p99_ms": 21.6,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 8,
+       "db_active_max": 1
+      },
+      {
+       "s": 2,
+       "requests": 200,
+       "p99_ms": 12.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 3,
+       "requests": 200,
+       "p99_ms": 6.7,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 4,
+       "requests": 200,
+       "p99_ms": 98.8,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 5,
+       "requests": 200,
+       "p99_ms": 80.9,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 6,
+       "requests": 200,
+       "p99_ms": 113.8,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 7,
+       "requests": 200,
+       "p99_ms": 62.6,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 8,
+       "requests": 200,
+       "p99_ms": 3.1,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 9,
+       "requests": 200,
+       "p99_ms": 7.0,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 10,
+       "requests": 200,
+       "p99_ms": 3.3,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      },
+      {
+       "s": 11,
+       "requests": 200,
+       "p99_ms": 3.2,
+       "waited": 0,
+       "stale": 0,
+       "failed": 0,
+       "builds_running": 0,
+       "db_active_max": 0
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

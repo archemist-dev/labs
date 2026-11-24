@@ -1,0 +1,64 @@
+== build batched, delete, 10 edits, run 1
+sudo: preserving the entire environment is not supported, '-E' is ignored
+{
+ "settings": {
+  "rps": 200,
+  "warm_s": 20,
+  "edits": 10,
+  "every_s": 20,
+  "client_timeout_s": 10.0,
+  "workers": 4,
+  "pool_max": 20,
+  "pg_cpus": "1",
+  "redis_cpus": "0.5",
+  "build": "batched",
+  "items": 220,
+  "stores": 50,
+  "pg_version": "postgres (PostgreSQL) 18.7 (Debian 18.7-1.pgdg13+5)",
+  "redis_version": "v=8.12.0"
+ },
+ "build_alone": {
+  "build_ms_p50": 34.4,
+  "build_ms_min": 31.9,
+  "build_ms_max": 51.6,
+  "menu_json_bytes": 356101,
+  "menu_gzip_bytes": 23418
+ }
+}
+{"strategy": "delete", "edits": 10, "ms_before_first_edit": {"p50": 2.3, "p99": 137.1}, "rebuilds": {"median": 39.0, "min": 32, "max": 65}, "peak_parallel_rebuilds": {"median": 38.0, "min": 31, "max": 64}, "building_at_once": {"median": 19.0, "min": 18, "max": 20}, "waited": {"median": 39.0, "min": 32, "max": 65}, "failed": {"median": 0.0, "min": 0, "max": 0}, "paid": {"median": 39.0, "min": 32, "max": 65}, "cold_window_s": {"median": 1.5150000000000001, "min": 1.2, "max": 2.72}, "paid_ms_p50": {"median": 951.0, "min": 832.3, "max": 1538.7}, "paid_ms_max": {"median": 1370.6, "min": 1051.7, "max": 2417.8}, "stale": {"median": 0.0, "min": 0, "max": 1}, "stale_window_s": {"median": 0.0, "min": 0.0, "max": 0.0}, "edit_ms": {"median": 3.8499999999999996, "min": 3.3, "max": 6.5}, "rebuild_ms_p50": {"median": 892.7, "min": 742.5, "max": 1505.9}, "db_active_peak": {"median": 16.0, "min": 10, "max": 17}, "db_xact": {"median": 3481.0, "min": 3345, "max": 3524}, "p99_first_5s": {"median": 1225.1, "min": 924.5, "max": 2199.3}, "stale_stuck_edits": 0}
+
+median (min-max) over 10 edits, build batched, 200 reads/s
+strategy      rebuilds                at once                 paid                    failed                  cold s                  paid p50 ms             stale                   stale s                 
+delete        39 (32-65)              38 (31-64)              39 (32-65)              0                       1.515 (1.2-2.72)        951 (832.3-1538.7)      0 (0-1)                 0                       
+== build batched, delete, 10 edits, run 2
+sudo: preserving the entire environment is not supported, '-E' is ignored
+{
+ "settings": {
+  "rps": 200,
+  "warm_s": 20,
+  "edits": 10,
+  "every_s": 20,
+  "client_timeout_s": 10.0,
+  "workers": 4,
+  "pool_max": 20,
+  "pg_cpus": "1",
+  "redis_cpus": "0.5",
+  "build": "batched",
+  "items": 220,
+  "stores": 50,
+  "pg_version": "postgres (PostgreSQL) 18.7 (Debian 18.7-1.pgdg13+5)",
+  "redis_version": "v=8.12.0"
+ },
+ "build_alone": {
+  "build_ms_p50": 34.5,
+  "build_ms_min": 32.0,
+  "build_ms_max": 51.8,
+  "menu_json_bytes": 356101,
+  "menu_gzip_bytes": 23418
+ }
+}
+{"strategy": "delete", "edits": 10, "ms_before_first_edit": {"p50": 2.1, "p99": 14.0}, "rebuilds": {"median": 38.5, "min": 32, "max": 77}, "peak_parallel_rebuilds": {"median": 37.5, "min": 31, "max": 76}, "building_at_once": {"median": 20.0, "min": 18, "max": 20}, "waited": {"median": 38.5, "min": 32, "max": 77}, "failed": {"median": 0.0, "min": 0, "max": 0}, "paid": {"median": 38.5, "min": 32, "max": 77}, "cold_window_s": {"median": 1.465, "min": 1.21, "max": 3.11}, "paid_ms_p50": {"median": 889.6, "min": 716.6, "max": 1669.2}, "paid_ms_max": {"median": 1296.15, "min": 1045.8, "max": 2812.4}, "stale": {"median": 0.0, "min": 0, "max": 1}, "stale_window_s": {"median": 0.0, "min": 0.0, "max": 0.0}, "edit_ms": {"median": 4.2, "min": 3.2, "max": 5.6}, "rebuild_ms_p50": {"median": 845.45, "min": 652.4, "max": 1595.4}, "db_active_peak": {"median": 15.0, "min": 11, "max": 17}, "db_xact": {"median": 3476.0, "min": 3240, "max": 3527}, "p99_first_5s": {"median": 1152.4, "min": 849.2, "max": 2554.5}, "stale_stuck_edits": 0}
+
+median (min-max) over 10 edits, build batched, 200 reads/s
+strategy      rebuilds                at once                 paid                    failed                  cold s                  paid p50 ms             stale                   stale s                 
+delete        38.5 (32-77)            37.5 (31-76)            38.5 (32-77)            0                       1.465 (1.21-3.11)       889.6 (716.6-1669.2)    0 (0-1)                 0                       
