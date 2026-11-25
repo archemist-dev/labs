@@ -146,109 +146,128 @@ def span(lo, hi, fmt="{:,.0f}"):
     return fmt.format(lo) if lo == hi else f"{fmt.format(lo)}–{fmt.format(hi)}"
 
 
+def cyl(x, y, w, h, stroke, fill=PANEL, label=None, size=26):
+    """A database drawn as a cylinder."""
+    ry = h * 0.14
+    out = (f'<path d="M{x},{y + ry} v{h - 2 * ry} a{w / 2},{ry} 0 0 0 {w},0 v{-(h - 2 * ry)}" fill="{fill}" '
+           f'stroke="{stroke}" stroke-width="4"/>'
+           f'<ellipse cx="{x + w / 2}" cy="{y + ry}" rx="{w / 2}" ry="{ry}" fill="{fill}" stroke="{stroke}" '
+           f'stroke-width="4"/>')
+    if label:
+        out += text(x + w / 2, y + h / 2 + ry + size * 0.36, label, size, FG, MONO, 800, "middle")
+    return out
+
+
 def stampede(data):
-    """One edit, second by second: requests served from cache, waited for a rebuild, or failed."""
+    """One edit as a chain: key deleted, readers find it empty, all build the same menu, connections run out."""
     e = data["edit"]
-    series = e["series"]
-    x0, base, bw, gap, top = 200, 730, 72, 22, 420
-    h = base - top
-    per = h / data["rps"]
-    b = [line(x0 - 20, base, x0 + len(series) * (bw + gap), base, GRAY, 3)]
-    for i, r in enumerate(series):
-        x = x0 + i * (bw + gap)
-        failed, waited = r["failed"], r["waited"]
-        served = r["requests"] - failed - waited
-        y = base
-        for n, kind in ((served, "served"), (waited, "waited"), (failed, "failed")):
-            if n <= 0:
-                continue
-            hh = n * per
-            y -= hh
-            if kind == "served":
-                b.append(rect(x, y, bw, hh, GRAY, rx=6))
-            elif kind == "waited":
-                b.append(rect(x + 2, y + 2, bw - 4, hh - 4, "none", RED, rx=6, dash="7 6", sw=3))
-            else:
-                b.append(rect(x, y, bw, hh, RED, rx=6))
-        b.append(text(x + bw / 2, base + 36, f'{r["s"]:+d}' if r["s"] else "0", 24, MUTED, MONO, 400, "middle"))
-    ex = x0 + 2 * (bw + gap) - gap / 2
-    b += [line(ex, top - 110, ex, base + 10, FG, 4, "12 9"),
-          text(ex - 14, top - 80, "menu edited", 30, FG, MONO, 800, "end"),
-          text(ex + 14, top - 80, f'{e["rebuilds"]} readers rebuild the same menu', 30, RED, MONO, 800),
-          text(ex + 14, top - 40, f'all {data["pool"]} database connections busy · the rest fail after 5 s', 24,
-               LIGHT, MONO, 400)]
-    ly = base + 96
-    lx = 560
-    b += [rect(lx, ly - 24, 40, 28, GRAY, rx=4), text(lx + 56, ly, "from the cache", 26, LIGHT, MONO, 400),
-          rect(lx + 330, ly - 24, 40, 28, "none", RED, rx=4, dash="6 5", sw=3),
-          text(lx + 386, ly, "waited for a rebuild", 26, LIGHT, MONO, 400),
-          rect(lx + 760, ly - 24, 40, 28, RED, rx=4), text(lx + 816, ly, "failed", 26, LIGHT, MONO, 400)]
-    return frame("Ten seconds after one edit",
-                 f'menu requests per second around the edit · {data["rps"]}/s · build '
-                 f'{data["build_orm"]:.0f} ms', "".join(b))
+    f_lo, f_hi = both(data, "orm", "delete", "failed")
+    c_lo, c_hi = both(data, "orm", "delete", "cold_window_s")
+    pool = data["pool"]
+    top, bh = 300, 230
+    b = []
+    # 1. the edit
+    b += [rect(80, top, 250, bh, PANEL, GRAY, rx=16, sw=3),
+          text(205, top + 105, "menu", 40, FG, SANS, 800, "middle"),
+          text(205, top + 150, "edited", 40, FG, SANS, 800, "middle"),
+          text(205, top + bh + 40, "one price", 24, MUTED, MONO, 400, "middle"),
+          arrow(345, top + bh / 2, 415, top + bh / 2, LIGHT)]
+    # 2. the cache, now empty
+    b += [rect(430, top, 250, bh, "none", RED, rx=16, dash="14 10", sw=4),
+          text(555, top + 105, "cache", 40, FG, SANS, 800, "middle"),
+          text(555, top + 150, "empty", 40, RED, SANS, 800, "middle"),
+          text(555, top + bh + 40, "the key was deleted", 24, MUTED, MONO, 400, "middle"),
+          arrow(695, top + bh / 2, 765, top + bh / 2, RED)]
+    # 3. the readers who rebuild: one square each
+    b += [rect(780, top, 380, bh, PANEL, RED, rx=16, sw=3),
+          text(970, top + 58, f'{e["rebuilds"]} readers', 40, RED, MONO, 800, "middle")]
+    cols, cell, gap = 14, 18, 6
+    gx = 970 - (cols * (cell + gap) - gap) / 2
+    for k in range(e["rebuilds"]):
+        b.append(rect(gx + (k % cols) * (cell + gap), top + 90 + (k // cols) * (cell + gap), cell, cell, RED, rx=4))
+    b += [text(970, top + bh - 28, "each builds the same menu", 24, LIGHT, MONO, 400, "middle"),
+          text(970, top + bh + 40, f'{data["rps"]} readers/s find it empty', 24, MUTED, MONO, 400, "middle"),
+          arrow(1175, top + bh / 2, 1245, top + bh / 2, RED)]
+    # 4. the database: every connection taken
+    b.append(cyl(1260, top - 10, 260, bh + 20, RED))
+    cell, gap = 34, 10
+    for k in range(pool):
+        b.append(rect(1300 + (k % 5) * (cell + gap), top + 50 + (k // 5) * (cell + gap), cell, cell, RED, rx=5))
+    b += [text(1390, top + bh + 40, f"{pool} of {pool} connections busy", 24, MUTED, MONO, 400, "middle")]
+    # 5. everyone else
+    y2 = top + bh + 120
+    b += [text(780, y2, "everyone else waits 5 s for a connection, then fails", 24, LIGHT, MONO, 700),
+          text(780, y2 + 70, f"{span(f_lo, f_hi)} readers failed", 52, RED, MONO, 800)]
+    # 6. how long it lasted
+    b += [rect(80, y2 - 30, 600, 56, RED, rx=10),
+          text(380, y2 + 8, f"{span(c_lo, c_hi, '{:.1f}')} s of failures", 30, BG, MONO, 800, "middle"),
+          text(80, y2 + 70, "after every edit", 26, MUTED, MONO, 400)]
+    return frame("Ten seconds after one edit", f'delete on edit · {data["rps"]} reads/s · build {data["build_orm"]:.0f} ms'
+                 " · median edit", "".join(b))
 
 
 def calendar(data):
-    """A month at 1 edit vs 2 edits a day: same code, readers who waited or failed."""
+    """Readers hit per month at 1 edit a month vs 2 edits a day, same code: two bars on one scale."""
     lo, hi = both(data, "orm", "delete", "paid")
+    left, span_w, bar_h = 560, 900, 90
+    rows = (("1 edit a month", 1, GRAY, LIGHT), ("2 edits a day", 60, RED, RED))
     b = []
-    cell, gap, cols = 56, 10, 6
-
-    def month(x0, y0, per_day, color_n):
-        out = []
-        for d in range(30):
-            x, y = x0 + (d % cols) * (cell + gap), y0 + (d // cols) * (cell + gap)
-            out.append(rect(x, y, cell, cell, PANEL, GRID, rx=8, sw=2))
-            marks = 1 if (per_day == 0 and d == 14) else per_day
-            for k in range(marks):
-                mx = x + cell / 2 + (k - (marks - 1) / 2) * 22
-                out.append(f'<circle cx="{mx:.1f}" cy="{y + cell / 2:.1f}" r="9" fill="{color_n}"/>')
-        return out
-
-    gw = cols * (cell + gap) - gap
-    xa, xb, y0 = 140, 900, 320
-    b += [text(xa, y0 - 30, "1 edit a month", 34, FG, SANS, 800)] + month(xa, y0, 0, RED)
-    b += [text(xb, y0 - 30, "2 edits a day", 34, FG, SANS, 800)] + month(xb, y0, 2, RED)
-    yb = y0 + 5 * (cell + gap) + 70
-    b += [text(xa, yb, span(lo, hi), 52, LIGHT, MONO, 800),
-          text(xa, yb + 40, "readers waited or failed", 26, MUTED, MONO, 400),
-          text(xb, yb, span(lo * 60, hi * 60), 52, RED, MONO, 800),
-          text(xb, yb + 40, "readers waited or failed", 26, MUTED, MONO, 400),
-          text(xa + gw + (xb - xa - gw) / 2, y0 + 2.5 * (cell + gap), "→", 72, MUTED, SANS, 400, "middle")]
+    for i, (label, n, fill, color) in enumerate(rows):
+        y = 360 + i * 210
+        w = max(span_w * hi * n / (hi * 60), 14)
+        b += [text(80, y + 58, label, 44, FG, SANS, 800),
+              rect(left, y, w, bar_h, fill, rx=12),
+              text(left + w + 24 if n == 1 else left + 24, y + 60, span(lo * n, hi * n), 44,
+                   color if n == 1 else BG, MONO, 800)]
+    b += [text(left, 330, "readers per month who waited or failed", 28, MUTED, MONO, 400),
+          text(80, 790, "60x the edits, 60x the readers hit. The code never changed.", 32, LIGHT, SANS, 700)]
     return frame("Only the calendar changed.",
-                 f'one month · no code change · delete on edit · {data["rps"]} reads/s during each edit', "".join(b))
+                 f'delete on edit · build {data["build_orm"]:.0f} ms · {data["rps"]} reads/s during each edit',
+                 "".join(b))
 
 
-WAYS = (("delete", "delete the key", "every reader that finds it empty", "cache-aside"),
-        ("single_flight", "delete + one rebuilder", "one reader, the rest wait", "single-flight lock"),
-        ("swr", "mark the menu old", "a background job", "stale-while-revalidate"),
-        ("publish", "write the new menu", "the edit itself", "rebuild on publish"))
+WAYS = (("delete", "delete the key", "cache-aside"),
+        ("single_flight", "delete + one rebuilder", "single-flight"),
+        ("swr", "mark the menu old", "stale-while-revalidate"),
+        ("publish", "write the new menu", "rebuild on publish"))
+
+
+def mini(x, y, w, label, stroke=GRAY, color=FG, fill=PANEL, dash=None):
+    return (rect(x, y, w, 64, fill, stroke, rx=12, sw=3, dash=dash) +
+            text(x + w / 2, y + 42, label, 26, color, MONO, 800, "middle"))
 
 
 def ways(data):
-    """Four ways to handle the edit: who rebuilds, and readers who waited or failed per edit."""
-    peak = both(data, "orm", "delete", "paid")[1]
-    lx, wx, bx, bar_max = 80, 620, 1200, 180
-    b = [text(lx, 290, "the edit…", 26, MUTED, MONO, 400),
-         text(wx, 290, "who rebuilds", 26, MUTED, MONO, 400),
-         text(bx, 290, "waited or failed", 26, MUTED, MONO, 400)]
-    for i, (name, edit, who, sub) in enumerate(WAYS):
-        y = 320 + i * 120
+    """Four ways, drawn as tiny flows: who goes to the database after an edit, and what readers get."""
+    lx, fx, rx = 80, 560, 1290
+    b = [text(lx, 290, "the edit…", 26, MUTED, MONO, 400), text(fx, 290, "who builds the new menu", 26, MUTED, MONO, 400),
+         text(rx, 290, "waited or failed", 26, MUTED, MONO, 400)]
+    for i, (name, label, sub) in enumerate(WAYS):
+        y = 320 + i * 125
         lo, hi = both(data, "orm", name, "paid")
-        rb_lo, rb_hi = both(data, "orm", name, "rebuilds")
-        pays = hi > 0
-        color = RED if pays else GREEN
+        rb = both(data, "orm", name, "rebuilds")
         if i == 2:
-            b.append(line(lx, y - 22, W - 80, y - 22, GRID, 2))
-        b += [text(lx, y + 34, edit, 36, FG, SANS, 800), text(lx, y + 72, sub, 22, MUTED, MONO, 400),
-              text(wx, y + 34, who, 28, FG, SANS, 700),
-              text(wx, y + 72, f'{span(rb_lo, rb_hi, "{:g}")} rebuild{"s" if rb_hi > 1 else ""} per edit'
-                   + (" · readers get the old menu" if name == "swr" else ""), 22, MUTED, MONO, 400)]
-        if pays:
-            w = max(bar_max * hi / peak, 14)
-            b += [rect(bx, y + 8, w, 44, RED, rx=10), text(bx + w + 16, y + 42, span(lo, hi), 32, color, MONO, 800)]
+            b.append(line(lx, y - 18, W - 80, y - 18, GRID, 2))
+        b += [text(lx, y + 34, label, 34, FG, SANS, 800), text(lx, y + 70, sub, 22, MUTED, MONO, 400)]
+        db = cyl(fx + 520, y - 4, 150, 76, RED if name == "delete" else GRAY, label="DB", size=24)
+        if name == "delete":
+            b += [mini(fx, y, 240, f"{span(*rb, '{:g}')} readers", RED, RED)]
+            for k in range(3):
+                b.append(arrow(fx + 250, y + 14 + k * 18, fx + 510, y + 14 + k * 18, RED, 3))
+            b.append(db)
+        elif name == "single_flight":
+            b += [mini(fx, y, 240, "1 reader"), arrow(fx + 250, y + 32, fx + 510, y + 32, LIGHT), db,
+                  text(fx + 250, y + 90, "the rest wait for it", 22, RED, MONO, 700)]
+        elif name == "swr":
+            b += [mini(fx, y, 240, "background job"), arrow(fx + 250, y + 32, fx + 510, y + 32, LIGHT), db,
+                  text(fx + 250, y + 90, "readers get the old menu meanwhile", 22, LIGHT, MONO, 400)]
         else:
-            b += [text(bx, y + 42, "0", 40, color, MONO, 800)]
+            b += [mini(fx, y, 240, "the edit"), arrow(fx + 250, y + 32, fx + 510, y + 32, LIGHT), db,
+                  text(fx + 250, y + 90, "then writes it to the cache", 22, LIGHT, MONO, 400)]
+        if hi > 0:
+            b.append(text(rx, y + 48, span(lo, hi), 48, RED, MONO, 800))
+        else:
+            b.append(text(rx, y + 48, "0", 48, GREEN, MONO, 800))
     return frame("Who pays for one edit", f'per edit · {data["rps"]} reads/s · build {data["build_orm"]:.0f} ms · '
                  "2 runs", "".join(b))
 
