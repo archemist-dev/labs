@@ -183,7 +183,7 @@ def stampede(data):
           rect(lx + 330, ly - 24, 40, 28, "none", RED, rx=4, dash="6 5", sw=3),
           text(lx + 386, ly, "waited for a rebuild", 26, LIGHT, MONO, 400),
           rect(lx + 760, ly - 24, 40, 28, RED, rx=4), text(lx + 816, ly, "failed", 26, LIGHT, MONO, 400)]
-    return frame(f'One edit. {e["rebuilds"]} rebuilds.',
+    return frame("Ten seconds after one edit",
                  f'menu requests per second around the edit · {data["rps"]}/s · build '
                  f'{data["build_orm"]:.0f} ms', "".join(b))
 
@@ -332,8 +332,13 @@ def cover_c(data):
 DIAGRAMS = {"Cache - 1 Stampede": stampede, "Cache - 2 Calendar": calendar, "Cache - 3 Who Pays": ways,
             "Cache - 1 Stampede Light": light(stampede), "Cache - 2 Calendar Light": light(calendar),
             "Cache - 3 Who Pays Light": light(ways),
-            "Cache - Cover A": cover_a, "Cache - Cover B": cover_b, "Cache - Cover C": cover_c}
-SIZES = {"Cache - Cover A": (1920, 1080), "Cache - Cover B": (1920, 1080), "Cache - Cover C": (1920, 1080)}
+            "Cache - Cover": cover_a, "Cache - Cover Light": light(cover_a)}
+SIZES = {"Cache - Cover": (1920, 1080), "Cache - Cover Light": (1920, 1080)}
+# Cover options B (big numbers) and C (mechanism) were offered with A; Javlon picked A on 2026-11-25.
+# Render them again with: COVERS=all python3 diagrams.py OUT_DIR
+if os.environ.get("COVERS") == "all":
+    DIAGRAMS.update({"Cache - Cover B": cover_b, "Cache - Cover C": cover_c})
+    SIZES.update({"Cache - Cover B": (1920, 1080), "Cache - Cover C": (1920, 1080)})
 
 if __name__ == "__main__":
     out = Path(sys.argv[1])
