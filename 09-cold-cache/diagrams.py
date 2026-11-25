@@ -257,7 +257,7 @@ def calendar(data):
 WAYS = (("delete", "delete the key", "cache-aside"),
         ("single_flight", "delete + one rebuilder", "single-flight"),
         ("swr", "mark the menu old", "stale-while-revalidate"),
-        ("publish", "write the new menu", "rebuild on publish"))
+        ("publish", "write the new menu", "write-through"))
 
 
 def ways(data):
