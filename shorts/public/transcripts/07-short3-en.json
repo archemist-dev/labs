@@ -1,0 +1,676 @@
+{
+ "segments": [
+  {
+   "text": " An admin search once made a database read-only.",
+   "start": 0.0,
+   "end": 2.82,
+   "words": [
+    {
+     "word": " An",
+     "start": 0.0,
+     "end": 0.24
+    },
+    {
+     "word": " admin",
+     "start": 0.24,
+     "end": 0.52
+    },
+    {
+     "word": " search",
+     "start": 0.52,
+     "end": 0.9
+    },
+    {
+     "word": " once",
+     "start": 0.9,
+     "end": 1.22
+    },
+    {
+     "word": " made",
+     "start": 1.22,
+     "end": 1.5
+    },
+    {
+     "word": " a",
+     "start": 1.5,
+     "end": 1.72
+    },
+    {
+     "word": " database",
+     "start": 1.72,
+     "end": 2.06
+    },
+    {
+     "word": " read",
+     "start": 2.06,
+     "end": 2.5
+    },
+    {
+     "word": "-only.",
+     "start": 2.5,
+     "end": 2.82
+    }
+   ]
+  },
+  {
+   "text": " It only read data, and it stopped every write.",
+   "start": 3.32,
+   "end": 5.96,
+   "words": [
+    {
+     "word": " It",
+     "start": 3.32,
+     "end": 3.42
+    },
+    {
+     "word": " only",
+     "start": 3.42,
+     "end": 3.68
+    },
+    {
+     "word": " read",
+     "start": 3.68,
+     "end": 3.92
+    },
+    {
+     "word": " data,",
+     "start": 3.92,
+     "end": 4.28
+    },
+    {
+     "word": " and",
+     "start": 4.48,
+     "end": 4.62
+    },
+    {
+     "word": " it",
+     "start": 4.62,
+     "end": 4.76
+    },
+    {
+     "word": " stopped",
+     "start": 4.76,
+     "end": 5.1
+    },
+    {
+     "word": " every",
+     "start": 5.1,
+     "end": 5.6
+    },
+    {
+     "word": " write.",
+     "start": 5.6,
+     "end": 5.96
+    }
+   ]
+  },
+  {
+   "text": " The search filtered on columns with no index, so it ran for minutes.",
+   "start": 8.16,
+   "end": 12.0,
+   "words": [
+    {
+     "word": " The",
+     "start": 8.16,
+     "end": 8.28
+    },
+    {
+     "word": " search",
+     "start": 8.28,
+     "end": 8.6
+    },
+    {
+     "word": " filtered",
+     "start": 8.6,
+     "end": 9.04
+    },
+    {
+     "word": " on",
+     "start": 9.04,
+     "end": 9.26
+    },
+    {
+     "word": " columns",
+     "start": 9.26,
+     "end": 9.64
+    },
+    {
+     "word": " with",
+     "start": 9.64,
+     "end": 9.86
+    },
+    {
+     "word": " no",
+     "start": 9.86,
+     "end": 10.14
+    },
+    {
+     "word": " index,",
+     "start": 10.14,
+     "end": 10.62
+    },
+    {
+     "word": " so",
+     "start": 10.78,
+     "end": 11.02
+    },
+    {
+     "word": " it",
+     "start": 11.02,
+     "end": 11.18
+    },
+    {
+     "word": " ran",
+     "start": 11.18,
+     "end": 11.32
+    },
+    {
+     "word": " for",
+     "start": 11.32,
+     "end": 11.66
+    },
+    {
+     "word": " minutes.",
+     "start": 11.66,
+     "end": 12.0
+    }
+   ]
+  },
+  {
+   "text": " Meanwhile, orders kept changing.",
+   "start": 13.94,
+   "end": 15.98,
+   "words": [
+    {
+     "word": " Meanwhile,",
+     "start": 13.94,
+     "end": 14.5
+    },
+    {
+     "word": " orders",
+     "start": 15.0,
+     "end": 15.26
+    },
+    {
+     "word": " kept",
+     "start": 15.26,
+     "end": 15.5
+    },
+    {
+     "word": " changing.",
+     "start": 15.5,
+     "end": 15.98
+    }
+   ]
+  },
+  {
+   "text": " Each update leaves a dead row, and Cleanup can't delete it while that search is still running.",
+   "start": 16.5,
+   "end": 21.0,
+   "words": [
+    {
+     "word": " Each",
+     "start": 16.5,
+     "end": 16.68
+    },
+    {
+     "word": " update",
+     "start": 16.68,
+     "end": 17.08
+    },
+    {
+     "word": " leaves",
+     "start": 17.08,
+     "end": 17.34
+    },
+    {
+     "word": " a",
+     "start": 17.34,
+     "end": 17.56
+    },
+    {
+     "word": " dead",
+     "start": 17.56,
+     "end": 17.72
+    },
+    {
+     "word": " row,",
+     "start": 17.72,
+     "end": 18.02
+    },
+    {
+     "word": " and",
+     "start": 18.2,
+     "end": 18.42
+    },
+    {
+     "word": " Cleanup",
+     "start": 18.42,
+     "end": 18.78
+    },
+    {
+     "word": " can't",
+     "start": 18.78,
+     "end": 19.22
+    },
+    {
+     "word": " delete",
+     "start": 19.22,
+     "end": 19.48
+    },
+    {
+     "word": " it",
+     "start": 19.48,
+     "end": 19.66
+    },
+    {
+     "word": " while",
+     "start": 19.66,
+     "end": 19.8
+    },
+    {
+     "word": " that",
+     "start": 19.8,
+     "end": 20.04
+    },
+    {
+     "word": " search",
+     "start": 20.04,
+     "end": 20.26
+    },
+    {
+     "word": " is",
+     "start": 20.26,
+     "end": 20.46
+    },
+    {
+     "word": " still",
+     "start": 20.46,
+     "end": 20.62
+    },
+    {
+     "word": " running.",
+     "start": 20.62,
+     "end": 21.0
+    }
+   ]
+  },
+  {
+   "text": " So the tables grew, and the disk filled.",
+   "start": 22.9,
+   "end": 25.88,
+   "words": [
+    {
+     "word": " So",
+     "start": 22.9,
+     "end": 23.28
+    },
+    {
+     "word": " the",
+     "start": 23.28,
+     "end": 23.52
+    },
+    {
+     "word": " tables",
+     "start": 23.52,
+     "end": 23.84
+    },
+    {
+     "word": " grew,",
+     "start": 23.84,
+     "end": 24.24
+    },
+    {
+     "word": " and",
+     "start": 24.64,
+     "end": 24.9
+    },
+    {
+     "word": " the",
+     "start": 24.9,
+     "end": 25.12
+    },
+    {
+     "word": " disk",
+     "start": 25.12,
+     "end": 25.34
+    },
+    {
+     "word": " filled.",
+     "start": 25.34,
+     "end": 25.88
+    }
+   ]
+  },
+  {
+   "text": " Then a schema change needed room to copy a table.",
+   "start": 27.36,
+   "end": 30.42,
+   "words": [
+    {
+     "word": " Then",
+     "start": 27.36,
+     "end": 27.94
+    },
+    {
+     "word": " a",
+     "start": 27.94,
+     "end": 28.14
+    },
+    {
+     "word": " schema",
+     "start": 28.14,
+     "end": 28.42
+    },
+    {
+     "word": " change",
+     "start": 28.42,
+     "end": 28.86
+    },
+    {
+     "word": " needed",
+     "start": 28.86,
+     "end": 29.2
+    },
+    {
+     "word": " room",
+     "start": 29.2,
+     "end": 29.46
+    },
+    {
+     "word": " to",
+     "start": 29.46,
+     "end": 29.66
+    },
+    {
+     "word": " copy",
+     "start": 29.66,
+     "end": 29.92
+    },
+    {
+     "word": " a",
+     "start": 29.92,
+     "end": 30.14
+    },
+    {
+     "word": " table.",
+     "start": 30.14,
+     "end": 30.42
+    }
+   ]
+  },
+  {
+   "text": " There was none, so the managed database went read-only.",
+   "start": 30.84,
+   "end": 33.72,
+   "words": [
+    {
+     "word": " There",
+     "start": 30.84,
+     "end": 30.96
+    },
+    {
+     "word": " was",
+     "start": 30.96,
+     "end": 31.18
+    },
+    {
+     "word": " none,",
+     "start": 31.18,
+     "end": 31.44
+    },
+    {
+     "word": " so",
+     "start": 31.64,
+     "end": 31.82
+    },
+    {
+     "word": " the",
+     "start": 31.82,
+     "end": 32.02
+    },
+    {
+     "word": " managed",
+     "start": 32.02,
+     "end": 32.28
+    },
+    {
+     "word": " database",
+     "start": 32.28,
+     "end": 32.7
+    },
+    {
+     "word": " went",
+     "start": 32.7,
+     "end": 33.06
+    },
+    {
+     "word": " read",
+     "start": 33.06,
+     "end": 33.38
+    },
+    {
+     "word": "-only.",
+     "start": 33.38,
+     "end": 33.72
+    }
+   ]
+  },
+  {
+   "text": " In my test, one slow read left 1.8 million dead rows in an hour.",
+   "start": 35.88,
+   "end": 40.92,
+   "words": [
+    {
+     "word": " In",
+     "start": 35.88,
+     "end": 36.22
+    },
+    {
+     "word": " my",
+     "start": 36.22,
+     "end": 36.42
+    },
+    {
+     "word": " test,",
+     "start": 36.42,
+     "end": 36.82
+    },
+    {
+     "word": " one",
+     "start": 37.18,
+     "end": 37.34
+    },
+    {
+     "word": " slow",
+     "start": 37.34,
+     "end": 37.68
+    },
+    {
+     "word": " read",
+     "start": 37.68,
+     "end": 38.0
+    },
+    {
+     "word": " left",
+     "start": 38.0,
+     "end": 38.26
+    },
+    {
+     "word": " 1",
+     "start": 38.26,
+     "end": 38.6
+    },
+    {
+     "word": ".8",
+     "start": 38.6,
+     "end": 39.1
+    },
+    {
+     "word": " million",
+     "start": 39.1,
+     "end": 39.58
+    },
+    {
+     "word": " dead",
+     "start": 39.58,
+     "end": 39.88
+    },
+    {
+     "word": " rows",
+     "start": 39.88,
+     "end": 40.18
+    },
+    {
+     "word": " in",
+     "start": 40.18,
+     "end": 40.38
+    },
+    {
+     "word": " an",
+     "start": 40.38,
+     "end": 40.6
+    },
+    {
+     "word": " hour.",
+     "start": 40.6,
+     "end": 40.92
+    }
+   ]
+  },
+  {
+   "text": " The fix? Index the columns your filters use, and limit how long a search may run.",
+   "start": 43.16,
+   "end": 48.08,
+   "words": [
+    {
+     "word": " The",
+     "start": 43.16,
+     "end": 43.28
+    },
+    {
+     "word": " fix?",
+     "start": 43.28,
+     "end": 43.62
+    },
+    {
+     "word": " Index",
+     "start": 44.12,
+     "end": 44.36
+    },
+    {
+     "word": " the",
+     "start": 44.36,
+     "end": 44.68
+    },
+    {
+     "word": " columns",
+     "start": 44.68,
+     "end": 44.98
+    },
+    {
+     "word": " your",
+     "start": 44.98,
+     "end": 45.16
+    },
+    {
+     "word": " filters",
+     "start": 45.16,
+     "end": 45.48
+    },
+    {
+     "word": " use,",
+     "start": 45.48,
+     "end": 45.88
+    },
+    {
+     "word": " and",
+     "start": 46.12,
+     "end": 46.28
+    },
+    {
+     "word": " limit",
+     "start": 46.28,
+     "end": 46.52
+    },
+    {
+     "word": " how",
+     "start": 46.52,
+     "end": 46.84
+    },
+    {
+     "word": " long",
+     "start": 46.84,
+     "end": 47.04
+    },
+    {
+     "word": " a",
+     "start": 47.04,
+     "end": 47.26
+    },
+    {
+     "word": " search",
+     "start": 47.26,
+     "end": 47.44
+    },
+    {
+     "word": " may",
+     "start": 47.44,
+     "end": 47.68
+    },
+    {
+     "word": " run.",
+     "start": 47.68,
+     "end": 48.08
+    }
+   ]
+  },
+  {
+   "text": " Follow for one tested architecture decision a week.",
+   "start": 50.34,
+   "end": 53.02,
+   "words": [
+    {
+     "word": " Follow",
+     "start": 50.34,
+     "end": 50.66
+    },
+    {
+     "word": " for",
+     "start": 50.66,
+     "end": 50.92
+    },
+    {
+     "word": " one",
+     "start": 50.92,
+     "end": 51.18
+    },
+    {
+     "word": " tested",
+     "start": 51.18,
+     "end": 51.56
+    },
+    {
+     "word": " architecture",
+     "start": 51.56,
+     "end": 52.12
+    },
+    {
+     "word": " decision",
+     "start": 52.12,
+     "end": 52.58
+    },
+    {
+     "word": " a",
+     "start": 52.58,
+     "end": 52.78
+    },
+    {
+     "word": " week.",
+     "start": 52.78,
+     "end": 53.02
+    }
+   ]
+  }
+ ]
+}

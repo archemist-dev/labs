@@ -17,43 +17,43 @@ import { FG, GRAY, GREEN, GREEN_BG, LIGHT, MONO, RED, SAFE, SANS } from "../../t
 import { Canvas } from "../03-uuid-keys/Short1";
 import data from "./data2.json";
 
-const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
-const ease = (t: number) => 1 - (1 - t) ** 3;
-const sine = (t: number) => 0.5 - 0.5 * Math.cos(Math.PI * t);
-const fade = (frame: number, at: number, len = 10) => interpolate(frame, [at, at + len], [0, 1], clamp);
-const steps = (value: number, p: number, step: number) => (p >= 1 ? value : Math.min(value, Math.floor((value * p) / step) * step));
-const fmt = (n: number) => n.toLocaleString("en-GB");
+export const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
+export const ease = (t: number) => 1 - (1 - t) ** 3;
+export const sine = (t: number) => 0.5 - 0.5 * Math.cos(Math.PI * t);
+export const fade = (frame: number, at: number, len = 10) => interpolate(frame, [at, at + len], [0, 1], clamp);
+export const steps = (value: number, p: number, step: number) => (p >= 1 ? value : Math.min(value, Math.floor((value * p) / step) * step));
+export const fmt = (n: number) => n.toLocaleString("en-GB");
 const round1k = (n: number) => Math.round(n / 1000) * 1000;
 const round10k = (n: number) => Math.round(n / 10_000) * 10_000;
 const ON = round10k(data.dead_feedback_on); // 300,000
 
 // ---- one style ---------------------------------------------------------------------------------------------------------
-const CARD = "#22262c";
-const EDGE = "#3a3f47";
-const RED_BG = "rgba(229,72,77,0.16)";
-const L = SAFE.left;
-const BAND = 370; // top of the band above the stage
-const shadow = "0 4px 18px #000";
-const T = {
+export const CARD = "#22262c";
+export const EDGE = "#3a3f47";
+export const RED_BG = "rgba(229,72,77,0.16)";
+export const L = SAFE.left;
+export const BAND = 370; // top of the band above the stage
+export const shadow = "0 4px 18px #000";
+export const T = {
   number: { fontFamily: MONO, fontWeight: 800, fontSize: 140, lineHeight: 1 } as React.CSSProperties,
   label: { fontFamily: SANS, fontWeight: 800, fontSize: 44, color: FG } as React.CSSProperties,
   note: { fontFamily: MONO, fontWeight: 400, fontSize: 32, color: LIGHT } as React.CSSProperties,
   name: { fontFamily: MONO, fontWeight: 800, fontSize: 36, color: FG, textShadow: shadow } as React.CSSProperties,
 };
-const cardStyle = (color: string = EDGE, bg: string = CARD): React.CSSProperties => ({ boxSizing: "border-box", borderRadius: 20, border: `4px solid ${color}`, background: bg });
+export const cardStyle = (color: string = EDGE, bg: string = CARD): React.CSSProperties => ({ boxSizing: "border-box", borderRadius: 20, border: `4px solid ${color}`, background: bg });
 
-const STROKE = 5;
-const Check: React.FC<{ color: string; size?: number }> = ({ color, size = 40 }) => (
+export const STROKE = 5;
+export const Check: React.FC<{ color: string; size?: number }> = ({ color, size = 40 }) => (
   <svg width={size} height={size} viewBox="0 0 36 36" style={{ flexShrink: 0 }}>
     <path d="M7 19 L15 27 L29 10" fill="none" stroke={color} strokeWidth={STROKE} strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
-const Cross: React.FC<{ color: string; size?: number }> = ({ color, size = 40 }) => (
+export const Cross: React.FC<{ color: string; size?: number }> = ({ color, size = 40 }) => (
   <svg width={size} height={size} viewBox="0 0 36 36" style={{ flexShrink: 0 }}>
     <path d="M9 9 L27 27 M27 9 L9 27" fill="none" stroke={color} strokeWidth={STROKE} strokeLinecap="round" />
   </svg>
 );
-const Lock: React.FC<{ color: string; size?: number }> = ({ color, size = 36 }) => (
+export const Lock: React.FC<{ color: string; size?: number }> = ({ color, size = 36 }) => (
   <svg width={size} height={size} viewBox="0 0 36 36" style={{ flexShrink: 0 }}>
     <rect x={7} y={16} width={22} height={16} rx={3} fill="none" stroke={color} strokeWidth={4} />
     <path d="M12 16 V11 a6 6 0 0 1 12 0 V16" fill="none" stroke={color} strokeWidth={4} />
@@ -92,20 +92,20 @@ const Switch: React.FC<{ on: number; at?: number }> = ({ on, at = 0 }) => {
 
 // ---- the stage: the same two databases in every scene ------------------------------------------------------------------
 
-const CAM: [number, number, number] = [0, 5, 22.5];
-const LOOK: [number, number, number] = [0, 1.25, 0];
-const MX = -2.0; // main database
-const MR = 1.15;
-const SEG = 0.62; // three segments per database
+export const CAM: [number, number, number] = [0, 5, 22.5];
+export const LOOK: [number, number, number] = [0, 1.25, 0];
+export const MX = -2.0; // main database
+export const MR = 1.15;
+export const SEG = 0.62; // three segments per database
 const RX = 1.85; // replica
 const RR = 0.85;
 const RSEG = 0.46;
-const DISCS = 6; // 6 red discs = 300,000 dead rows (50,000 each)
-const DISC_H = 0.2;
-const MAIN_TOP = 3 * SEG + 0.16;
+export const DISCS = 6; // 6 red discs = 300,000 dead rows (50,000 each)
+export const DISC_H = 0.2;
+export const MAIN_TOP = 3 * SEG + 0.16;
 const REP_TOP = 3 * RSEG + 0.16;
 
-const useProject = () => {
+export const useProject = () => {
   const { width, height } = useVideoConfig();
   return useMemo(() => {
     const cam = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
@@ -120,7 +120,7 @@ const useProject = () => {
   }, [width, height]);
 };
 
-const Db3: React.FC<{ x: number; r: number; seg: number; glow?: string; glowAmount?: number }> = ({ x, r, seg, glow = LIGHT, glowAmount = 0.1 }) => (
+export const Db3: React.FC<{ x: number; r: number; seg: number; glow?: string; glowAmount?: number }> = ({ x, r, seg, glow = LIGHT, glowAmount = 0.1 }) => (
   <group position={[x, 0, 0]}>
     {[0, 1, 2].map((i) => (
       <mesh key={i} position={[0, seg / 2 + i * (seg + 0.08), 0]}>

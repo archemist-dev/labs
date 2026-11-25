@@ -49,6 +49,9 @@ import { Thumbnail as bloatThumb1 } from "./shorts/08-table-bloat/Thumbnail";
 import { short2 as bloatShort2 } from "./shorts/08-table-bloat/script2";
 import { SCENES2 as bloatScenes2 } from "./shorts/08-table-bloat/Short2";
 import { Thumbnail2 as bloatThumb2 } from "./shorts/08-table-bloat/Thumbnail2";
+import { short3 as bloatShort3 } from "./shorts/08-table-bloat/script3";
+import { SCENES3 as bloatScenes3 } from "./shorts/08-table-bloat/Short3";
+import { Thumbnail3 as bloatThumb3 } from "./shorts/08-table-bloat/Thumbnail3";
 
 import { Follow } from "./components/Follow";
 import { HOOK_FRAMES, LH, LongHook, LW } from "./long/03-uuid-keys/Hook";
@@ -77,6 +80,7 @@ const LIST: { id: string; scripts: Record<string, Beat[]>; scenes: Record<string
   { id: "06-short3", scripts: sagaShort3, scenes: sagaScenes3 },
   { id: "07-short1", scripts: bloatShort1, scenes: bloatScenes1 },
   { id: "07-short2", scripts: bloatShort2, scenes: bloatScenes2 },
+  { id: "07-short3", scripts: bloatShort3, scenes: bloatScenes3 },
   // Visual prototypes for week 3 "The 14x cliff" opening: A = 2D upgraded, B = 3D.
   { id: "03-protoA", scripts: uuidOpening, scenes: uuidProtoA },
   { id: "03-protoB", scripts: uuidOpening, scenes: uuidProtoB },
@@ -135,5 +139,6 @@ export const Root: React.FC = () => (
     <Still id="06-short3-thumb" component={sagaThumb3} width={W} height={H} />
     <Still id="07-short1-thumb" component={bloatThumb1} width={W} height={H} />
     <Still id="07-short2-thumb" component={bloatThumb2} width={W} height={H} />
+    <Still id="07-short3-thumb" component={bloatThumb3} width={W} height={H} />
   </>
 );
