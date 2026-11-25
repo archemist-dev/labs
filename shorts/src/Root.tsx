@@ -40,6 +40,9 @@ import { Thumbnail as sagaThumb1 } from "./shorts/06-saga-compensation/Thumbnail
 import { short2 as sagaShort2 } from "./shorts/06-saga-compensation/script2";
 import { SCENES2 as sagaScenes2 } from "./shorts/06-saga-compensation/Short2";
 import { Thumbnail2 as sagaThumb2 } from "./shorts/06-saga-compensation/Thumbnail2";
+import { short3 as sagaShort3 } from "./shorts/06-saga-compensation/script3";
+import { SCENES3 as sagaScenes3 } from "./shorts/06-saga-compensation/Short3";
+import { Thumbnail3 as sagaThumb3 } from "./shorts/06-saga-compensation/Thumbnail3";
 import { short1 as bloatShort1 } from "./shorts/08-table-bloat/script";
 import { SCENES1 as bloatScenes1 } from "./shorts/08-table-bloat/Short1";
 import { Thumbnail as bloatThumb1 } from "./shorts/08-table-bloat/Thumbnail";
@@ -68,6 +71,7 @@ const LIST: { id: string; scripts: Record<string, Beat[]>; scenes: Record<string
   { id: "05-short2", scripts: aiShort2, scenes: aiScenes2 },
   { id: "06-short1", scripts: sagaShort1, scenes: sagaScenes1 },
   { id: "06-short2", scripts: sagaShort2, scenes: sagaScenes2 },
+  { id: "06-short3", scripts: sagaShort3, scenes: sagaScenes3 },
   { id: "07-short1", scripts: bloatShort1, scenes: bloatScenes1 },
   // Visual prototypes for week 3 "The 14x cliff" opening: A = 2D upgraded, B = 3D.
   { id: "03-protoA", scripts: uuidOpening, scenes: uuidProtoA },
@@ -124,6 +128,7 @@ export const Root: React.FC = () => (
     <Still id="05-short2-thumb" component={aiThumb2} width={W} height={H} />
     <Still id="06-short1-thumb" component={sagaThumb1} width={W} height={H} />
     <Still id="06-short2-thumb" component={sagaThumb2} width={W} height={H} />
+    <Still id="06-short3-thumb" component={sagaThumb3} width={W} height={H} />
     <Still id="07-short1-thumb" component={bloatThumb1} width={W} height={H} />
   </>
 );

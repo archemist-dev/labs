@@ -1,0 +1,9 @@
+{
+ "per_day": 1000,
+ "days": 365,
+ "basket_pence": 1947,
+ "refund_fail_pct": 2,
+ "refunds": 1806,
+ "failed_refund_tries": 32,
+ "orphaned_durable": 0
+}
