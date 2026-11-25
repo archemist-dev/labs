@@ -1,0 +1,9 @@
+{
+ "minutes": 10,
+ "dead_feedback_on": 300092,
+ "dead_on_main": 299454,
+ "dead_feedback_off": 19398,
+ "dead_no_report": 18286,
+ "rows": 1000000,
+ "updates_per_s": 500
+}
