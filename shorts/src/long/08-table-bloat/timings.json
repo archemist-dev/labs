@@ -1,0 +1,5450 @@
+{
+ "01": {
+  "audio": null,
+  "seconds": 16.67,
+  "frames": 531,
+  "words": [
+   {
+    "w": "An",
+    "start": 0.25,
+    "end": 0.53
+   },
+   {
+    "w": "admin",
+    "start": 0.57,
+    "end": 0.85
+   },
+   {
+    "w": "search",
+    "start": 0.9,
+    "end": 1.17
+   },
+   {
+    "w": "once",
+    "start": 1.32,
+    "end": 1.6
+   },
+   {
+    "w": "made",
+    "start": 1.65,
+    "end": 1.92
+   },
+   {
+    "w": "a",
+    "start": 1.97,
+    "end": 2.25
+   },
+   {
+    "w": "database",
+    "start": 2.3,
+    "end": 2.57
+   },
+   {
+    "w": "read-only.",
+    "start": 2.62,
+    "end": 2.9
+   },
+   {
+    "w": "Writes",
+    "start": 3.26,
+    "end": 3.54
+   },
+   {
+    "w": "stopped.",
+    "start": 3.59,
+    "end": 3.86
+   },
+   {
+    "w": "And",
+    "start": 4.53,
+    "end": 4.81
+   },
+   {
+    "w": "a",
+    "start": 4.86,
+    "end": 5.13
+   },
+   {
+    "w": "search",
+    "start": 5.18,
+    "end": 5.46
+   },
+   {
+    "w": "only",
+    "start": 5.51,
+    "end": 5.78
+   },
+   {
+    "w": "reads.",
+    "start": 5.83,
+    "end": 6.11
+   },
+   {
+    "w": "So",
+    "start": 6.77,
+    "end": 7.05
+   },
+   {
+    "w": "I",
+    "start": 7.1,
+    "end": 7.37
+   },
+   {
+    "w": "tested",
+    "start": 7.42,
+    "end": 7.7
+   },
+   {
+    "w": "it.",
+    "start": 7.75,
+    "end": 8.02
+   },
+   {
+    "w": "One",
+    "start": 8.39,
+    "end": 8.67
+   },
+   {
+    "w": "slow",
+    "start": 8.72,
+    "end": 8.99
+   },
+   {
+    "w": "read,",
+    "start": 9.04,
+    "end": 9.32
+   },
+   {
+    "w": "held",
+    "start": 9.47,
+    "end": 9.74
+   },
+   {
+    "w": "open",
+    "start": 9.79,
+    "end": 10.07
+   },
+   {
+    "w": "for",
+    "start": 10.11,
+    "end": 10.39
+   },
+   {
+    "w": "an",
+    "start": 10.44,
+    "end": 10.71
+   },
+   {
+    "w": "hour,",
+    "start": 10.76,
+    "end": 11.04
+   },
+   {
+    "w": "grew",
+    "start": 11.19,
+    "end": 11.46
+   },
+   {
+    "w": "a",
+    "start": 11.51,
+    "end": 11.79
+   },
+   {
+    "w": "Postgres",
+    "start": 11.84,
+    "end": 12.11
+   },
+   {
+    "w": "table",
+    "start": 12.16,
+    "end": 12.44
+   },
+   {
+    "w": "from",
+    "start": 12.48,
+    "end": 12.76
+   },
+   {
+    "w": "120",
+    "start": 12.81,
+    "end": 13.08
+   },
+   {
+    "w": "megabytes",
+    "start": 13.13,
+    "end": 13.41
+   },
+   {
+    "w": "to",
+    "start": 13.56,
+    "end": 13.83
+   },
+   {
+    "w": "337.",
+    "start": 13.88,
+    "end": 14.16
+   },
+   {
+    "w": "Nobody",
+    "start": 14.83,
+    "end": 15.1
+   },
+   {
+    "w": "inserted",
+    "start": 15.15,
+    "end": 15.43
+   },
+   {
+    "w": "a",
+    "start": 15.47,
+    "end": 15.75
+   },
+   {
+    "w": "single",
+    "start": 15.8,
+    "end": 16.07
+   },
+   {
+    "w": "row.",
+    "start": 16.12,
+    "end": 16.4
+   }
+  ]
+ },
+ "03": {
+  "audio": null,
+  "seconds": 28.09,
+  "frames": 873,
+  "words": [
+   {
+    "w": "I",
+    "start": 0.25,
+    "end": 0.53
+   },
+   {
+    "w": "built",
+    "start": 0.57,
+    "end": 0.85
+   },
+   {
+    "w": "one",
+    "start": 0.9,
+    "end": 1.17
+   },
+   {
+    "w": "orders",
+    "start": 1.22,
+    "end": 1.5
+   },
+   {
+    "w": "table.",
+    "start": 1.55,
+    "end": 1.82
+   },
+   {
+    "w": "A",
+    "start": 2.19,
+    "end": 2.47
+   },
+   {
+    "w": "million",
+    "start": 2.52,
+    "end": 2.79
+   },
+   {
+    "w": "rows,",
+    "start": 2.84,
+    "end": 3.12
+   },
+   {
+    "w": "120",
+    "start": 3.26,
+    "end": 3.54
+   },
+   {
+    "w": "megabytes.",
+    "start": 3.59,
+    "end": 3.86
+   },
+   {
+    "w": "Then",
+    "start": 4.53,
+    "end": 4.81
+   },
+   {
+    "w": "a",
+    "start": 4.86,
+    "end": 5.13
+   },
+   {
+    "w": "steady",
+    "start": 5.18,
+    "end": 5.46
+   },
+   {
+    "w": "load:",
+    "start": 5.51,
+    "end": 5.78
+   },
+   {
+    "w": "every",
+    "start": 5.93,
+    "end": 6.21
+   },
+   {
+    "w": "second,",
+    "start": 6.25,
+    "end": 6.53
+   },
+   {
+    "w": "500",
+    "start": 6.68,
+    "end": 6.95
+   },
+   {
+    "w": "orders",
+    "start": 7.0,
+    "end": 7.28
+   },
+   {
+    "w": "change",
+    "start": 7.33,
+    "end": 7.6
+   },
+   {
+    "w": "their",
+    "start": 7.65,
+    "end": 7.93
+   },
+   {
+    "w": "status.",
+    "start": 7.98,
+    "end": 8.25
+   },
+   {
+    "w": "A",
+    "start": 8.62,
+    "end": 8.9
+   },
+   {
+    "w": "busy",
+    "start": 8.95,
+    "end": 9.22
+   },
+   {
+    "w": "app,",
+    "start": 9.27,
+    "end": 9.55
+   },
+   {
+    "w": "at",
+    "start": 9.59,
+    "end": 9.87
+   },
+   {
+    "w": "a",
+    "start": 9.92,
+    "end": 10.19
+   },
+   {
+    "w": "modest",
+    "start": 10.24,
+    "end": 10.52
+   },
+   {
+    "w": "size.",
+    "start": 10.57,
+    "end": 10.84
+   },
+   {
+    "w": "Postgres",
+    "start": 11.51,
+    "end": 11.79
+   },
+   {
+    "w": "cleans",
+    "start": 11.84,
+    "end": 12.11
+   },
+   {
+    "w": "up",
+    "start": 12.16,
+    "end": 12.44
+   },
+   {
+    "w": "after",
+    "start": 12.48,
+    "end": 12.76
+   },
+   {
+    "w": "updates",
+    "start": 12.81,
+    "end": 13.08
+   },
+   {
+    "w": "in",
+    "start": 13.13,
+    "end": 13.41
+   },
+   {
+    "w": "the",
+    "start": 13.46,
+    "end": 13.73
+   },
+   {
+    "w": "background,",
+    "start": 13.78,
+    "end": 14.06
+   },
+   {
+    "w": "and",
+    "start": 14.21,
+    "end": 14.48
+   },
+   {
+    "w": "I",
+    "start": 14.53,
+    "end": 14.81
+   },
+   {
+    "w": "tuned",
+    "start": 14.85,
+    "end": 15.13
+   },
+   {
+    "w": "that",
+    "start": 15.18,
+    "end": 15.45
+   },
+   {
+    "w": "cleanup",
+    "start": 15.5,
+    "end": 15.78
+   },
+   {
+    "w": "so",
+    "start": 15.83,
+    "end": 16.1
+   },
+   {
+    "w": "it",
+    "start": 16.15,
+    "end": 16.43
+   },
+   {
+    "w": "keeps",
+    "start": 16.48,
+    "end": 16.75
+   },
+   {
+    "w": "up.",
+    "start": 16.8,
+    "end": 17.08
+   },
+   {
+    "w": "With",
+    "start": 17.44,
+    "end": 17.72
+   },
+   {
+    "w": "nothing",
+    "start": 17.77,
+    "end": 18.04
+   },
+   {
+    "w": "else",
+    "start": 18.09,
+    "end": 18.37
+   },
+   {
+    "w": "running,",
+    "start": 18.42,
+    "end": 18.69
+   },
+   {
+    "w": "the",
+    "start": 18.84,
+    "end": 19.12
+   },
+   {
+    "w": "table",
+    "start": 19.17,
+    "end": 19.44
+   },
+   {
+    "w": "ended",
+    "start": 19.49,
+    "end": 19.77
+   },
+   {
+    "w": "the",
+    "start": 19.81,
+    "end": 20.09
+   },
+   {
+    "w": "hour",
+    "start": 20.14,
+    "end": 20.41
+   },
+   {
+    "w": "at",
+    "start": 20.46,
+    "end": 20.74
+   },
+   {
+    "w": "122",
+    "start": 20.79,
+    "end": 21.06
+   },
+   {
+    "w": "megabytes.",
+    "start": 21.11,
+    "end": 21.39
+   },
+   {
+    "w": "Then",
+    "start": 22.06,
+    "end": 22.33
+   },
+   {
+    "w": "I",
+    "start": 22.38,
+    "end": 22.66
+   },
+   {
+    "w": "ran",
+    "start": 22.71,
+    "end": 22.98
+   },
+   {
+    "w": "the",
+    "start": 23.03,
+    "end": 23.31
+   },
+   {
+    "w": "hour",
+    "start": 23.35,
+    "end": 23.63
+   },
+   {
+    "w": "again,",
+    "start": 23.68,
+    "end": 23.95
+   },
+   {
+    "w": "with",
+    "start": 24.1,
+    "end": 24.38
+   },
+   {
+    "w": "one",
+    "start": 24.43,
+    "end": 24.7
+   },
+   {
+    "w": "report",
+    "start": 24.75,
+    "end": 25.03
+   },
+   {
+    "w": "that",
+    "start": 25.18,
+    "end": 25.45
+   },
+   {
+    "w": "reads",
+    "start": 25.5,
+    "end": 25.78
+   },
+   {
+    "w": "the",
+    "start": 25.82,
+    "end": 26.1
+   },
+   {
+    "w": "table",
+    "start": 26.15,
+    "end": 26.42
+   },
+   {
+    "w": "once,",
+    "start": 26.47,
+    "end": 26.75
+   },
+   {
+    "w": "and",
+    "start": 26.9,
+    "end": 27.17
+   },
+   {
+    "w": "stays",
+    "start": 27.22,
+    "end": 27.5
+   },
+   {
+    "w": "open.",
+    "start": 27.55,
+    "end": 27.82
+   }
+  ]
+ },
+ "04": {
+  "audio": null,
+  "seconds": 36.13,
+  "frames": 1115,
+  "words": [
+   {
+    "w": "This",
+    "start": 0.25,
+    "end": 0.53
+   },
+   {
+    "w": "is",
+    "start": 0.57,
+    "end": 0.85
+   },
+   {
+    "w": "the",
+    "start": 0.9,
+    "end": 1.17
+   },
+   {
+    "w": "real",
+    "start": 1.22,
+    "end": 1.5
+   },
+   {
+    "w": "log.",
+    "start": 1.55,
+    "end": 1.82
+   },
+   {
+    "w": "One",
+    "start": 2.19,
+    "end": 2.47
+   },
+   {
+    "w": "line",
+    "start": 2.52,
+    "end": 2.79
+   },
+   {
+    "w": "a",
+    "start": 2.84,
+    "end": 3.12
+   },
+   {
+    "w": "minute.",
+    "start": 3.16,
+    "end": 3.44
+   },
+   {
+    "w": "Watch",
+    "start": 4.11,
+    "end": 4.38
+   },
+   {
+    "w": "the",
+    "start": 4.43,
+    "end": 4.71
+   },
+   {
+    "w": "dead",
+    "start": 4.76,
+    "end": 5.03
+   },
+   {
+    "w": "rows.",
+    "start": 5.08,
+    "end": 5.36
+   },
+   {
+    "w": "These",
+    "start": 5.73,
+    "end": 6.0
+   },
+   {
+    "w": "are",
+    "start": 6.05,
+    "end": 6.33
+   },
+   {
+    "w": "old",
+    "start": 6.37,
+    "end": 6.65
+   },
+   {
+    "w": "copies",
+    "start": 6.7,
+    "end": 6.97
+   },
+   {
+    "w": "of",
+    "start": 7.02,
+    "end": 7.3
+   },
+   {
+    "w": "rows,",
+    "start": 7.35,
+    "end": 7.62
+   },
+   {
+    "w": "left",
+    "start": 7.77,
+    "end": 8.05
+   },
+   {
+    "w": "behind",
+    "start": 8.1,
+    "end": 8.37
+   },
+   {
+    "w": "by",
+    "start": 8.42,
+    "end": 8.7
+   },
+   {
+    "w": "updates.",
+    "start": 8.75,
+    "end": 9.02
+   },
+   {
+    "w": "When",
+    "start": 9.39,
+    "end": 9.67
+   },
+   {
+    "w": "the",
+    "start": 9.71,
+    "end": 9.99
+   },
+   {
+    "w": "report",
+    "start": 10.04,
+    "end": 10.31
+   },
+   {
+    "w": "starts:",
+    "start": 10.36,
+    "end": 10.64
+   },
+   {
+    "w": "about",
+    "start": 10.79,
+    "end": 11.06
+   },
+   {
+    "w": "4,000.",
+    "start": 11.11,
+    "end": 11.39
+   },
+   {
+    "w": "Ten",
+    "start": 11.76,
+    "end": 12.03
+   },
+   {
+    "w": "minutes",
+    "start": 12.08,
+    "end": 12.36
+   },
+   {
+    "w": "later:",
+    "start": 12.4,
+    "end": 12.68
+   },
+   {
+    "w": "300,000.",
+    "start": 12.83,
+    "end": 13.1
+   },
+   {
+    "w": "At",
+    "start": 13.77,
+    "end": 14.05
+   },
+   {
+    "w": "the",
+    "start": 14.1,
+    "end": 14.37
+   },
+   {
+    "w": "end",
+    "start": 14.42,
+    "end": 14.7
+   },
+   {
+    "w": "of",
+    "start": 14.75,
+    "end": 15.02
+   },
+   {
+    "w": "the",
+    "start": 15.07,
+    "end": 15.35
+   },
+   {
+    "w": "hour:",
+    "start": 15.39,
+    "end": 15.67
+   },
+   {
+    "w": "1.8",
+    "start": 15.82,
+    "end": 16.09
+   },
+   {
+    "w": "million.",
+    "start": 16.14,
+    "end": 16.42
+   },
+   {
+    "w": "In",
+    "start": 16.79,
+    "end": 17.06
+   },
+   {
+    "w": "a",
+    "start": 17.11,
+    "end": 17.39
+   },
+   {
+    "w": "table",
+    "start": 17.44,
+    "end": 17.71
+   },
+   {
+    "w": "of",
+    "start": 17.76,
+    "end": 18.04
+   },
+   {
+    "w": "one",
+    "start": 18.08,
+    "end": 18.36
+   },
+   {
+    "w": "million",
+    "start": 18.41,
+    "end": 18.68
+   },
+   {
+    "w": "orders.",
+    "start": 18.73,
+    "end": 19.01
+   },
+   {
+    "w": "Now",
+    "start": 19.68,
+    "end": 19.95
+   },
+   {
+    "w": "the",
+    "start": 20.0,
+    "end": 20.28
+   },
+   {
+    "w": "other",
+    "start": 20.33,
+    "end": 20.6
+   },
+   {
+    "w": "column.",
+    "start": 20.65,
+    "end": 20.93
+   },
+   {
+    "w": "It",
+    "start": 21.29,
+    "end": 21.57
+   },
+   {
+    "w": "counts",
+    "start": 21.62,
+    "end": 21.89
+   },
+   {
+    "w": "the",
+    "start": 21.94,
+    "end": 22.22
+   },
+   {
+    "w": "cleanup",
+    "start": 22.27,
+    "end": 22.54
+   },
+   {
+    "w": "runs.",
+    "start": 22.59,
+    "end": 22.87
+   },
+   {
+    "w": "Postgres",
+    "start": 23.24,
+    "end": 23.51
+   },
+   {
+    "w": "calls",
+    "start": 23.56,
+    "end": 23.84
+   },
+   {
+    "w": "it",
+    "start": 23.89,
+    "end": 24.16
+   },
+   {
+    "w": "autovacuum.",
+    "start": 24.21,
+    "end": 24.49
+   },
+   {
+    "w": "It",
+    "start": 24.85,
+    "end": 25.13
+   },
+   {
+    "w": "ran",
+    "start": 25.18,
+    "end": 25.45
+   },
+   {
+    "w": "235",
+    "start": 25.5,
+    "end": 25.78
+   },
+   {
+    "w": "times",
+    "start": 25.83,
+    "end": 26.1
+   },
+   {
+    "w": "in",
+    "start": 26.15,
+    "end": 26.43
+   },
+   {
+    "w": "that",
+    "start": 26.48,
+    "end": 26.75
+   },
+   {
+    "w": "hour.",
+    "start": 26.8,
+    "end": 27.08
+   },
+   {
+    "w": "And",
+    "start": 27.74,
+    "end": 28.02
+   },
+   {
+    "w": "it",
+    "start": 28.07,
+    "end": 28.34
+   },
+   {
+    "w": "could",
+    "start": 28.39,
+    "end": 28.67
+   },
+   {
+    "w": "not",
+    "start": 28.72,
+    "end": 28.99
+   },
+   {
+    "w": "remove",
+    "start": 29.04,
+    "end": 29.32
+   },
+   {
+    "w": "one",
+    "start": 29.37,
+    "end": 29.64
+   },
+   {
+    "w": "of",
+    "start": 29.69,
+    "end": 29.97
+   },
+   {
+    "w": "them.",
+    "start": 30.01,
+    "end": 30.29
+   },
+   {
+    "w": "The",
+    "start": 30.96,
+    "end": 31.23
+   },
+   {
+    "w": "table:",
+    "start": 31.28,
+    "end": 31.56
+   },
+   {
+    "w": "120",
+    "start": 31.71,
+    "end": 31.98
+   },
+   {
+    "w": "megabytes",
+    "start": 32.03,
+    "end": 32.31
+   },
+   {
+    "w": "to",
+    "start": 32.36,
+    "end": 32.63
+   },
+   {
+    "w": "337.",
+    "start": 32.68,
+    "end": 32.96
+   },
+   {
+    "w": "2.8",
+    "start": 33.32,
+    "end": 33.6
+   },
+   {
+    "w": "times.",
+    "start": 33.65,
+    "end": 33.92
+   },
+   {
+    "w": "Its",
+    "start": 34.29,
+    "end": 34.57
+   },
+   {
+    "w": "indexes",
+    "start": 34.62,
+    "end": 34.89
+   },
+   {
+    "w": "more",
+    "start": 34.94,
+    "end": 35.22
+   },
+   {
+    "w": "than",
+    "start": 35.27,
+    "end": 35.54
+   },
+   {
+    "w": "doubled.",
+    "start": 35.59,
+    "end": 35.87
+   }
+  ]
+ },
+ "05": {
+  "audio": null,
+  "seconds": 68.85,
+  "frames": 2096,
+  "words": [
+   {
+    "w": "Why",
+    "start": 0.25,
+    "end": 0.53
+   },
+   {
+    "w": "can't",
+    "start": 0.57,
+    "end": 0.85
+   },
+   {
+    "w": "cleanup",
+    "start": 0.9,
+    "end": 1.17
+   },
+   {
+    "w": "remove",
+    "start": 1.22,
+    "end": 1.5
+   },
+   {
+    "w": "them?",
+    "start": 1.55,
+    "end": 1.82
+   },
+   {
+    "w": "Look",
+    "start": 2.19,
+    "end": 2.47
+   },
+   {
+    "w": "at",
+    "start": 2.52,
+    "end": 2.79
+   },
+   {
+    "w": "what",
+    "start": 2.84,
+    "end": 3.12
+   },
+   {
+    "w": "an",
+    "start": 3.16,
+    "end": 3.44
+   },
+   {
+    "w": "update",
+    "start": 3.49,
+    "end": 3.76
+   },
+   {
+    "w": "does.",
+    "start": 3.81,
+    "end": 4.09
+   },
+   {
+    "w": "Postgres",
+    "start": 4.76,
+    "end": 5.03
+   },
+   {
+    "w": "doesn't",
+    "start": 5.08,
+    "end": 5.36
+   },
+   {
+    "w": "change",
+    "start": 5.41,
+    "end": 5.68
+   },
+   {
+    "w": "a",
+    "start": 5.73,
+    "end": 6.01
+   },
+   {
+    "w": "row",
+    "start": 6.05,
+    "end": 6.33
+   },
+   {
+    "w": "in",
+    "start": 6.38,
+    "end": 6.65
+   },
+   {
+    "w": "place.",
+    "start": 6.7,
+    "end": 6.98
+   },
+   {
+    "w": "It",
+    "start": 7.35,
+    "end": 7.62
+   },
+   {
+    "w": "writes",
+    "start": 7.67,
+    "end": 7.95
+   },
+   {
+    "w": "a",
+    "start": 8.0,
+    "end": 8.27
+   },
+   {
+    "w": "new",
+    "start": 8.32,
+    "end": 8.6
+   },
+   {
+    "w": "copy,",
+    "start": 8.65,
+    "end": 8.92
+   },
+   {
+    "w": "and",
+    "start": 9.07,
+    "end": 9.35
+   },
+   {
+    "w": "leaves",
+    "start": 9.39,
+    "end": 9.67
+   },
+   {
+    "w": "the",
+    "start": 9.72,
+    "end": 9.99
+   },
+   {
+    "w": "old",
+    "start": 10.04,
+    "end": 10.32
+   },
+   {
+    "w": "one",
+    "start": 10.37,
+    "end": 10.64
+   },
+   {
+    "w": "behind.",
+    "start": 10.69,
+    "end": 10.97
+   },
+   {
+    "w": "Take",
+    "start": 11.64,
+    "end": 11.91
+   },
+   {
+    "w": "one",
+    "start": 11.96,
+    "end": 12.24
+   },
+   {
+    "w": "order.",
+    "start": 12.28,
+    "end": 12.56
+   },
+   {
+    "w": "Placed,",
+    "start": 12.93,
+    "end": 13.2
+   },
+   {
+    "w": "cooking,",
+    "start": 13.35,
+    "end": 13.63
+   },
+   {
+    "w": "picked",
+    "start": 13.78,
+    "end": 14.05
+   },
+   {
+    "w": "up,",
+    "start": 14.1,
+    "end": 14.38
+   },
+   {
+    "w": "delivered.",
+    "start": 14.53,
+    "end": 14.8
+   },
+   {
+    "w": "That's",
+    "start": 15.17,
+    "end": 15.45
+   },
+   {
+    "w": "four",
+    "start": 15.49,
+    "end": 15.77
+   },
+   {
+    "w": "copies",
+    "start": 15.82,
+    "end": 16.09
+   },
+   {
+    "w": "on",
+    "start": 16.14,
+    "end": 16.42
+   },
+   {
+    "w": "disk,",
+    "start": 16.47,
+    "end": 16.74
+   },
+   {
+    "w": "and",
+    "start": 16.89,
+    "end": 17.17
+   },
+   {
+    "w": "three",
+    "start": 17.22,
+    "end": 17.49
+   },
+   {
+    "w": "of",
+    "start": 17.54,
+    "end": 17.82
+   },
+   {
+    "w": "them",
+    "start": 17.86,
+    "end": 18.14
+   },
+   {
+    "w": "are",
+    "start": 18.19,
+    "end": 18.46
+   },
+   {
+    "w": "dead.",
+    "start": 18.51,
+    "end": 18.79
+   },
+   {
+    "w": "It",
+    "start": 19.46,
+    "end": 19.73
+   },
+   {
+    "w": "works",
+    "start": 19.78,
+    "end": 20.06
+   },
+   {
+    "w": "this",
+    "start": 20.11,
+    "end": 20.38
+   },
+   {
+    "w": "way",
+    "start": 20.43,
+    "end": 20.71
+   },
+   {
+    "w": "so",
+    "start": 20.75,
+    "end": 21.03
+   },
+   {
+    "w": "that",
+    "start": 21.08,
+    "end": 21.35
+   },
+   {
+    "w": "readers",
+    "start": 21.4,
+    "end": 21.68
+   },
+   {
+    "w": "and",
+    "start": 21.73,
+    "end": 22.0
+   },
+   {
+    "w": "writers",
+    "start": 22.05,
+    "end": 22.33
+   },
+   {
+    "w": "never",
+    "start": 22.38,
+    "end": 22.65
+   },
+   {
+    "w": "wait",
+    "start": 22.7,
+    "end": 22.98
+   },
+   {
+    "w": "for",
+    "start": 23.03,
+    "end": 23.3
+   },
+   {
+    "w": "each",
+    "start": 23.35,
+    "end": 23.63
+   },
+   {
+    "w": "other.",
+    "start": 23.67,
+    "end": 23.95
+   },
+   {
+    "w": "A",
+    "start": 24.32,
+    "end": 24.59
+   },
+   {
+    "w": "reader",
+    "start": 24.64,
+    "end": 24.92
+   },
+   {
+    "w": "keeps",
+    "start": 24.97,
+    "end": 25.24
+   },
+   {
+    "w": "seeing",
+    "start": 25.29,
+    "end": 25.57
+   },
+   {
+    "w": "the",
+    "start": 25.62,
+    "end": 25.89
+   },
+   {
+    "w": "old",
+    "start": 25.94,
+    "end": 26.22
+   },
+   {
+    "w": "copy",
+    "start": 26.26,
+    "end": 26.54
+   },
+   {
+    "w": "while",
+    "start": 26.69,
+    "end": 26.96
+   },
+   {
+    "w": "a",
+    "start": 27.01,
+    "end": 27.29
+   },
+   {
+    "w": "writer",
+    "start": 27.34,
+    "end": 27.61
+   },
+   {
+    "w": "makes",
+    "start": 27.66,
+    "end": 27.94
+   },
+   {
+    "w": "the",
+    "start": 27.99,
+    "end": 28.26
+   },
+   {
+    "w": "new",
+    "start": 28.31,
+    "end": 28.59
+   },
+   {
+    "w": "one.",
+    "start": 28.63,
+    "end": 28.91
+   },
+   {
+    "w": "Cleanup",
+    "start": 29.58,
+    "end": 29.85
+   },
+   {
+    "w": "removes",
+    "start": 29.9,
+    "end": 30.18
+   },
+   {
+    "w": "the",
+    "start": 30.23,
+    "end": 30.5
+   },
+   {
+    "w": "dead",
+    "start": 30.55,
+    "end": 30.83
+   },
+   {
+    "w": "copies.",
+    "start": 30.88,
+    "end": 31.15
+   },
+   {
+    "w": "But",
+    "start": 31.52,
+    "end": 31.8
+   },
+   {
+    "w": "only",
+    "start": 31.84,
+    "end": 32.12
+   },
+   {
+    "w": "the",
+    "start": 32.17,
+    "end": 32.44
+   },
+   {
+    "w": "ones",
+    "start": 32.49,
+    "end": 32.77
+   },
+   {
+    "w": "that",
+    "start": 32.82,
+    "end": 33.09
+   },
+   {
+    "w": "no",
+    "start": 33.14,
+    "end": 33.42
+   },
+   {
+    "w": "running",
+    "start": 33.47,
+    "end": 33.74
+   },
+   {
+    "w": "query",
+    "start": 33.79,
+    "end": 34.07
+   },
+   {
+    "w": "could",
+    "start": 34.11,
+    "end": 34.39
+   },
+   {
+    "w": "still",
+    "start": 34.44,
+    "end": 34.71
+   },
+   {
+    "w": "need.",
+    "start": 34.76,
+    "end": 35.04
+   },
+   {
+    "w": "And",
+    "start": 35.71,
+    "end": 35.98
+   },
+   {
+    "w": "a",
+    "start": 36.03,
+    "end": 36.31
+   },
+   {
+    "w": "query",
+    "start": 36.36,
+    "end": 36.63
+   },
+   {
+    "w": "sees",
+    "start": 36.68,
+    "end": 36.96
+   },
+   {
+    "w": "the",
+    "start": 37.01,
+    "end": 37.28
+   },
+   {
+    "w": "database",
+    "start": 37.33,
+    "end": 37.61
+   },
+   {
+    "w": "as",
+    "start": 37.75,
+    "end": 38.03
+   },
+   {
+    "w": "it",
+    "start": 38.08,
+    "end": 38.35
+   },
+   {
+    "w": "was",
+    "start": 38.4,
+    "end": 38.68
+   },
+   {
+    "w": "at",
+    "start": 38.73,
+    "end": 39.0
+   },
+   {
+    "w": "the",
+    "start": 39.05,
+    "end": 39.33
+   },
+   {
+    "w": "moment",
+    "start": 39.38,
+    "end": 39.65
+   },
+   {
+    "w": "it",
+    "start": 39.7,
+    "end": 39.98
+   },
+   {
+    "w": "started.",
+    "start": 40.02,
+    "end": 40.3
+   },
+   {
+    "w": "That's",
+    "start": 40.67,
+    "end": 40.94
+   },
+   {
+    "w": "its",
+    "start": 40.99,
+    "end": 41.27
+   },
+   {
+    "w": "snapshot.",
+    "start": 41.32,
+    "end": 41.59
+   },
+   {
+    "w": "So",
+    "start": 42.26,
+    "end": 42.54
+   },
+   {
+    "w": "if",
+    "start": 42.59,
+    "end": 42.86
+   },
+   {
+    "w": "my",
+    "start": 42.91,
+    "end": 43.19
+   },
+   {
+    "w": "report",
+    "start": 43.23,
+    "end": 43.51
+   },
+   {
+    "w": "started",
+    "start": 43.56,
+    "end": 43.83
+   },
+   {
+    "w": "at",
+    "start": 43.88,
+    "end": 44.16
+   },
+   {
+    "w": "six",
+    "start": 44.21,
+    "end": 44.48
+   },
+   {
+    "w": "o'clock,",
+    "start": 44.53,
+    "end": 44.81
+   },
+   {
+    "w": "every",
+    "start": 44.96,
+    "end": 45.23
+   },
+   {
+    "w": "copy",
+    "start": 45.28,
+    "end": 45.56
+   },
+   {
+    "w": "that",
+    "start": 45.6,
+    "end": 45.88
+   },
+   {
+    "w": "died",
+    "start": 45.93,
+    "end": 46.2
+   },
+   {
+    "w": "after",
+    "start": 46.25,
+    "end": 46.53
+   },
+   {
+    "w": "six",
+    "start": 46.58,
+    "end": 46.85
+   },
+   {
+    "w": "has",
+    "start": 47.0,
+    "end": 47.28
+   },
+   {
+    "w": "to",
+    "start": 47.33,
+    "end": 47.6
+   },
+   {
+    "w": "stay.",
+    "start": 47.65,
+    "end": 47.93
+   },
+   {
+    "w": "Until",
+    "start": 48.29,
+    "end": 48.57
+   },
+   {
+    "w": "the",
+    "start": 48.62,
+    "end": 48.89
+   },
+   {
+    "w": "report",
+    "start": 48.94,
+    "end": 49.22
+   },
+   {
+    "w": "ends.",
+    "start": 49.27,
+    "end": 49.54
+   },
+   {
+    "w": "And",
+    "start": 50.21,
+    "end": 50.49
+   },
+   {
+    "w": "not",
+    "start": 50.54,
+    "end": 50.81
+   },
+   {
+    "w": "only",
+    "start": 50.86,
+    "end": 51.14
+   },
+   {
+    "w": "on",
+    "start": 51.19,
+    "end": 51.46
+   },
+   {
+    "w": "the",
+    "start": 51.51,
+    "end": 51.79
+   },
+   {
+    "w": "table",
+    "start": 51.83,
+    "end": 52.11
+   },
+   {
+    "w": "the",
+    "start": 52.16,
+    "end": 52.43
+   },
+   {
+    "w": "report",
+    "start": 52.48,
+    "end": 52.76
+   },
+   {
+    "w": "reads.",
+    "start": 52.81,
+    "end": 53.08
+   },
+   {
+    "w": "On",
+    "start": 53.45,
+    "end": 53.73
+   },
+   {
+    "w": "every",
+    "start": 53.78,
+    "end": 54.05
+   },
+   {
+    "w": "table",
+    "start": 54.1,
+    "end": 54.38
+   },
+   {
+    "w": "in",
+    "start": 54.42,
+    "end": 54.7
+   },
+   {
+    "w": "that",
+    "start": 54.75,
+    "end": 55.02
+   },
+   {
+    "w": "database.",
+    "start": 55.07,
+    "end": 55.35
+   },
+   {
+    "w": "The",
+    "start": 56.02,
+    "end": 56.29
+   },
+   {
+    "w": "growth",
+    "start": 56.34,
+    "end": 56.62
+   },
+   {
+    "w": "follows",
+    "start": 56.67,
+    "end": 56.94
+   },
+   {
+    "w": "the",
+    "start": 56.99,
+    "end": 57.27
+   },
+   {
+    "w": "update",
+    "start": 57.31,
+    "end": 57.59
+   },
+   {
+    "w": "rate,",
+    "start": 57.64,
+    "end": 57.91
+   },
+   {
+    "w": "not",
+    "start": 58.06,
+    "end": 58.34
+   },
+   {
+    "w": "the",
+    "start": 58.39,
+    "end": 58.66
+   },
+   {
+    "w": "table's",
+    "start": 58.71,
+    "end": 58.99
+   },
+   {
+    "w": "size.",
+    "start": 59.04,
+    "end": 59.31
+   },
+   {
+    "w": "Here,",
+    "start": 59.68,
+    "end": 59.96
+   },
+   {
+    "w": "about",
+    "start": 60.0,
+    "end": 60.28
+   },
+   {
+    "w": "215",
+    "start": 60.33,
+    "end": 60.6
+   },
+   {
+    "w": "megabytes",
+    "start": 60.65,
+    "end": 60.93
+   },
+   {
+    "w": "an",
+    "start": 60.98,
+    "end": 61.25
+   },
+   {
+    "w": "hour.",
+    "start": 61.3,
+    "end": 61.58
+   },
+   {
+    "w": "On",
+    "start": 61.95,
+    "end": 62.22
+   },
+   {
+    "w": "a",
+    "start": 62.27,
+    "end": 62.55
+   },
+   {
+    "w": "50",
+    "start": 62.59,
+    "end": 62.87
+   },
+   {
+    "w": "gigabyte",
+    "start": 62.92,
+    "end": 63.19
+   },
+   {
+    "w": "table,",
+    "start": 63.24,
+    "end": 63.52
+   },
+   {
+    "w": "that's",
+    "start": 63.67,
+    "end": 63.94
+   },
+   {
+    "w": "under",
+    "start": 63.99,
+    "end": 64.27
+   },
+   {
+    "w": "one",
+    "start": 64.32,
+    "end": 64.59
+   },
+   {
+    "w": "percent.",
+    "start": 64.64,
+    "end": 64.92
+   },
+   {
+    "w": "On",
+    "start": 65.29,
+    "end": 65.56
+   },
+   {
+    "w": "a",
+    "start": 65.61,
+    "end": 65.89
+   },
+   {
+    "w": "small,",
+    "start": 65.93,
+    "end": 66.21
+   },
+   {
+    "w": "busy",
+    "start": 66.26,
+    "end": 66.53
+   },
+   {
+    "w": "table,",
+    "start": 66.58,
+    "end": 66.86
+   },
+   {
+    "w": "it's",
+    "start": 67.01,
+    "end": 67.28
+   },
+   {
+    "w": "2.8",
+    "start": 67.33,
+    "end": 67.61
+   },
+   {
+    "w": "times",
+    "start": 67.66,
+    "end": 67.93
+   },
+   {
+    "w": "the",
+    "start": 67.98,
+    "end": 68.26
+   },
+   {
+    "w": "file.",
+    "start": 68.3,
+    "end": 68.58
+   }
+  ]
+ },
+ "06": {
+  "audio": null,
+  "seconds": 50.89,
+  "frames": 1557,
+  "words": [
+   {
+    "w": "Then",
+    "start": 0.25,
+    "end": 0.53
+   },
+   {
+    "w": "the",
+    "start": 0.57,
+    "end": 0.85
+   },
+   {
+    "w": "report",
+    "start": 0.9,
+    "end": 1.17
+   },
+   {
+    "w": "ended.",
+    "start": 1.22,
+    "end": 1.5
+   },
+   {
+    "w": "Within",
+    "start": 1.87,
+    "end": 2.14
+   },
+   {
+    "w": "a",
+    "start": 2.19,
+    "end": 2.47
+   },
+   {
+    "w": "minute,",
+    "start": 2.52,
+    "end": 2.79
+   },
+   {
+    "w": "cleanup",
+    "start": 2.94,
+    "end": 3.22
+   },
+   {
+    "w": "removed",
+    "start": 3.26,
+    "end": 3.54
+   },
+   {
+    "w": "the",
+    "start": 3.59,
+    "end": 3.86
+   },
+   {
+    "w": "dead",
+    "start": 3.91,
+    "end": 4.19
+   },
+   {
+    "w": "copies.",
+    "start": 4.24,
+    "end": 4.51
+   },
+   {
+    "w": "But",
+    "start": 5.18,
+    "end": 5.46
+   },
+   {
+    "w": "the",
+    "start": 5.51,
+    "end": 5.78
+   },
+   {
+    "w": "file",
+    "start": 5.83,
+    "end": 6.11
+   },
+   {
+    "w": "didn't",
+    "start": 6.15,
+    "end": 6.43
+   },
+   {
+    "w": "shrink.",
+    "start": 6.48,
+    "end": 6.75
+   },
+   {
+    "w": "Still",
+    "start": 7.12,
+    "end": 7.4
+   },
+   {
+    "w": "337",
+    "start": 7.45,
+    "end": 7.72
+   },
+   {
+    "w": "megabytes,",
+    "start": 7.77,
+    "end": 8.05
+   },
+   {
+    "w": "and",
+    "start": 8.2,
+    "end": 8.47
+   },
+   {
+    "w": "210",
+    "start": 8.52,
+    "end": 8.8
+   },
+   {
+    "w": "of",
+    "start": 8.85,
+    "end": 9.12
+   },
+   {
+    "w": "them",
+    "start": 9.17,
+    "end": 9.45
+   },
+   {
+    "w": "were",
+    "start": 9.49,
+    "end": 9.77
+   },
+   {
+    "w": "empty.",
+    "start": 9.82,
+    "end": 10.09
+   },
+   {
+    "w": "Cleanup",
+    "start": 10.76,
+    "end": 11.04
+   },
+   {
+    "w": "marks",
+    "start": 11.09,
+    "end": 11.36
+   },
+   {
+    "w": "that",
+    "start": 11.41,
+    "end": 11.69
+   },
+   {
+    "w": "space",
+    "start": 11.74,
+    "end": 12.01
+   },
+   {
+    "w": "as",
+    "start": 12.06,
+    "end": 12.34
+   },
+   {
+    "w": "free,",
+    "start": 12.38,
+    "end": 12.66
+   },
+   {
+    "w": "for",
+    "start": 12.81,
+    "end": 13.08
+   },
+   {
+    "w": "new",
+    "start": 13.13,
+    "end": 13.41
+   },
+   {
+    "w": "rows",
+    "start": 13.46,
+    "end": 13.73
+   },
+   {
+    "w": "of",
+    "start": 13.78,
+    "end": 14.06
+   },
+   {
+    "w": "the",
+    "start": 14.11,
+    "end": 14.38
+   },
+   {
+    "w": "same",
+    "start": 14.43,
+    "end": 14.71
+   },
+   {
+    "w": "table.",
+    "start": 14.75,
+    "end": 15.03
+   },
+   {
+    "w": "It",
+    "start": 15.4,
+    "end": 15.67
+   },
+   {
+    "w": "doesn't",
+    "start": 15.72,
+    "end": 16.0
+   },
+   {
+    "w": "give",
+    "start": 16.05,
+    "end": 16.32
+   },
+   {
+    "w": "it",
+    "start": 16.37,
+    "end": 16.65
+   },
+   {
+    "w": "back",
+    "start": 16.7,
+    "end": 16.97
+   },
+   {
+    "w": "to",
+    "start": 17.02,
+    "end": 17.3
+   },
+   {
+    "w": "the",
+    "start": 17.34,
+    "end": 17.62
+   },
+   {
+    "w": "disk.",
+    "start": 17.67,
+    "end": 17.94
+   },
+   {
+    "w": "And",
+    "start": 18.61,
+    "end": 18.89
+   },
+   {
+    "w": "empty",
+    "start": 18.94,
+    "end": 19.21
+   },
+   {
+    "w": "space",
+    "start": 19.26,
+    "end": 19.54
+   },
+   {
+    "w": "still",
+    "start": 19.59,
+    "end": 19.86
+   },
+   {
+    "w": "gets",
+    "start": 19.91,
+    "end": 20.19
+   },
+   {
+    "w": "read.",
+    "start": 20.23,
+    "end": 20.51
+   },
+   {
+    "w": "Postgres",
+    "start": 20.88,
+    "end": 21.15
+   },
+   {
+    "w": "stores",
+    "start": 21.2,
+    "end": 21.48
+   },
+   {
+    "w": "a",
+    "start": 21.53,
+    "end": 21.8
+   },
+   {
+    "w": "table",
+    "start": 21.85,
+    "end": 22.13
+   },
+   {
+    "w": "in",
+    "start": 22.18,
+    "end": 22.45
+   },
+   {
+    "w": "pages,",
+    "start": 22.5,
+    "end": 22.78
+   },
+   {
+    "w": "and",
+    "start": 22.93,
+    "end": 23.2
+   },
+   {
+    "w": "a",
+    "start": 23.25,
+    "end": 23.53
+   },
+   {
+    "w": "full",
+    "start": 23.57,
+    "end": 23.85
+   },
+   {
+    "w": "scan",
+    "start": 23.9,
+    "end": 24.17
+   },
+   {
+    "w": "reads",
+    "start": 24.22,
+    "end": 24.5
+   },
+   {
+    "w": "every",
+    "start": 24.55,
+    "end": 24.82
+   },
+   {
+    "w": "page,",
+    "start": 24.87,
+    "end": 25.15
+   },
+   {
+    "w": "empty",
+    "start": 25.3,
+    "end": 25.57
+   },
+   {
+    "w": "or",
+    "start": 25.62,
+    "end": 25.9
+   },
+   {
+    "w": "not.",
+    "start": 25.94,
+    "end": 26.22
+   },
+   {
+    "w": "A",
+    "start": 26.89,
+    "end": 27.16
+   },
+   {
+    "w": "filter",
+    "start": 27.21,
+    "end": 27.49
+   },
+   {
+    "w": "on",
+    "start": 27.54,
+    "end": 27.81
+   },
+   {
+    "w": "a",
+    "start": 27.86,
+    "end": 28.14
+   },
+   {
+    "w": "column",
+    "start": 28.19,
+    "end": 28.46
+   },
+   {
+    "w": "with",
+    "start": 28.51,
+    "end": 28.79
+   },
+   {
+    "w": "no",
+    "start": 28.83,
+    "end": 29.11
+   },
+   {
+    "w": "index",
+    "start": 29.16,
+    "end": 29.43
+   },
+   {
+    "w": "read",
+    "start": 29.58,
+    "end": 29.86
+   },
+   {
+    "w": "43,000",
+    "start": 29.91,
+    "end": 30.18
+   },
+   {
+    "w": "pages,",
+    "start": 30.23,
+    "end": 30.51
+   },
+   {
+    "w": "instead",
+    "start": 30.66,
+    "end": 30.93
+   },
+   {
+    "w": "of",
+    "start": 30.98,
+    "end": 31.26
+   },
+   {
+    "w": "15,600,",
+    "start": 31.3,
+    "end": 31.58
+   },
+   {
+    "w": "and",
+    "start": 31.73,
+    "end": 32.0
+   },
+   {
+    "w": "took",
+    "start": 32.05,
+    "end": 32.33
+   },
+   {
+    "w": "about",
+    "start": 32.38,
+    "end": 32.65
+   },
+   {
+    "w": "three",
+    "start": 32.7,
+    "end": 32.98
+   },
+   {
+    "w": "times",
+    "start": 33.03,
+    "end": 33.3
+   },
+   {
+    "w": "as",
+    "start": 33.35,
+    "end": 33.63
+   },
+   {
+    "w": "long.",
+    "start": 33.67,
+    "end": 33.95
+   },
+   {
+    "w": "A",
+    "start": 34.62,
+    "end": 34.89
+   },
+   {
+    "w": "lookup",
+    "start": 34.94,
+    "end": 35.22
+   },
+   {
+    "w": "by",
+    "start": 35.27,
+    "end": 35.54
+   },
+   {
+    "w": "id",
+    "start": 35.59,
+    "end": 35.87
+   },
+   {
+    "w": "was",
+    "start": 35.92,
+    "end": 36.19
+   },
+   {
+    "w": "not",
+    "start": 36.24,
+    "end": 36.52
+   },
+   {
+    "w": "affected.",
+    "start": 36.57,
+    "end": 36.84
+   },
+   {
+    "w": "Seven",
+    "start": 37.21,
+    "end": 37.49
+   },
+   {
+    "w": "pages",
+    "start": 37.53,
+    "end": 37.81
+   },
+   {
+    "w": "before,",
+    "start": 37.86,
+    "end": 38.13
+   },
+   {
+    "w": "seven",
+    "start": 38.28,
+    "end": 38.56
+   },
+   {
+    "w": "after.",
+    "start": 38.61,
+    "end": 38.88
+   },
+   {
+    "w": "To",
+    "start": 39.55,
+    "end": 39.83
+   },
+   {
+    "w": "get",
+    "start": 39.88,
+    "end": 40.15
+   },
+   {
+    "w": "the",
+    "start": 40.2,
+    "end": 40.48
+   },
+   {
+    "w": "space",
+    "start": 40.52,
+    "end": 40.8
+   },
+   {
+    "w": "back,",
+    "start": 40.85,
+    "end": 41.12
+   },
+   {
+    "w": "the",
+    "start": 41.27,
+    "end": 41.55
+   },
+   {
+    "w": "table",
+    "start": 41.6,
+    "end": 41.87
+   },
+   {
+    "w": "has",
+    "start": 41.92,
+    "end": 42.2
+   },
+   {
+    "w": "to",
+    "start": 42.25,
+    "end": 42.52
+   },
+   {
+    "w": "be",
+    "start": 42.57,
+    "end": 42.85
+   },
+   {
+    "w": "rewritten.",
+    "start": 42.89,
+    "end": 43.17
+   },
+   {
+    "w": "VACUUM",
+    "start": 43.54,
+    "end": 43.81
+   },
+   {
+    "w": "FULL",
+    "start": 43.86,
+    "end": 44.14
+   },
+   {
+    "w": "does",
+    "start": 44.19,
+    "end": 44.46
+   },
+   {
+    "w": "it",
+    "start": 44.51,
+    "end": 44.79
+   },
+   {
+    "w": "with",
+    "start": 44.84,
+    "end": 45.11
+   },
+   {
+    "w": "the",
+    "start": 45.16,
+    "end": 45.44
+   },
+   {
+    "w": "table",
+    "start": 45.48,
+    "end": 45.76
+   },
+   {
+    "w": "locked.",
+    "start": 45.81,
+    "end": 46.08
+   },
+   {
+    "w": "pg_repack",
+    "start": 46.45,
+    "end": 46.73
+   },
+   {
+    "w": "does",
+    "start": 46.78,
+    "end": 47.05
+   },
+   {
+    "w": "it",
+    "start": 47.1,
+    "end": 47.38
+   },
+   {
+    "w": "with",
+    "start": 47.43,
+    "end": 47.7
+   },
+   {
+    "w": "only",
+    "start": 47.75,
+    "end": 48.03
+   },
+   {
+    "w": "short",
+    "start": 48.07,
+    "end": 48.35
+   },
+   {
+    "w": "locks.",
+    "start": 48.4,
+    "end": 48.67
+   },
+   {
+    "w": "I",
+    "start": 49.04,
+    "end": 49.32
+   },
+   {
+    "w": "didn't",
+    "start": 49.37,
+    "end": 49.64
+   },
+   {
+    "w": "measure",
+    "start": 49.69,
+    "end": 49.97
+   },
+   {
+    "w": "either",
+    "start": 50.02,
+    "end": 50.29
+   },
+   {
+    "w": "one.",
+    "start": 50.34,
+    "end": 50.62
+   }
+  ]
+ },
+ "07": {
+  "audio": null,
+  "seconds": 44.62,
+  "frames": 1369,
+  "words": [
+   {
+    "w": "Now",
+    "start": 0.25,
+    "end": 0.53
+   },
+   {
+    "w": "back",
+    "start": 0.57,
+    "end": 0.85
+   },
+   {
+    "w": "to",
+    "start": 0.9,
+    "end": 1.17
+   },
+   {
+    "w": "that",
+    "start": 1.22,
+    "end": 1.5
+   },
+   {
+    "w": "admin",
+    "start": 1.55,
+    "end": 1.82
+   },
+   {
+    "w": "search.",
+    "start": 1.87,
+    "end": 2.15
+   },
+   {
+    "w": "At",
+    "start": 2.82,
+    "end": 3.09
+   },
+   {
+    "w": "a",
+    "start": 3.14,
+    "end": 3.42
+   },
+   {
+    "w": "marketplace",
+    "start": 3.46,
+    "end": 3.74
+   },
+   {
+    "w": "app,",
+    "start": 3.79,
+    "end": 4.06
+   },
+   {
+    "w": "an",
+    "start": 4.21,
+    "end": 4.49
+   },
+   {
+    "w": "internal",
+    "start": 4.54,
+    "end": 4.81
+   },
+   {
+    "w": "admin",
+    "start": 4.86,
+    "end": 5.14
+   },
+   {
+    "w": "panel",
+    "start": 5.19,
+    "end": 5.46
+   },
+   {
+    "w": "let",
+    "start": 5.51,
+    "end": 5.79
+   },
+   {
+    "w": "staff",
+    "start": 5.83,
+    "end": 6.11
+   },
+   {
+    "w": "combine",
+    "start": 6.16,
+    "end": 6.43
+   },
+   {
+    "w": "filters",
+    "start": 6.48,
+    "end": 6.76
+   },
+   {
+    "w": "freely.",
+    "start": 6.81,
+    "end": 7.08
+   },
+   {
+    "w": "Some",
+    "start": 7.45,
+    "end": 7.73
+   },
+   {
+    "w": "filters",
+    "start": 7.78,
+    "end": 8.05
+   },
+   {
+    "w": "hit",
+    "start": 8.1,
+    "end": 8.38
+   },
+   {
+    "w": "columns",
+    "start": 8.43,
+    "end": 8.7
+   },
+   {
+    "w": "with",
+    "start": 8.75,
+    "end": 9.03
+   },
+   {
+    "w": "no",
+    "start": 9.07,
+    "end": 9.35
+   },
+   {
+    "w": "fitting",
+    "start": 9.4,
+    "end": 9.67
+   },
+   {
+    "w": "index,",
+    "start": 9.72,
+    "end": 10.0
+   },
+   {
+    "w": "so",
+    "start": 10.15,
+    "end": 10.42
+   },
+   {
+    "w": "one",
+    "start": 10.47,
+    "end": 10.75
+   },
+   {
+    "w": "search",
+    "start": 10.8,
+    "end": 11.07
+   },
+   {
+    "w": "could",
+    "start": 11.12,
+    "end": 11.4
+   },
+   {
+    "w": "run",
+    "start": 11.44,
+    "end": 11.72
+   },
+   {
+    "w": "for",
+    "start": 11.77,
+    "end": 12.04
+   },
+   {
+    "w": "minutes,",
+    "start": 12.09,
+    "end": 12.37
+   },
+   {
+    "w": "on",
+    "start": 12.52,
+    "end": 12.79
+   },
+   {
+    "w": "the",
+    "start": 12.84,
+    "end": 13.12
+   },
+   {
+    "w": "primary",
+    "start": 13.17,
+    "end": 13.44
+   },
+   {
+    "w": "database.",
+    "start": 13.49,
+    "end": 13.77
+   },
+   {
+    "w": "Nobody",
+    "start": 14.43,
+    "end": 14.71
+   },
+   {
+    "w": "saw",
+    "start": 14.76,
+    "end": 15.03
+   },
+   {
+    "w": "that",
+    "start": 15.08,
+    "end": 15.36
+   },
+   {
+    "w": "as",
+    "start": 15.41,
+    "end": 15.68
+   },
+   {
+    "w": "a",
+    "start": 15.73,
+    "end": 16.01
+   },
+   {
+    "w": "risk.",
+    "start": 16.06,
+    "end": 16.33
+   },
+   {
+    "w": "It's",
+    "start": 17.0,
+    "end": 17.28
+   },
+   {
+    "w": "just",
+    "start": 17.32,
+    "end": 17.6
+   },
+   {
+    "w": "a",
+    "start": 17.65,
+    "end": 17.92
+   },
+   {
+    "w": "search.",
+    "start": 17.97,
+    "end": 18.25
+   },
+   {
+    "w": "It",
+    "start": 18.92,
+    "end": 19.19
+   },
+   {
+    "w": "showed",
+    "start": 19.24,
+    "end": 19.52
+   },
+   {
+    "w": "up",
+    "start": 19.57,
+    "end": 19.84
+   },
+   {
+    "w": "as",
+    "start": 19.89,
+    "end": 20.17
+   },
+   {
+    "w": "disk",
+    "start": 20.21,
+    "end": 20.49
+   },
+   {
+    "w": "growth",
+    "start": 20.54,
+    "end": 20.81
+   },
+   {
+    "w": "that",
+    "start": 20.96,
+    "end": 21.24
+   },
+   {
+    "w": "no",
+    "start": 21.29,
+    "end": 21.56
+   },
+   {
+    "w": "traffic",
+    "start": 21.61,
+    "end": 21.89
+   },
+   {
+    "w": "chart",
+    "start": 21.94,
+    "end": 22.21
+   },
+   {
+    "w": "explained.",
+    "start": 22.26,
+    "end": 22.54
+   },
+   {
+    "w": "Then",
+    "start": 23.21,
+    "end": 23.48
+   },
+   {
+    "w": "a",
+    "start": 23.53,
+    "end": 23.81
+   },
+   {
+    "w": "schema",
+    "start": 23.85,
+    "end": 24.13
+   },
+   {
+    "w": "change",
+    "start": 24.18,
+    "end": 24.45
+   },
+   {
+    "w": "was",
+    "start": 24.5,
+    "end": 24.78
+   },
+   {
+    "w": "run,",
+    "start": 24.83,
+    "end": 25.1
+   },
+   {
+    "w": "one",
+    "start": 25.25,
+    "end": 25.53
+   },
+   {
+    "w": "that",
+    "start": 25.58,
+    "end": 25.85
+   },
+   {
+    "w": "rewrites",
+    "start": 25.9,
+    "end": 26.18
+   },
+   {
+    "w": "a",
+    "start": 26.22,
+    "end": 26.5
+   },
+   {
+    "w": "table,",
+    "start": 26.55,
+    "end": 26.82
+   },
+   {
+    "w": "and",
+    "start": 26.97,
+    "end": 27.25
+   },
+   {
+    "w": "needs",
+    "start": 27.3,
+    "end": 27.57
+   },
+   {
+    "w": "room",
+    "start": 27.62,
+    "end": 27.9
+   },
+   {
+    "w": "for",
+    "start": 27.95,
+    "end": 28.22
+   },
+   {
+    "w": "a",
+    "start": 28.27,
+    "end": 28.55
+   },
+   {
+    "w": "second",
+    "start": 28.59,
+    "end": 28.87
+   },
+   {
+    "w": "copy.",
+    "start": 28.92,
+    "end": 29.19
+   },
+   {
+    "w": "The",
+    "start": 29.56,
+    "end": 29.84
+   },
+   {
+    "w": "managed",
+    "start": 29.89,
+    "end": 30.16
+   },
+   {
+    "w": "database",
+    "start": 30.21,
+    "end": 30.49
+   },
+   {
+    "w": "ran",
+    "start": 30.54,
+    "end": 30.81
+   },
+   {
+    "w": "out",
+    "start": 30.86,
+    "end": 31.14
+   },
+   {
+    "w": "of",
+    "start": 31.18,
+    "end": 31.46
+   },
+   {
+    "w": "storage,",
+    "start": 31.51,
+    "end": 31.78
+   },
+   {
+    "w": "and",
+    "start": 31.93,
+    "end": 32.21
+   },
+   {
+    "w": "switched",
+    "start": 32.26,
+    "end": 32.53
+   },
+   {
+    "w": "itself",
+    "start": 32.58,
+    "end": 32.86
+   },
+   {
+    "w": "to",
+    "start": 32.91,
+    "end": 33.18
+   },
+   {
+    "w": "read-only.",
+    "start": 33.23,
+    "end": 33.51
+   },
+   {
+    "w": "Writes",
+    "start": 33.87,
+    "end": 34.15
+   },
+   {
+    "w": "stopped,",
+    "start": 34.2,
+    "end": 34.47
+   },
+   {
+    "w": "until",
+    "start": 34.62,
+    "end": 34.9
+   },
+   {
+    "w": "space",
+    "start": 34.95,
+    "end": 35.22
+   },
+   {
+    "w": "was",
+    "start": 35.27,
+    "end": 35.55
+   },
+   {
+    "w": "freed.",
+    "start": 35.6,
+    "end": 35.87
+   },
+   {
+    "w": "Short",
+    "start": 36.54,
+    "end": 36.82
+   },
+   {
+    "w": "term,",
+    "start": 36.87,
+    "end": 37.14
+   },
+   {
+    "w": "the",
+    "start": 37.29,
+    "end": 37.57
+   },
+   {
+    "w": "space",
+    "start": 37.61,
+    "end": 37.89
+   },
+   {
+    "w": "was",
+    "start": 37.94,
+    "end": 38.21
+   },
+   {
+    "w": "taken",
+    "start": 38.26,
+    "end": 38.54
+   },
+   {
+    "w": "back:",
+    "start": 38.59,
+    "end": 38.86
+   },
+   {
+    "w": "vacuum,",
+    "start": 39.01,
+    "end": 39.29
+   },
+   {
+    "w": "then",
+    "start": 39.44,
+    "end": 39.71
+   },
+   {
+    "w": "a",
+    "start": 39.76,
+    "end": 40.04
+   },
+   {
+    "w": "table",
+    "start": 40.08,
+    "end": 40.36
+   },
+   {
+    "w": "rewrite",
+    "start": 40.41,
+    "end": 40.68
+   },
+   {
+    "w": "outside",
+    "start": 40.73,
+    "end": 41.01
+   },
+   {
+    "w": "busy",
+    "start": 41.06,
+    "end": 41.33
+   },
+   {
+    "w": "hours.",
+    "start": 41.38,
+    "end": 41.66
+   },
+   {
+    "w": "Long",
+    "start": 42.03,
+    "end": 42.3
+   },
+   {
+    "w": "term,",
+    "start": 42.35,
+    "end": 42.63
+   },
+   {
+    "w": "the",
+    "start": 42.77,
+    "end": 43.05
+   },
+   {
+    "w": "filters",
+    "start": 43.1,
+    "end": 43.37
+   },
+   {
+    "w": "got",
+    "start": 43.42,
+    "end": 43.7
+   },
+   {
+    "w": "their",
+    "start": 43.75,
+    "end": 44.02
+   },
+   {
+    "w": "indexes.",
+    "start": 44.07,
+    "end": 44.35
+   }
+  ]
+ },
+ "08": {
+  "audio": null,
+  "seconds": 30.68,
+  "frames": 951,
+  "words": [
+   {
+    "w": "And",
+    "start": 0.25,
+    "end": 0.53
+   },
+   {
+    "w": "it",
+    "start": 0.57,
+    "end": 0.85
+   },
+   {
+    "w": "doesn't",
+    "start": 0.9,
+    "end": 1.17
+   },
+   {
+    "w": "have",
+    "start": 1.22,
+    "end": 1.5
+   },
+   {
+    "w": "to",
+    "start": 1.55,
+    "end": 1.82
+   },
+   {
+    "w": "be",
+    "start": 1.87,
+    "end": 2.15
+   },
+   {
+    "w": "a",
+    "start": 2.2,
+    "end": 2.47
+   },
+   {
+    "w": "slow",
+    "start": 2.52,
+    "end": 2.8
+   },
+   {
+    "w": "query.",
+    "start": 2.84,
+    "end": 3.12
+   },
+   {
+    "w": "A",
+    "start": 3.79,
+    "end": 4.06
+   },
+   {
+    "w": "transaction",
+    "start": 4.11,
+    "end": 4.39
+   },
+   {
+    "w": "that",
+    "start": 4.44,
+    "end": 4.71
+   },
+   {
+    "w": "was",
+    "start": 4.76,
+    "end": 5.04
+   },
+   {
+    "w": "opened,",
+    "start": 5.09,
+    "end": 5.36
+   },
+   {
+    "w": "and",
+    "start": 5.51,
+    "end": 5.79
+   },
+   {
+    "w": "then",
+    "start": 5.83,
+    "end": 6.11
+   },
+   {
+    "w": "forgotten,",
+    "start": 6.16,
+    "end": 6.43
+   },
+   {
+    "w": "does",
+    "start": 6.58,
+    "end": 6.86
+   },
+   {
+    "w": "the",
+    "start": 6.91,
+    "end": 7.18
+   },
+   {
+    "w": "same.",
+    "start": 7.23,
+    "end": 7.51
+   },
+   {
+    "w": "In",
+    "start": 7.88,
+    "end": 8.15
+   },
+   {
+    "w": "my",
+    "start": 8.2,
+    "end": 8.48
+   },
+   {
+    "w": "test,",
+    "start": 8.53,
+    "end": 8.8
+   },
+   {
+    "w": "it",
+    "start": 8.95,
+    "end": 9.23
+   },
+   {
+    "w": "grew",
+    "start": 9.27,
+    "end": 9.55
+   },
+   {
+    "w": "the",
+    "start": 9.6,
+    "end": 9.87
+   },
+   {
+    "w": "table",
+    "start": 9.92,
+    "end": 10.2
+   },
+   {
+    "w": "exactly",
+    "start": 10.25,
+    "end": 10.52
+   },
+   {
+    "w": "as",
+    "start": 10.57,
+    "end": 10.85
+   },
+   {
+    "w": "much",
+    "start": 10.9,
+    "end": 11.17
+   },
+   {
+    "w": "as",
+    "start": 11.22,
+    "end": 11.5
+   },
+   {
+    "w": "the",
+    "start": 11.54,
+    "end": 11.82
+   },
+   {
+    "w": "report.",
+    "start": 11.87,
+    "end": 12.14
+   },
+   {
+    "w": "One",
+    "start": 12.81,
+    "end": 13.09
+   },
+   {
+    "w": "detail:",
+    "start": 13.14,
+    "end": 13.41
+   },
+   {
+    "w": "my",
+    "start": 13.56,
+    "end": 13.84
+   },
+   {
+    "w": "test",
+    "start": 13.89,
+    "end": 14.16
+   },
+   {
+    "w": "used",
+    "start": 14.21,
+    "end": 14.49
+   },
+   {
+    "w": "a",
+    "start": 14.53,
+    "end": 14.81
+   },
+   {
+    "w": "stricter",
+    "start": 14.86,
+    "end": 15.13
+   },
+   {
+    "w": "isolation",
+    "start": 15.18,
+    "end": 15.46
+   },
+   {
+    "w": "level,",
+    "start": 15.51,
+    "end": 15.78
+   },
+   {
+    "w": "repeatable",
+    "start": 15.93,
+    "end": 16.21
+   },
+   {
+    "w": "read.",
+    "start": 16.26,
+    "end": 16.53
+   },
+   {
+    "w": "At",
+    "start": 16.9,
+    "end": 17.18
+   },
+   {
+    "w": "the",
+    "start": 17.22,
+    "end": 17.5
+   },
+   {
+    "w": "default",
+    "start": 17.55,
+    "end": 17.82
+   },
+   {
+    "w": "level,",
+    "start": 17.87,
+    "end": 18.15
+   },
+   {
+    "w": "a",
+    "start": 18.3,
+    "end": 18.57
+   },
+   {
+    "w": "forgotten",
+    "start": 18.62,
+    "end": 18.9
+   },
+   {
+    "w": "transaction",
+    "start": 18.95,
+    "end": 19.22
+   },
+   {
+    "w": "that",
+    "start": 19.27,
+    "end": 19.55
+   },
+   {
+    "w": "only",
+    "start": 19.59,
+    "end": 19.87
+   },
+   {
+    "w": "read",
+    "start": 19.92,
+    "end": 20.19
+   },
+   {
+    "w": "holds",
+    "start": 20.34,
+    "end": 20.62
+   },
+   {
+    "w": "nothing",
+    "start": 20.67,
+    "end": 20.94
+   },
+   {
+    "w": "back.",
+    "start": 20.99,
+    "end": 21.27
+   },
+   {
+    "w": "One",
+    "start": 21.64,
+    "end": 21.91
+   },
+   {
+    "w": "that",
+    "start": 21.96,
+    "end": 22.24
+   },
+   {
+    "w": "has",
+    "start": 22.29,
+    "end": 22.56
+   },
+   {
+    "w": "written",
+    "start": 22.61,
+    "end": 22.89
+   },
+   {
+    "w": "something",
+    "start": 22.93,
+    "end": 23.21
+   },
+   {
+    "w": "does.",
+    "start": 23.36,
+    "end": 23.63
+   },
+   {
+    "w": "A",
+    "start": 24.3,
+    "end": 24.58
+   },
+   {
+    "w": "backup",
+    "start": 24.63,
+    "end": 24.9
+   },
+   {
+    "w": "with",
+    "start": 24.95,
+    "end": 25.23
+   },
+   {
+    "w": "pg_dump",
+    "start": 25.28,
+    "end": 25.55
+   },
+   {
+    "w": "holds",
+    "start": 25.6,
+    "end": 25.88
+   },
+   {
+    "w": "one",
+    "start": 25.92,
+    "end": 26.2
+   },
+   {
+    "w": "snapshot",
+    "start": 26.25,
+    "end": 26.52
+   },
+   {
+    "w": "for",
+    "start": 26.57,
+    "end": 26.85
+   },
+   {
+    "w": "the",
+    "start": 26.9,
+    "end": 27.17
+   },
+   {
+    "w": "whole",
+    "start": 27.22,
+    "end": 27.5
+   },
+   {
+    "w": "dump.",
+    "start": 27.55,
+    "end": 27.82
+   },
+   {
+    "w": "And",
+    "start": 28.19,
+    "end": 28.47
+   },
+   {
+    "w": "so",
+    "start": 28.51,
+    "end": 28.79
+   },
+   {
+    "w": "does",
+    "start": 28.84,
+    "end": 29.11
+   },
+   {
+    "w": "a",
+    "start": 29.16,
+    "end": 29.44
+   },
+   {
+    "w": "forgotten",
+    "start": 29.49,
+    "end": 29.76
+   },
+   {
+    "w": "replication",
+    "start": 29.81,
+    "end": 30.09
+   },
+   {
+    "w": "slot.",
+    "start": 30.14,
+    "end": 30.41
+   }
+  ]
+ },
+ "09": {
+  "audio": null,
+  "seconds": 84.4,
+  "frames": 2562,
+  "words": [
+   {
+    "w": "So",
+    "start": 0.25,
+    "end": 0.53
+   },
+   {
+    "w": "what",
+    "start": 0.57,
+    "end": 0.85
+   },
+   {
+    "w": "stops",
+    "start": 0.9,
+    "end": 1.17
+   },
+   {
+    "w": "it?",
+    "start": 1.22,
+    "end": 1.5
+   },
+   {
+    "w": "I",
+    "start": 1.87,
+    "end": 2.14
+   },
+   {
+    "w": "ran",
+    "start": 2.19,
+    "end": 2.47
+   },
+   {
+    "w": "each",
+    "start": 2.52,
+    "end": 2.79
+   },
+   {
+    "w": "fix",
+    "start": 2.84,
+    "end": 3.12
+   },
+   {
+    "w": "against",
+    "start": 3.16,
+    "end": 3.44
+   },
+   {
+    "w": "the",
+    "start": 3.49,
+    "end": 3.76
+   },
+   {
+    "w": "same",
+    "start": 3.81,
+    "end": 4.09
+   },
+   {
+    "w": "load,",
+    "start": 4.14,
+    "end": 4.41
+   },
+   {
+    "w": "with",
+    "start": 4.56,
+    "end": 4.84
+   },
+   {
+    "w": "the",
+    "start": 4.89,
+    "end": 5.16
+   },
+   {
+    "w": "snapshot",
+    "start": 5.21,
+    "end": 5.49
+   },
+   {
+    "w": "held",
+    "start": 5.53,
+    "end": 5.81
+   },
+   {
+    "w": "for",
+    "start": 5.86,
+    "end": 6.13
+   },
+   {
+    "w": "ten",
+    "start": 6.18,
+    "end": 6.46
+   },
+   {
+    "w": "minutes.",
+    "start": 6.51,
+    "end": 6.78
+   },
+   {
+    "w": "Cheapest",
+    "start": 7.15,
+    "end": 7.43
+   },
+   {
+    "w": "first.",
+    "start": 7.48,
+    "end": 7.75
+   },
+   {
+    "w": "With",
+    "start": 8.42,
+    "end": 8.7
+   },
+   {
+    "w": "no",
+    "start": 8.75,
+    "end": 9.02
+   },
+   {
+    "w": "limit:",
+    "start": 9.07,
+    "end": 9.35
+   },
+   {
+    "w": "120",
+    "start": 9.49,
+    "end": 9.77
+   },
+   {
+    "w": "to",
+    "start": 9.82,
+    "end": 10.09
+   },
+   {
+    "w": "156",
+    "start": 10.14,
+    "end": 10.42
+   },
+   {
+    "w": "megabytes.",
+    "start": 10.47,
+    "end": 10.74
+   },
+   {
+    "w": "Fix",
+    "start": 11.41,
+    "end": 11.69
+   },
+   {
+    "w": "one:",
+    "start": 11.74,
+    "end": 12.01
+   },
+   {
+    "w": "end",
+    "start": 12.16,
+    "end": 12.44
+   },
+   {
+    "w": "idle",
+    "start": 12.48,
+    "end": 12.76
+   },
+   {
+    "w": "transactions",
+    "start": 12.81,
+    "end": 13.08
+   },
+   {
+    "w": "after",
+    "start": 13.13,
+    "end": 13.41
+   },
+   {
+    "w": "sixty",
+    "start": 13.46,
+    "end": 13.73
+   },
+   {
+    "w": "seconds.",
+    "start": 13.78,
+    "end": 14.06
+   },
+   {
+    "w": "Postgres",
+    "start": 14.43,
+    "end": 14.7
+   },
+   {
+    "w": "closed",
+    "start": 14.75,
+    "end": 15.03
+   },
+   {
+    "w": "the",
+    "start": 15.07,
+    "end": 15.35
+   },
+   {
+    "w": "forgotten",
+    "start": 15.4,
+    "end": 15.67
+   },
+   {
+    "w": "transaction,",
+    "start": 15.72,
+    "end": 16.0
+   },
+   {
+    "w": "and",
+    "start": 16.15,
+    "end": 16.42
+   },
+   {
+    "w": "the",
+    "start": 16.47,
+    "end": 16.75
+   },
+   {
+    "w": "table",
+    "start": 16.8,
+    "end": 17.07
+   },
+   {
+    "w": "stayed",
+    "start": 17.12,
+    "end": 17.4
+   },
+   {
+    "w": "at",
+    "start": 17.44,
+    "end": 17.72
+   },
+   {
+    "w": "124.",
+    "start": 17.77,
+    "end": 18.04
+   },
+   {
+    "w": "Fix",
+    "start": 18.71,
+    "end": 18.99
+   },
+   {
+    "w": "two:",
+    "start": 19.04,
+    "end": 19.31
+   },
+   {
+    "w": "end",
+    "start": 19.46,
+    "end": 19.74
+   },
+   {
+    "w": "slow",
+    "start": 19.79,
+    "end": 20.06
+   },
+   {
+    "w": "queries",
+    "start": 20.11,
+    "end": 20.39
+   },
+   {
+    "w": "after",
+    "start": 20.43,
+    "end": 20.71
+   },
+   {
+    "w": "sixty",
+    "start": 20.76,
+    "end": 21.03
+   },
+   {
+    "w": "seconds.",
+    "start": 21.08,
+    "end": 21.36
+   },
+   {
+    "w": "The",
+    "start": 21.73,
+    "end": 22.0
+   },
+   {
+    "w": "report",
+    "start": 22.05,
+    "end": 22.33
+   },
+   {
+    "w": "was",
+    "start": 22.38,
+    "end": 22.65
+   },
+   {
+    "w": "cancelled.",
+    "start": 22.7,
+    "end": 22.98
+   },
+   {
+    "w": "124",
+    "start": 23.35,
+    "end": 23.62
+   },
+   {
+    "w": "again.",
+    "start": 23.67,
+    "end": 23.95
+   },
+   {
+    "w": "Set",
+    "start": 24.61,
+    "end": 24.89
+   },
+   {
+    "w": "that",
+    "start": 24.94,
+    "end": 25.21
+   },
+   {
+    "w": "limit",
+    "start": 25.26,
+    "end": 25.54
+   },
+   {
+    "w": "per",
+    "start": 25.59,
+    "end": 25.86
+   },
+   {
+    "w": "role:",
+    "start": 25.91,
+    "end": 26.19
+   },
+   {
+    "w": "short",
+    "start": 26.34,
+    "end": 26.61
+   },
+   {
+    "w": "for",
+    "start": 26.66,
+    "end": 26.94
+   },
+   {
+    "w": "the",
+    "start": 26.98,
+    "end": 27.26
+   },
+   {
+    "w": "app",
+    "start": 27.31,
+    "end": 27.58
+   },
+   {
+    "w": "and",
+    "start": 27.63,
+    "end": 27.91
+   },
+   {
+    "w": "the",
+    "start": 27.96,
+    "end": 28.23
+   },
+   {
+    "w": "admin",
+    "start": 28.28,
+    "end": 28.56
+   },
+   {
+    "w": "panel,",
+    "start": 28.61,
+    "end": 28.88
+   },
+   {
+    "w": "longer",
+    "start": 29.03,
+    "end": 29.31
+   },
+   {
+    "w": "for",
+    "start": 29.35,
+    "end": 29.63
+   },
+   {
+    "w": "migrations",
+    "start": 29.68,
+    "end": 29.95
+   },
+   {
+    "w": "and",
+    "start": 30.0,
+    "end": 30.28
+   },
+   {
+    "w": "batch",
+    "start": 30.33,
+    "end": 30.6
+   },
+   {
+    "w": "jobs.",
+    "start": 30.65,
+    "end": 30.93
+   },
+   {
+    "w": "A",
+    "start": 31.6,
+    "end": 31.87
+   },
+   {
+    "w": "timeout",
+    "start": 31.92,
+    "end": 32.2
+   },
+   {
+    "w": "stops",
+    "start": 32.24,
+    "end": 32.52
+   },
+   {
+    "w": "the",
+    "start": 32.57,
+    "end": 32.84
+   },
+   {
+    "w": "damage.",
+    "start": 32.89,
+    "end": 33.17
+   },
+   {
+    "w": "An",
+    "start": 33.54,
+    "end": 33.81
+   },
+   {
+    "w": "index",
+    "start": 33.86,
+    "end": 34.14
+   },
+   {
+    "w": "removes",
+    "start": 34.19,
+    "end": 34.46
+   },
+   {
+    "w": "the",
+    "start": 34.51,
+    "end": 34.79
+   },
+   {
+    "w": "reason.",
+    "start": 34.83,
+    "end": 35.11
+   },
+   {
+    "w": "I",
+    "start": 35.48,
+    "end": 35.75
+   },
+   {
+    "w": "didn't",
+    "start": 35.8,
+    "end": 36.08
+   },
+   {
+    "w": "test",
+    "start": 36.13,
+    "end": 36.4
+   },
+   {
+    "w": "an",
+    "start": 36.45,
+    "end": 36.73
+   },
+   {
+    "w": "index",
+    "start": 36.78,
+    "end": 37.05
+   },
+   {
+    "w": "here,",
+    "start": 37.1,
+    "end": 37.38
+   },
+   {
+    "w": "but",
+    "start": 37.53,
+    "end": 37.8
+   },
+   {
+    "w": "in",
+    "start": 37.85,
+    "end": 38.13
+   },
+   {
+    "w": "the",
+    "start": 38.17,
+    "end": 38.45
+   },
+   {
+    "w": "story,",
+    "start": 38.5,
+    "end": 38.77
+   },
+   {
+    "w": "it",
+    "start": 38.92,
+    "end": 39.2
+   },
+   {
+    "w": "was",
+    "start": 39.25,
+    "end": 39.52
+   },
+   {
+    "w": "the",
+    "start": 39.57,
+    "end": 39.85
+   },
+   {
+    "w": "real",
+    "start": 39.9,
+    "end": 40.17
+   },
+   {
+    "w": "fix.",
+    "start": 40.22,
+    "end": 40.5
+   },
+   {
+    "w": "Then",
+    "start": 41.16,
+    "end": 41.44
+   },
+   {
+    "w": "the",
+    "start": 41.49,
+    "end": 41.76
+   },
+   {
+    "w": "fix",
+    "start": 41.81,
+    "end": 42.09
+   },
+   {
+    "w": "most",
+    "start": 42.14,
+    "end": 42.41
+   },
+   {
+    "w": "teams",
+    "start": 42.46,
+    "end": 42.74
+   },
+   {
+    "w": "try",
+    "start": 42.79,
+    "end": 43.06
+   },
+   {
+    "w": "next:",
+    "start": 43.11,
+    "end": 43.39
+   },
+   {
+    "w": "move",
+    "start": 43.53,
+    "end": 43.81
+   },
+   {
+    "w": "the",
+    "start": 43.86,
+    "end": 44.13
+   },
+   {
+    "w": "report",
+    "start": 44.18,
+    "end": 44.46
+   },
+   {
+    "w": "to",
+    "start": 44.51,
+    "end": 44.78
+   },
+   {
+    "w": "a",
+    "start": 44.83,
+    "end": 45.11
+   },
+   {
+    "w": "replica.",
+    "start": 45.16,
+    "end": 45.43
+   },
+   {
+    "w": "I",
+    "start": 46.1,
+    "end": 46.38
+   },
+   {
+    "w": "did.",
+    "start": 46.42,
+    "end": 46.7
+   },
+   {
+    "w": "The",
+    "start": 47.07,
+    "end": 47.34
+   },
+   {
+    "w": "primary",
+    "start": 47.39,
+    "end": 47.67
+   },
+   {
+    "w": "grew",
+    "start": 47.72,
+    "end": 47.99
+   },
+   {
+    "w": "to",
+    "start": 48.04,
+    "end": 48.32
+   },
+   {
+    "w": "157.",
+    "start": 48.37,
+    "end": 48.64
+   },
+   {
+    "w": "As",
+    "start": 49.01,
+    "end": 49.29
+   },
+   {
+    "w": "if",
+    "start": 49.33,
+    "end": 49.61
+   },
+   {
+    "w": "the",
+    "start": 49.66,
+    "end": 49.93
+   },
+   {
+    "w": "report",
+    "start": 49.98,
+    "end": 50.26
+   },
+   {
+    "w": "had",
+    "start": 50.31,
+    "end": 50.58
+   },
+   {
+    "w": "never",
+    "start": 50.63,
+    "end": 50.91
+   },
+   {
+    "w": "moved.",
+    "start": 50.96,
+    "end": 51.23
+   },
+   {
+    "w": "One",
+    "start": 51.9,
+    "end": 52.18
+   },
+   {
+    "w": "setting",
+    "start": 52.23,
+    "end": 52.5
+   },
+   {
+    "w": "does",
+    "start": 52.55,
+    "end": 52.83
+   },
+   {
+    "w": "that:",
+    "start": 52.87,
+    "end": 53.15
+   },
+   {
+    "w": "hot",
+    "start": 53.3,
+    "end": 53.57
+   },
+   {
+    "w": "standby",
+    "start": 53.62,
+    "end": 53.9
+   },
+   {
+    "w": "feedback.",
+    "start": 53.95,
+    "end": 54.22
+   },
+   {
+    "w": "With",
+    "start": 54.59,
+    "end": 54.87
+   },
+   {
+    "w": "it",
+    "start": 54.92,
+    "end": 55.19
+   },
+   {
+    "w": "on,",
+    "start": 55.24,
+    "end": 55.52
+   },
+   {
+    "w": "the",
+    "start": 55.66,
+    "end": 55.94
+   },
+   {
+    "w": "replica",
+    "start": 55.99,
+    "end": 56.26
+   },
+   {
+    "w": "tells",
+    "start": 56.31,
+    "end": 56.59
+   },
+   {
+    "w": "the",
+    "start": 56.64,
+    "end": 56.91
+   },
+   {
+    "w": "primary",
+    "start": 56.96,
+    "end": 57.24
+   },
+   {
+    "w": "which",
+    "start": 57.29,
+    "end": 57.56
+   },
+   {
+    "w": "old",
+    "start": 57.61,
+    "end": 57.89
+   },
+   {
+    "w": "copies",
+    "start": 57.93,
+    "end": 58.21
+   },
+   {
+    "w": "its",
+    "start": 58.26,
+    "end": 58.53
+   },
+   {
+    "w": "queries",
+    "start": 58.58,
+    "end": 58.86
+   },
+   {
+    "w": "still",
+    "start": 58.91,
+    "end": 59.18
+   },
+   {
+    "w": "need,",
+    "start": 59.23,
+    "end": 59.51
+   },
+   {
+    "w": "and",
+    "start": 59.66,
+    "end": 59.93
+   },
+   {
+    "w": "the",
+    "start": 59.98,
+    "end": 60.26
+   },
+   {
+    "w": "primary",
+    "start": 60.3,
+    "end": 60.58
+   },
+   {
+    "w": "keeps",
+    "start": 60.63,
+    "end": 60.9
+   },
+   {
+    "w": "them.",
+    "start": 60.95,
+    "end": 61.23
+   },
+   {
+    "w": "It's",
+    "start": 61.6,
+    "end": 61.87
+   },
+   {
+    "w": "off",
+    "start": 61.92,
+    "end": 62.2
+   },
+   {
+    "w": "by",
+    "start": 62.25,
+    "end": 62.52
+   },
+   {
+    "w": "default.",
+    "start": 62.57,
+    "end": 62.85
+   },
+   {
+    "w": "Teams",
+    "start": 63.21,
+    "end": 63.49
+   },
+   {
+    "w": "turn",
+    "start": 63.54,
+    "end": 63.81
+   },
+   {
+    "w": "it",
+    "start": 63.86,
+    "end": 64.14
+   },
+   {
+    "w": "on",
+    "start": 64.19,
+    "end": 64.46
+   },
+   {
+    "w": "to",
+    "start": 64.61,
+    "end": 64.89
+   },
+   {
+    "w": "stop",
+    "start": 64.94,
+    "end": 65.21
+   },
+   {
+    "w": "the",
+    "start": 65.26,
+    "end": 65.54
+   },
+   {
+    "w": "replica",
+    "start": 65.59,
+    "end": 65.86
+   },
+   {
+    "w": "cancelling",
+    "start": 65.91,
+    "end": 66.19
+   },
+   {
+    "w": "their",
+    "start": 66.23,
+    "end": 66.51
+   },
+   {
+    "w": "reports.",
+    "start": 66.56,
+    "end": 66.83
+   },
+   {
+    "w": "With",
+    "start": 67.5,
+    "end": 67.78
+   },
+   {
+    "w": "feedback",
+    "start": 67.83,
+    "end": 68.1
+   },
+   {
+    "w": "off,",
+    "start": 68.15,
+    "end": 68.43
+   },
+   {
+    "w": "the",
+    "start": 68.58,
+    "end": 68.85
+   },
+   {
+    "w": "primary",
+    "start": 68.9,
+    "end": 69.18
+   },
+   {
+    "w": "stayed",
+    "start": 69.22,
+    "end": 69.5
+   },
+   {
+    "w": "clean:",
+    "start": 69.55,
+    "end": 69.82
+   },
+   {
+    "w": "122.",
+    "start": 69.97,
+    "end": 70.25
+   },
+   {
+    "w": "But",
+    "start": 70.62,
+    "end": 70.89
+   },
+   {
+    "w": "the",
+    "start": 70.94,
+    "end": 71.22
+   },
+   {
+    "w": "replica",
+    "start": 71.27,
+    "end": 71.54
+   },
+   {
+    "w": "cancelled",
+    "start": 71.59,
+    "end": 71.87
+   },
+   {
+    "w": "the",
+    "start": 71.91,
+    "end": 72.19
+   },
+   {
+    "w": "report,",
+    "start": 72.24,
+    "end": 72.51
+   },
+   {
+    "w": "after",
+    "start": 72.66,
+    "end": 72.94
+   },
+   {
+    "w": "thirty",
+    "start": 72.99,
+    "end": 73.26
+   },
+   {
+    "w": "seconds",
+    "start": 73.31,
+    "end": 73.59
+   },
+   {
+    "w": "by",
+    "start": 73.64,
+    "end": 73.91
+   },
+   {
+    "w": "default.",
+    "start": 73.96,
+    "end": 74.24
+   },
+   {
+    "w": "On",
+    "start": 74.9,
+    "end": 75.18
+   },
+   {
+    "w": "a",
+    "start": 75.23,
+    "end": 75.5
+   },
+   {
+    "w": "replica",
+    "start": 75.55,
+    "end": 75.83
+   },
+   {
+    "w": "that",
+    "start": 75.88,
+    "end": 76.15
+   },
+   {
+    "w": "serves",
+    "start": 76.2,
+    "end": 76.48
+   },
+   {
+    "w": "only",
+    "start": 76.53,
+    "end": 76.8
+   },
+   {
+    "w": "reports,",
+    "start": 76.85,
+    "end": 77.13
+   },
+   {
+    "w": "you",
+    "start": 77.27,
+    "end": 77.55
+   },
+   {
+    "w": "can",
+    "start": 77.6,
+    "end": 77.87
+   },
+   {
+    "w": "raise",
+    "start": 77.92,
+    "end": 78.2
+   },
+   {
+    "w": "that",
+    "start": 78.25,
+    "end": 78.52
+   },
+   {
+    "w": "delay.",
+    "start": 78.57,
+    "end": 78.85
+   },
+   {
+    "w": "The",
+    "start": 79.22,
+    "end": 79.49
+   },
+   {
+    "w": "report",
+    "start": 79.54,
+    "end": 79.82
+   },
+   {
+    "w": "finishes,",
+    "start": 79.87,
+    "end": 80.14
+   },
+   {
+    "w": "and",
+    "start": 80.29,
+    "end": 80.57
+   },
+   {
+    "w": "the",
+    "start": 80.61,
+    "end": 80.89
+   },
+   {
+    "w": "replica",
+    "start": 80.94,
+    "end": 81.21
+   },
+   {
+    "w": "falls",
+    "start": 81.26,
+    "end": 81.54
+   },
+   {
+    "w": "behind",
+    "start": 81.59,
+    "end": 81.86
+   },
+   {
+    "w": "instead.",
+    "start": 81.91,
+    "end": 82.19
+   },
+   {
+    "w": "I",
+    "start": 82.56,
+    "end": 82.83
+   },
+   {
+    "w": "didn't",
+    "start": 82.88,
+    "end": 83.16
+   },
+   {
+    "w": "measure",
+    "start": 83.2,
+    "end": 83.48
+   },
+   {
+    "w": "that",
+    "start": 83.53,
+    "end": 83.8
+   },
+   {
+    "w": "part.",
+    "start": 83.85,
+    "end": 84.13
+   }
+  ]
+ },
+ "10": {
+  "audio": null,
+  "seconds": 54.47,
+  "frames": 1665,
+  "words": [
+   {
+    "w": "So",
+    "start": 0.25,
+    "end": 0.53
+   },
+   {
+    "w": "the",
+    "start": 0.57,
+    "end": 0.85
+   },
+   {
+    "w": "decision:",
+    "start": 0.9,
+    "end": 1.17
+   },
+   {
+    "w": "limit",
+    "start": 1.32,
+    "end": 1.6
+   },
+   {
+    "w": "how",
+    "start": 1.65,
+    "end": 1.92
+   },
+   {
+    "w": "long",
+    "start": 1.97,
+    "end": 2.25
+   },
+   {
+    "w": "anything",
+    "start": 2.3,
+    "end": 2.57
+   },
+   {
+    "w": "can",
+    "start": 2.62,
+    "end": 2.9
+   },
+   {
+    "w": "hold",
+    "start": 2.94,
+    "end": 3.22
+   },
+   {
+    "w": "old",
+    "start": 3.27,
+    "end": 3.54
+   },
+   {
+    "w": "copies.",
+    "start": 3.59,
+    "end": 3.87
+   },
+   {
+    "w": "An",
+    "start": 4.54,
+    "end": 4.81
+   },
+   {
+    "w": "idle",
+    "start": 4.86,
+    "end": 5.14
+   },
+   {
+    "w": "timeout",
+    "start": 5.19,
+    "end": 5.46
+   },
+   {
+    "w": "on",
+    "start": 5.51,
+    "end": 5.79
+   },
+   {
+    "w": "every",
+    "start": 5.83,
+    "end": 6.11
+   },
+   {
+    "w": "app",
+    "start": 6.16,
+    "end": 6.43
+   },
+   {
+    "w": "role.",
+    "start": 6.48,
+    "end": 6.76
+   },
+   {
+    "w": "A",
+    "start": 7.13,
+    "end": 7.4
+   },
+   {
+    "w": "statement",
+    "start": 7.45,
+    "end": 7.73
+   },
+   {
+    "w": "timeout",
+    "start": 7.78,
+    "end": 8.05
+   },
+   {
+    "w": "per",
+    "start": 8.1,
+    "end": 8.38
+   },
+   {
+    "w": "role.",
+    "start": 8.43,
+    "end": 8.7
+   },
+   {
+    "w": "An",
+    "start": 9.07,
+    "end": 9.35
+   },
+   {
+    "w": "index",
+    "start": 9.39,
+    "end": 9.67
+   },
+   {
+    "w": "for",
+    "start": 9.72,
+    "end": 9.99
+   },
+   {
+    "w": "what",
+    "start": 10.04,
+    "end": 10.32
+   },
+   {
+    "w": "your",
+    "start": 10.37,
+    "end": 10.64
+   },
+   {
+    "w": "slow",
+    "start": 10.69,
+    "end": 10.97
+   },
+   {
+    "w": "reads",
+    "start": 11.02,
+    "end": 11.29
+   },
+   {
+    "w": "filter",
+    "start": 11.34,
+    "end": 11.62
+   },
+   {
+    "w": "on.",
+    "start": 11.66,
+    "end": 11.94
+   },
+   {
+    "w": "Reports",
+    "start": 12.61,
+    "end": 12.88
+   },
+   {
+    "w": "that",
+    "start": 12.93,
+    "end": 13.21
+   },
+   {
+    "w": "need",
+    "start": 13.26,
+    "end": 13.53
+   },
+   {
+    "w": "minutes?",
+    "start": 13.58,
+    "end": 13.86
+   },
+   {
+    "w": "A",
+    "start": 14.23,
+    "end": 14.5
+   },
+   {
+    "w": "replica,",
+    "start": 14.55,
+    "end": 14.83
+   },
+   {
+    "w": "with",
+    "start": 14.87,
+    "end": 15.15
+   },
+   {
+    "w": "feedback",
+    "start": 15.2,
+    "end": 15.47
+   },
+   {
+    "w": "off.",
+    "start": 15.52,
+    "end": 15.8
+   },
+   {
+    "w": "Reports",
+    "start": 16.17,
+    "end": 16.44
+   },
+   {
+    "w": "that",
+    "start": 16.49,
+    "end": 16.77
+   },
+   {
+    "w": "need",
+    "start": 16.82,
+    "end": 17.09
+   },
+   {
+    "w": "hours?",
+    "start": 17.14,
+    "end": 17.42
+   },
+   {
+    "w": "A",
+    "start": 17.78,
+    "end": 18.06
+   },
+   {
+    "w": "warehouse.",
+    "start": 18.11,
+    "end": 18.38
+   },
+   {
+    "w": "And",
+    "start": 19.05,
+    "end": 19.33
+   },
+   {
+    "w": "put",
+    "start": 19.38,
+    "end": 19.65
+   },
+   {
+    "w": "an",
+    "start": 19.7,
+    "end": 19.98
+   },
+   {
+    "w": "alert",
+    "start": 20.03,
+    "end": 20.3
+   },
+   {
+    "w": "on",
+    "start": 20.35,
+    "end": 20.63
+   },
+   {
+    "w": "the",
+    "start": 20.67,
+    "end": 20.95
+   },
+   {
+    "w": "oldest",
+    "start": 21.0,
+    "end": 21.27
+   },
+   {
+    "w": "open",
+    "start": 21.32,
+    "end": 21.6
+   },
+   {
+    "w": "transaction,",
+    "start": 21.65,
+    "end": 21.92
+   },
+   {
+    "w": "and",
+    "start": 22.07,
+    "end": 22.35
+   },
+   {
+    "w": "on",
+    "start": 22.4,
+    "end": 22.67
+   },
+   {
+    "w": "disk",
+    "start": 22.72,
+    "end": 23.0
+   },
+   {
+    "w": "growth",
+    "start": 23.05,
+    "end": 23.32
+   },
+   {
+    "w": "that",
+    "start": 23.37,
+    "end": 23.65
+   },
+   {
+    "w": "traffic",
+    "start": 23.69,
+    "end": 23.97
+   },
+   {
+    "w": "doesn't",
+    "start": 24.02,
+    "end": 24.29
+   },
+   {
+    "w": "explain.",
+    "start": 24.34,
+    "end": 24.62
+   },
+   {
+    "w": "The",
+    "start": 25.29,
+    "end": 25.56
+   },
+   {
+    "w": "trade-off:",
+    "start": 25.61,
+    "end": 25.89
+   },
+   {
+    "w": "timeouts",
+    "start": 26.04,
+    "end": 26.31
+   },
+   {
+    "w": "stop",
+    "start": 26.36,
+    "end": 26.64
+   },
+   {
+    "w": "real",
+    "start": 26.68,
+    "end": 26.96
+   },
+   {
+    "w": "long",
+    "start": 27.01,
+    "end": 27.28
+   },
+   {
+    "w": "work",
+    "start": 27.33,
+    "end": 27.61
+   },
+   {
+    "w": "too.",
+    "start": 27.66,
+    "end": 27.93
+   },
+   {
+    "w": "A",
+    "start": 28.3,
+    "end": 28.58
+   },
+   {
+    "w": "migration",
+    "start": 28.63,
+    "end": 28.9
+   },
+   {
+    "w": "or",
+    "start": 28.95,
+    "end": 29.23
+   },
+   {
+    "w": "a",
+    "start": 29.27,
+    "end": 29.55
+   },
+   {
+    "w": "month-end",
+    "start": 29.6,
+    "end": 29.87
+   },
+   {
+    "w": "report",
+    "start": 29.92,
+    "end": 30.2
+   },
+   {
+    "w": "will",
+    "start": 30.25,
+    "end": 30.52
+   },
+   {
+    "w": "fail,",
+    "start": 30.57,
+    "end": 30.85
+   },
+   {
+    "w": "until",
+    "start": 31.0,
+    "end": 31.27
+   },
+   {
+    "w": "it",
+    "start": 31.32,
+    "end": 31.6
+   },
+   {
+    "w": "gets",
+    "start": 31.64,
+    "end": 31.92
+   },
+   {
+    "w": "its",
+    "start": 31.97,
+    "end": 32.24
+   },
+   {
+    "w": "own",
+    "start": 32.29,
+    "end": 32.57
+   },
+   {
+    "w": "role",
+    "start": 32.62,
+    "end": 32.89
+   },
+   {
+    "w": "and",
+    "start": 32.94,
+    "end": 33.22
+   },
+   {
+    "w": "limit.",
+    "start": 33.27,
+    "end": 33.54
+   },
+   {
+    "w": "A",
+    "start": 33.91,
+    "end": 34.19
+   },
+   {
+    "w": "replica",
+    "start": 34.23,
+    "end": 34.51
+   },
+   {
+    "w": "with",
+    "start": 34.56,
+    "end": 34.83
+   },
+   {
+    "w": "feedback",
+    "start": 34.88,
+    "end": 35.16
+   },
+   {
+    "w": "off",
+    "start": 35.21,
+    "end": 35.48
+   },
+   {
+    "w": "cancels",
+    "start": 35.53,
+    "end": 35.81
+   },
+   {
+    "w": "long",
+    "start": 35.86,
+    "end": 36.13
+   },
+   {
+    "w": "reports,",
+    "start": 36.18,
+    "end": 36.46
+   },
+   {
+    "w": "or",
+    "start": 36.61,
+    "end": 36.88
+   },
+   {
+    "w": "falls",
+    "start": 36.93,
+    "end": 37.21
+   },
+   {
+    "w": "behind.",
+    "start": 37.25,
+    "end": 37.53
+   },
+   {
+    "w": "And",
+    "start": 37.9,
+    "end": 38.17
+   },
+   {
+    "w": "indexes",
+    "start": 38.22,
+    "end": 38.5
+   },
+   {
+    "w": "cost",
+    "start": 38.55,
+    "end": 38.82
+   },
+   {
+    "w": "write",
+    "start": 38.87,
+    "end": 39.15
+   },
+   {
+    "w": "time",
+    "start": 39.2,
+    "end": 39.47
+   },
+   {
+    "w": "on",
+    "start": 39.52,
+    "end": 39.8
+   },
+   {
+    "w": "your",
+    "start": 39.84,
+    "end": 40.12
+   },
+   {
+    "w": "busiest",
+    "start": 40.17,
+    "end": 40.44
+   },
+   {
+    "w": "tables.",
+    "start": 40.49,
+    "end": 40.77
+   },
+   {
+    "w": "In",
+    "start": 41.44,
+    "end": 41.71
+   },
+   {
+    "w": "Postgres,",
+    "start": 41.76,
+    "end": 42.04
+   },
+   {
+    "w": "a",
+    "start": 42.19,
+    "end": 42.46
+   },
+   {
+    "w": "long",
+    "start": 42.51,
+    "end": 42.79
+   },
+   {
+    "w": "read",
+    "start": 42.83,
+    "end": 43.11
+   },
+   {
+    "w": "is",
+    "start": 43.26,
+    "end": 43.53
+   },
+   {
+    "w": "a",
+    "start": 43.58,
+    "end": 43.86
+   },
+   {
+    "w": "write",
+    "start": 43.91,
+    "end": 44.18
+   },
+   {
+    "w": "problem.",
+    "start": 44.23,
+    "end": 44.51
+   },
+   {
+    "w": "The",
+    "start": 45.18,
+    "end": 45.45
+   },
+   {
+    "w": "test",
+    "start": 45.5,
+    "end": 45.78
+   },
+   {
+    "w": "script",
+    "start": 45.82,
+    "end": 46.1
+   },
+   {
+    "w": "and",
+    "start": 46.15,
+    "end": 46.42
+   },
+   {
+    "w": "the",
+    "start": 46.47,
+    "end": 46.75
+   },
+   {
+    "w": "full",
+    "start": 46.8,
+    "end": 47.07
+   },
+   {
+    "w": "results",
+    "start": 47.12,
+    "end": 47.4
+   },
+   {
+    "w": "are",
+    "start": 47.45,
+    "end": 47.72
+   },
+   {
+    "w": "in",
+    "start": 47.77,
+    "end": 48.05
+   },
+   {
+    "w": "the",
+    "start": 48.09,
+    "end": 48.37
+   },
+   {
+    "w": "description.",
+    "start": 48.42,
+    "end": 48.69
+   },
+   {
+    "w": "What's",
+    "start": 49.06,
+    "end": 49.34
+   },
+   {
+    "w": "the",
+    "start": 49.39,
+    "end": 49.66
+   },
+   {
+    "w": "longest",
+    "start": 49.71,
+    "end": 49.99
+   },
+   {
+    "w": "transaction",
+    "start": 50.04,
+    "end": 50.31
+   },
+   {
+    "w": "running",
+    "start": 50.36,
+    "end": 50.64
+   },
+   {
+    "w": "on",
+    "start": 50.69,
+    "end": 50.96
+   },
+   {
+    "w": "your",
+    "start": 51.01,
+    "end": 51.29
+   },
+   {
+    "w": "primary",
+    "start": 51.33,
+    "end": 51.61
+   },
+   {
+    "w": "right",
+    "start": 51.66,
+    "end": 51.93
+   },
+   {
+    "w": "now?",
+    "start": 51.98,
+    "end": 52.26
+   },
+   {
+    "w": "Tell",
+    "start": 52.63,
+    "end": 52.9
+   },
+   {
+    "w": "me",
+    "start": 52.95,
+    "end": 53.23
+   },
+   {
+    "w": "in",
+    "start": 53.28,
+    "end": 53.55
+   },
+   {
+    "w": "the",
+    "start": 53.6,
+    "end": 53.88
+   },
+   {
+    "w": "comments.",
+    "start": 53.92,
+    "end": 54.2
+   }
+  ]
+ }
+}

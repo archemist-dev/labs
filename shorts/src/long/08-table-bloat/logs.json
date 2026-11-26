@@ -1,0 +1,452 @@
+{
+ "machine": "t3.small · eu-central-1 · Xeon 8259CL · PostgreSQL 18.7",
+ "files": {
+  "hour": "results-ec2-t3small-hour-2026-11-18.txt",
+  "ten": "results-ec2-t3small-2026-11-18.txt"
+ },
+ "hour": {
+  "rows": [
+   {
+    "min": 0,
+    "table": 122,
+    "dead": 3787,
+    "av": 1
+   },
+   {
+    "min": 1,
+    "table": 124,
+    "dead": 30410,
+    "av": 3
+   },
+   {
+    "min": 2,
+    "table": 128,
+    "dead": 60428,
+    "av": 7
+   },
+   {
+    "min": 3,
+    "table": 131,
+    "dead": 90456,
+    "av": 11
+   },
+   {
+    "min": 4,
+    "table": 135,
+    "dead": 120470,
+    "av": 15
+   },
+   {
+    "min": 5,
+    "table": 138,
+    "dead": 150465,
+    "av": 19
+   },
+   {
+    "min": 6,
+    "table": 142,
+    "dead": 180458,
+    "av": 23
+   },
+   {
+    "min": 7,
+    "table": 146,
+    "dead": 210454,
+    "av": 27
+   },
+   {
+    "min": 8,
+    "table": 149,
+    "dead": 240450,
+    "av": 31
+   },
+   {
+    "min": 9,
+    "table": 153,
+    "dead": 270443,
+    "av": 35
+   },
+   {
+    "min": 10,
+    "table": 156,
+    "dead": 300433,
+    "av": 39
+   },
+   {
+    "min": 11,
+    "table": 160,
+    "dead": 330420,
+    "av": 43
+   },
+   {
+    "min": 12,
+    "table": 164,
+    "dead": 360413,
+    "av": 47
+   },
+   {
+    "min": 13,
+    "table": 167,
+    "dead": 390217,
+    "av": 51
+   },
+   {
+    "min": 14,
+    "table": 171,
+    "dead": 420396,
+    "av": 55
+   },
+   {
+    "min": 15,
+    "table": 174,
+    "dead": 450392,
+    "av": 59
+   },
+   {
+    "min": 16,
+    "table": 178,
+    "dead": 479973,
+    "av": 63
+   },
+   {
+    "min": 17,
+    "table": 182,
+    "dead": 509993,
+    "av": 67
+   },
+   {
+    "min": 18,
+    "table": 185,
+    "dead": 540009,
+    "av": 71
+   },
+   {
+    "min": 19,
+    "table": 189,
+    "dead": 570049,
+    "av": 75
+   },
+   {
+    "min": 20,
+    "table": 192,
+    "dead": 600358,
+    "av": 79
+   },
+   {
+    "min": 21,
+    "table": 196,
+    "dead": 630107,
+    "av": 83
+   },
+   {
+    "min": 22,
+    "table": 200,
+    "dead": 660085,
+    "av": 87
+   },
+   {
+    "min": 23,
+    "table": 203,
+    "dead": 690084,
+    "av": 91
+   },
+   {
+    "min": 24,
+    "table": 207,
+    "dead": 720127,
+    "av": 95
+   },
+   {
+    "min": 25,
+    "table": 210,
+    "dead": 749644,
+    "av": 99
+   },
+   {
+    "min": 26,
+    "table": 214,
+    "dead": 780132,
+    "av": 103
+   },
+   {
+    "min": 27,
+    "table": 218,
+    "dead": 809978,
+    "av": 107
+   },
+   {
+    "min": 28,
+    "table": 221,
+    "dead": 840192,
+    "av": 111
+   },
+   {
+    "min": 29,
+    "table": 225,
+    "dead": 870194,
+    "av": 115
+   },
+   {
+    "min": 30,
+    "table": 228,
+    "dead": 900187,
+    "av": 119
+   },
+   {
+    "min": 31,
+    "table": 232,
+    "dead": 930201,
+    "av": 123
+   },
+   {
+    "min": 32,
+    "table": 236,
+    "dead": 960215,
+    "av": 127
+   },
+   {
+    "min": 33,
+    "table": 239,
+    "dead": 990199,
+    "av": 131
+   },
+   {
+    "min": 34,
+    "table": 243,
+    "dead": 1020334,
+    "av": 135
+   },
+   {
+    "min": 35,
+    "table": 247,
+    "dead": 1049822,
+    "av": 139
+   },
+   {
+    "min": 36,
+    "table": 250,
+    "dead": 1079838,
+    "av": 143
+   },
+   {
+    "min": 37,
+    "table": 254,
+    "dead": 1109940,
+    "av": 147
+   },
+   {
+    "min": 38,
+    "table": 257,
+    "dead": 1139929,
+    "av": 151
+   },
+   {
+    "min": 39,
+    "table": 261,
+    "dead": 1170017,
+    "av": 155
+   },
+   {
+    "min": 40,
+    "table": 265,
+    "dead": 1199998,
+    "av": 159
+   },
+   {
+    "min": 41,
+    "table": 268,
+    "dead": 1229567,
+    "av": 163
+   },
+   {
+    "min": 42,
+    "table": 272,
+    "dead": 1259998,
+    "av": 167
+   },
+   {
+    "min": 43,
+    "table": 275,
+    "dead": 1289996,
+    "av": 171
+   },
+   {
+    "min": 44,
+    "table": 279,
+    "dead": 1320026,
+    "av": 175
+   },
+   {
+    "min": 45,
+    "table": 283,
+    "dead": 1350026,
+    "av": 179
+   },
+   {
+    "min": 46,
+    "table": 286,
+    "dead": 1380022,
+    "av": 183
+   },
+   {
+    "min": 47,
+    "table": 290,
+    "dead": 1410052,
+    "av": 187
+   },
+   {
+    "min": 48,
+    "table": 293,
+    "dead": 1442038,
+    "av": 191
+   },
+   {
+    "min": 49,
+    "table": 297,
+    "dead": 1470037,
+    "av": 195
+   },
+   {
+    "min": 50,
+    "table": 301,
+    "dead": 1500044,
+    "av": 199
+   },
+   {
+    "min": 51,
+    "table": 304,
+    "dead": 1529564,
+    "av": 203
+   },
+   {
+    "min": 52,
+    "table": 308,
+    "dead": 1559556,
+    "av": 207
+   },
+   {
+    "min": 53,
+    "table": 311,
+    "dead": 1589602,
+    "av": 211
+   },
+   {
+    "min": 54,
+    "table": 315,
+    "dead": 1619682,
+    "av": 215
+   },
+   {
+    "min": 55,
+    "table": 319,
+    "dead": 1653165,
+    "av": 219
+   },
+   {
+    "min": 56,
+    "table": 322,
+    "dead": 1679713,
+    "av": 223
+   },
+   {
+    "min": 57,
+    "table": 326,
+    "dead": 1709752,
+    "av": 227
+   },
+   {
+    "min": 58,
+    "table": 329,
+    "dead": 1739758,
+    "av": 231
+   },
+   {
+    "min": 59,
+    "table": 333,
+    "dead": 1769815,
+    "av": 235
+   }
+  ],
+  "release": {
+   "table": 337,
+   "dead": 1799800,
+   "av": 239
+  },
+  "summary": "table_mb 120 -> 337 (2.80x)  indexes_mb 28 -> 61 (2.16x)",
+  "table": [
+   120,
+   337
+  ],
+  "table_x": 2.8,
+  "index": [
+   28,
+   61
+  ],
+  "index_x": 2.16,
+  "free_mb": 210,
+  "baseline_mb": 122
+ },
+ "scan": {
+  "base_pages": 15589,
+  "after_pages": 43080,
+  "id_pages": 7
+ },
+ "ten": {
+  "long_report": {
+   "outcome": "ran to the end",
+   "table": [
+    120,
+    156
+   ],
+   "summary": "table_mb 120 -> 156 (1.30x)"
+  },
+  "idle_tx": {
+   "outcome": "ran to the end",
+   "table": [
+    120,
+    156
+   ],
+   "summary": "table_mb 120 -> 156 (1.30x)"
+  },
+  "idle_timeout": {
+   "outcome": "FATAL: terminating connection due to idle-in-transaction timeout",
+   "table": [
+    120,
+    124
+   ],
+   "summary": "table_mb 120 -> 124 (1.03x)"
+  },
+  "report_timeout": {
+   "outcome": "ERROR: canceling statement due to statement timeout",
+   "table": [
+    120,
+    124
+   ],
+   "summary": "table_mb 120 -> 124 (1.03x)"
+  },
+  "replica_feedback": {
+   "outcome": "ran to the end",
+   "table": [
+    120,
+    157
+   ],
+   "summary": "table_mb 120 -> 157 (1.30x)"
+  },
+  "replica_no_feedback": {
+   "outcome": "ERROR: canceling statement due to conflict with recovery",
+   "table": [
+    120,
+    122
+   ],
+   "summary": "table_mb 120 -> 122 (1.01x)"
+  },
+  "baseline": {
+   "outcome": "none",
+   "table": [
+    120,
+    122
+   ],
+   "summary": "table_mb 120 -> 122 (1.01x)"
+  }
+ }
+}
