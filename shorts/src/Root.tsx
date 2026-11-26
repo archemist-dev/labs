@@ -56,6 +56,8 @@ import { G1_COMPS } from "./long/03-uuid-keys/g1";
 import { G2_COMPS } from "./long/03-uuid-keys/g2";
 import { G3_COMPS } from "./long/03-uuid-keys/g3";
 import { L01_SCENES, L01_TOTAL, LongFull as L01Full } from "./long/01-payload";
+import { L08_SCENES, L08_TOTAL, LongFull as L08Full } from "./long/08-table-bloat";
+import { Thumb as L08Thumb, TH as L08TH, TW as L08TW } from "./long/08-table-bloat/Thumb";
 import { Thumb as L01Thumb, TH as L01TH, TW as L01TW } from "./long/01-payload/Thumb";
 
 // One entry per Short; each language becomes its own composition, e.g. "02-short1-uz".
@@ -110,6 +112,11 @@ export const Root: React.FC = () => (
     {L01_SCENES.map((c) => (
       <Composition key={c.id} id={c.id} component={c.component} width={LW} height={LH} fps={FPS} durationInFrames={c.frames} />
     ))}
+    {L08_SCENES.map((c) => (
+      <Composition key={c.id} id={c.id} component={c.component} width={LW} height={LH} fps={FPS} durationInFrames={c.frames} />
+    ))}
+    <Still id="long-08-thumb" component={L08Thumb} width={L08TW} height={L08TH} />
+    <Composition id="long-08-full" component={L08Full} width={LW} height={LH} fps={FPS} durationInFrames={L08_TOTAL} />
     <Still id="long-01-thumb" component={L01Thumb} width={L01TW} height={L01TH} />
     <Composition id="long-01-full" component={L01Full} width={LW} height={LH} fps={FPS} durationInFrames={L01_TOTAL} />
     <Still id="long-03-thumb" component={LongThumb} width={TW} height={TH} />
